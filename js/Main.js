@@ -2,10 +2,8 @@
 const PLAYER_START_UNITS = 1;
 const ENEMY_START_UNITS = 20;
 
-var carriedWood, carriedMetal, carriedStone;
-var storedWood, storedMetal, storedStone;
 var canvas, canvasContext;
-var player = new unitClass();
+var player = new playerClass();
 
 
 window.onload = function() {

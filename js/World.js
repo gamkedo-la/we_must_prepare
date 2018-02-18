@@ -45,6 +45,14 @@ function roomTileToIndex(tileCol, tileRow) {
   return (tileCol + ROOM_COLS*tileRow);
 }
 
+function isTileKindWalkable(tileKind) {
+  switch (tileKind) {
+      case TILE_GROUND:
+        return true;
+  }
+  return false;
+}
+
 function getTileIndexAtPixelCoord(pixelX,pixelY) {
   var tileCol = pixelX / TILE_W;
   var tileRow = pixelY / TILE_H;
