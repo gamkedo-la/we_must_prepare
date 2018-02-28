@@ -5,7 +5,7 @@ const UNIT_SELECTED_DIM_HALF = UNIT_PLACEHOLDER_RADIUS + 3;
 const UNIT_ATTACK_RANGE = 55;
 
 function playerClass() {
-
+    this.isWalking = false;
     this.reset = function() {
         if(this.homeX == undefined) {
             for(var i=0; i<roomGrid.length; i++) {
@@ -54,6 +54,14 @@ function playerClass() {
     this.draw = function() {
         colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, this.unitColor);
         this.drawPlayerHUD();
+        if (this.isWalking) {
+            canvasContext.beginPath();
+            canvasContext.moveTo(this.x, this.y);
+            canvasContext.lineTo(this.gotoX, this.gotoY);
+            canvasContext.strokeStyle = 'red';
+            canvasContext.setLineDash([5, 15]);
+            canvasContext.stroke();
+        }
     }
 
     this.distFrom = function (otherX, otherY) {
@@ -73,20 +81,6 @@ function playerClass() {
     }
 
     this.move = function() {
-        if (this.myTarget != null) {
-            if (this.myTarget.isDead) {
-                this.myTarget = null;
-                this.gotoX = this.x;
-                this.gotoY = this.y;
-            } else if (this.distFrom(this.myTarget.x, this.myTarget.y) > UNIT_ATTACK_RANGE) {
-                this.gotoX = this.myTarget.x;
-                this.gotoY = this.myTarget.y;
-            } else {
-                this.myTarget.isDead = true;
-                this.gotoX = this.x;
-                this.gotoY = this.y;
-            }
-        }
 
         var deltaX = this.gotoX - this.x;
         var deltaY = this.gotoY - this.y;
@@ -111,19 +105,19 @@ function playerClass() {
                 distToGo = 0;
                 break;
             case TILE_METAL_SRC:
-                this.bucketList["Metal"].changeResource(1, true);
+                getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
                 break;
             case TILE_METAL_DEST:
                 depositResources(this.bucketList["Metal"], this.storageList["Metal"]);
                 break;
             case TILE_STONE_SRC:
-                this.bucketList["Stone"].changeResource(1, true);
+                getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
                 break;
             case TILE_STONE_DEST:
                 depositResources(this.bucketList["Stone"], this.storageList["Stone"]);
                 break;
             case TILE_WOOD_SRC:
-                this.bucketList["Wood"].changeResource(1, true);
+                getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
                 break;
             case TILE_WOOD_DEST:
                 depositResources(this.bucketList["Wood"], this.storageList["Wood"]);
@@ -133,7 +127,8 @@ function playerClass() {
         }
 
         if (isTileKindWalkable(walkIntoTileType)) {
-            if (distToGo > UNIT_PIXELS_MOVE_RATE) {
+            this.isWalking = (distToGo > UNIT_PIXELS_MOVE_RATE);
+            if (this.isWalking) {
                 this.x = nextX;
                 this.y = nextY;
             } else {

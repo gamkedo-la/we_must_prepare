@@ -9,7 +9,7 @@ var roomGrid =
       1, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0,-5,-5, 0, 0, 0, 0, 0, 1,
       1, 0,-4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0,-4, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 1,
+      1, 0,-4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-3,-3, 0, 1,
       1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -26,11 +26,11 @@ const TILE_METAL_SRC = 3;
 const TILE_WOOD_SRC = 4;
 const TILE_STONE_SRC = 5;
 const TILE_FOOD_SRC = 6;
-const TILE_RESRC_DUMP = 7;
 const TILE_WOOD_DEST = -TILE_WOOD_SRC;
 const TILE_STONE_DEST = -TILE_STONE_SRC;
 const TILE_METAL_DEST = -TILE_METAL_SRC;
 const TILE_FOOD_DEST = -TILE_FOOD_SRC;
+const TILE_BUILDING = 7;
 
 var tileTestColors = ['black', // TILE_GROUND
   'purple', // TILE_WALL
@@ -39,7 +39,7 @@ var tileTestColors = ['black', // TILE_GROUND
   'brown', // TILE_WOOD_SRC
   'lightgray', // TILE_STONE_SRC
   'yellow', // TILE_FOOD_SRC
-  'darkbrown', // TILE_RESRC_DUMP
+  'white', // TILE_BUILDING
     ];
 function roomTileToIndex(tileCol, tileRow) {
   return (tileCol + ROOM_COLS*tileRow);
