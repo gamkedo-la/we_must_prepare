@@ -38,10 +38,37 @@ function mousedownHandler(evt) {
 
 
 function mouseupHandler(evt) {
-
     calculateMousePos(evt);
     mouseHeld = false;
 } // end mouse up handler
+
+function isMouseOverInterface() {
+    return mouseY > INTERFACE_Y;
+}
+
+
+function inputUpdate() {
+    // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
+    // overlap.  Things mouse does: player moves, player harvests, menu interactions
+    if (isMouseOverInterface()) {
+        // will be handeled by interface code
+        if (mouseClickedThisFrame && mouseOverBuildingInterfaceIndex != -1 && resoucesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
+            console.log("I clicked " + buildingDefs[mouseOverBuildingInterfaceIndex].label);
+            buildingDefs[mouseOverBuildingInterfaceIndex].onClick();
+            isBuildModeEnabled = true;
+        }
+    } else if (isBuildModeEnabled) {
+        if (mouseClickedThisFrame) {
+            placeBuildingAtPixelCoord(TILE_BUILDING);
+            isBuildModeEnabled = !isBuildModeEnabled;
+        }
+    } else { // this means we aren't in build mode
+        if (mouseHeld) {
+            player.goto(mouseX, mouseY);
+        }
+        player.move();
+    }
+}
 
 
 function keyPress(evt) {

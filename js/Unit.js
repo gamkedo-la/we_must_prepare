@@ -6,6 +6,8 @@ const UNIT_ATTACK_RANGE = 55;
 
 function playerClass() {
     this.isWalking = false;
+    this.bucketList = [];
+    this.storageList = [];
     this.reset = function() {
         if(this.homeX == undefined) {
             for(var i=0; i<roomGrid.length; i++) {

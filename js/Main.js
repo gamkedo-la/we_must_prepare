@@ -13,8 +13,8 @@ window.onload = function() {
     var framesPerSecond = 30;
     setInterval(function() {
         moveEverything();
-        mouseClickedThisFrame = false;
         drawEverything();
+        mouseClickedThisFrame = false;
     }, 1000 / framesPerSecond);
 
     setupInput();
@@ -24,14 +24,8 @@ window.onload = function() {
 }  // end onload
 
 function moveEverything() {
-    if (isBuildModeEnabled == false) {
-        if (mouseHeld) {
-            player.goto(mouseX, mouseY);
-        }
-        player.move();
-    }
+    inputUpdate();
     interfaceUpdate();
-
 
 }
 
@@ -40,9 +34,9 @@ function drawEverything() {
     // colorRect(0, 0, canvas.width, canvas.height, 'black');
     drawRoom();
     player.draw();
-
+    
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }
-
+    drawBuildingChoiceMenu();
 }
