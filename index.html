@@ -4,17 +4,19 @@
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
 </head>
-<body>
+<body oncontextmenu="return false;">
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 
 <p id="debugText">(recent text display or temporary debug output)</p>
 
 <script src="js/GraphicsCommon.js"></script>
 <script src="js/ResourceBucket.js"></script>
+<script src="js/Timer.js"></script>
 <script src="js/World.js"></script>
-<script src="js/Unit.js"></script>
+<script src="js/ImageLoading.js"></script>
 <script src="js/Buildings.js"></script> <!--This needs to come after World.js for tile defs -->
 <script src="js/Input.js"></script>
+<script src="js/Unit.js"></script> <!-- this needs to come after Input for selectedIndex -->
 <script src="js/Interface.js"></script> <!--This needs to come after Building.js for building interface defs -->
 <script src="js/Main.js"></script>
 

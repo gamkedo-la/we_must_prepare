@@ -1,11 +1,16 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
+const KEY_B = 66;
+const KEY_ESAPE = 27;
+const NO_SELECTION = -1;
+const PLAYER_SELECTED = -2;
 
 var mouseClickedThisFrame = false;
 var mouseHeld = false;
 var mouseX = 0;
 var mouseY = 0;
 var isBuildModeEnabled = false;
-const KEY_B = 66;
+var selectedIndex = NO_SELECTION;
+
 
 function calculateMousePos(evt) {
     var rect = canvas.getBoundingClientRect(), root = document.documentElement;
@@ -31,8 +36,12 @@ function mousemoveHandler(evt) {
 
 function mousedownHandler(evt) {
     calculateMousePos(evt);
-    mouseHeld = true;
-    mouseClickedThisFrame = true;
+    if (evt.button == 0) {
+        mouseHeld = true;
+        mouseClickedThisFrame = true;
+    } else {
+        selectedIndex = NO_SELECTION;
+    }
 
 }
 
@@ -52,19 +61,48 @@ function inputUpdate() {
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
     if (isMouseOverInterface()) {
         // will be handeled by interface code
-        if (mouseClickedThisFrame && mouseOverBuildingInterfaceIndex != -1 && resoucesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
-            console.log("I clicked " + buildingDefs[mouseOverBuildingInterfaceIndex].label);
-            buildingDefs[mouseOverBuildingInterfaceIndex].onClick();
-            isBuildModeEnabled = true;
+        if (mouseClickedThisFrame) {
+            if (mouseOverBuildingInterfaceIndex != -1 && resoucesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
+                console.log("I clicked " + buildingDefs[mouseOverBuildingInterfaceIndex].label);
+                buildingDefs[mouseOverBuildingInterfaceIndex].onClick();
+                isBuildModeEnabled = true;
+                toBuild = buildingDefs[mouseOverBuildingInterfaceIndex];
+            } else if (mouseOverButtonPerBuildingInterfaceIndex != -1) {
+                perBuildingButtonDefs[mouseOverButtonPerBuildingInterfaceIndex].onClick();
+            }
         }
     } else if (isBuildModeEnabled) {
         if (mouseClickedThisFrame) {
             placeBuildingAtPixelCoord(TILE_BUILDING);
+            removeResourcesForBuilding(player.storageList, toBuild);
             isBuildModeEnabled = !isBuildModeEnabled;
+            mouseHeld = false;
         }
     } else { // this means we aren't in build mode
-        if (mouseHeld) {
-            player.goto(mouseX, mouseY);
+        if (player.distFrom(mouseX, mouseY) < UNIT_SELECTED_DIM_HALF) {
+            if (mouseClickedThisFrame) {
+                selectedIndex = PLAYER_SELECTED;
+            }
+        } else {
+            var indexUnderMouse = getTileIndexAtPixelCoord(mouseX, mouseY);
+
+            if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
+                if (mouseClickedThisFrame) {
+                    if (selectedIndex != PLAYER_SELECTED) {
+                        console.log('Clicked on a building!');
+                        selectedIndex = indexUnderMouse;
+                    } else {
+                        player.goto(mouseX, mouseY);
+                    }
+                }
+            } else {
+                if (mouseHeld) {
+                    console.log('Mouse has been held!');
+                    if (selectedIndex == PLAYER_SELECTED) {
+                        player.goto(mouseX, mouseY);
+                    }
+                }
+            }
         }
         player.move();
     }
@@ -78,6 +116,11 @@ function keyPress(evt) {
         case KEY_B:
             isBuildModeEnabled = !isBuildModeEnabled;
             console.log("Build mode enabled is " + isBuildModeEnabled);
+            break;
+        case KEY_ESAPE:
+            if (isBuildModeEnabled) {
+                isBuildModeEnabled = !isBuildModeEnabled;
+            }
             break;
         default:
             console.log("keycode press is " + evt.keyCode);

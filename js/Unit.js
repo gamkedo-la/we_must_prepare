@@ -2,7 +2,6 @@ const UNIT_PLACEHOLDER_RADIUS = 5;
 const UNIT_PIXELS_MOVE_RATE = 2;
 const UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50;
 const UNIT_SELECTED_DIM_HALF = UNIT_PLACEHOLDER_RADIUS + 3;
-const UNIT_ATTACK_RANGE = 55;
 
 function playerClass() {
     this.isWalking = false;
@@ -54,8 +53,13 @@ function playerClass() {
     }
 
     this.draw = function() {
-        colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, this.unitColor);
-        this.drawPlayerHUD();
+        
+        // drawBitmapCenteredAtLocationWithRotation(playerImage, this.x, this.y, 0);
+        
+        if (selectedIndex == PLAYER_SELECTED) {
+            drawBitmapCenteredAtLocationWithRotation(playerSelection, this.x, this.y, 0);
+        }
+        canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
         if (this.isWalking) {
             canvasContext.beginPath();
             canvasContext.moveTo(this.x, this.y);
@@ -64,11 +68,12 @@ function playerClass() {
             canvasContext.setLineDash([5, 15]);
             canvasContext.stroke();
         }
+        this.drawPlayerHUD();
     }
 
     this.distFrom = function (otherX, otherY) {
         var deltaX = otherX - this.x;
-        var deltaY = otherY - this.y;
+        var deltaY = otherY - (this.y - playerImage.height / 2);
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
@@ -137,6 +142,9 @@ function playerClass() {
                 this.x = this.gotoX;
                 this.y = this.gotoY;
             }
+        } else if (this.isWalking) {
+            this.isWalking = false;
+            console.log('Ran into a wall');
         }
     } // end move
 } // end unitClass

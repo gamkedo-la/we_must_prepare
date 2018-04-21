@@ -1,3 +1,6 @@
+const PERCENTAGE_REFUND = 0.5;
+var toBuild;
+
 function farmToConsole() {
     console.log("farm clicked");
 }
@@ -14,13 +17,40 @@ function upgradeToConsole() {
     console.log("upgrade clicked");
 }
 
+function clickUpgrade() {
+    console.log('upgrade button clicked');
+}
+
+function clickSell() {
+    console.log('sell button clicked');
+    var buildingDefsAtTile = tileKindToBuildingDef(roomGrid[selectedIndex]);
+    player.storageList["Metal"].carried += Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND);
+    player.storageList["Wood"].carried += Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND);
+    player.storageList["Stone"].carried += Math.ceil(buildingDefsAtTile.Stone * PERCENTAGE_REFUND);
+    roomGrid[selectedIndex] = TILE_GROUND;
+
+}
+
 var buildingDefs = [
-    {name: 'Farm', Wood: 1, Stone: 0, Metal: 0, tile: TILE_WOOD_DEST, label: 'farm', onClick: farmToConsole},
-    {name: 'House', Wood: 5, Stone: 10, Metal: 5, tile: TILE_METAL_DEST, label: 'house', onClick: houseToConsole},
-    {name: 'Resource Silo', Wood: 10, Stone: 10, Metal: 5, tile: TILE_STONE_DEST, label: 'silo', onClick: siloToConsole},
-    {name: 'Generator', Wood: 10, Stone: 10, Metal: 5, tile: TILE_STONE_DEST, label: 'genera', onClick: generaToConsole},
-    {name: 'Upgrades', Wood: 10, Stone: 10, Metal: 5, tile: TILE_STONE_DEST, label: 'upgrade', onClick: upgradeToConsole}
+    {name: 'Lumber Yard', Wood: 5, Stone: 3, Metal: 2, tile: TILE_WOOD_DEST, label: 'farm', onClick: farmToConsole},
+    {name: 'Blacksmith', Wood: 5, Stone: 10, Metal: 5, tile: TILE_METAL_DEST, label: 'house', onClick: houseToConsole},
+    {name: 'Stone Mason', Wood: 10, Stone: 10, Metal: 5, tile: TILE_STONE_DEST, label: 'silo', onClick: siloToConsole},
+    {name: 'Silo', Wood: 10, Stone: 10, Metal: 5, tile: TILE_FOOD_DEST, label: 'genera', onClick: generaToConsole},
+    {name: 'Factory', Wood: 10, Stone: 10, Metal: 5, tile: TILE_BUILDING, label: 'upgrade', onClick: upgradeToConsole}
 ]
+
+var perBuildingButtonDefs = [
+    {name: 'Upgrade', label: 'upgrade', onClick: clickUpgrade},
+    {name: 'Sell', label: 'sell', onClick: clickSell}
+]
+
+function tileKindToBuildingDef(tileKind) {
+    for (var i = 0; i < buildingDefs.length; i++) {
+        if (buildingDefs[i].tile == tileKind) {
+            return buildingDefs[i];
+        }
+    }
+}
 
 function resoucesAvailableToBuild(defIndex) {
     // console.log("resources for %s are metal: %s, wood: %s, and stone: %s", defIndex, buildingDefs[defIndex].Metal,

@@ -1,5 +1,6 @@
 const INTERFACE_Y = 500; // hacky please change
 var mouseOverBuildingInterfaceIndex = -1;
+var mouseOverButtonPerBuildingInterfaceIndex = -1;
 
 function interfaceUpdate() {
     
@@ -42,12 +43,78 @@ function drawBuildingChoiceMenu() {
             buttonColor = 'grey';
         }
         colorRect(buttonTLX, buttonTLY, buttonDrawDim, buttonDrawDim, buttonColor);
-        colorText(buildingDefs[i].label, buttonTLX, buttonTLY + 10, 'black');
+        colorText(buildingDefs[i].name, buttonTLX, buttonTLY + 10, 'black');
         if (mouseX > buttonTLX && mouseY > buttonTLY && mouseX < buttonBRX && mouseY < buttonBRY) {
-
             coloredOutlineRectCornerToCorner(buttonTLX, buttonTLY, buttonBRX, buttonBRY, 'black');
             mouseOverBuildingInterfaceIndex = i;
         }
         topLeftX += BUTTON_DIM;
+    }
+}
+
+function drawInterfaceForSelected() {
+    var topLeftY = canvas.height - BUTTON_DIM;
+    var textBoxLeft = BUTTON_MARGIN;
+    var textBoxTop = topLeftY + BUTTON_MARGIN;
+    var buttonDrawDim = BUTTON_DIM - BUTTON_MARGIN * 2;
+    var textInfoWidth = 3 * BUTTON_DIM - BUTTON_MARGIN * 2;
+    var buttonCount = perBuildingButtonDefs.length;
+
+    colorRect(textBoxLeft, textBoxTop, textInfoWidth, buttonDrawDim, 'yellow');
+    textBoxTop += 10;
+    var textLineY = textBoxTop + 15;
+    var textLineX = textBoxLeft;
+
+    if (selectedIndex == PLAYER_SELECTED) {
+        colorText('right-click to deselect player', textLineX, textLineY, 'black');
+        return;
+    }
+    var buildingDataToShow = undefined;
+    if (selectedIndex != -1) {
+        buildingDataToShow = tileKindToBuildingDef(roomGrid[selectedIndex]);
+        colorText('Stats for ' + buildingDataToShow.name, textBoxLeft, textBoxTop, 'black');
+    } else if (mouseOverBuildingInterfaceIndex != -1) {
+        buildingDataToShow = buildingDefs[mouseOverBuildingInterfaceIndex];
+        colorText('Cost to Build ' + buildingDataToShow.name, textBoxLeft, textBoxTop, 'black');
+    } else {
+        colorText('Click player or building to select', textBoxLeft, textBoxTop, 'black');
+    }
+    mouseOverButtonPerBuildingInterfaceIndex = -1;
+    if (buildingDataToShow != undefined) {
+
+        if (selectedIndex != -1) {
+            var buttonTLX = textInfoWidth + textBoxLeft + BUTTON_MARGIN;
+            var buttonTLY = topLeftY + BUTTON_MARGIN;
+            var buttonBRX = buttonTLX + buttonDrawDim;
+            var buttonBRY = buttonTLY + buttonDrawDim;
+            var buildingDefsAtTile = tileKindToBuildingDef(roomGrid[selectedIndex]);
+            for (var i = 0; i < buttonCount; i++) {
+                colorRect(buttonTLX, buttonTLY, buttonDrawDim, buttonDrawDim, 'gray');
+                colorText(perBuildingButtonDefs[i].name, buttonTLX, buttonTLY + 10, 'black');
+                if (perBuildingButtonDefs[i].label == 'sell') {
+                    
+                    colorText('M: ' + Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND), buttonTLX, buttonTLY + 20, 'black');
+                    colorText('W: ' + Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND), buttonTLX, buttonTLY + 30, 'black');
+                    colorText('S: ' + Math.ceil(buildingDefsAtTile.Stone * PERCENTAGE_REFUND), buttonTLX, buttonTLY + 40, 'black');
+                }
+                if (mouseX > buttonTLX && mouseY > buttonTLY && mouseX < buttonBRX && mouseY < buttonBRY) {
+                    coloredOutlineRectCornerToCorner(buttonTLX, buttonTLY, buttonBRX, buttonBRY, 'black');
+                    mouseOverBuildingInterfaceIndex = -1;
+                    mouseOverButtonPerBuildingInterfaceIndex = i;
+                }
+                buttonTLX += BUTTON_DIM;
+                buttonBRX += BUTTON_DIM;
+            }
+        } else {
+            for (var key in buildingDataToShow) {
+                if (key == 'name' || key == 'onClick' || key == 'label' || key == 'tile') {
+                    continue;
+                }
+                var costString = key + ': ' + buildingDataToShow[key] + ' ';
+                canvasContext.fillText(costString, textLineX, textLineY);
+                textLineX += canvasContext.measureText(costString).width;
+            }
+        } // end if selectedIndex != -1
+
     }
 }

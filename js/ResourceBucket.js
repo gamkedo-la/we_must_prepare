@@ -31,6 +31,14 @@ function depositResources(fromContainer, toContainer, quantity) {
     }
 }
 
+function removeResourcesForBuilding(fromContainer, buildingBlueprint) {
+    console.log('fromContainer is %s before building and cost is %s', fromContainer['Wood'].carried, buildingBlueprint.Wood);
+    fromContainer['Wood'].carried -= buildingBlueprint.Wood;
+    fromContainer['Metal'].carried -= buildingBlueprint.Metal;
+    fromContainer['Stone'].carried -= buildingBlueprint.Stone;
+    console.log('fromContainer is %s after building', fromContainer['Wood'].carried);
+}
+
 function setupBuckets() {
     for(var i=0; i<roomGrid.length; i++) {
         var resourceType = '';
