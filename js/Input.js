@@ -1,5 +1,17 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
+const KEY_A = 65;
 const KEY_B = 66;
+const KEY_D = 68;
+const KEY_I = 73;
+const KEY_J = 74;
+const KEY_K = 75;
+const KEY_L = 76;
+const KEY_S = 83;
+const KEY_W = 87;
+const KEY_LEFT_ARROW = 37;
+const KEY_UP_ARROW = 38;
+const KEY_RIGHT_ARROW = 39;
+const KEY_DOWN_ARROW = 40;
 const KEY_ESAPE = 27;
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
@@ -8,6 +20,8 @@ var mouseClickedThisFrame = false;
 var mouseHeld = false;
 var mouseX = 0;
 var mouseY = 0;
+var mouseWorldX = 0;
+var mouseWorldY = 0;
 var isBuildModeEnabled = false;
 var selectedIndex = NO_SELECTION;
 
@@ -18,6 +32,8 @@ function calculateMousePos(evt) {
     // account for the margins, canvas position on page, scroll amount, etc.
     mouseX = evt.clientX - rect.left - root.scrollLeft;
     mouseY = evt.clientY - rect.top - root.scrollTop;
+    mouseWorldX = mouseX + camPanX;
+    mouseWorldY = mouseY + camPanY;
 }
 
 function setupInput() {
@@ -79,12 +95,12 @@ function inputUpdate() {
             mouseHeld = false;
         }
     } else { // this means we aren't in build mode
-        if (player.distFrom(mouseX, mouseY) < UNIT_SELECTED_DIM_HALF) {
+        if (player.distFrom(mouseWorldX, mouseWorldY) < UNIT_SELECTED_DIM_HALF) {
             if (mouseClickedThisFrame) {
                 selectedIndex = PLAYER_SELECTED;
             }
         } else {
-            var indexUnderMouse = getTileIndexAtPixelCoord(mouseX, mouseY);
+            var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
 
             if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
                 if (mouseClickedThisFrame) {
@@ -92,14 +108,14 @@ function inputUpdate() {
                         console.log('Clicked on a building!');
                         selectedIndex = indexUnderMouse;
                     } else {
-                        player.goto(mouseX, mouseY);
+                        player.goto(mouseWorldX, mouseWorldY);
                     }
                 }
             } else {
                 if (mouseHeld) {
                     console.log('Mouse has been held!');
                     if (selectedIndex == PLAYER_SELECTED) {
-                        player.goto(mouseX, mouseY);
+                        player.goto(mouseWorldX, mouseWorldY);
                     }
                 }
             }
@@ -121,6 +137,18 @@ function keyPress(evt) {
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             }
+            break;
+        case KEY_I:
+            camPanY -= CAM_PAN_SPEED;
+            break;
+        case KEY_J:
+            camPanX -= CAM_PAN_SPEED;
+            break;
+        case KEY_K:
+            camPanY += CAM_PAN_SPEED;
+            break;
+        case KEY_L:
+            camPanX += CAM_PAN_SPEED;
             break;
         default:
             console.log("keycode press is " + evt.keyCode);

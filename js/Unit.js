@@ -7,6 +7,8 @@ function playerClass() {
     this.isWalking = false;
     this.bucketList = [];
     this.storageList = [];
+    this.x = 0;
+    this.y = 0;
     this.reset = function() {
         if(this.homeX == undefined) {
             for(var i=0; i<roomGrid.length; i++) {
@@ -68,7 +70,6 @@ function playerClass() {
             canvasContext.setLineDash([5, 15]);
             canvasContext.stroke();
         }
-        this.drawPlayerHUD();
     }
 
     this.distFrom = function (otherX, otherY) {

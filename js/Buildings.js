@@ -28,6 +28,7 @@ function clickSell() {
     player.storageList["Wood"].carried += Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND);
     player.storageList["Stone"].carried += Math.ceil(buildingDefsAtTile.Stone * PERCENTAGE_REFUND);
     roomGrid[selectedIndex] = TILE_GROUND;
+    selectedIndex = -1;
 
 }
 
