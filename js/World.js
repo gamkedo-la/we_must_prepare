@@ -5,13 +5,13 @@ const ROOM_ROWS = 14;
 var roomGrid =
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 3, 4, 5, 6, 7, 8, 9,10,11, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 3, 4, 0, 6, 7, 8, 9,10,11, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -100,7 +100,7 @@ function tileTypeHasTransparency(checkTileType) {
     return false;
 }
 
-function drawRoom() {
+function drawGroundTiles() {
     var tileIndex = 0;
     var tileLeftEdgeX = 0;
     var tileTopEdgeY = 0;
@@ -136,4 +136,39 @@ function drawRoom() {
         tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
 
     } // end of for eachRow    
-} // end of drawRoom()
+} // end of drawGroundTiles()
+
+function draw3DTiles() {
+    var tileIndex = 0;
+    var tileLeftEdgeX = 0;
+    var tileTopEdgeY = 0;
+
+    for (var eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
+
+        tileLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
+
+        for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
+
+            var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
+            var useImage = null;
+            switch (tileTypeHere) {
+                case TILE_WOOD_SRC:
+                    useImage = tree3D;
+                    break;
+                default:
+                    break;
+            }
+            if (useImage != null) {
+                canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
+                    tileTopEdgeY - useImage.height + TILE_H);
+            }
+            
+            tileIndex++; // increment which index we're going to next check for in the room
+            tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
+
+        } // end of for eachCol
+
+        tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
+
+    } // end of for eachRow    
+} // end of draw3DTiles()

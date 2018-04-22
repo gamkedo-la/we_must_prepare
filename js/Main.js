@@ -66,9 +66,9 @@ function drawEverything() {
     // clear the game view by filling it with black
     // colorRect(0, 0, canvas.width, canvas.height, 'black');
     startCameraPan();
-    drawRoom();
+    drawGroundTiles();
     player.draw();
-    
+    draw3DTiles();
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }

@@ -56,8 +56,6 @@ function playerClass() {
 
     this.draw = function() {
         
-        // drawBitmapCenteredAtLocationWithRotation(playerImage, this.x, this.y, 0);
-        
         if (selectedIndex == PLAYER_SELECTED) {
             drawBitmapCenteredAtLocationWithRotation(playerSelection, this.x, this.y, 0);
         }

@@ -1,6 +1,7 @@
 var playerImage = document.createElement("img");
 var playerSelection = document.createElement("img");
 var buildingSelection = document.createElement("img");
+var tree3D = document.createElement("img");
 var tileSheet = document.createElement("img");
 
 var picsToLoad = 0;
@@ -23,7 +24,8 @@ function loadImages() {
     {varName:tileSheet, theFile:"sprite_strip.png"},
     {varName:playerImage, theFile:"player.png"},
     {varName:playerSelection, theFile:"player_selection.png"},
-    {varName:buildingSelection, theFile:"building_selection.png"}
+    {varName:buildingSelection, theFile:"building_selection.png"},
+    {varName:tree3D, theFile:"largetree.png"}
     ];
 
   picsToLoad = imageList.length;
