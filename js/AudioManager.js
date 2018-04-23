@@ -1,11 +1,12 @@
 setFormat();
+setAudioPath("./audio/");
 
 //set sound clips and music tracks here
-var menu_track = new musicTrackLoopingWTail("./audio/temp_placeholder", 3);
-var win_track = new musicTrackLoopingWTail("./audio/temp_placeholder", 3);
-var loose_track = new musicTrackLoopingWTail("./audio/temp_placeholder", 3);
-var inGame_track1 = new musicTrackNonLooping("./audio/temp_placeholder", 3);
-var inGame_track2 = new musicTrackNonLooping("./audio/temp_placeholder", 3);
+var menu_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var win_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var loose_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var inGame_track1 = new musicTrackNonLooping("temp_placeholder", 3);
+var inGame_track2 = new musicTrackNonLooping("temp_placeholder", 3);
 var inGame_master = new musicContainerPlaylistRandom([inGame_track1,inGame_track2]);
 
 
@@ -18,6 +19,10 @@ function setFormat() {
 	} else {
 		audioFormatType = ".mp3";
 	}
+}
+
+function setAudioPath(path = "") {
+	audioPath = path;
 }
 
 function audioFormat(alt = false) {
