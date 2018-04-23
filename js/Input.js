@@ -76,13 +76,16 @@ function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
     if (isMouseOverInterface()) {
-        // will be handeled by interface code
+        // will be handled by interface code
         if (mouseClickedThisFrame) {
-            if (mouseOverBuildingInterfaceIndex != -1 && resoucesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
-                console.log("I clicked " + buildingDefs[mouseOverBuildingInterfaceIndex].label);
-                buildingDefs[mouseOverBuildingInterfaceIndex].onClick();
-                isBuildModeEnabled = true;
+            //if we're clicking on a building and we have the resources     
+            if (mouseOverBuildingInterfaceIndex != -1 && resourcesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
                 toBuild = buildingDefs[mouseOverBuildingInterfaceIndex];
+                console.log("I clicked " + toBuild.label);
+                toBuild.onClick();
+                isBuildModeEnabled = true;
+                
+            //if we're clicking one the buttons in a submenu
             } else if (mouseOverButtonPerBuildingInterfaceIndex != -1) {
                 perBuildingButtonDefs[mouseOverButtonPerBuildingInterfaceIndex].onClick();
             }

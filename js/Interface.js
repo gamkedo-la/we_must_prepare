@@ -1,3 +1,4 @@
+
 const INTERFACE_Y = 500; // hacky please change
 var mouseOverBuildingInterfaceIndex = -1;
 var mouseOverButtonPerBuildingInterfaceIndex = -1;
@@ -37,7 +38,7 @@ function drawBuildingChoiceMenu() {
         var buttonBRX = buttonTLX + buttonDrawDim;
         var buttonBRY = buttonTLY + buttonDrawDim;
         
-        if (resoucesAvailableToBuild(i)) {
+        if (resourcesAvailableToBuild(i)) {
             buttonColor = 'pink';
         } else {
             buttonColor = 'grey';

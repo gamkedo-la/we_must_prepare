@@ -1,5 +1,6 @@
 const PERCENTAGE_REFUND = 0.5;
-var toBuild;
+
+var toBuild; //this is currently generated in Input.js
 
 function farmToConsole() {
     console.log("farm clicked");
@@ -53,7 +54,7 @@ function tileKindToBuildingDef(tileKind) {
     }
 }
 
-function resoucesAvailableToBuild(defIndex) {
+function resourcesAvailableToBuild(defIndex) {
     // console.log("resources for %s are metal: %s, wood: %s, and stone: %s", defIndex, buildingDefs[defIndex].Metal,
     //  buildingDefs[defIndex].Wood, buildingDefs[defIndex].Stone);
     return (buildingDefs[defIndex].Metal <= player.storageList["Metal"].carried &&
