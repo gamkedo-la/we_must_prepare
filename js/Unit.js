@@ -9,6 +9,37 @@ function playerClass() {
     this.storageList = [];
     this.x = 0;
     this.y = 0;
+
+    this.keyHeld_West = false;
+    this.keyHeld_North = false;
+    this.keyHeld_South = false;
+    this.keyHeld_East = false;
+
+    this.controlKeyLeft;
+    this.controlKeyUp;
+    this.controlKeyDown;
+    this.controlKeyRight;
+
+    this.controlKeyLeft2;
+    this.controlKeyUp2;
+    this.controlKeyDown2;
+    this.controlKeyRight2;
+
+    this.setupInput = function (leftKey,upKey,downKey,rightKey, leftKey2,upKey2,downKey2,rightKey2)
+    {
+        //next four lines set a,w,s,d
+        this.controlKeyLeft = leftKey;
+        this.controlKeyUp = upKey;
+        this.controlKeyDown = downKey;
+        this.controlKeyRight = rightKey;
+
+        //these four set left, up, down, right arrows
+        this.controlKeyLeft2 = leftKey2;
+        this.controlKeyUp2 = upKey2;
+        this.controlKeyDown2 = downKey2;
+        this.controlKeyRight2 = rightKey2;
+    }
+
     this.reset = function() {
         if(this.homeX == undefined) {
             for(var i=0; i<roomGrid.length; i++) {
@@ -95,6 +126,24 @@ function playerClass() {
         var moveY = UNIT_PIXELS_MOVE_RATE * deltaY / distToGo;
         var nextX = this.x + moveX;
         var nextY = this.y + moveY;
+      
+        //Works only if unit is selected and currently fights against the click to move functionality
+        /*if (this.keyHeld_North) 
+        {
+            nextY -= UNIT_PIXELS_MOVE_RATE;
+        }
+        if (this.keyHeld_South) 
+        {
+            nextY += UNIT_PIXELS_MOVE_RATE;
+        }
+        if (this.keyHeld_West) 
+        {
+            nextX -= UNIT_PIXELS_MOVE_RATE;
+        }
+        if (this.keyHeld_East) 
+        {
+            nextX += UNIT_PIXELS_MOVE_RATE;
+        }*/
 
         var walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
         var walkIntoTileType = TILE_WALL;

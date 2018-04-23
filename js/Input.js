@@ -41,12 +41,14 @@ function setupInput() {
     canvas.addEventListener('mousedown', mousedownHandler);
     canvas.addEventListener('mouseup', mouseupHandler);
     document.addEventListener('keydown', keyPress);
+    document.addEventListener('keyup', keyReleased);
+
+    player.setupInput(KEY_A,KEY_W,KEY_S,KEY_D, KEY_LEFT_ARROW,KEY_UP_ARROW,KEY_DOWN_ARROW,KEY_RIGHT_ARROW);
 }
 
 
 function mousemoveHandler(evt) {
     calculateMousePos(evt);
-
 }
 
 
@@ -127,9 +129,31 @@ function inputUpdate() {
     }
 }
 
+function keySet(keyEvent, whichUnit, setTo) 
+{
+    if (keyEvent.keyCode == whichUnit.controlKeyLeft || keyEvent.keyCode == whichUnit.controlKeyLeft2)
+    {
+        whichUnit.keyHeld_West = setTo;
+    }
+    if (keyEvent.keyCode == whichUnit.controlKeyUp || keyEvent.keyCode == whichUnit.controlKeyUp2)
+    {
+        whichUnit.keyHeld_North = setTo;
+    } 
+    if (keyEvent.keyCode == whichUnit.controlKeyDown || keyEvent.keyCode == whichUnit.controlKeyDown2)
+    {
+        whichUnit.keyHeld_South = setTo;
+    } 
+    if (keyEvent.keyCode == whichUnit.controlKeyRight || keyEvent.keyCode == whichUnit.controlKeyRight2)
+    {
+        whichUnit.keyHeld_East = setTo;
+    }  
+}
 
 function keyPress(evt) {
     var keyUsedByGame = true;
+
+    keySet(evt, player, true);
+
     console.log("evt keycode " + evt.keyCode);
     switch (evt.keyCode) {
         case KEY_B:
@@ -161,4 +185,14 @@ function keyPress(evt) {
     if (keyUsedByGame) {
         evt.preventDefault();
     }
+
+    //put this line just to prevent browser from scrolling with up/down arrows.
+    evt.preventDefault();
+}
+
+function keyReleased(evt)
+{
+    keySet(evt, player, false);
+
+    evt.preventDefault();
 }
