@@ -1,12 +1,17 @@
 setFormat();
+setAudioPath("./audio/");
 
 //set sound clips and music tracks here
-var menu_track = new musicTrackLoopingWTail("./audio/temp_placeholder", 3);
-var win_track = new musicTrackLoopingWTail("./audio/temp_placeholder", 3);
-var loose_track = new musicTrackLoopingWTail("./audio/temp_placeholder", 3);
-var inGame_track1 = new musicTrackNonLooping("./audio/temp_placeholder", 3);
-var inGame_track2 = new musicTrackNonLooping("./audio/temp_placeholder", 3);
-var inGame_master = new musicContainerPlaylistRandom([inGame_track1,inGame_track2]);
+var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var inGame_music_track1 = new musicTrackNonLooping("temp_placeholder", 0);
+var inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8);
+var inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8);
+var inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8);
+var inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8);
+var inGame_music_track2_master = new musicContainerRandom([inGame_music_track2_1,inGame_music_track2_2,inGame_music_track2_3,inGame_music_track2_4]);
+var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2_master],4,2);
 
 
 
@@ -18,6 +23,10 @@ function setFormat() {
 	} else {
 		audioFormatType = ".mp3";
 	}
+}
+
+function setAudioPath(path = "") {
+	audioPath = path;
 }
 
 function audioFormat(alt = false) {

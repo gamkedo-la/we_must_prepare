@@ -14,6 +14,7 @@ function loadingDoneSoStartGame() {
     setInterval(function() {
         moveEverything();
         drawEverything();
+        AudioEventManager.updateEvents();
         mouseClickedThisFrame = false;
     }, 1000 / framesPerSecond);
 
@@ -21,6 +22,7 @@ function loadingDoneSoStartGame() {
     player.reset();
     setupBuckets();
     timer.setupTimer();
+    inGame_music_master.play();
 }
 
 window.onload = function() {
