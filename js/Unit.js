@@ -63,14 +63,14 @@ function playerClass() {
         this.myTarget = null;
         
         this.bucketList = [];
-        this.bucketList["Metal"] = new resourceClass(10, 0);
-        this.bucketList["Stone"] = new resourceClass(10, 0);
-        this.bucketList["Wood"] = new resourceClass(10, 0);
+        this.bucketList[Resources.Metal] = new resourceClass(10, 0);
+        this.bucketList[Resources.Stone] = new resourceClass(10, 0);
+        this.bucketList[Resources.Wood] = new resourceClass(10, 0);
 
         this.storageList = [];
-        this.storageList["Metal"] = new resourceClass(50, 0);
-        this.storageList["Stone"] = new resourceClass(50, 0);
-        this.storageList["Wood"] = new resourceClass(50, 0);
+        this.storageList[Resources.Metal] = new resourceClass(50, 0);
+        this.storageList[Resources.Stone] = new resourceClass(50, 0);
+        this.storageList[Resources.Wood] = new resourceClass(50, 0);
 
     }  // end reset
 
@@ -145,19 +145,19 @@ function playerClass() {
                 getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
                 break;
             case TILE_METAL_DEST:
-                depositResources(this.bucketList["Metal"], this.storageList["Metal"]);
+                depositResources(this.bucketList[Resources.Metal], this.storageList[Resources.Metal]);
                 break;
             case TILE_STONE_SRC:
                 getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
                 break;
             case TILE_STONE_DEST:
-                depositResources(this.bucketList["Stone"], this.storageList["Stone"]);
+                depositResources(this.bucketList[Resources.Stone], this.storageList[Resources.Stone]);
                 break;
             case TILE_WOOD_SRC:
                 getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
                 break;
             case TILE_WOOD_DEST:
-                depositResources(this.bucketList["Wood"], this.storageList["Wood"]);
+                depositResources(this.bucketList[Resources.Wood], this.storageList[Resources.Wood]);
                 break;
             default:
                 break;

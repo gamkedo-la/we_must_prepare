@@ -28,9 +28,9 @@ function clickUpgrade() {
 function clickSell() {
     console.log('sell button clicked');
     var buildingDefsAtTile = tileKindToBuildingDef(roomGrid[selectedIndex]);
-    player.storageList["Metal"].carried += Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND);
-    player.storageList["Wood"].carried += Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND);
-    player.storageList["Stone"].carried += Math.ceil(buildingDefsAtTile.Stone * PERCENTAGE_REFUND);
+    player.storageList[Resources.Metal].carried += Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND);
+    player.storageList[Resources.Wood].carried += Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND);
+    player.storageList[Resources.Stone].carried += Math.ceil(buildingDefsAtTile.Stone * PERCENTAGE_REFUND);
     roomGrid[selectedIndex] = TILE_GROUND;
     selectedIndex = -1;
 
@@ -61,7 +61,7 @@ function tileKindToBuildingDef(tileKind) {
 function resourcesAvailableToBuild(defIndex) {
     // console.log("resources for %s are metal: %s, wood: %s, and stone: %s", defIndex, buildingDefs[defIndex].Metal,
     //  buildingDefs[defIndex].Wood, buildingDefs[defIndex].Stone);
-    return (buildingDefs[defIndex].Metal <= player.storageList["Metal"].carried &&
-            buildingDefs[defIndex].Wood <= player.storageList["Wood"].carried &&
-            buildingDefs[defIndex].Stone <= player.storageList["Stone"].carried);
+    return (buildingDefs[defIndex].Metal <= player.storageList[Resources.Metal].carried &&
+            buildingDefs[defIndex].Wood <= player.storageList[Resources.Wood].carried &&
+            buildingDefs[defIndex].Stone <= player.storageList[Resources.Stone].carried);
 }

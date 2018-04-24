@@ -1,5 +1,11 @@
 var resouceLookupTable = [];
 
+const Resources = {
+	Wood:"Wood",
+	Metal:"Metal",
+	Stone:"Stone" 
+};
+
 function resourceClass(max, carried) {
     this.max = max;
     this.carried = carried;
@@ -32,11 +38,11 @@ function depositResources(fromContainer, toContainer, quantity) {
 }
 
 function removeResourcesForBuilding(fromContainer, buildingBlueprint) {
-    console.log('fromContainer is %s before building and cost is %s', fromContainer['Wood'].carried, buildingBlueprint.Wood);
-    fromContainer['Wood'].carried -= buildingBlueprint.Wood;
-    fromContainer['Metal'].carried -= buildingBlueprint.Metal;
-    fromContainer['Stone'].carried -= buildingBlueprint.Stone;
-    console.log('fromContainer is %s after building', fromContainer['Wood'].carried);
+    console.log('fromContainer is %s before building and cost is %s', fromContainer[Resources.Wood].carried, buildingBlueprint.Wood);
+    fromContainer[Resources.Wood].carried -= buildingBlueprint.Wood;
+    fromContainer[Resources.Metal].carried -= buildingBlueprint.Metal;
+    fromContainer[Resources.Stone].carried -= buildingBlueprint.Stone;
+    console.log('fromContainer is %s after building', fromContainer[Resources.Wood].carried);
 }
 
 function setupBuckets() {
@@ -45,15 +51,15 @@ function setupBuckets() {
         var resourceQuantity = 0;
         switch (roomGrid[i]) {
             case TILE_METAL_SRC:
-                resourceType = "Metal";
+                resourceType = Resources.Metal;
                 resourceQuantity = 40;
                 break;
             case TILE_STONE_SRC:
-                resourceType = "Stone";
+                resourceType = Resources.Stone;
                 resourceQuantity = 20;
                 break;
             case TILE_WOOD_SRC:
-                resourceType = "Wood";
+                resourceType = Resources.Wood;
                 resourceQuantity = 10;
                 break;
             default:
