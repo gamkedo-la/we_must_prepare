@@ -2,7 +2,7 @@ const PERCENTAGE_REFUND = 0.5;
 
 var toBuild; //this is currently generated in Input.js
 
-function farmToConsole() {
+function lumberToConsole() {
     console.log("farm clicked");
 }
 function houseToConsole() {
@@ -13,6 +13,9 @@ function siloToConsole() {
 }
 function generaToConsole() {
     console.log("genera clicked");
+}
+function farmToConsole() {
+    console.log("farm clicked");
 }
 function upgradeToConsole() {
     console.log("upgrade clicked");
@@ -34,10 +37,11 @@ function clickSell() {
 }
 
 var buildingDefs = [
-    {name: 'Lumber Yard', Wood: 5, Stone: 3, Metal: 2, tile: TILE_WOOD_DEST, label: 'farm', onClick: farmToConsole},
+    {name: 'Lumber Yard', Wood: 5, Stone: 3, Metal: 2, tile: TILE_WOOD_DEST, label: 'lumber', onClick: lumberToConsole},
     {name: 'Blacksmith', Wood: 5, Stone: 10, Metal: 5, tile: TILE_METAL_DEST, label: 'house', onClick: houseToConsole},
     {name: 'Stone Mason', Wood: 10, Stone: 10, Metal: 5, tile: TILE_STONE_DEST, label: 'silo', onClick: siloToConsole},
     {name: 'Silo', Wood: 10, Stone: 10, Metal: 5, tile: TILE_FOOD_DEST, label: 'genera', onClick: generaToConsole},
+    {name: 'Farm', Wood: 3, Stone: 3, Metal: 0, tile: TILE_FOOD_SRC, label: 'farm', onClick: farmToConsole},
     {name: 'Factory', Wood: 10, Stone: 10, Metal: 5, tile: TILE_BUILDING, label: 'upgrade', onClick: upgradeToConsole}
 ]
 

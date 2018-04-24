@@ -95,7 +95,7 @@ function inputUpdate() {
         }
     } else if (isBuildModeEnabled) {
         if (mouseClickedThisFrame) {
-            placeBuildingAtPixelCoord(TILE_BUILDING);
+            placeBuildingAtPixelCoord(toBuild.tile);
             removeResourcesForBuilding(player.storageList, toBuild);
             isBuildModeEnabled = !isBuildModeEnabled;
             mouseHeld = false;

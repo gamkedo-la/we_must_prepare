@@ -117,7 +117,7 @@ function drawGroundTiles() {
                     TILE_GROUND * TILE_W, 0, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
-                    TILE_W, TILE_H); // draw full full tile size for destination
+                    TILE_W, TILE_H); // draw full tile size for destination
             }
             // canvasContext.drawImage(tilePics[tileTypeHere], tileLeftEdgeX, tileTopEdgeY);
             canvasContext.drawImage(tileSheet,
