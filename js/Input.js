@@ -40,6 +40,7 @@ function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
     canvas.addEventListener('mousedown', mousedownHandler);
     canvas.addEventListener('mouseup', mouseupHandler);
+    
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyReleased);
 
@@ -112,18 +113,18 @@ function inputUpdate() {
                     if (selectedIndex != PLAYER_SELECTED) {
                         console.log('Clicked on a building!');
                         selectedIndex = indexUnderMouse;
-                    } else {
+                    } /*else {
                         player.goto(mouseWorldX, mouseWorldY);
-                    }
+                    } (jaime)*/
                 }
-            } else {
+            } /*else {
                 if (mouseHeld) {
                     console.log('Mouse has been held!');
                     if (selectedIndex == PLAYER_SELECTED) {
                         player.goto(mouseWorldX, mouseWorldY);
                     }
                 }
-            }
+            } (jaime)*/
         }
         player.move();
     }
