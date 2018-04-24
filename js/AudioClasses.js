@@ -487,6 +487,10 @@ function musicTrackNonLooping(filename, playLength) {
 		mixVolume = volume;
 	}
 
+	this.getSourceTrack = function() {
+		return this;
+	}
+
 	this.setTime = function(time) {
 		musicFile.currentTime = time;
 	}
@@ -589,6 +593,10 @@ function musicTrackLoopingWTail(filename, playLength) {
 
 	this.setMixVolume = function(volume) {
 		mixVolume = volume;
+	}
+
+	this.getSourceTrack = function() {
+		return this;
 	}
 
 	this.setTime = function(time) {
@@ -701,6 +709,122 @@ function musicContainer(trackList) {
 		 return musicTrack.length;
 	}
 
+	this.getSourceTrack = function() {
+		return musicTrack[currentTrack].getSourceTrack();
+	}
+
+	this.setTime = function(time) {
+		musicTrack[currentTrack].setTime(time);
+	}
+
+	this.getTime = function() {
+		return musicTrack[currentTrack].getTime();
+	}
+	
+	this.setTrackName = function(name) {
+		musicTrack[currentTrack].setTrackName(name);
+	}
+
+	this.getTrackName = function() {
+		return musicTrack[currentTrack].getTrackName();
+	}
+	
+	this.getDuration = function() {
+		return musicTrack[currentTrack].getDuration();
+	}
+
+	this.getPaused = function() {
+		return musicTrack[currentTrack].getPaused();
+	}
+}
+
+function musicContainerRandom(trackList) {
+	var musicTrack = [];
+	var currentTrack = 0;
+	var lastTrack = 0;
+
+	for (var i in trackList) {
+		musicTrack[i] = trackList[i];
+		musicTrack[i].pause();
+	}
+
+	var trackVolume = 1;
+
+	this.play = function() {
+		currentTrack = Math.floor(Math.random() * musicTrack.length);
+		musicTrack[currentTrack].play();
+	}
+
+	this.stop = function() {
+		for (var i in trackList) {
+			musicTrack[i].stop();
+		}
+	}
+
+	this.resume = function() {
+		musicTrack[currentTrack].resume();
+	}
+
+	this.pause = function() {
+		for (var i in trackList) {
+			musicTrack[i].pause();
+		}
+	}
+
+	this.playFrom = function(time) {
+		musicTrack[currentTrack].playFrom(time);
+	}
+
+	this.startOrStop = function() {
+		musicTrack[currentTrack].startOrStop();
+	}
+
+	this.loadTrack = function(newTrack, slot) {
+		var timeNow = musicTrack[currentTrack].getTime();
+		if(!musicTrack[slot].getPaused()) {
+			musicTrack[slot].pause();
+			musicTrack[slot].setTime(0);
+			musicTrack[slot] = newTrack;
+			musicTrack[slot].setVolume(trackVolume);
+			musicTrack[slot].playFrom(timeNow);
+		} else {
+			musicTrack[slot] = newTrack;
+			musicTrack[slot].setVolume(trackVolume);
+			musicTrack[slot].setTime(timeNow);
+		}
+	}
+
+	this.updateVolume = function() {
+		for (var i in trackList) {
+			musicTrack[i].updateVolume();
+		}
+	}
+
+	this.setVolume = function(newVolume) {
+		trackVolume = newVolume;
+		musicTrack[currentTrack].setVolume(newVolume);
+	}
+
+	this.getVolume = function() {
+		return musicTrack[currentTrack].getVolume();
+	}
+
+	this.setCurrentTrack = function(trackNumber) {
+		currentTrack = trackNumber;
+	}
+
+	this.getCurrentTrack = function() {
+		 return currentTrack;
+	}
+
+	this.getListLength = function() {
+		 return musicTrack.length;
+	}
+
+	this.getSourceTrack = function() {
+		return musicTrack[currentTrack].getSourceTrack();
+	}
+
 	this.setTime = function(time) {
 		musicTrack[currentTrack].setTime(time);
 	}
@@ -750,7 +874,7 @@ function musicContainerPlaylistRandom(trackList, maxRepetitions = 3, minRepetiti
 		}
 		musicTrack[currentTrack].play();
 		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
-		AudioEventManager.removeTimerEvent(musicTrack[currentTrack], "loop");
+		AudioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
 		lastTrack = currentTrack;
 		playCountdown--;
 	}
@@ -764,7 +888,7 @@ function musicContainerPlaylistRandom(trackList, maxRepetitions = 3, minRepetiti
 	this.resume = function() {
 		musicTrack[currentTrack].resume();
 		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
-		AudioEventManager.removeTimerEvent(musicTrack[currentTrack], "loop");
+		AudioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
 	}
 
 	this.pause = function() {
@@ -825,6 +949,10 @@ function musicContainerPlaylistRandom(trackList, maxRepetitions = 3, minRepetiti
 
 	this.getListLength = function() {
 		 return musicTrack.length;
+	}
+
+	this.getSourceTrack = function() {
+		return musicTrack[currentTrack].getSourceTrack();
 	}
 
 	this.setTime = function(time) {
