@@ -56,6 +56,7 @@ function isTileKindBuilding(tileKind) {
         case TILE_STONE_DEST:
         case TILE_METAL_DEST:
         case TILE_FOOD_DEST:
+        case TILE_FOOD_SRC:
         case TILE_BUILDING:
             return true;
     }
