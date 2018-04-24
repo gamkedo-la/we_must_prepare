@@ -1,6 +1,7 @@
 var playerImage = document.createElement("img");
 var playerSelection = document.createElement("img");
 var buildingSelection = document.createElement("img");
+var timeOfDayGradient = document.createElement("img");
 var tree3D = document.createElement("img");
 var tileSheet = document.createElement("img");
 
@@ -24,6 +25,7 @@ function loadImages() {
     {varName:tileSheet, theFile:"sprite_strip.png"},
     {varName:playerImage, theFile:"player.png"},
     {varName:playerSelection, theFile:"player_selection.png"},
+    {varName:timeOfDayGradient, theFile:"time_of_day_gradient.png"},
     {varName:buildingSelection, theFile:"building_selection.png"},
     {varName:tree3D, theFile:"largetree.png"}
     ];

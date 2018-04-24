@@ -5,6 +5,10 @@ const CAM_PAN_SPEED = 5;
 var camPanX = 0;
 var camPanY = 0;
 
+var masterFrameDelayTick = 0;
+
+var renderSkyGradient = false;
+
 var canvas, canvasContext;
 var player = new playerClass();
 var timer = new TimerClass();
@@ -64,6 +68,7 @@ function endCameraPan() {
 }
 
 function drawEverything() {
+    masterFrameDelayTick++;
     // clear the game view by filling it with black
     // colorRect(0, 0, canvas.width, canvas.height, 'black');
     startCameraPan();
@@ -74,8 +79,18 @@ function drawEverything() {
         drawBuildingTileIndicator();
     }
     endCameraPan();
+    drawSkyGradient();
     player.drawPlayerHUD();
     drawBuildingChoiceMenu();
     drawInterfaceForSelected();
     timer.drawTimer();
+}
+
+function drawSkyGradient() {
+    if (renderSkyGradient) {
+        canvasContext.drawImage(
+            timeOfDayGradient,
+            (Math.floor(masterFrameDelayTick * 0.2) % timeOfDayGradient.width), 0, 1, 100, // source x,y,w,d (scroll source x over time)
+            0, 0, 800, 600); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
+    }
 }
