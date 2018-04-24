@@ -101,11 +101,6 @@ function inputUpdate() {
             mouseHeld = false;
         }
     } else { // this means we aren't in build mode
-        if (player.distFrom(mouseWorldX, mouseWorldY) < UNIT_SELECTED_DIM_HALF) {
-            if (mouseClickedThisFrame) {
-                selectedIndex = PLAYER_SELECTED;
-            }
-        } else {
             var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
 
             if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
@@ -113,19 +108,9 @@ function inputUpdate() {
                     if (selectedIndex != PLAYER_SELECTED) {
                         console.log('Clicked on a building!');
                         selectedIndex = indexUnderMouse;
-                    } /*else {
-                        player.goto(mouseWorldX, mouseWorldY);
-                    } (jaime)*/
-                }
-            } /*else {
-                if (mouseHeld) {
-                    console.log('Mouse has been held!');
-                    if (selectedIndex == PLAYER_SELECTED) {
-                        player.goto(mouseWorldX, mouseWorldY);
                     }
                 }
-            } (jaime)*/
-        }
+            } 
         player.move();
     }
 }

@@ -86,21 +86,7 @@ function playerClass() {
     }
 
     this.draw = function() {
-        
-        if (selectedIndex == PLAYER_SELECTED) {
-            drawBitmapCenteredAtLocationWithRotation(playerSelection, this.x, this.y, 0);
-        }
         canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
-
-        //Leaving this here in case it's important for another feature. (jaime)
-        /*if (this.isWalking) {
-            canvasContext.beginPath();
-            canvasContext.moveTo(this.x, this.y);
-            canvasContext.lineTo(this.gotoX, this.gotoY);
-            canvasContext.strokeStyle = 'red';
-            canvasContext.setLineDash([5, 15]);
-            canvasContext.stroke();
-        }*/
     }
 
     this.distFrom = function (otherX, otherY) {
@@ -120,13 +106,8 @@ function playerClass() {
     }
 
     this.move = function() {
-        //var deltaX = this.gotoX - this.x;
-        //var deltaY = this.gotoY - this.y;
-        //var distToGo = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        //var moveX = UNIT_PIXELS_MOVE_RATE * deltaX / distToGo;
-        //var moveY = UNIT_PIXELS_MOVE_RATE * deltaY / distToGo;
-        var nextX = this.x ;//+ moveX;
-        var nextY = this.y ;//+ moveY;
+        var nextX = this.x;
+        var nextY = this.y;
       
         //Works but note that in order to pick up materials you need to keep moving into the material
         if (this.keyHeld_North) 
@@ -191,20 +172,5 @@ function playerClass() {
         {
             console.log('Ran into a wall!');
         }
-
-        //Leaving this here in case it's important for another feature. (jaime)
-        /*if (isTileKindWalkable(walkIntoTileType)) {
-            this.isWalking = (distToGo > UNIT_PIXELS_MOVE_RATE);
-            if (this.isWalking) {
-                this.x = nextX;
-                this.y = nextY;
-            } else {
-                this.x = this.gotoX;
-                this.y = this.gotoY;
-            }
-        } else if (this.isWalking) {
-            this.isWalking = false;
-            console.log('Ran into a wall');
-        }*/
     } // end move
 } // end unitClass
