@@ -146,7 +146,7 @@ function keyPress(evt) {
 
     keySet(evt, player, true);
 
-    console.log("evt keycode " + evt.keyCode);
+    //console.log("evt keycode " + evt.keyCode);
     switch (evt.keyCode) {
         case KEY_B:
             isBuildModeEnabled = !isBuildModeEnabled;
@@ -172,7 +172,7 @@ function keyPress(evt) {
             camPanX += CAM_PAN_SPEED;
             break;
         default:
-            console.log("keycode press is " + evt.keyCode);
+            //console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;
             break;
     }

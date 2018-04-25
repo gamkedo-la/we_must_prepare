@@ -13,7 +13,7 @@ var roomGrid =
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -36,6 +36,8 @@ const TILE_FOOD_SRC = 9;
 const TILE_FOOD_DEST = 10;
 const TILE_BUILDING = 11;
 const LAST_TILE_ENUM = TILE_BUILDING;
+
+var objectsWithDepth = [];
 
 var tileTestColors = ['black', // TILE_GROUND
     'purple', // TILE_WALL
@@ -162,8 +164,20 @@ function draw3DTiles() {
             if (useImage != null) {
                 canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
                     tileTopEdgeY - useImage.height + TILE_H);
+                var newDepthObject = {x: tileLeftEdgeX + TILE_W / 2, y:  tileTopEdgeY + TILE_H/2};
+                var sameDepthObjects = 0;
+                objectsWithDepth.push(newDepthObject);
+                for (i = 0; i < objectsWithDepth.length; i++) {
+                    if (objectsWithDepth[i].x == newDepthObject.x &&
+                        objectsWithDepth[i].y == newDepthObject.y) {
+                        sameDepthObjects++;
+                        if (sameDepthObjects > 1) {
+                            objectsWithDepth.pop();
+                        }
+                    }
+                    
+                }
             }
-            
             tileIndex++; // increment which index we're going to next check for in the room
             tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
 
