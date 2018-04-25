@@ -10,7 +10,14 @@ function interfaceUpdate() {
 
 function placeBuildingAtPixelCoord(building_type) {
     var indexToPlaceBuildingAt = getTileIndexAtPixelCoord(mouseX, mouseY);
+    var indexForPlayer = getTileIndexAtPixelCoord(player.x, player.y);
+    if (indexToPlaceBuildingAt == indexForPlayer) {
+        console.log("Can't build on player!")
+        badBuildingPlacement = true;
+        return;
+    } else {
     roomGrid[indexToPlaceBuildingAt] = building_type;
+    }
 }
 
 function drawBuildingTileIndicator() {

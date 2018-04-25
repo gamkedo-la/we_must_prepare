@@ -23,6 +23,7 @@ var mouseY = 0;
 var mouseWorldX = 0;
 var mouseWorldY = 0;
 var isBuildModeEnabled = false;
+var badBuildingPlacement = false;
 var selectedIndex = NO_SELECTION;
 
 
@@ -96,9 +97,14 @@ function inputUpdate() {
     } else if (isBuildModeEnabled) {
         if (mouseClickedThisFrame) {
             placeBuildingAtPixelCoord(toBuild.tile);
+            if (badBuildingPlacement) {
+                badBuildingPlacement = false;
+                return;
+            } else {
             removeResourcesForBuilding(player.storageList, toBuild);
             isBuildModeEnabled = !isBuildModeEnabled;
             mouseHeld = false;
+            }
         }
     } else { // this means we aren't in build mode
             var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
