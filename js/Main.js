@@ -15,7 +15,7 @@ var timer = new TimerClass();
 
 function loadingDoneSoStartGame() {
     var framesPerSecond = 30;
-    setInterval(function() {
+    setInterval(function () {
         moveEverything();
         drawEverything();
         AudioEventManager.updateEvents();
@@ -29,7 +29,7 @@ function loadingDoneSoStartGame() {
     inGame_music_master.play();
 }
 
-window.onload = function() {
+window.onload = function () {
     canvas = document.getElementById('gameCanvas');
     canvasContext = canvas.getContext('2d');
     // these next few lines set up our game logic and render to happen 30 times per second
@@ -45,7 +45,7 @@ function moveEverything() {
 function startCameraPan() {
     var cameraRightMax = ROOM_COLS * TILE_W - canvas.width;
     var cameraBottomMax = ROOM_ROWS * TILE_H - canvas.height;
-    camPanX = player.x - canvas.width  / 2;
+    camPanX = player.x - canvas.width / 2;
     camPanY = player.y - canvas.height / 2;
     if (camPanX < 0) {
         camPanX = 0;
@@ -80,6 +80,7 @@ function drawEverything() {
     }
     endCameraPan();
     drawSkyGradient();
+    weather.draw();
     player.drawPlayerHUD();
     drawBuildingChoiceMenu();
     drawInterfaceForSelected();
