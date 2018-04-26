@@ -8,6 +8,7 @@ const KEY_K = 75;
 const KEY_L = 76;
 const KEY_S = 83;
 const KEY_W = 87;
+const KEY_SPACE = 32;
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
@@ -17,7 +18,9 @@ const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
 
 var mouseClickedThisFrame = false;
+var spacePressedThisFrame = false;
 var mouseHeld = false;
+var spaceHeld = false;
 var mouseX = 0;
 var mouseY = 0;
 var mouseWorldX = 0;
@@ -118,7 +121,9 @@ function inputUpdate() {
                 }
             } 
         player.move();
-        player.collectResourcesIfAble();
+        if(spacePressedThisFrame) {
+	        player.collectResourcesIfAble();
+        }
     }
 }
 
@@ -158,6 +163,10 @@ function keyPress(evt) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             }
             break;
+        case KEY_SPACE:
+        	spacePressedThisFrame = true;
+        	spaceHeld = true;
+        	break;
         case KEY_I:
             renderSkyGradient = true;
             camPanY -= CAM_PAN_SPEED;
@@ -190,4 +199,10 @@ function keyReleased(evt)
     keySet(evt, player, false);
 
     evt.preventDefault();
+    
+    switch(evt.keyCode) {
+	    case KEY_SPACE:
+	    	spaceHeld = false;
+	    	break;
+    }
 }

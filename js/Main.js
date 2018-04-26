@@ -20,6 +20,7 @@ function loadingDoneSoStartGame() {
         drawEverything();
         AudioEventManager.updateEvents();
         mouseClickedThisFrame = false;
+        spacePressedThisFrame = false;
     }, 1000 / framesPerSecond);
 
     setupInput();

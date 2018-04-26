@@ -76,7 +76,7 @@ function setupBuckets() {
 
 function getResourceFromIndex(index, oncePerClick, playerBucket) {
     if (oncePerClick) {
-        if (mouseClickedThisFrame == false) {
+        if (spacePressedThisFrame == false) {
             return;
         }
     }
@@ -92,3 +92,22 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
       }
     }
   }
+
+/*function getResourceFromIndex(index, oncePerClick, playerBucket) {
+    if (oncePerClick) {
+        if (mouseClickedThisFrame == false) {
+            return;
+        }
+    }
+    if (typeof resouceLookupTable[index] === "undefined") {
+      console.log("No resource bucket exists.");
+    } else {
+      for (var key in resouceLookupTable[index]) {
+        console.log("Found a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried);
+        depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
+        if (resouceLookupTable[index][key].carried == 0) {
+            roomGrid[index] = TILE_GROUND;
+        }
+      }
+    }
+  }*/
