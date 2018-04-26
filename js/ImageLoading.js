@@ -5,6 +5,7 @@ var timeOfDayGradient = document.createElement("img");
 var tree3D = document.createElement("img");
 var tileSheet = document.createElement("img");
 var weatherSpritesheet = document.createElement("img");
+var cloudSpritesheet = document.createElement("img");
 
 var picsToLoad = 0;
 
@@ -29,7 +30,8 @@ function loadImages() {
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient.png" },
     { varName: buildingSelection, theFile: "building_selection.png" },
     { varName: tree3D, theFile: "largetree.png" },
-    { varName: weatherSpritesheet, theFile: "weatherSpritesheet.png" }
+    { varName: weatherSpritesheet, theFile: "weatherSpritesheet.png" },
+    { varName: cloudSpritesheet, theFile: "clouds.png" }
   ];
 
   picsToLoad = imageList.length;
