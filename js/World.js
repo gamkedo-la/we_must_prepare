@@ -162,9 +162,7 @@ function draw3DTiles() {
                     break;
             }
             if (useImage != null) {
-                canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
-                    tileTopEdgeY - useImage.height + TILE_H);
-                var newDepthObject = {x: tileLeftEdgeX + TILE_W / 2, y:  tileTopEdgeY + TILE_H/2};
+                var newDepthObject = {y:  tileTopEdgeY + TILE_H};
                 var sameDepthObjects = 0;
                 objectsWithDepth.push(newDepthObject);
                 for (i = 0; i < objectsWithDepth.length; i++) {
@@ -175,8 +173,20 @@ function draw3DTiles() {
                             objectsWithDepth.pop();
                         }
                     }
-                    
                 }
+                objectsWithDepth.sort(function(a, b) {
+                    return a.y - b.y;
+                });
+                for (j = 0; j < objectsWithDepth.length; j++) {
+                    if (player.y < objectsWithDepth[j].y) {
+                        canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
+                        tileTopEdgeY - useImage.height + TILE_H);
+                    } else if (player.y > objectsWithDepth[j].y) {
+                        canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
+                            tileTopEdgeY - useImage.height + TILE_H);
+                        player.draw();
+                    }
+                } 
             }
             tileIndex++; // increment which index we're going to next check for in the room
             tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
