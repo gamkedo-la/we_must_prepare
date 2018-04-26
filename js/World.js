@@ -10,12 +10,12 @@ var roomGrid =
         1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 const TILE_W = 50;
@@ -48,6 +48,7 @@ var tileTestColors = ['black', // TILE_GROUND
     'yellow', // TILE_FOOD_SRC
     'white', // TILE_BUILDING
 ];
+
 function roomTileToIndex(tileCol, tileRow) {
     return (tileCol + ROOM_COLS * tileRow);
 }
@@ -122,7 +123,6 @@ function drawGroundTiles() {
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full tile size for destination
             }
-            // canvasContext.drawImage(tilePics[tileTypeHere], tileLeftEdgeX, tileTopEdgeY);
             canvasContext.drawImage(tileSheet,
                 tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
                 TILE_W, TILE_H, // get full tile size from source
@@ -162,7 +162,10 @@ function draw3DTiles() {
                     break;
             }
             if (useImage != null) {
-                var newDepthObject = {y:  tileTopEdgeY + TILE_H};
+                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W/2,tileTopEdgeY + TILE_H,
+                                                            tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
+                                                            tileTopEdgeY - useImage.height + TILE_H,
+                                                            useImage);   
                 var sameDepthObjects = 0;
                 objectsWithDepth.push(newDepthObject);
                 for (i = 0; i < objectsWithDepth.length; i++) {
@@ -174,18 +177,20 @@ function draw3DTiles() {
                         }
                     }
                 }
-                objectsWithDepth.sort(function(a, b) {
+                colorRect(tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, tileTopEdgeY - useImage.height + TILE_H,2,2, "red"); // where image is drawn from
+                colorRect(tileLeftEdgeX + TILE_W/2, tileTopEdgeY + TILE_H,2,2, "pink"); // middle of the bottom edge of the 3D object tile
+                var allObjectsToDrawDepthSorted = objectsWithDepth.concat([player]);
+                allObjectsToDrawDepthSorted.sort(function(a, b) {
                     return a.y - b.y;
                 });
-                for (j = 0; j < objectsWithDepth.length; j++) {
-                    if (player.y < objectsWithDepth[j].y) {
-                        canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
-                        tileTopEdgeY - useImage.height + TILE_H);
-                    } else if (player.y > objectsWithDepth[j].y) {
-                        canvasContext.drawImage(useImage, tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, 
-                            tileTopEdgeY - useImage.height + TILE_H);
-                        player.draw();
-                    }
+                for (j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
+                    allObjectsToDrawDepthSorted[j].draw();
+                    if (player.y < allObjectsToDrawDepthSorted[j].y && 
+                        player.distFrom(allObjectsToDrawDepthSorted[j].x,allObjectsToDrawDepthSorted[j].y) < useImage.height) {
+                        canvasContext.globalAlpha = 0.3;
+                        player.drawShaded();
+                        canvasContext.globalAlpha = 1;
+                    }    
                 } 
             }
             tileIndex++; // increment which index we're going to next check for in the room

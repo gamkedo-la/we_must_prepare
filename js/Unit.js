@@ -89,6 +89,10 @@ function playerClass() {
         canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
     }
 
+    this.drawShaded = function() {
+        canvasContext.drawImage(playerImageShaded, this.x - playerImageShaded.width / 2, this.y - playerImage.height); // coords at base of feet
+    }
+    
     this.distFrom = function (otherX, otherY) {
         var deltaX = otherX - this.x;
         var deltaY = otherY - (this.y - playerImage.height / 2);
