@@ -76,7 +76,7 @@ function setupBuckets() {
 
 function getResourceFromIndex(index, oncePerClick, playerBucket) {
     if (oncePerClick) {
-        if (spacePressedThisFrame == false) {
+        if (toolKeyPressedThisFrame == false) {
             return;
         }
     }
