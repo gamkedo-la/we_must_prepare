@@ -74,7 +74,7 @@ function drawEverything() {
     // colorRect(0, 0, canvas.width, canvas.height, 'black');
     startCameraPan();
     drawGroundTiles();
-    player.draw();
+    //player.draw(); // now drawn in world.js under draw3DTiles();
     draw3DTiles();
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
