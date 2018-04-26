@@ -118,6 +118,7 @@ function inputUpdate() {
                 }
             } 
         player.move();
+        player.collectResourcesIfAble();
     }
 }
 

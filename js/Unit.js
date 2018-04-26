@@ -24,6 +24,9 @@ function playerClass() {
     this.controlKeyUp2;
     this.controlKeyDown2;
     this.controlKeyRight2;
+    
+    let walkIntoTileIndex = -1;
+    let walkIntoTileType = TILE_WALL;
 
     this.setupInput = function (leftKey,upKey,downKey,rightKey, leftKey2,upKey2,downKey2,rightKey2)
     {
@@ -104,37 +107,9 @@ function playerClass() {
         this.gotoX = destinationX;
         this.gotoY = destinationY;
     }
-
-    this.move = function() {
-        var nextX = this.x;
-        var nextY = this.y;
-      
-        //Works but note that in order to pick up materials you need to keep moving into the material
-        if (this.keyHeld_North) 
-        {
-            nextY -= UNIT_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_South) 
-        {
-            nextY += UNIT_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_West) 
-        {
-            nextX -= UNIT_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_East) 
-        {
-            nextX += UNIT_PIXELS_MOVE_RATE;
-        }
-
-        var walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
-        var walkIntoTileType = TILE_WALL;
-
-        if (walkIntoTileIndex != undefined) {
-            walkIntoTileType = roomGrid[walkIntoTileIndex];
-        }
-
-        switch (walkIntoTileType) {
+    
+    this.collectResourcesIfAble = function() {
+	    switch (walkIntoTileType) {
             case TILE_WALL:
                 distToGo = 0;
                 break;
@@ -162,15 +137,49 @@ function playerClass() {
             default:
                 break;
         }
+    }
 
-        if (isTileKindWalkable(walkIntoTileType)) 
+    this.move = function() {
+        var nextX = this.x;
+        var nextY = this.y;
+      
+        //Works but note that in order to pick up materials you need to keep moving into the material
+        if (this.keyHeld_North) 
         {
-            this.x = nextX;
-            this.y = nextY;
+            nextY -= UNIT_PIXELS_MOVE_RATE;
         }
-        else
+        if (this.keyHeld_South) 
         {
-            console.log('Ran into a wall!');
+            nextY += UNIT_PIXELS_MOVE_RATE;
         }
+        if (this.keyHeld_West) 
+        {
+            nextX -= UNIT_PIXELS_MOVE_RATE;
+        }
+        if (this.keyHeld_East) 
+        {
+            nextX += UNIT_PIXELS_MOVE_RATE;
+        }
+
+		if((nextX != this.x) || (nextY != this.y))
+		{
+			walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
+	        walkIntoTileType = TILE_WALL;
+	
+	        if (walkIntoTileIndex != undefined) {
+	            walkIntoTileType = roomGrid[walkIntoTileIndex];
+	        }
+	
+	        if (isTileKindWalkable(walkIntoTileType)) 
+	        {
+	            this.x = nextX;
+	            this.y = nextY;
+	        }
+	        else
+	        {
+	            console.log('Ran into a wall!');
+	        }
+
+		}//end if nextX & nextY
     } // end move
 } // end unitClass
