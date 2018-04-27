@@ -1,6 +1,19 @@
 var persistence = new Persistence();
 
 function Persistence() {
+  this.setObject = function(key, value) {
+    var valueToStore = JSON.stringify(value);
+    return this.setValue(key, valueToStore);
+  }
+
+  this.getObject = function(key, fallback) {
+    var storedValue = this.getValue(key, false);
+    if (typeof storedValue !== "string") {
+      return fallback;
+    }
+    return JSON.parse(storedValue);
+  }
+
   this.setValue = function(key, value) {
     try {
       window.localStorage.setItem(key, value);
@@ -24,6 +37,6 @@ function Persistence() {
 }
 
 // THIS IS JUST A POC
-var storedValue = persistence.getValue('test', 0);
-console.log(storedValue);
-persistence.setValue('test', 5);
+var storedValue = persistence.getObject('anObject', { isFallback: true });
+console.log(JSON.stringify(storedValue));
+persistence.setObject('anObject', { isFallback: false });
