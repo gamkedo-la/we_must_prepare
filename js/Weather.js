@@ -6,11 +6,11 @@ var weather = (function () {
     console.log("Weather system init");
 
     var rainDrops = [];
-    const RAIN_COUNT = 400;
+    const RAIN_COUNT = 500;
     const RAIN_SPRITE_SIZE = 32;
 
     var clouds = [];
-    const CLOUD_COUNT = 16;
+    const CLOUD_COUNT = 8;
     const CLOUD_SPRITE_SIZE = 256;
 
     this.draw = function (cameraOffsetX, cameraOffsetY) {
@@ -56,10 +56,21 @@ var weather = (function () {
                 RAIN_SPRITE_SIZE / 3); // dh        
         }
 
+
         // cloud shadows
         for (var loop = 0; loop < CLOUD_COUNT; loop++) {
-            if (!clouds[loop]) //lazy init once only
-                clouds[loop] = { x: 0, y: 999999, sx: -1, sy: 2 };
+
+            // cloud speed is a very sloooow circle, like shifting winds, mostly horizontal
+            spdx = Math.sin(performance.now() * 0.0001) * 0.5 + (loop * 0.05); // some clouds go a little faster
+            spdy = Math.cos(performance.now() * 0.0001) * 0.2 - (loop * 0.05);
+
+            if (!clouds[loop]) { //lazy init once only
+                // start somewhere onscreen:
+                clouds[loop] = { x: Math.random() * canvas.width - CLOUD_SPRITE_SIZE, y: Math.random() * canvas.height - CLOUD_SPRITE_SIZE, sx: spdx, sy: spdy };
+                // start offscreen and force a respawn immed:
+                //clouds[loop] = { x: 0, y: 999999, sx: -1, sy: 2 }; 
+            }
+
             // respawn when past any edge
             if ((clouds[loop].y > maxY - cameraOffsetY + CLOUD_SPRITE_SIZE * 4) || // past bottom
                 (clouds[loop].y < 0 - cameraOffsetY - CLOUD_SPRITE_SIZE * 4) || // past top
@@ -87,10 +98,6 @@ var weather = (function () {
                 spawnx = Math.round(spawnx);
                 spawny = Math.round(spawny);
 
-                // cloud speed is set each frame
-                spdx = 0;
-                spdy = 0;
-
                 //console.log("cloud " + loop + " respawning to " + spawnx + "," + spawny);
                 clouds[loop] = {
                     x: spawnx, y: spawny,
@@ -100,9 +107,6 @@ var weather = (function () {
 
             }
 
-            // cloud speed is a very sloooow circle, like shifting winds, mostly horizontal
-            spdx = Math.sin(performance.now() * 0.0001) * 0.5 + (loop * 0.05); // some clouds go a little faster
-            spdy = Math.cos(performance.now() * 0.0001) * 0.2;
             // cloud speed changes en masses in realtime, not according to spawn values
             clouds[loop].x += -Math.abs(spdx); //clouds[loop].sx; // only in one direction: left
             clouds[loop].y += spdy; //clouds[loop].sy;
