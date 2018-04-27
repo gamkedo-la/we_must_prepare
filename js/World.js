@@ -154,15 +154,16 @@ function draw3DTiles() {
 
             var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
             var useImage = null;
+            var depthGap = null;
             switch (tileTypeHere) {
                 case TILE_WOOD_SRC:
                     useImage = tree3D;
+                    depthGap = 6;
                     break;
                 default:
                     break;
             }
             if (useImage != null) {
-                var depthGap = 4;
                 var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W/2,tileTopEdgeY + TILE_H - depthGap,
                                                             tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
                                                             tileTopEdgeY - useImage.height + TILE_H,
@@ -187,7 +188,7 @@ function draw3DTiles() {
                     /*var deltaX = Math.abs(allObjectsToDrawDepthSorted[j].x - player.x);
                     var deltaY = Math.abs(allObjectsToDrawDepthSorted[j].y - (player.y - playerImage.height / 2));
                     deltaX < useImage/1.50 && deltaY < useImage.height/1.25*/
-                    if (player.y > allObjectsToDrawDepthSorted[j].y - useImage.height/1.5 &&
+                    if (player.y > allObjectsToDrawDepthSorted[j].y - useImage.height &&
                         player.y < allObjectsToDrawDepthSorted[j].y &&  
                         player.x > allObjectsToDrawDepthSorted[j].x - useImage.width/2 &&
                         player.x < allObjectsToDrawDepthSorted[j].x + useImage.width/2) { 
