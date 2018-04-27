@@ -15,6 +15,11 @@ function playerClass() {
     this.keyHeld_South = false;
     this.keyHeld_East = false;
 
+    this.isUnitFacingNorth = false;
+    this.isUnitFacingSouth = false;
+    this.isUnitFacingWest = false;
+    this.isUnitFacingEast = false;
+
     this.controlKeyLeft;
     this.controlKeyUp;
     this.controlKeyDown;
@@ -165,6 +170,8 @@ function playerClass() {
             nextX += UNIT_PIXELS_MOVE_RATE;
         }
 
+        this.getDirectionPlayerIsCurrentlyFacing();
+
 		if((nextX != this.x) || (nextY != this.y))
 		{
 			walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
@@ -186,4 +193,81 @@ function playerClass() {
 
 		}//end if nextX & nextY
     } // end move
+
+    this.getDirectionPlayerIsCurrentlyFacing = function() 
+    {
+        if (this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) {
+            this.isUnitFacingWest = true;
+
+            //console.log("facing west");
+
+            this.isUnitFacingEast = false;
+            this.isUnitFacingSouth = false;
+            this.isUnitFacingNorth = false;
+        }
+        else if (this.keyHeld_East && !this.keyHeld_North && !this.keyHeld_South) {
+            this.isUnitFacingEast = true;
+
+            //console.log("facing east");
+
+            this.isUnitFacingWest = false;           
+            this.isUnitFacingSouth = false;
+            this.isUnitFacingNorth = false;
+        }
+        else if (this.keyHeld_North && !this.keyHeld_West && !this.keyHeld_East) {
+            this.isUnitFacingNorth = true;
+
+            //console.log("facing north");
+
+            this.isUnitFacingWest = false;
+            this.isUnitFacingEast = false;            
+            this.isUnitFacingSouth = false;
+        }
+        else if (this.keyHeld_South && !this.keyHeld_West && !this.keyHeld_East) {
+            this.isUnitFacingSouth = true;
+
+            //console.log("facing south");
+
+            this.isUnitFacingWest = false;
+            this.isUnitFacingEast = false;
+            this.isUnitFacingNorth = false;           
+        }
+        else if (this.keyHeld_North && this.keyHeld_East) {
+            this.isUnitFacingNorth = true;
+            this.isUnitFacingEast = true;
+
+            //console.log("facing northeast");
+
+            this.isUnitFacingWest = false;                        
+            this.isUnitFacingSouth = false;
+        }
+        else if (this.keyHeld_North && this.keyHeld_West) {
+            this.isUnitFacingNorth = true;
+            this.isUnitFacingWest = true;
+
+            //console.log("facing northwest");
+
+            this.isUnitFacingEast = false;            
+            this.isUnitFacingSouth = false;
+        }
+        else if (this.keyHeld_South && this.keyHeld_East) {
+            this.isUnitFacingSouth = true;
+            this.isUnitFacingEast = true;
+
+            //console.log("facing southeast");
+
+            this.isUnitFacingWest = false;            
+            this.isUnitFacingNorth = false;            
+        }
+        else if (this.keyHeld_South && this.keyHeld_West) {
+            this.isUnitFacingSouth = true;
+            this.isUnitFacingWest = true;
+
+            //console.log("facing southwest");
+
+            this.isUnitFacingEast = false;
+            this.isUnitFacingNorth = false;      
+        }
+    }
+
 } // end unitClass
