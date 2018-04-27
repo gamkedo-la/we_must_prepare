@@ -162,7 +162,8 @@ function draw3DTiles() {
                     break;
             }
             if (useImage != null) {
-                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W/2,tileTopEdgeY + TILE_H,
+                var depthGap = 4;
+                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W/2,tileTopEdgeY + TILE_H - depthGap,
                                                             tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
                                                             tileTopEdgeY - useImage.height + TILE_H,
                                                             useImage);   
@@ -177,18 +178,21 @@ function draw3DTiles() {
                         }
                     }
                 }
-                colorRect(tileLeftEdgeX - useImage.width / 2 + TILE_W / 2, tileTopEdgeY - useImage.height + TILE_H,2,2, "red"); // where image is drawn from
-                colorRect(tileLeftEdgeX + TILE_W/2, tileTopEdgeY + TILE_H,2,2, "pink"); // middle of the bottom edge of the 3D object tile
                 var allObjectsToDrawDepthSorted = objectsWithDepth.concat([player]);
                 allObjectsToDrawDepthSorted.sort(function(a, b) {
                     return a.y - b.y;
                 });
                 for (j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
                     allObjectsToDrawDepthSorted[j].draw();
-                    if (player.y < allObjectsToDrawDepthSorted[j].y && 
-                        player.distFrom(allObjectsToDrawDepthSorted[j].x,allObjectsToDrawDepthSorted[j].y) < useImage.height) {
-                        canvasContext.globalAlpha = 0.3;
-                        player.drawShaded();
+                    /*var deltaX = Math.abs(allObjectsToDrawDepthSorted[j].x - player.x);
+                    var deltaY = Math.abs(allObjectsToDrawDepthSorted[j].y - (player.y - playerImage.height / 2));
+                    deltaX < useImage/1.50 && deltaY < useImage.height/1.25*/
+                    if (player.y > allObjectsToDrawDepthSorted[j].y - useImage.height/1.5 &&
+                        player.y < allObjectsToDrawDepthSorted[j].y &&  
+                        player.x > allObjectsToDrawDepthSorted[j].x - useImage.width/2 &&
+                        player.x < allObjectsToDrawDepthSorted[j].x + useImage.width/2) { 
+                        canvasContext.globalAlpha = 0.64;
+                        player.draw();
                         canvasContext.globalAlpha = 1;
                     }    
                 } 
