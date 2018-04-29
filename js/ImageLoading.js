@@ -27,7 +27,7 @@ function loadImages() {
 
   var imageList = [
     { varName: tileSheet, theFile: "sprite_strip.png" },
-    { varName: playerImage, theFile: "player.png" },
+    { varName: playerImage, theFile: "robokedo3.png" },
     { varName: playerImageShaded, theFile: "player_shaded.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient2.png" },
