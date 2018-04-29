@@ -1,7 +1,4 @@
-const UNIT_PLACEHOLDER_RADIUS = 5;
-const UNIT_PIXELS_MOVE_RATE = 2;
-const UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50;
-const UNIT_SELECTED_DIM_HALF = UNIT_PLACEHOLDER_RADIUS + 3;
+const UNIT_PIXELS_MOVE_RATE = 3;
 
 function playerClass() {
     this.isWalking = false;
@@ -65,9 +62,7 @@ function playerClass() {
         this.unitColor = 'white';
         this.x = this.homeX;
         this.y = this.homeY;
-        this.gotoX = this.x;
-        this.gotoY = this.y;
-        
+
         this.myTarget = null;
         
         this.bucketList = [];
@@ -107,16 +102,6 @@ function playerClass() {
         var deltaX = otherX - this.x;
         var deltaY = otherY - (this.y - playerImage.height / 2);
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-
-    this.setTarget = function(newTarget) {
-        this.myTarget = newTarget;
-    }
-
-    this.goto = function(destinationX, destinationY) {
-
-        this.gotoX = destinationX;
-        this.gotoY = destinationY;
     }
     
     this.collectResourcesIfAble = function() {
