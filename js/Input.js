@@ -14,6 +14,7 @@ const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
 const KEY_ESAPE = 27;
+const MOUSE_LEFT_CLICK = 0;
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
 
@@ -59,7 +60,7 @@ function mousemoveHandler(evt) {
 
 function mousedownHandler(evt) {
     calculateMousePos(evt);
-    if (evt.button == 0) {
+    if (evt.button == MOUSE_LEFT_CLICK) {
         mouseHeld = true;
         mouseClickedThisFrame = true;
     } else {
@@ -86,7 +87,9 @@ function inputUpdate() {
         // will be handled by interface code
         if (mouseClickedThisFrame) {
             //if we're clicking on a building and we have the resources     
-            if (mouseOverBuildingInterfaceIndex != -1 && resourcesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
+            if (mouseOverBuildingInterfaceIndex != -1 &&
+                resourcesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
+
                 toBuild = buildingDefs[mouseOverBuildingInterfaceIndex];
                 console.log("I clicked " + toBuild.label);
                 toBuild.onClick();

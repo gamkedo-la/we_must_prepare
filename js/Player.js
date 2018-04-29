@@ -1,4 +1,4 @@
-const UNIT_PIXELS_MOVE_RATE = 3;
+const PLAYER_PIXELS_MOVE_RATE = 3;
 
 function playerClass() {
     this.isWalking = false;
@@ -12,10 +12,10 @@ function playerClass() {
     this.keyHeld_South = false;
     this.keyHeld_East = false;
 
-    this.isUnitFacingNorth = false;
-    this.isUnitFacingSouth = false;
-    this.isUnitFacingWest = false;
-    this.isUnitFacingEast = false;
+    this.isPlayerFacingNorth = false;
+    this.isPlayerFacingSouth = false;
+    this.isPlayerFacingWest = false;
+    this.isPlayerFacingEast = false;
 
     this.controlKeyLeft;
     this.controlKeyUp;
@@ -59,11 +59,9 @@ function playerClass() {
             } // end of for
           } // end of if position not saved yet
         
-        this.unitColor = 'white';
+        this.playerColor = 'white';
         this.x = this.homeX;
         this.y = this.homeY;
-
-        this.myTarget = null;
         
         this.bucketList = [];
         this.bucketList[Resources.Metal] = new resourceClass(1000, 0);
@@ -151,19 +149,19 @@ function playerClass() {
         //Works but note that in order to pick up materials you need to keep moving into the material
         if (this.keyHeld_North) 
         {
-            nextY -= UNIT_PIXELS_MOVE_RATE;
+            nextY -= PLAYER_PIXELS_MOVE_RATE;
         }
         if (this.keyHeld_South) 
         {
-            nextY += UNIT_PIXELS_MOVE_RATE;
+            nextY += PLAYER_PIXELS_MOVE_RATE;
         }
         if (this.keyHeld_West) 
         {
-            nextX -= UNIT_PIXELS_MOVE_RATE;
+            nextX -= PLAYER_PIXELS_MOVE_RATE;
         }
         if (this.keyHeld_East) 
         {
-            nextX += UNIT_PIXELS_MOVE_RATE;
+            nextX += PLAYER_PIXELS_MOVE_RATE;
         }
 
         this.getDirectionPlayerIsCurrentlyFacing();
@@ -194,79 +192,79 @@ function playerClass() {
     {
         //next four if/else if statements set direction only for horizontal and vertical movement
         if (this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) {
-            this.isUnitFacingWest = true;
+            this.isPlayerFacingWest = true;
 
             //console.log("facing west");
 
-            this.isUnitFacingEast = false;
-            this.isUnitFacingSouth = false;
-            this.isUnitFacingNorth = false;
+            this.isPlayerFacingEast = false;
+            this.isPlayerFacingSouth = false;
+            this.isPlayerFacingNorth = false;
         }
         else if (this.keyHeld_East && !this.keyHeld_North && !this.keyHeld_South) {
-            this.isUnitFacingEast = true;
+            this.isPlayerFacingEast = true;
 
             //console.log("facing east");
 
-            this.isUnitFacingWest = false;           
-            this.isUnitFacingSouth = false;
-            this.isUnitFacingNorth = false;
+            this.isPlayerFacingWest = false;           
+            this.isPlayerFacingSouth = false;
+            this.isPlayerFacingNorth = false;
         }
         else if (this.keyHeld_North && !this.keyHeld_West && !this.keyHeld_East) {
-            this.isUnitFacingNorth = true;
+            this.isPlayerFacingNorth = true;
 
             //console.log("facing north");
 
-            this.isUnitFacingWest = false;
-            this.isUnitFacingEast = false;            
-            this.isUnitFacingSouth = false;
+            this.isPlayerFacingWest = false;
+            this.isPlayerFacingEast = false;            
+            this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_South && !this.keyHeld_West && !this.keyHeld_East) {
-            this.isUnitFacingSouth = true;
+            this.isPlayerFacingSouth = true;
 
             //console.log("facing south");
 
-            this.isUnitFacingWest = false;
-            this.isUnitFacingEast = false;
-            this.isUnitFacingNorth = false;           
+            this.isPlayerFacingWest = false;
+            this.isPlayerFacingEast = false;
+            this.isPlayerFacingNorth = false;           
         }
 
         //these four else if statements set direction for diagonal movement rather than horizontal and vertical movement
         else if (this.keyHeld_North && this.keyHeld_East) {
-            this.isUnitFacingNorth = true;
-            this.isUnitFacingEast = true;
+            this.isPlayerFacingNorth = true;
+            this.isPlayerFacingEast = true;
 
             //console.log("facing northeast");
 
-            this.isUnitFacingWest = false;                        
-            this.isUnitFacingSouth = false;
+            this.isPlayerFacingWest = false;                        
+            this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_North && this.keyHeld_West) {
-            this.isUnitFacingNorth = true;
-            this.isUnitFacingWest = true;
+            this.isPlayerFacingNorth = true;
+            this.isPlayerFacingWest = true;
 
             //console.log("facing northwest");
 
-            this.isUnitFacingEast = false;            
-            this.isUnitFacingSouth = false;
+            this.isPlayerFacingEast = false;            
+            this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_South && this.keyHeld_East) {
-            this.isUnitFacingSouth = true;
-            this.isUnitFacingEast = true;
+            this.isPlayerFacingSouth = true;
+            this.isPlayerFacingEast = true;
 
             //console.log("facing southeast");
 
-            this.isUnitFacingWest = false;            
-            this.isUnitFacingNorth = false;            
+            this.isPlayerFacingWest = false;            
+            this.isPlayerFacingNorth = false;            
         }
         else if (this.keyHeld_South && this.keyHeld_West) {
-            this.isUnitFacingSouth = true;
-            this.isUnitFacingWest = true;
+            this.isPlayerFacingSouth = true;
+            this.isPlayerFacingWest = true;
 
             //console.log("facing southwest");
 
-            this.isUnitFacingEast = false;
-            this.isUnitFacingNorth = false;      
+            this.isPlayerFacingEast = false;
+            this.isPlayerFacingNorth = false;      
         }
     }
 
-} // end unitClass
+} // end playerClass
