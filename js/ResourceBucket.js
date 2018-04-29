@@ -85,12 +85,15 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
     } else {
       for (var key in resouceLookupTable[index]) {
         console.log("Found a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried);
-        if (resouceLookupTable[index][key].carried == 1) {
-            roomGrid[index] = TILE_GROUND;
-            console.log("Cannot grab any resources!");
-        } else {
+        if (resouceLookupTable[index][key].carried > 1) {
             depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
-
+        } else if (resouceLookupTable[index][key].carried == 1) {
+            roomGrid[index] = TILE_GROUND;
+            depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
+            console.log("Cannot grab any resources, destroying resource");
+            return false;
+        } else {
+            return false;
         }
       }
       return resouceLookupTable[index][key].carried > 0;
