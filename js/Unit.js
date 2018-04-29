@@ -71,9 +71,9 @@ function playerClass() {
         this.myTarget = null;
         
         this.bucketList = [];
-        this.bucketList[Resources.Metal] = new resourceClass(10, 0);
-        this.bucketList[Resources.Stone] = new resourceClass(10, 0);
-        this.bucketList[Resources.Wood] = new resourceClass(10, 0);
+        this.bucketList[Resources.Metal] = new resourceClass(1000, 0);
+        this.bucketList[Resources.Stone] = new resourceClass(1000, 0);
+        this.bucketList[Resources.Wood] = new resourceClass(1000, 0);
 
         this.storageList = [];
         this.storageList[Resources.Metal] = new resourceClass(50, 0);
@@ -85,11 +85,13 @@ function playerClass() {
     this.drawPlayerHUD = function() {
         canvasContext.fillStyle = 'white';
         var textLineY = 15, textLineSkip = 15, textLineX = 30;
+				var i = 1;
         for (var key in this.bucketList) {
-            canvasContext.fillText('Carried ' + key + ': ' + this.bucketList[key].carried + '/' + this.bucketList[key].max, textLineX, textLineY);
+            canvasContext.fillText('Carried ' + key + ': ' + inventory.countItems(i), textLineX, textLineY);
             canvasContext.fillText('Stored ' + key + ': ' + 
             (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max, 
             textLineX * 4, textLineY); textLineY += textLineSkip;
+						i++;
         }
     }
 
@@ -127,21 +129,30 @@ function playerClass() {
                 break;
             case TILE_METAL_SRC:
                 getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
+                inventory.add(items.metal, 1);
                 break;
             case TILE_METAL_DEST:
-                depositResources(this.bucketList[Resources.Metal], this.storageList[Resources.Metal]);
+                var temp = {carried: inventory.countItems(items.metal), makeEmpty: function(){}};
+                inventory.remove(items.metal, inventory.countItems(items.metal));
+                depositResources(temp, this.storageList[Resources.Metal]);
                 break;
             case TILE_STONE_SRC:
                 getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
+                inventory.add(items.stone, 1);
                 break;
             case TILE_STONE_DEST:
-                depositResources(this.bucketList[Resources.Stone], this.storageList[Resources.Stone]);
+                var temp = {carried: inventory.countItems(items.stone), makeEmpty: function(){}};
+                inventory.remove(items.stone, inventory.countItems(items.stone));
+                depositResources(temp, this.storageList[Resources.Stone]);
                 break;
             case TILE_WOOD_SRC:
                 getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
+                inventory.add(items.wood, 1);
                 break;
             case TILE_WOOD_DEST:
-                depositResources(this.bucketList[Resources.Wood], this.storageList[Resources.Wood]);
+                var temp = {carried: inventory.countItems(items.wood), makeEmpty: function(){}};
+                inventory.remove(items.wood, inventory.countItems(items.wood));
+                depositResources(temp, this.storageList[Resources.Wood]);
                 break;
             default:
                 break;
