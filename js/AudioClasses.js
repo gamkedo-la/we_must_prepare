@@ -459,14 +459,6 @@ function musicTrackNonLooping(filename, playLength) {
 		musicFile.play();
 	}
 
-	this.startOrStop = function() {
-		if(musicFile.paused) {
-			this.resume();
-		} else {
-			this.pause();
-		}
-	}
-
 	this.updateVolume = function() {
 		musicFile.volume = Math.pow(mixVolume * musicVolume  * trackVolume * !isMuted, 2);
 	}
@@ -558,14 +550,6 @@ function musicTrackLoopingWTail(filename, playLength) {
 		musicFile[currentTrack].currentTime = time;
 		musicFile[currentTrack].play();
 		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
-	}
-
-	this.startOrStop = function() {
-		if(musicFile[currentTrack].paused) {
-			this.resume();
-		} else {
-			this.pause();
-		}
 	}
 
 	this.triggerTimerEnded = function(callSign) {
@@ -661,10 +645,6 @@ function musicContainer(trackList) {
 
 	this.playFrom = function(time) {
 		musicTrack[currentTrack].playFrom(time);
-	}
-
-	this.startOrStop = function() {
-		musicTrack[currentTrack].startOrStop();
 	}
 
 	this.loadTrack = function(newTrack, slot) {
@@ -775,10 +755,6 @@ function musicContainerRandom(trackList) {
 		musicTrack[currentTrack].playFrom(time);
 	}
 
-	this.startOrStop = function() {
-		musicTrack[currentTrack].startOrStop();
-	}
-
 	this.loadTrack = function(newTrack, slot) {
 		var timeNow = musicTrack[currentTrack].getTime();
 		if(!musicTrack[slot].getPaused()) {
@@ -850,13 +826,12 @@ function musicContainerRandom(trackList) {
 	}
 }
 
-function musicContainerPlaylistRandom(trackList, maxRepetitions = 3, minRepetitions = 1) {
+function musicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, minDurationInSeconds = 60) {
 	var musicTrack = [];
-	var currentTrack = 0;
 	var lastTrack = 0;
-	var playCountdown = 0;
-	var playMax = maxRepetitions;
-	var playMin = minRepetitions;
+	var playTime = 0;
+	var playMax = maxDurationInSeconds;
+	var playMin = minDurationInSeconds;
 
 	for (var i in trackList) {
 		musicTrack[i] = trackList[i];
@@ -864,19 +839,32 @@ function musicContainerPlaylistRandom(trackList, maxRepetitions = 3, minRepetiti
 	}
 
 	var trackVolume = 1;
+	var currentTrack = Math.floor(Math.random() * musicTrack.length);
 
 	this.play = function() {
-		if (playCountdown <= 0 && musicTrack.length > 1){
+		if (playTime + musicTrack[currentTrack].getDuration() > playMax && musicTrack.length > 1){
+			//console.log("Max Reached, randomizing.");
 			while(currentTrack == lastTrack) {
 				currentTrack = Math.floor(Math.random() * musicTrack.length);
 			}
-			playCountdown = Math.floor(Math.random() * (playMax - playMin + 1) + playMin);
+			playTime = 0;
+
+		}
+		if (playTime > playMin){
+			if(Math.random() < playTime/playMax) {
+				//console.log("Min Reached, randomizing. Weighting was " + playTime/playMax);
+				while(currentTrack == lastTrack) {
+					currentTrack = Math.floor(Math.random() * musicTrack.length);
+				}
+				playTime = 0;
+			} //else {console.log("Min Reached, continuing.");}
 		}
 		musicTrack[currentTrack].play();
+		//console.log("Playing " + musicTrack[currentTrack].getTrackName() + " at " + playTime + " current play time.");
 		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
 		AudioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
 		lastTrack = currentTrack;
-		playCountdown--;
+		playTime += musicTrack[currentTrack].getDuration();
 	}
 
 	this.stop = function() {
@@ -897,12 +885,19 @@ function musicContainerPlaylistRandom(trackList, maxRepetitions = 3, minRepetiti
 		}
 	}
 
-	this.playFrom = function(time) {
-		musicTrack[currentTrack].playFrom(time);
+	this.jump = function() {
+		this.stop();
+		playTime = playMax;
+		this.play();
 	}
 
-	this.startOrStop = function() {
-		musicTrack[currentTrack].startOrStop();
+	this.skip = function() {
+		this.stop();
+		this.play();
+	}
+
+	this.playFrom = function(time) {
+		musicTrack[currentTrack].playFrom(time);
 	}
 
 	this.triggerTimerEnded = function(callSign) {

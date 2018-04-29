@@ -6,14 +6,13 @@ var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var inGame_music_track1 = new musicTrackNonLooping("Peace", 90.5);  //By Vignesh
-var inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8);
-var inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8);
-var inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8);
-var inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8);
-var inGame_music_track2_master = new musicContainerRandom([inGame_music_track2_1,inGame_music_track2_2,inGame_music_track2_3,inGame_music_track2_4]);
-var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2_master],4,2);
+var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8),
+													inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8),
+													inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8),
+													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
+var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2],240,90);
 
-
+MusicVolumeManager.setVolume(0.7);
 
 
 function setFormat() {
