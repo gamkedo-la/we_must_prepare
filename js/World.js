@@ -123,13 +123,15 @@ function drawGroundTiles() {
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full tile size for destination
             }
-            canvasContext.drawImage(tileSheet,
-                tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
-                TILE_W, TILE_H, // get full tile size from source
-                tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
-                TILE_W, TILE_H); // draw full full tile size for destination
-            if (tileIndex == selectedIndex) {
-                canvasContext.drawImage(buildingSelection, tileLeftEdgeX, tileTopEdgeY);
+            if (tileTypeHere != TILE_WOOD_SRC || debugTreesEnabled) {
+                canvasContext.drawImage(tileSheet,
+                    tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
+                    TILE_W, TILE_H, // get full tile size from source
+                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
+                    TILE_W, TILE_H); // draw full full tile size for destination
+                if (tileIndex == selectedIndex) {
+                    canvasContext.drawImage(buildingSelection, tileLeftEdgeX, tileTopEdgeY);
+                }
             }
             tileIndex++; // increment which index we're going to next check for in the room
             tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
@@ -157,7 +159,11 @@ function draw3DTiles() {
             var depthGap = null;
             switch (tileTypeHere) {
                 case TILE_WOOD_SRC:
-                    useImage = tree3D;
+                    if ((eachRow + eachCol) % 2 == 1) {
+                        useImage = tree3D;
+                    } else {
+                        useImage = treeDead3D;
+                    }
                     depthGap = 6;
                     break;
                 default:
