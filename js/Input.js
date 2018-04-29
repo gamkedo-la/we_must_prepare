@@ -120,12 +120,15 @@ function inputUpdate() {
                     }
                 }
             } 
-        player.move();
         if(toolKeyPressedThisFrame) {
 	        player.collectResourcesIfAble();
         }
     }
+    // this was inside of the else statement, i took it out to allow player to move
+    // while using interface -brandon
+    player.move(); 
 }
+
 
 function keySet(keyEvent, whichUnit, setTo) 
 {
