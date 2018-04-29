@@ -5,7 +5,7 @@ setAudioPath("./audio/");
 var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
-var inGame_music_track1 = new musicTrackNonLooping("temp_placeholder", 0);
+var inGame_music_track1 = new musicTrackNonLooping("Peace", 90.5);  //By Vignesh
 var inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8);
 var inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8);
 var inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8);
