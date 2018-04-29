@@ -85,7 +85,7 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
     } else {
       for (var key in resouceLookupTable[index]) {
         console.log("Found a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried);
-        if (resouceLookupTable[index][key].carried == 0) {
+        if (resouceLookupTable[index][key].carried == 1) {
             roomGrid[index] = TILE_GROUND;
             console.log("Cannot grab any resources!");
         } else {
