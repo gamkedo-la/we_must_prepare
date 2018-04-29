@@ -27,8 +27,8 @@ function playerClass() {
     this.controlKeyDown2;
     this.controlKeyRight2;
     
-    let walkIntoTileIndex = -1;
-    let walkIntoTileType = TILE_WALL;
+    var walkIntoTileIndex = -1;
+    var walkIntoTileType = TILE_WALL;
 
     this.setupInput = function (leftKey,upKey,downKey,rightKey, leftKey2,upKey2,downKey2,rightKey2)
     {

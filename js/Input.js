@@ -127,8 +127,6 @@ function inputUpdate() {
 	        player.collectResourcesIfAble();
         }
     }
-    // this was inside of the else statement, i took it out to allow player to move
-    // while using interface -brandon
     player.move(); 
 }
 
