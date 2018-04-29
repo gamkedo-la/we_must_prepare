@@ -93,7 +93,7 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
 
         }
       }
-      return resouceLookupTable[index][key].carried;
+      return resouceLookupTable[index][key].carried > 0;
     }
   }
 
