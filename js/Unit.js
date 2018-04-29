@@ -196,6 +196,7 @@ function playerClass() {
 
     this.getDirectionPlayerIsCurrentlyFacing = function() 
     {
+        //next four if/else if statements set direction only for horizontal and vertical movement
         if (this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) {
             this.isUnitFacingWest = true;
 
@@ -232,6 +233,8 @@ function playerClass() {
             this.isUnitFacingEast = false;
             this.isUnitFacingNorth = false;           
         }
+
+        //these four else if statements set direction for diagonal movement rather than horizontal and vertical movement
         else if (this.keyHeld_North && this.keyHeld_East) {
             this.isUnitFacingNorth = true;
             this.isUnitFacingEast = true;

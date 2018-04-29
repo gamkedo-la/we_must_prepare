@@ -168,14 +168,12 @@ function keyPress(evt) {
         	toolKeyHeld = true;
         	break;
         case KEY_I:
-            renderSkyGradient = true;
             camPanY -= CAM_PAN_SPEED;
             break;
         case KEY_J:
             camPanX -= CAM_PAN_SPEED;
             break;
         case KEY_K:
-            renderSkyGradient = false;
             camPanY += CAM_PAN_SPEED;
             break;
         case KEY_L:

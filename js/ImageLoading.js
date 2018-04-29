@@ -30,7 +30,7 @@ function loadImages() {
     { varName: playerImage, theFile: "player.png" },
     { varName: playerImageShaded, theFile: "player_shaded.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
-    { varName: timeOfDayGradient, theFile: "time_of_day_gradient.png" },
+    { varName: timeOfDayGradient, theFile: "time_of_day_gradient2.png" },
     { varName: buildingSelection, theFile: "building_selection.png" },
     { varName: tree3D, theFile: "treeLarge.png" },
     { varName: treeDead3D, theFile: "deadTree1.png" },
