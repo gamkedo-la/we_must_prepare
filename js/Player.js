@@ -185,7 +185,7 @@ function playerClass() {
 	        }
 	        else
 	        {
-	            console.log('Ran into a wall!');
+	            // console.log('Ran into a wall!');
 	        }
 
 		}//end if nextX & nextY

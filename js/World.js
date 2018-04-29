@@ -145,7 +145,7 @@ function draw3DTiles() {
     var tileIndex = 0;
     var tileLeftEdgeX = 0;
     var tileTopEdgeY = 0;
-
+    objectsWithDepth = [];
     for (var eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
 
         tileLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
@@ -168,35 +168,8 @@ function draw3DTiles() {
                                                             tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
                                                             tileTopEdgeY - useImage.height + TILE_H,
                                                             useImage);   
-                var sameDepthObjects = 0;
+                // var sameDepthObjects = 0;
                 objectsWithDepth.push(newDepthObject);
-                for (i = 0; i < objectsWithDepth.length; i++) {
-                    if (objectsWithDepth[i].x == newDepthObject.x &&
-                        objectsWithDepth[i].y == newDepthObject.y) {
-                        sameDepthObjects++;
-                        if (sameDepthObjects > 1) {
-                            objectsWithDepth.pop();
-                        }
-                    }
-                }
-                var allObjectsToDrawDepthSorted = objectsWithDepth.concat([player]);
-                allObjectsToDrawDepthSorted.sort(function(a, b) {
-                    return a.y - b.y;
-                });
-                for (j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
-                    allObjectsToDrawDepthSorted[j].draw();
-                    /*var deltaX = Math.abs(allObjectsToDrawDepthSorted[j].x - player.x);
-                    var deltaY = Math.abs(allObjectsToDrawDepthSorted[j].y - (player.y - playerImage.height / 2));
-                    deltaX < useImage/1.50 && deltaY < useImage.height/1.25*/
-                    if (player.y > allObjectsToDrawDepthSorted[j].y - useImage.height &&
-                        player.y < allObjectsToDrawDepthSorted[j].y &&  
-                        player.x > allObjectsToDrawDepthSorted[j].x - useImage.width/2 &&
-                        player.x < allObjectsToDrawDepthSorted[j].x + useImage.width/2) { 
-                        canvasContext.globalAlpha = 0.64;
-                        player.draw();
-                        canvasContext.globalAlpha = 1;
-                    }    
-                } 
             }
             tileIndex++; // increment which index we're going to next check for in the room
             tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
@@ -205,5 +178,16 @@ function draw3DTiles() {
 
         tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
 
-    } // end of for eachRow    
+    } // end of for eachRow
+    console.log(objectsWithDepth.length);
+    var allObjectsToDrawDepthSorted = objectsWithDepth.concat([player]);
+    allObjectsToDrawDepthSorted.sort(function(a, b) {
+        return a.y - b.y;
+    });
+    for (var j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
+        allObjectsToDrawDepthSorted[j].draw();
+    }
+    canvasContext.globalAlpha = 0.2;
+    player.draw();
+    canvasContext.globalAlpha = 1;
 } // end of draw3DTiles()
