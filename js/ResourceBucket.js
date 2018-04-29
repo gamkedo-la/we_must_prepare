@@ -76,30 +76,28 @@ function setupBuckets() {
 
 // this function is called from Player.js collectResourcesIfAbleTo.
 // returns true if resources are available and adds to inventory, destroys the resource when empty
-
 function getResourceFromIndex(index, oncePerClick, playerBucket) {
     if (oncePerClick) {
         if (toolKeyPressedThisFrame == false) {
             return;
         }
     }
+    
     if (typeof resouceLookupTable[index] === "undefined") {
-      console.log("No resource bucket exists.");
+        console.log("No resource bucket exists.");
     } else {
-      for (var key in resouceLookupTable[index]) {
-                if (resouceLookupTable[index][key].carried > 1) {
-            depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
-        } else if (resouceLookupTable[index][key].carried == 1) {
-            depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
-            roomGrid[index] = TILE_GROUND;
-            console.log("Cannot grab any resources, destroying resource");
-            return true;
-        } else {
-            return false;
-        }
-      }
-      console.log("Found a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried);
+        for (var key in resouceLookupTable[index]) {
+            if (resouceLookupTable[index][key].carried > 1) {
+                depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
+                console.log("Just gathered from a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried + " left!");
+            } else if (resouceLookupTable[index][key].carried == 1) {
+                depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
+                roomGrid[index] = TILE_GROUND;
+                console.log("Cannot grab any resources, destroying resource");
+                return true;
+            }
 
-      return resouceLookupTable[index][key].carried > 0;
+            return resouceLookupTable[index][key].carried > 0;
+        }
     }
-  }
+}
