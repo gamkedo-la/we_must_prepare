@@ -111,7 +111,7 @@ function playerClass() {
                 distToGo = 0;
                 break;
             case TILE_METAL_SRC:
-                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList)) {
+                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
                     inventory.add(items.metal, 1);
                 }
                 break;
@@ -121,7 +121,7 @@ function playerClass() {
                 depositResources(temp, this.storageList[Resources.Metal]);
                 break;
             case TILE_STONE_SRC:
-                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList)) {
+                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
                     inventory.add(items.stone, 1);
                 }
                 break;
@@ -131,7 +131,7 @@ function playerClass() {
                 depositResources(temp, this.storageList[Resources.Stone]);
                 break;
             case TILE_WOOD_SRC:
-                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList)) {
+                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
                     inventory.add(items.wood, 1);
                 }
                 break;

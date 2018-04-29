@@ -74,6 +74,9 @@ function setupBuckets() {
       } // end of for
 }
 
+// this function is called from Player.js collectResourcesIfAbleTo.
+// returns true if resources are available and adds to inventory, destroys the resource when empty
+
 function getResourceFromIndex(index, oncePerClick, playerBucket) {
     if (oncePerClick) {
         if (toolKeyPressedThisFrame == false) {
@@ -100,22 +103,3 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
       return resouceLookupTable[index][key].carried > 0;
     }
   }
-
-/*function getResourceFromIndex(index, oncePerClick, playerBucket) {
-    if (oncePerClick) {
-        if (mouseClickedThisFrame == false) {
-            return;
-        }
-    }
-    if (typeof resouceLookupTable[index] === "undefined") {
-      console.log("No resource bucket exists.");
-    } else {
-      for (var key in resouceLookupTable[index]) {
-        console.log("Found a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried);
-        depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
-        if (resouceLookupTable[index][key].carried == 0) {
-            roomGrid[index] = TILE_GROUND;
-        }
-      }
-    }
-  }*/
