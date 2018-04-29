@@ -90,6 +90,7 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
             roomGrid[index] = TILE_GROUND;
         }
       }
+      return resouceLookupTable[index][key].carried;
     }
   }
 

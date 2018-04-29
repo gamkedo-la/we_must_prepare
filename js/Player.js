@@ -111,8 +111,9 @@ function playerClass() {
                 distToGo = 0;
                 break;
             case TILE_METAL_SRC:
-                getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
-                inventory.add(items.metal, 1);
+                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) > 0) {
+                    inventory.add(items.metal, 1);
+                }
                 break;
             case TILE_METAL_DEST:
                 var temp = {carried: inventory.countItems(items.metal), makeEmpty: function(){}};
@@ -120,8 +121,9 @@ function playerClass() {
                 depositResources(temp, this.storageList[Resources.Metal]);
                 break;
             case TILE_STONE_SRC:
-                getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
-                inventory.add(items.stone, 1);
+                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) > 0) {
+                    inventory.add(items.stone, 1);
+                }
                 break;
             case TILE_STONE_DEST:
                 var temp = {carried: inventory.countItems(items.stone), makeEmpty: function(){}};
@@ -129,8 +131,9 @@ function playerClass() {
                 depositResources(temp, this.storageList[Resources.Stone]);
                 break;
             case TILE_WOOD_SRC:
-                getResourceFromIndex(walkIntoTileIndex, true, this.bucketList);
-                inventory.add(items.wood, 1);
+                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) > 0) {
+                    inventory.add(items.wood, 1);
+                }
                 break;
             case TILE_WOOD_DEST:
                 var temp = {carried: inventory.countItems(items.wood), makeEmpty: function(){}};
