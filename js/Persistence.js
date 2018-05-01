@@ -38,5 +38,5 @@ function Persistence() {
 
 // THIS IS JUST A POC
 var storedValue = persistence.getObject('anObject', { isFallback: true });
-console.log(JSON.stringify(storedValue));
+HTMLLog("Loaded Game State: " + JSON.stringify(storedValue));
 persistence.setObject('anObject', { isFallback: false });
