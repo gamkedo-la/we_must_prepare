@@ -5,7 +5,7 @@ const ROOM_ROWS = 14;
 var roomGrid =
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 3, 4, 0, 6, 7, 8, 9,10,11, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 3, 4, 0, 6, 7, 8, 9, 10, 11, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -170,10 +170,10 @@ function draw3DTiles() {
                     break;
             }
             if (useImage != null) {
-                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W/2,tileTopEdgeY + TILE_H - depthGap,
-                                                            tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
-                                                            tileTopEdgeY - useImage.height + TILE_H,
-                                                            useImage);   
+                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W / 2, tileTopEdgeY + TILE_H - depthGap,
+                    tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
+                    tileTopEdgeY - useImage.height + TILE_H,
+                    useImage);
                 // var sameDepthObjects = 0;
                 objectsWithDepth.push(newDepthObject);
             }
@@ -185,9 +185,9 @@ function draw3DTiles() {
         tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
 
     } // end of for eachRow
-    console.log(objectsWithDepth.length);
+    //console.log("Objects with depth:"+objectsWithDepth.length);
     var allObjectsToDrawDepthSorted = objectsWithDepth.concat([player]);
-    allObjectsToDrawDepthSorted.sort(function(a, b) {
+    allObjectsToDrawDepthSorted.sort(function (a, b) {
         return a.y - b.y;
     });
     for (var j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
