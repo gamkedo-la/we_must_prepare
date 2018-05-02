@@ -51,6 +51,15 @@ var weather = (function () {
         howWindy = Math.sin(now / windLength / 100);
         howRainy = Math.cos(now / rainLength / 100);
 
+        if (howSunny > 0) {
+            canvasContext.globalAlpha = howSunny;
+            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, performance.now() / 14000);
+            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, -performance.now() / 12765);
+            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, performance.now() / 33333);
+            canvasContext.globalAlpha = 1;
+        } // if sunny
+
+
         if (howRainy > 0) {
             for (var loop = 0; loop < RAIN_COUNT * howRainy; loop++) { // number of drops depends on HOW rainy it is
                 if (!rainDrops[loop]) //lazy init once only

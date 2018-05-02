@@ -9,6 +9,7 @@ var treeSpritesheet = document.createElement("img");
 var tileSheet = document.createElement("img");
 var weatherSpritesheet = document.createElement("img");
 var cloudSpritesheet = document.createElement("img");
+var sunshine = document.createElement("img");
 
 var picsToLoad = 0;
 
@@ -37,7 +38,8 @@ function loadImages() {
     { varName: treeDead3D, theFile: "deadTree1.png" },
     { varName: treeSpritesheet, theFile: "treeSpritesheet.png" },
     { varName: weatherSpritesheet, theFile: "weatherSpritesheet.png" },
-    { varName: cloudSpritesheet, theFile: "clouds.png" }
+    { varName: cloudSpritesheet, theFile: "clouds.png" },
+    { varName: sunshine, theFile: "sunshine.png" }
   ];
 
   picsToLoad = imageList.length;
