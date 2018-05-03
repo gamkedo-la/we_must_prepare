@@ -168,8 +168,11 @@ function keyPress(evt) {
             }
             break;
         case KEY_USE_TOOL:
+            // if (properToolEquipped?) {
         	toolKeyPressedThisFrame = true;
         	toolKeyHeld = true;
+            // else if (otherToolEquipped)
+            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
         	break;
         case KEY_I:
             camPanY -= CAM_PAN_SPEED;

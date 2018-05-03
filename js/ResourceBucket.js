@@ -82,7 +82,6 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
             return;
         }
     }
-    
     if (typeof resouceLookupTable[index] === "undefined") {
         console.log("No resource bucket exists.");
     } else {
