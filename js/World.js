@@ -7,10 +7,10 @@ var roomGrid =
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 3, 4, 0, 6, 7, 8, 9, 10, 11, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 2, 12, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 15, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -35,7 +35,11 @@ const TILE_STONE_DEST = 8;
 const TILE_FOOD_SRC = 9;
 const TILE_FOOD_DEST = 10;
 const TILE_BUILDING = 11;
-const LAST_TILE_ENUM = TILE_BUILDING;
+const TILE_TILLED = 12;
+const TILE_TILLED_WATERED = 13;
+const TILE_TILLED_SEEDS = 14;
+const TILE_TILLED_SEEDS_WATERED = 15;
+const LAST_TILE_ENUM = TILE_TILLED_SEEDS_WATERED;
 
 var objectsWithDepth = [];
 
@@ -69,6 +73,10 @@ function isTileKindBuilding(tileKind) {
 function isTileKindWalkable(tileKind) {
     switch (tileKind) {
         case TILE_GROUND:
+        case TILE_TILLED:
+        case TILE_TILLED_WATERED:
+        case TILE_TILLED_SEEDS:
+        case TILE_TILLED_SEEDS_WATERED:
             return true;
     }
     return false;
