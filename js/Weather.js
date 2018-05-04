@@ -30,6 +30,7 @@ var weather = (function () {
     const rainLength = 101;
 
     this.draw = function (cameraOffsetX, cameraOffsetY) {
+        updateWeatherVolumes(howSunny, howCloudy, howFoggy, howWindy, howRainy);
 
         if (cameraOffsetX == undefined) cameraOffsetX = 0;
         if (cameraOffsetY == undefined) cameraOffsetY = 0;
