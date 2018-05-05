@@ -43,19 +43,19 @@ function playerClass() {
         this.controlKeyUp2 = upKey2;
         this.controlKeyDown2 = downKey2;
         this.controlKeyRight2 = rightKey2;
-    }
+    };
 
     this.reset = function() {
         if(this.homeX == undefined) {
             for(var i=0; i<roomGrid.length; i++) {
-              if( roomGrid[i] == TILE_PLAYER) {
-                var tileRow = Math.floor(i / ROOM_COLS);
-                var tileCol = i % ROOM_COLS;
-                this.homeX = tileCol * TILE_W + 0.5 * TILE_W;
-                this.homeY = tileRow * TILE_H + 0.5 * TILE_H;
-                roomGrid[i] = TILE_GROUND;
-                break; // found it, so no need to keep searching 
-              } // end of if
+                if( roomGrid[i] == TILE_PLAYER) {
+                    var tileRow = Math.floor(i / ROOM_COLS);
+                    var tileCol = i % ROOM_COLS;
+                    this.homeX = tileCol * TILE_W + 0.5 * TILE_W;
+                    this.homeY = tileRow * TILE_H + 0.5 * TILE_H;
+                    roomGrid[i] = TILE_GROUND;
+                    break; // found it, so no need to keep searching 
+                } // end of if
             } // end of for
           } // end of if position not saved yet
         
@@ -73,7 +73,7 @@ function playerClass() {
         this.storageList[Resources.Stone] = new resourceClass(50, 0);
         this.storageList[Resources.Wood] = new resourceClass(50, 0);
 
-    }  // end reset
+    };  // end reset
 
     this.drawPlayerHUD = function() {
         canvasContext.fillStyle = 'white';
@@ -86,21 +86,21 @@ function playerClass() {
             textLineX * 4, textLineY); textLineY += textLineSkip;
 						i++;
         }
-    }
+    };
 
     this.draw = function() {
         canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
-    }
+    };
 
     this.drawShaded = function() {
         canvasContext.drawImage(playerImageShaded, this.x - playerImageShaded.width / 2, this.y - playerImage.height); // coords at base of feet
-    }
+    };
     
     this.distFrom = function (otherX, otherY) {
         var deltaX = otherX - this.x;
         var deltaY = otherY - (this.y - playerImage.height / 2);
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
+    };
     
     this.collectResourcesIfAble = function() {
 	    switch (walkIntoTileType) {
@@ -143,7 +143,7 @@ function playerClass() {
             default:
                 break;
         }
-    }
+    };
 
     this.workingLand = function(index, oncePerClick) {
         if (oncePerClick) {
@@ -180,27 +180,27 @@ function playerClass() {
 
         this.getDirectionPlayerIsCurrentlyFacing();
 
-		if((nextX != this.x) || (nextY != this.y))
-		{
-			walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
-	        walkIntoTileType = TILE_WALL;
-	
-	        if (walkIntoTileIndex != undefined) {
-	            walkIntoTileType = roomGrid[walkIntoTileIndex];
-	        }
-	
-	        if (isTileKindWalkable(walkIntoTileType)) 
-	        {
-	            this.x = nextX;
-	            this.y = nextY;
-	        }
-	        else
-	        {
-	            // console.log('Ran into a wall!');
-	        }
+		    if((nextX != this.x) || (nextY != this.y))
+		    {
+		        walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
+	          walkIntoTileType = TILE_WALL;
+	      
+	          if (walkIntoTileIndex != undefined) {
+	              walkIntoTileType = roomGrid[walkIntoTileIndex];
+	          }
+	      
+	          if (isTileKindWalkable(walkIntoTileType)) 
+	          {
+	              this.x = nextX;
+	              this.y = nextY;
+	          }
+	          else
+	          {
+	              // console.log('Ran into a wall!');
+	          }
 
-		}//end if nextX & nextY
-    } // end move
+		    }//end if nextX & nextY
+    }; // end move
 
     this.getDirectionPlayerIsCurrentlyFacing = function() 
     {
@@ -279,6 +279,6 @@ function playerClass() {
             this.isPlayerFacingEast = false;
             this.isPlayerFacingNorth = false;      
         }
-    }
+    };
 
 } // end playerClass
