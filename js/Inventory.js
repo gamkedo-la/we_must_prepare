@@ -149,14 +149,20 @@ function inventoryUITest(){
 					itemY = hotbarItemY;
 					
 					TEMPDrawItem(inventory.inventorySlots[i].item, itemX, itemY);
-					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+					
+					if(inventory.inventorySlots[i].count > 0){
+						canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+					}
 				} else {
 					//draw as regular slot
 					itemX = inventoryX + itemXSpacing * (i % itemsPerRow);
 					itemY = inventoryY + itemYSpacing * Math.floor(i/itemsPerRow);
 					
 					TEMPDrawItem(inventory.inventorySlots[i].item, itemX, itemY);
-					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+					
+					if(inventory.inventorySlots[i].count > 0){
+						canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+					}
 				}
 			}
 		}
