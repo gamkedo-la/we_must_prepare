@@ -1,8 +1,8 @@
 var items = Object.freeze({
 	nothing    :   0,
-	metal      :   1,
-	stone      :   2,
-	wood       :   3,
+	metal      :   3,
+	stone      :   7,
+	wood       :   6,
 });
 
 function inventorySystem(){
