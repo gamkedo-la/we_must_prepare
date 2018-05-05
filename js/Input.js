@@ -1,4 +1,5 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
+const KEY_0 = 48;
 const KEY_A = 65;
 const KEY_B = 66;
 const KEY_D = 68;
@@ -168,8 +169,11 @@ function keyPress(evt) {
             }
             break;
         case KEY_USE_TOOL:
+            // if (properToolEquipped?) {
         	toolKeyPressedThisFrame = true;
         	toolKeyHeld = true;
+            // else if (otherToolEquipped)
+            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
         	break;
         case KEY_I:
             camPanY -= CAM_PAN_SPEED;
@@ -183,6 +187,8 @@ function keyPress(evt) {
         case KEY_L:
             camPanX += CAM_PAN_SPEED;
             break;
+        case KEY_0:
+            keyPressForSaving(evt);
         default:
             //console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

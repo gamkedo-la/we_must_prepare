@@ -35,8 +35,3 @@ function Persistence() {
     }
   }
 }
-
-// THIS IS JUST A POC
-var storedValue = persistence.getObject('anObject', { isFallback: true });
-console.log(JSON.stringify(storedValue));
-persistence.setObject('anObject', { isFallback: false });

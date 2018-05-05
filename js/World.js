@@ -3,39 +3,43 @@ const ROOM_COLS = 18;
 const ROOM_ROWS = 14;
 
 var roomGrid =
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 3, 4, 0, 6, 7, 8, 9,10,11, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    [   01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
+        01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 03, 04, 00, 06, 07, 08, 09, 10, 11, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 02, 12, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 14, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 00, 00, 05, 00, 15, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01];
 
 const TILE_W = 50;
 const TILE_H = 50;
 const BUTTON_DIM = TILE_W;
 const BUTTON_MARGIN = 5;
 
-const TILE_GROUND = 0;
-const TILE_WALL = 1;
-const TILE_PLAYER = 2;
-const TILE_METAL_SRC = 3;
-const TILE_METAL_DEST = 4;
-const TILE_WOOD_SRC = 5;
-const TILE_WOOD_DEST = 6;
-const TILE_STONE_SRC = 7;
-const TILE_STONE_DEST = 8;
-const TILE_FOOD_SRC = 9;
+const TILE_GROUND = 00;
+const TILE_WALL = 01;
+const TILE_PLAYER = 02;
+const TILE_METAL_SRC = 03;
+const TILE_METAL_DEST = 04;
+const TILE_WOOD_SRC = 05;
+const TILE_WOOD_DEST = 06;
+const TILE_STONE_SRC = 07;
+const TILE_STONE_DEST = 08;
+const TILE_FOOD_SRC = 09;
 const TILE_FOOD_DEST = 10;
 const TILE_BUILDING = 11;
-const LAST_TILE_ENUM = TILE_BUILDING;
+const TILE_TILLED = 12;
+const TILE_TILLED_WATERED = 13;
+const TILE_TILLED_SEEDS = 14;
+const TILE_TILLED_SEEDS_WATERED = 15;
+const LAST_TILE_ENUM = TILE_TILLED_SEEDS_WATERED;
 
 var objectsWithDepth = [];
 
@@ -69,6 +73,10 @@ function isTileKindBuilding(tileKind) {
 function isTileKindWalkable(tileKind) {
     switch (tileKind) {
         case TILE_GROUND:
+        case TILE_TILLED:
+        case TILE_TILLED_WATERED:
+        case TILE_TILLED_SEEDS:
+        case TILE_TILLED_SEEDS_WATERED:
             return true;
     }
     return false;
@@ -85,7 +93,7 @@ function getTileIndexAtPixelCoord(pixelX, pixelY) {
     // first check whether the tile coords fall within valid bounds
     if (tileCol < 0 || tileCol >= ROOM_COLS ||
         tileRow < 0 || tileRow >= ROOM_ROWS) {
-        document.getElementById("debugText").innerHTML = "out of bounds:" + pixelX + "," + pixelY;
+        HTMLLog("out of bounds:" + pixelX + "," + pixelY);
         return undefined;
     }
 
@@ -170,10 +178,10 @@ function draw3DTiles() {
                     break;
             }
             if (useImage != null) {
-                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W/2,tileTopEdgeY + TILE_H - depthGap,
-                                                            tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
-                                                            tileTopEdgeY - useImage.height + TILE_H,
-                                                            useImage);   
+                var newDepthObject = new depthObjectClass(tileLeftEdgeX + TILE_W / 2, tileTopEdgeY + TILE_H - depthGap,
+                    tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
+                    tileTopEdgeY - useImage.height + TILE_H,
+                    useImage);
                 // var sameDepthObjects = 0;
                 objectsWithDepth.push(newDepthObject);
             }
@@ -185,9 +193,9 @@ function draw3DTiles() {
         tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
 
     } // end of for eachRow
-    console.log(objectsWithDepth.length);
+    //console.log("Objects with depth:"+objectsWithDepth.length);
     var allObjectsToDrawDepthSorted = objectsWithDepth.concat([player]);
-    allObjectsToDrawDepthSorted.sort(function(a, b) {
+    allObjectsToDrawDepthSorted.sort(function (a, b) {
         return a.y - b.y;
     });
     for (var j = 0; j < allObjectsToDrawDepthSorted.length; j++) {

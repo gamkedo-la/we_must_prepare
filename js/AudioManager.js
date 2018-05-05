@@ -15,6 +15,14 @@ var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,
 MusicVolumeManager.setVolume(0.7);
 
 
+var wind_enviSFX = new enviSFXClipLoopingWTail("wind_loop_45", 45);
+wind_enviSFX.setMixVolume(0.8);
+var rain_enviSFX = new enviSFXClipLoopingWTail("rain_loop_45", 45);
+rain_enviSFX.setMixVolume(0.5);
+var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
+
+EnviSFXVolumeManager.setVolume(0.7);
+
 function setFormat() {
 	var audio = new Audio();
 	if (audio.canPlayType("audio/ogg")) {
@@ -53,7 +61,6 @@ function getMute(TorF) {
 	SFXVolumeManager.updateVolume();
 	MusicVolumeManager.updateVolume();
 }
-
 
 
 //Time Manager
@@ -254,4 +261,42 @@ function interpolateFade(startTime, endTime, startVolume, endVolume, currentTime
 function scaleRange(inputStart, inputEnd, outputStart, outputEnd, value) {
 	var scale = (outputEnd - outputStart) / (inputEnd - inputStart);
 	return outputStart + ((value - inputStart) * scale);
+}
+
+//Game hooks
+function startAudioEngine() {
+	console.log("Starting Audio Engine");
+	inGame_music_master.play();
+}
+
+function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
+	//console.log("Updating weathar volumes. Sun: " + sun + " Cloud: " + cloud + " Fog: " + fog + " Wind: " + wind + " Rain: " + rain);
+	var sunLevel = Math.max(sun, 0);
+	var cloudLevel = Math.max(cloud, 0);
+	var fogLevel = Math.max(fog, 0);
+	var windLevel = Math.max(wind, 0);
+	var rainLevel = Math.max(rain, 0);
+
+	sunLevel -= Math.max((cloudLevel + fogLevel + windLevel)/1.5, 0);
+	//Set birds to sun - the average of cloud, fog, and wind
+	if (sun_enviSFX.getPaused()) {
+		sun_enviSFX.resume();
+		sun_enviSFX.setVolume(sunLevel);
+	} else {
+		sun_enviSFX.setVolume(sunLevel);
+	}
+	//Set wind
+	if (wind_enviSFX.getPaused()) {
+		wind_enviSFX.resume();
+		wind_enviSFX.setVolume(windLevel);
+	} else {
+		wind_enviSFX.setVolume(windLevel);
+	}
+	//Set rain
+	if (rain_enviSFX.getPaused()) {
+		rain_enviSFX.resume();
+		rain_enviSFX.setVolume(rainLevel);
+	} else {
+		rain_enviSFX.setVolume(rainLevel);
+	}
 }

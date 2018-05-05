@@ -145,6 +145,17 @@ function playerClass() {
         }
     }
 
+    this.workingLand = function(index, oncePerClick) {
+        if (oncePerClick) {
+            if (toolKeyPressedThisFrame == false) {
+                return;
+            }   
+        }
+        // if (proper tool is equipped / something else?) {
+        if (roomGrid[index] == TILE_GROUND)   
+        roomGrid[index] = TILE_TILLED;
+    };
+
     this.move = function() {
         var nextX = this.x;
         var nextY = this.y;

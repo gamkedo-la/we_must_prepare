@@ -29,6 +29,10 @@ function sfxVolumeManager() {
 	this.addToList = function(sfxClip) {
 		clipList.push(sfxClip);
 	}
+
+	this.reportList = function() {
+		return clipList;
+	}
 }
 
 function getRandomVolume(){
@@ -392,6 +396,135 @@ function sfxContainerRandom(clipList) {
 }
 
 
+//Environment SFX Classes
+var envisfxVolume = 1;
+EnviSFXVolumeManager = new enviSFXVolumeManager();
+function enviSFXVolumeManager() {
+	var clipList = [];
+
+	this.setVolume = function(amount) {
+		if (amount > 1) {envisfxVolume = 1;}
+		else if (amount < 0) {envisfxVolume = 0;}
+		else {envisfxVolume = amount;}
+		for (var i in clipList) {
+			clipList[i].updateVolume();
+		}
+	}
+
+	this.getVolume = function() {
+		return envisfxVolume;
+	}
+
+	this.updateVolume = function() {
+		for(var i in clipList) {
+			clipList[i].updateVolume();
+		}
+	}
+
+	this.addToList = function(enviSFXClip) {
+		clipList.push(enviSFXClip);
+	}
+
+	this.reportList = function() {
+		return clipList;
+	}
+}
+
+function enviSFXClipLoopingWTail(filename, playLength) {
+	var soundFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
+	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
+	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
+	var currentClip = 0;
+	var duration = playLength;
+	var trackName = filename;
+	var clipVolume = 1;
+	var mixVolume = 1;
+
+	soundFile[0].pause();
+	soundFile[1].pause();
+	EnviSFXVolumeManager.addToList(this);
+
+	this.play = function() {
+		soundFile[currentClip].currentTime = 0;
+		this.updateVolume();
+		soundFile[currentClip].play();
+		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+	}
+
+	this.stop = function() {
+		soundFile[0].pause();
+		soundFile[0].currentTime = 0;
+		soundFile[1].pause();
+		soundFile[1].currentTime = 0;
+	}
+
+	this.resume = function() {
+		soundFile[currentClip].play();
+		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+	}
+
+	this.pause = function() {
+		soundFile[0].pause();
+		soundFile[1].pause();
+	}
+
+	this.triggerTimerEnded = function(callSign) {
+		currentClip++;
+		if (currentClip > 1) {currentClip = 0;}
+		this.play();
+	}
+
+	this.updateVolume = function() {
+		soundFile[0].volume = Math.pow(mixVolume * envisfxVolume  * clipVolume * !isMuted, 2);
+		soundFile[1].volume = Math.pow(mixVolume * envisfxVolume  * clipVolume * !isMuted, 2);
+	}
+
+	this.setVolume = function(newVolume) {
+		if(newVolume > 1) {newVolume = 1;}
+		if(newVolume < 0) {newVolume = 0;}
+		soundFile[currentClip].volume = Math.pow(mixVolume * newVolume * envisfxVolume * !isMuted, 2);
+		clipVolume = newVolume;
+		if (clipVolume <= 0) { this.pause();}
+	}
+
+	this.getVolume = function() {
+		return clipVolume * !isMuted;
+	}
+
+	this.setMixVolume = function(volume) {
+		mixVolume = volume;
+	}
+
+	this.setTime = function(time) {
+		var newTime = time;
+		if(newTime < 0) {newTime = 0;}
+		while (newTime >= duration) {newTime -= duration;}
+		soundFile[currentClip].currentTime = newTime;
+		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+	}
+
+	this.getTime = function() {
+		return soundFile[currentClip].currentTime;
+	}
+	
+	this.setClipName = function(name) {
+		trackName = name;
+	}
+
+	this.getClipName = function() {
+		return trackName;
+	}
+	
+	this.getDuration = function() {
+		return duration;
+	}
+
+	this.getPaused = function() {
+		return soundFile[currentClip].paused;
+	}
+}
+
+
 //Music Classes
 var musicVolume = 1;
 MusicVolumeManager = new musicVolumeManager();
@@ -419,6 +552,10 @@ function musicVolumeManager() {
 
 	this.addToList = function(musicTrack) {
 		trackList.push(musicTrack);
+	}
+
+	this.reportList = function() {
+		return trackList;
 	}
 }
 
@@ -842,22 +979,21 @@ function musicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, min
 	var currentTrack = Math.floor(Math.random() * musicTrack.length);
 
 	this.play = function() {
-		if (playTime + musicTrack[currentTrack].getDuration() > playMax && musicTrack.length > 1){
-			//console.log("Max Reached, randomizing.");
-			while(currentTrack == lastTrack) {
-				currentTrack = Math.floor(Math.random() * musicTrack.length);
-			}
-			playTime = 0;
-
-		}
+		// if (playTime + musicTrack[currentTrack].getDuration() > playMax && musicTrack.length > 1){
+		// 	console.log("Max Reached, randomizing.");
+		// 	while(currentTrack == lastTrack) {
+		// 		currentTrack = Math.floor(Math.random() * musicTrack.length);
+		// 	}
+		// 	playTime = 0;
+		// }
 		if (playTime > playMin){
-			if(Math.random() < playTime/playMax) {
-				//console.log("Min Reached, randomizing. Weighting was " + playTime/playMax);
+			if(Math.random() <= (playTime - playMin)/(playMax - playMin)) {
+				//console.log("Min Reached, randomizing. Weighting was " + (playTime - playMin)/(playMax - playMin));
 				while(currentTrack == lastTrack) {
 					currentTrack = Math.floor(Math.random() * musicTrack.length);
 				}
 				playTime = 0;
-			} //else {console.log("Min Reached, continuing.");}
+			} //else {console.log("Min Reached, continuing. Weighting was " + (playTime - playMin)/(playMax - playMin));}
 		}
 		musicTrack[currentTrack].play();
 		//console.log("Playing " + musicTrack[currentTrack].getTrackName() + " at " + playTime + " current play time.");

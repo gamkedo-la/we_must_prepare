@@ -25,7 +25,7 @@ function loadingDoneSoStartGame() {
     player.reset();
     setupBuckets();
     timer.setupTimer();
-    inGame_music_master.play();
+    startAudioEngine();
 }
 
 window.onload = function () {
