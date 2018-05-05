@@ -18,7 +18,7 @@ function outlineCircle(centerX, centerY, radius, strokeColor) {
     canvasContext.stroke();
 }
 
-function drawBitmapCentered(graphic, atX, atY, withAngle = 0) {
+function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY, withAngle = 0) {
     canvasContext.save(); // allows us to undo translate movement and rotate spin
     canvasContext.translate(atX, atY); // sets the point where our graphic will go
     canvasContext.rotate(withAngle); // sets the rotation
