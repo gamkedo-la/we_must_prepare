@@ -1,5 +1,4 @@
 var playerImage = document.createElement("img");
-var playerImageShaded = document.createElement("img");
 var playerSelection = document.createElement("img");
 var buildingSelection = document.createElement("img");
 var timeOfDayGradient = document.createElement("img");
@@ -10,6 +9,16 @@ var tileSheet = document.createElement("img");
 var weatherSpritesheet = document.createElement("img");
 var cloudSpritesheet = document.createElement("img");
 var sunshine = document.createElement("img");
+
+var playerSpriteSheetWalkUp = document.createElement("img");
+var playerSpriteSheetWalkDown = document.createElement("img");
+var playerSpriteSheetWalkLeft = document.createElement("img");
+var playerSpriteSheetWalkRight = document.createElement("img");
+
+var playerWalkUp = new SpriteSheetClass(playerSpriteSheetWalkUp,128,128);
+var playerWalkDown = new SpriteSheetClass(playerSpriteSheetWalkDown,64,64);
+var playerWalkLeft = new SpriteSheetClass(playerSpriteSheetWalkLeft,64,64);
+var playerWalkRight = new SpriteSheetClass(playerSpriteSheetWalkRight,64,64);
 
 var picsToLoad = 0;
 
@@ -30,7 +39,10 @@ function loadImages() {
   var imageList = [
     { varName: tileSheet, theFile: "sprite_strip.png" },
     { varName: playerImage, theFile: "robokedo3tiny.png" },
-    { varName: playerImageShaded, theFile: "player_shaded.png" },
+    { varName: playerSpriteSheetWalkUp, theFile: "robokedoWalkBack.png" },
+    { varName: playerSpriteSheetWalkDown, theFile: "robokedoWalk.png" },
+    { varName: playerSpriteSheetWalkLeft, theFile: "robokedoSideLeft.png" },
+    { varName: playerSpriteSheetWalkRight, theFile: "robokedoSideRight.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient2.png" },
     { varName: buildingSelection, theFile: "building_selection.png" },
