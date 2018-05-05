@@ -176,16 +176,7 @@ function keyPress(evt) {
             player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
         	break;
         case KEY_I:
-            camPanY -= CAM_PAN_SPEED;
-            break;
-        case KEY_J:
-            camPanX -= CAM_PAN_SPEED;
-            break;
-        case KEY_K:
-            camPanY += CAM_PAN_SPEED;
-            break;
-        case KEY_L:
-            camPanX += CAM_PAN_SPEED;
+            inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship
             break;
         case KEY_0:
             keyPressForSaving(evt);
