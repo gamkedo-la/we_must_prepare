@@ -9,10 +9,9 @@ function inventorySystem(){
 	this.currentSelectedSlot;
 	this.holdingSlot = items.nothing;
 	this.slotCount = 30;
-	this.hotBarCount = 10;
+	this.hotbarCount = 10;
 	
 	this.inventorySlots = [];
-	this.hotBar = [];
 	
 	this.emptySlot = function(){
 		this.item = items.nothing;
@@ -22,10 +21,6 @@ function inventorySystem(){
 	//Working backwards decreases array allocation time
 	for(var i = this.slotCount - 1; i >= 0; i--){
 		this.inventorySlots[i] = new this.emptySlot();
-	}
-	
-	for(var i = this.hotBarCount - 1; i >= 0; i--){
-		//this.hot
 	}
 	
 	//Add count no. of item to inventory, filling stacks first, then empty slots
@@ -126,4 +121,45 @@ function inventorySystem(){
 	};
 }
 
+//TODO move this to UI code
+hotbarItemX = 20;
+hotbarItemXSpacing = 30;
+hotbarItemY = 500;
+
+itemX = 20;
+itemXSpacing = 30;
+itemY = 300;
+itemYSpacing = 30;
+itemsPerRow = 10;
+
 var inventory = new inventorySystem();
+
+function inventoryUITest(){
+	this.active = false;
+	
+	this.draw = function(){
+		if(this.active){
+			var j = 0;
+			var k = 0;
+			for(var i = 0; i < inventory.slotCount; i++){
+				if(i < inventory.hotbarCount){
+					//draw as hotbar
+					TEMPDrawItem(inventory.inventorySlots[i].item, hotbarItemX + hotbarItemXSpacing * i, hotbarItemY);
+				} else {
+					//draw as regular slot
+					TEMPDrawItem(inventory.inventorySlots[i].item, itemX + itemXSpacing * (i % itemsPerRow), itemY + itemYSpacing * Math.floor(i/itemsPerRow));
+				}
+			}
+		}
+	};
+}
+
+var inventoryUI = new inventoryUITest();
+
+function TEMPDrawItem(item, x, y){
+	canvasContext.drawImage(tileSheet,
+	                        item * TILE_W, 0, // top-left corner of tile art, multiple of tile width
+	                        TILE_W, TILE_H, // get full tile size from source
+	                        x, y, // x,y top-left corner for image destination
+	                        TILE_W/2, TILE_H/2); // draw full tile size for destination
+}

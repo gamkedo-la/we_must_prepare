@@ -84,6 +84,7 @@ function drawEverything() {
     drawBuildingChoiceMenu();
     drawInterfaceForSelected();
     timer.drawTimer();
+		inventoryUI.draw(); // TODO DEBUG do not ship
 }
 
 function drawSkyGradient() {
