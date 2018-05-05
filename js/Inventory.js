@@ -150,7 +150,7 @@ function inventoryUITest(){
 					
 					TEMPDrawItem(inventory.inventorySlots[i].item, itemX, itemY);
 					
-					if(inventory.inventorySlots[i].count > 0){
+					if(inventory.inventorySlots[i].count > 1){
 						canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
 					}
 				} else {
@@ -160,7 +160,7 @@ function inventoryUITest(){
 					
 					TEMPDrawItem(inventory.inventorySlots[i].item, itemX, itemY);
 					
-					if(inventory.inventorySlots[i].count > 0){
+					if(inventory.inventorySlots[i].count > 1){
 						canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
 					}
 				}
