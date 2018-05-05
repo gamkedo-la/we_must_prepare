@@ -89,8 +89,8 @@ function playerClass() {
     }
 
     this.draw = function(direction) {
-        //canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
-        playerWalkUp.draw(this.x,this.y,0,1);
+        canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
+        //playerWalkUp.draw(this.x,this.y,0,1);
     }
     
     this.distFrom = function (otherX, otherY) {
