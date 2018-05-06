@@ -10,7 +10,8 @@ var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new 
 													inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8),
 													inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8),
 													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
-var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2],240,90);
+var inGame_music_track3 = new musicTrackNonLooping("morning", 18.4);  //By Kise
+var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3],240,90);
 
 MusicVolumeManager.setVolume(0.7);
 
