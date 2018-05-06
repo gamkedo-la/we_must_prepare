@@ -5,7 +5,7 @@ const ROOM_ROWS = 14;
 var roomGrid =
     [   01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 03, 00, 00, 06, 07, 00, 00, 00, 00, 00, 00, 18, 00, 00, 01,
+        01, 00, 00, 03, 04, 00, 06, 07, 00, 00, 00, 00, 00, 00, 18, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 02, 12, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 19, 19, 19, 00, 00, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 01,
@@ -27,9 +27,10 @@ const TILE_GROUND = 00;
 const TILE_WALL = 01;
 const TILE_PLAYER = 02;
 const TILE_METAL_SRC = 03;
-const TILE_METAL_DEST = 04;
+const TILE_RECHARGE_STATION = 04;
 const TILE_WOOD_SRC = 05;
 const TILE_WOOD_DEST = 0600;
+const TILE_METAL_DEST = 0600;
 const TILE_STONE_SRC = 07;
 const TILE_STONE_DEST = 08;
 const TILE_FOOD_SRC = 09;
