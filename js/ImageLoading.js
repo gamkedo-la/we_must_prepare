@@ -10,6 +10,7 @@ var weatherSpritesheet = document.createElement("img");
 var cloudSpritesheet = document.createElement("img");
 var sunshine = document.createElement("img");
 var itemSheet = document.createElement("img");
+var selectedItemSlot = document.createElement("img");
 
 var playerSpriteSheetWalkUp = document.createElement("img");
 var playerSpriteSheetWalkDown = document.createElement("img");
@@ -54,6 +55,7 @@ function loadImages() {
     { varName: cloudSpritesheet, theFile: "clouds.png" },
     { varName: sunshine, theFile: "sunshine.png" },
     { varName: itemSheet, theFile: "item_sheet.png" },
+    { varName: selectedItemSlot, theFile: "selected_item_slot.png" },
   ];
 
   picsToLoad = imageList.length;
