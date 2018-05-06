@@ -1,15 +1,15 @@
 var items = Object.freeze({
 	nothing    :   0,
-	metal      :   3,
-	stone      :   7,
-	wood       :   6,
+	metal      :   1,
+	stone      :   2,
+	wood       :   3,
 });
 
 function inventorySystem(){
 	this.currentSelectedSlot;
 	this.holdingSlot = items.nothing;
-	this.slotCount = 30;
-	this.hotbarCount = 10;
+	this.slotCount = 35;
+	this.hotbarCount = 5;
 	
 	this.inventorySlots = [];
 	
@@ -122,59 +122,51 @@ function inventorySystem(){
 }
 
 //TODO move this to UI code
-hotbarItemX = 20;
-hotbarItemXSpacing = 30;
-hotbarItemY = 500;
+hotbarItemX = 215;
+hotbarItemXSpacing = 55;
+hotbarItemY = 570;
 
-inventoryX = 20;
-itemXSpacing = 30;
-inventoryY = 300;
-itemYSpacing = 30;
+inventoryX = 150;
+itemXSpacing = 55;
+inventoryY = 250;
+itemYSpacing = 55;
 itemsPerRow = 10;
 
 var inventory = new inventorySystem();
 
 function inventoryUITest(){
+	var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
+	
 	this.active = false;
 	
 	this.draw = function(){
-		if(this.active){
-			var itemX = 0;
-			var itemY = 0;
+		var itemX = 0;
+		var itemY = 0;
+		for(var i = 0; i < inventory.slotCount; i++){
 			
-			for(var i = 0; i < inventory.slotCount; i++){
-				if(i < inventory.hotbarCount){
-					//draw as hotbar
-					itemX = hotbarItemX + hotbarItemXSpacing * i;
-					itemY = hotbarItemY;
-					
-					TEMPDrawItem(inventory.inventorySlots[i].item, itemX, itemY);
-					
-					if(inventory.inventorySlots[i].count > 1){
-						canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
-					}
-				} else {
-					//draw as regular slot
-					itemX = inventoryX + itemXSpacing * (i % itemsPerRow);
-					itemY = inventoryY + itemYSpacing * Math.floor(i/itemsPerRow);
-					
-					TEMPDrawItem(inventory.inventorySlots[i].item, itemX, itemY);
-					
-					if(inventory.inventorySlots[i].count > 1){
-						canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
-					}
+			if(i < inventory.hotbarCount){
+				//draw as hotbar
+				itemX = hotbarItemX + hotbarItemXSpacing * i;
+				itemY = hotbarItemY;
+				
+				itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+				
+				if(inventory.inventorySlots[i].count > 1){
+					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+				}
+			} else if(this.active){
+				//draw as regular slot
+				itemX = inventoryX + itemXSpacing * ((i - inventory.hotbarCount) % itemsPerRow);
+				itemY = inventoryY + itemYSpacing * Math.floor((i - inventory.hotbarCount)/itemsPerRow);
+				
+				itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+				
+				if(inventory.inventorySlots[i].count > 1){
+					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
 				}
 			}
 		}
 	};
 }
 
-var inventoryUI = new inventoryUITest();
-
-function TEMPDrawItem(item, x, y){
-	canvasContext.drawImage(tileSheet,
-	                        item * TILE_W, 0, // top-left corner of tile art, multiple of tile width
-	                        TILE_W, TILE_H, // get full tile size from source
-	                        x, y, // x,y top-left corner for image destination
-	                        TILE_W/2, TILE_H/2); // draw full tile size for destination
-}
+var inventoryUI;

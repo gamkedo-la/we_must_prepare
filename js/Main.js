@@ -26,6 +26,7 @@ function loadingDoneSoStartGame() {
     setupBuckets();
     timer.setupTimer();
     startAudioEngine();
+		inventoryUI = new inventoryUITest();
 }
 
 window.onload = function () {
