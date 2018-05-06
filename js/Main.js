@@ -82,8 +82,8 @@ function drawEverything() {
     drawSkyGradient();
     weather.draw();
     player.drawPlayerHUD();
-    drawBuildingChoiceMenu();
-    drawInterfaceForSelected();
+    // drawBuildingChoiceMenu();
+    // drawInterfaceForSelected();
     timer.drawTimer();
 		inventoryUI.draw(); // TODO DEBUG do not ship
 }

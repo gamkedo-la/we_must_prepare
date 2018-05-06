@@ -5,15 +5,15 @@ const ROOM_ROWS = 14;
 var roomGrid =
     [   01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 03, 04, 00, 00, 07, 08, 09, 10, 11, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 03, 00, 00, 06, 07, 00, 00, 00, 00, 00, 00, 18, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 02, 12, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 14, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 00, 00, 05, 00, 15, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 19, 19, 19, 00, 00, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 19, 16, 19, 00, 00, 00, 00, 00, 00, 14, 00, 00, 00, 00, 00, 00, 01,
+        01, 19, 19, 19, 00, 00, 00, 00, 00, 05, 00, 15, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 19, 19, 19, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 19, 17, 19, 00, 01,
+        01, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 19, 19, 19, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01];
@@ -29,7 +29,7 @@ const TILE_PLAYER = 02;
 const TILE_METAL_SRC = 03;
 const TILE_METAL_DEST = 04;
 const TILE_WOOD_SRC = 05;
-const TILE_WOOD_DEST = 06;
+const TILE_WOOD_DEST = 0600;
 const TILE_STONE_SRC = 07;
 const TILE_STONE_DEST = 08;
 const TILE_FOOD_SRC = 09;
@@ -39,6 +39,11 @@ const TILE_TILLED = 12;
 const TILE_TILLED_WATERED = 13;
 const TILE_TILLED_SEEDS = 14;
 const TILE_TILLED_SEEDS_WATERED = 15;
+const TILE_FLOWER_01 = 16;
+const TILE_FLOWER_02 = 17;
+const TILE_TWIG = 18;
+const TILE_GRASS = 19;
+const TILE_WOOD_PILE = 06;
 const LAST_TILE_ENUM = TILE_TILLED_SEEDS_WATERED;
 
 var objectsWithDepth = [];
@@ -77,6 +82,9 @@ function isTileKindWalkable(tileKind) {
         case TILE_TILLED_WATERED:
         case TILE_TILLED_SEEDS:
         case TILE_TILLED_SEEDS_WATERED:
+        case TILE_FLOWER_01:
+        case TILE_FLOWER_02:
+        case TILE_GRASS:
             return true;
     }
     return false;
@@ -107,6 +115,10 @@ function tileTypeHasTransparency(checkTileType) {
         case TILE_METAL_SRC:
         case TILE_STONE_SRC:
         case TILE_WOOD_SRC:
+        case TILE_FLOWER_01:
+        case TILE_FLOWER_02:
+        case TILE_TWIG:
+        case TILE_WOOD_PILE:
             return true;
     }
     return false;
