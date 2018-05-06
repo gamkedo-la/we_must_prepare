@@ -51,12 +51,13 @@ function SpriteClass(imageIn, widthIn, heightIn){
 		canvasContext.drawImage(image, atX - halfWidth, atY - halfHeight);
 	};
 	
-	this.drawExtended = function(atX, atY, withAngle = 0, flipped = false){
+	this.drawExtended = function(atX, atY, withAngle = 0, flipped = false, scale = 1, alpha = 1){
 		canvasContext.save();
 		
 		canvasContext.translate(atX, atY);
 		canvasContext.rotate(withAngle);
-		canvasContext.scale(flipped ? -1 : 1, 1);
+		canvasContext.scale(flipped ? -scale : scale, scale);
+		canvasContext.globalAlpha = alpha;
 		
 		canvasContext.drawImage(image, -halfWidth, -halfHeight);
 		
@@ -85,12 +86,13 @@ function SpriteSheetClass(sheetIn, colWidth, rowHeight){
 		                        width, height);
 	};
 	
-	this.drawExtended = function(atX, atY, col, row, withAngle = 0, flipped = false){
+	this.drawExtended = function(atX, atY, col, row, withAngle = 0, flipped = false, scale = 1, alpha = 1){
 		canvasContext.save();
 		
 		canvasContext.translate(atX, atY);
 		canvasContext.rotate(withAngle);
-		canvasContext.scale(flipped ? -1 : 1, 1);
+		canvasContext.scale(flipped ? -scale : scale, scale);
+		canvasContext.globalAlpha = alpha;
 		
 		canvasContext.drawImage(sheet,
 		                        col * width, row * height,
