@@ -9,6 +9,8 @@ const KEY_K = 75;
 const KEY_L = 76;
 const KEY_S = 83;
 const KEY_W = 87;
+const KEY_P = 80;
+const KEY_O = 79;
 const KEY_C = KEY_USE_TOOL = 67;
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
@@ -180,6 +182,14 @@ function keyPress(evt) {
             break;
         case KEY_0:
             keyPressForSaving(evt);
+        case KEY_P:
+            for (var i = 0; i < plantTrackingArray.length; i++) {
+                plantTrackingArray[i].dayChanged();
+            }
+            break;
+        case KEY_O:
+            player.plantAtFeet();
+            break;
         default:
             //console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

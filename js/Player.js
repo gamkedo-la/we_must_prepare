@@ -199,6 +199,12 @@ function playerClass() {
 		    }//end if nextX & nextY
     }; // end move
 
+    this.plantAtFeet = function () {
+        var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
+        console.log("Going to plant at index " + plantAtIndex);
+        new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+    }
+
     this.getDirectionPlayerIsCurrentlyFacing = function() 
     {
         //next four if/else if statements set direction only for horizontal and vertical movement

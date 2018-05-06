@@ -44,6 +44,15 @@ const TILE_FLOWER_02 = 17;
 const TILE_TWIG = 18;
 const TILE_GRASS = 19;
 const TILE_WOOD_PILE = 06;
+const TILE_WHEAT_01_SEED = 50;
+const TILE_WHEAT_01_SEEDLING = 51;
+const TILE_WHEAT_01_MEDIUM = 52;
+const TILE_WHEAT_01_FULLY_GROWN = 53;
+const TILE_WHEAT_02_SEED = 54;
+const TILE_WHEAT_02_SEEDLING = 55;
+const TILE_WHEAT_02_MEDIUM = 56;
+const TILE_WHEAT_02_FULLY_GROWN = 57;
+const START_TILE_WALKABLE_GROWTH_RANGE = TILE_WHEAT_01_SEED;
 const LAST_TILE_ENUM = TILE_TILLED_SEEDS_WATERED;
 
 var objectsWithDepth = [];
@@ -76,6 +85,9 @@ function isTileKindBuilding(tileKind) {
 }
 
 function isTileKindWalkable(tileKind) {
+    if (tileKind >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
+    }
     switch (tileKind) {
         case TILE_GROUND:
         case TILE_TILLED:
@@ -110,6 +122,9 @@ function getTileIndexAtPixelCoord(pixelX, pixelY) {
 }
 
 function tileTypeHasTransparency(checkTileType) {
+    if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
+    }
     switch (checkTileType) {
         case TILE_PLAYER:
         case TILE_METAL_SRC:
@@ -136,6 +151,7 @@ function drawGroundTiles() {
         for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
 
             var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
+
             if (tileTypeHasTransparency(tileTypeHere)) {
                 canvasContext.drawImage(tileSheet,
                     TILE_GROUND * TILE_W, 0, // top-left corner of tile art, multiple of tile width
@@ -143,7 +159,17 @@ function drawGroundTiles() {
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full tile size for destination
             }
-            if (tileTypeHere != TILE_WOOD_SRC || debugTreesEnabled) {
+            if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
+                var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
+                var sheetStage = sheetIndex % 4;
+                var sheetType = Math.floor(sheetIndex / 4);
+                canvasContext.drawImage(plantSpritesheet,
+                    sheetType * TILE_W, sheetStage * TILE_H, // top-left corner of tile art, multiple of tile width
+                    TILE_W, TILE_H, // get full tile size from source
+                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
+                    TILE_W, TILE_H); // draw full full tile size for destination
+
+            } else if (tileTypeHere != TILE_WOOD_SRC || debugTreesEnabled) {
                 canvasContext.drawImage(tileSheet,
                     tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source
