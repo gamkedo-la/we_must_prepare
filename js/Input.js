@@ -36,8 +36,8 @@ function calculateMousePos(evt) {
     var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
     // account for the margins, canvas position on page, scroll amount, etc.
-    mouseX = evt.clientX - rect.left - root.scrollLeft;
-    mouseY = evt.clientY - rect.top - root.scrollTop;
+    mouseX = evt.clientX - rect.left;
+    mouseY = evt.clientY - rect.top;
     mouseWorldX = mouseX + camPanX;
     mouseWorldY = mouseY + camPanY;
 }

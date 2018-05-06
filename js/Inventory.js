@@ -6,7 +6,7 @@ var items = Object.freeze({
 });
 
 function inventorySystem(){
-	this.currentSelectedSlot;
+	this.selectedSlot = -1;
 	this.holdingSlot = items.nothing;
 	this.slotCount = 35;
 	this.hotbarCount = 5;
@@ -136,30 +136,46 @@ var inventory = new inventorySystem();
 
 function inventoryUITest(){
 	var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
+	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
 	
 	this.active = false;
 	
 	this.draw = function(){
 		var itemX = 0;
 		var itemY = 0;
-		for(var i = 0; i < inventory.slotCount; i++){
+		
+		inventory.selectedItemSlot = -1;
+		
+		for(var i = 0; i < inventory.slotCount; i++) {
 			
-			if(i < inventory.hotbarCount){
+			if(i < inventory.hotbarCount) {
 				//draw as hotbar
 				itemX = hotbarItemX + hotbarItemXSpacing * i;
 				itemY = hotbarItemY;
 				
-				itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+				if(this.testMouse(itemX, itemY)){
+					inventory.selectedItemSlot = i;
+				}
+				
+				if(inventory.inventorySlots[i].count > 0){
+					itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+				}
 				
 				if(inventory.inventorySlots[i].count > 1){
 					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
 				}
-			} else if(this.active){
+			} else if(this.active) {
 				//draw as regular slot
 				itemX = inventoryX + itemXSpacing * ((i - inventory.hotbarCount) % itemsPerRow);
 				itemY = inventoryY + itemYSpacing * Math.floor((i - inventory.hotbarCount)/itemsPerRow);
 				
-				itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+				if(this.testMouse(itemX, itemY)){
+					inventory.selectedItemSlot = i;
+				}
+				
+				if(inventory.inventorySlots[i].count > 0){
+					itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+				}
 				
 				if(inventory.inventorySlots[i].count > 1){
 					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
@@ -167,6 +183,14 @@ function inventoryUITest(){
 			}
 		}
 	};
+	
+	this.testMouse = function(itemX, itemY){
+		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25){
+			selectedSlotSprite.draw(itemX, itemY);
+		} else {
+			itemSpriteSheet.draw(itemX, itemY, 0, 0);
+		}
+	}
 }
 
 var inventoryUI;
