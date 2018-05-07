@@ -18,10 +18,11 @@ var playerSpriteSheetWalkDown = document.createElement("img");
 var playerSpriteSheetWalkLeft = document.createElement("img");
 var playerSpriteSheetWalkRight = document.createElement("img");
 
-var playerWalkUp = new SpriteSheetClass(playerSpriteSheetWalkUp,128,128);
-var playerWalkDown = new SpriteSheetClass(playerSpriteSheetWalkDown,64,64);
-var playerWalkLeft = new SpriteSheetClass(playerSpriteSheetWalkLeft,64,64);
-var playerWalkRight = new SpriteSheetClass(playerSpriteSheetWalkRight,64,64);
+//function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
+//var playerWalkUp = new SpriteSheetClass(playerSpriteSheetWalkUp,128,128);
+var playerWalkDown = new SpriteSheetClass(playerSpriteSheetWalkDown,48,48,8, 0,6,true);
+//var playerWalkLeft = new SpriteSheetClass(playerSpriteSheetWalkLeft,64,64);
+//var playerWalkRight = new SpriteSheetClass(playerSpriteSheetWalkRight,64,64);
 
 var picsToLoad = 0;
 

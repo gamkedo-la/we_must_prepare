@@ -69,24 +69,43 @@ function SpriteClass(imageIn, widthIn, heightIn){
 	};
 }
 
-function SpriteSheetClass(sheetIn, colWidth, rowHeight){
+function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping) {
 	var sheet = sheetIn;
-	var width = colWidth;
-	var height = rowHeight;
+	var numberOfFrames = sheetInFrames;
+	var width = frameWidth;
+	var height = frameHeight;
+	var animationIndex = 0; 
+	var tickCount = 0;
+	var ticksPerFrame = frameTickRate;
+	var loop = looping;
+	var rowIndex = animationInRowIndex;
 	
 	//These save division operations when drawing to increase performance at the cost of memory
-	var halfWidth = width/2;
-	var halfHeight = height/2;
+	/*var halfWidth = ;
+	var halfHeight = ;*/
 	
 	this.draw = function(atX, atY, col, row){
 		canvasContext.drawImage(sheet,
 		                        col * width, row * height,
 		                        width, height,
-		                        atX - halfWidth, atY - halfHeight,
+		                        atX - width/2, atY - height/2,
 		                        width, height);
 	};
+
+	this.update = function() {
+        tickCount++;
+        if (tickCount > ticksPerFrame) {
+            tickCount = 0;
+            // if the current frame index is in range
+            if (animationIndex < numberOfFrames - 1) {
+                animationIndex++; // go to the next frame
+            } else if (loop) {
+                animationIndex = 0;
+            }
+        }
+    }
 	
-	this.drawExtended = function(atX, atY, col, row, withAngle = 0, flipped = false, scale = 1, alpha = 1){
+	this.drawExtended = function(atX, atY, withAngle = 0, flipped = false, scale = 1, alpha = 1){
 		canvasContext.save();
 		
 		canvasContext.translate(atX, atY);
@@ -95,9 +114,9 @@ function SpriteSheetClass(sheetIn, colWidth, rowHeight){
 		canvasContext.globalAlpha = alpha;
 		
 		canvasContext.drawImage(sheet,
-		                        col * width, row * height,
+		                        animationIndex * width, rowIndex * height,
 		                        width, height,
-		                        -halfWidth, -halfHeight,
+		                        0, 0,
 		                        width, height);
 		
 		canvasContext.restore();

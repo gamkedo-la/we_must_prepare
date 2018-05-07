@@ -88,9 +88,13 @@ function playerClass() {
         }
     };
 
-    this.draw = function(direction) {
-        canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
-        //playerWalkUp.draw(this.x,this.y,0,1);
+    this.draw = function() {
+        if (this.keyHeld_South) {
+            playerWalkDown.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height);
+            playerWalkDown.update();     
+        } else {    
+            canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
+        }
     };
     
     this.distFrom = function (otherX, otherY) {

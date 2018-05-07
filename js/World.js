@@ -266,6 +266,7 @@ function draw3DTiles() {
         allObjectsToDrawDepthSorted[j].draw();
     }
     canvasContext.globalAlpha = 0.2;
+    playerWalkDown.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 0.2);
     player.draw();
     canvasContext.globalAlpha = 1;
 } // end of draw3DTiles()
