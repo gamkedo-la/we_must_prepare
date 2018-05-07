@@ -59,18 +59,18 @@ function inventorySystem(){
 		return count; //Tells calling function how many items are left
 	};
 	
-	this.grabSlot = function(slot){
+	this.grabSlot = function(){
 		if(this.holdingSlot == item.nothing){
-			this.holdingSlot = this.inventorySlots[slot];
-			this.inventorySlots[slot] = new this.emptySlot();
-		}else if(this.holdingSlot.item == this.inventorySlots[slot].item){
-			this.holdingSlot.count += this.inventorySlots[slot].count;
-			this.inventorySlots[slot] = new this.emptySlot();
+			this.holdingSlot = this.inventorySlots[this.selectedSlot];
+			this.inventorySlots[this.selectedSlot] = new this.emptySlot();
+		}else if(this.holdingSlot.item == this.inventorySlots[this.selectedSlot].item){
+			this.holdingSlot.count += this.inventorySlots[this.selectedSlot].count;
+			this.inventorySlots[this.selectedSlot] = new this.emptySlot();
 		}
 		
 		var tempSlot = this.holdingSlot;
-		this.holdingSlot = this.inventorySlots[slot];
-		this.inventorySlots[slot] = tempSlot;
+		this.holdingSlot = this.inventorySlots[this.selectedSlot];
+		this.inventorySlots[this.selectedSlot] = tempSlot;
 	};
 	
 	//Automatically remove count number of items from inventory iff they exist
