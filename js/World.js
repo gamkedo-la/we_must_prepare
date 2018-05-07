@@ -123,19 +123,21 @@ function getTileIndexAtPixelCoord(pixelX, pixelY) {
 }
 
 function tileTypeHasTransparency(checkTileType) {
-    if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
-        return true;
-    }
     switch (checkTileType) {
         case TILE_PLAYER:
         case TILE_METAL_SRC:
         case TILE_STONE_SRC:
         case TILE_WOOD_SRC:
-        /*case TILE_FLOWER_01:
-        case TILE_FLOWER_02:*/
         case TILE_TWIG:
         case TILE_WOOD_PILE:
             return true;
+    }
+    return false;
+}
+
+function tileTypeIsFood(checkTileType) {
+    if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
     }
     return false;
 }
@@ -172,6 +174,13 @@ function drawGroundTiles() {
             if (tileTypeIsPlant(tileTypeHere)) {
                 canvasContext.drawImage(tileSheet,
                     TILE_GRASS * TILE_W, 0,
+                    TILE_W, TILE_H, 
+                    tileLeftEdgeX, tileTopEdgeY,
+                    TILE_W, TILE_H); 
+            }
+            if (tileTypeIsFood(tileTypeHere)) {
+                canvasContext.drawImage(tileSheet,
+                    TILE_TILLED * TILE_W, 0,
                     TILE_W, TILE_H, 
                     tileLeftEdgeX, tileTopEdgeY,
                     TILE_W, TILE_H); 

@@ -202,8 +202,10 @@ function playerClass() {
 
     this.plantAtFeet = function () {
         var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
-        console.log("Going to plant at index " + plantAtIndex);
-        new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+        if (roomGrid[plantAtIndex] == TILE_TILLED) {
+            console.log("Going to plant at index " + plantAtIndex);
+            new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+        }
     }
 
     this.getDirectionPlayerIsCurrentlyFacing = function() 
