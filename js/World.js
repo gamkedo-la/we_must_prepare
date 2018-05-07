@@ -141,9 +141,6 @@ function tileTypeHasTransparency(checkTileType) {
 }
 
 function tileTypeIsPlant(checkTileType) {
-    if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
-        return true;
-    }
     switch (checkTileType) {
         case TILE_FLOWER_01:
         case TILE_FLOWER_02:
