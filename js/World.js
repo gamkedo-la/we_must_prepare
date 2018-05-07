@@ -54,7 +54,7 @@ const TILE_WHEAT_02_SEEDLING = 55;
 const TILE_WHEAT_02_MEDIUM = 56;
 const TILE_WHEAT_02_FULLY_GROWN = 57;
 const START_TILE_WALKABLE_GROWTH_RANGE = TILE_WHEAT_01_SEED;
-const LAST_TILE_ENUM = TILE_TILLED_SEEDS_WATERED;
+const LAST_TILE_ENUM = TILE_WHEAT_02_FULLY_GROWN;
 
 var objectsWithDepth = [];
 
@@ -131,10 +131,22 @@ function tileTypeHasTransparency(checkTileType) {
         case TILE_METAL_SRC:
         case TILE_STONE_SRC:
         case TILE_WOOD_SRC:
-        case TILE_FLOWER_01:
-        case TILE_FLOWER_02:
+        /*case TILE_FLOWER_01:
+        case TILE_FLOWER_02:*/
         case TILE_TWIG:
         case TILE_WOOD_PILE:
+            return true;
+    }
+    return false;
+}
+
+function tileTypeIsPlant(checkTileType) {
+    if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
+    }
+    switch (checkTileType) {
+        case TILE_FLOWER_01:
+        case TILE_FLOWER_02:
             return true;
     }
     return false;
@@ -159,6 +171,13 @@ function drawGroundTiles() {
                     TILE_W, TILE_H, // get full tile size from source
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full tile size for destination
+            }
+            if (tileTypeIsPlant(tileTypeHere)) {
+                canvasContext.drawImage(tileSheet,
+                    TILE_GRASS * TILE_W, 0,
+                    TILE_W, TILE_H, 
+                    tileLeftEdgeX, tileTopEdgeY,
+                    TILE_W, TILE_H); 
             }
             if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
                 var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
