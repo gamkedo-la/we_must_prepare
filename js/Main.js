@@ -22,6 +22,7 @@ function loadingDoneSoStartGame() {
     }, 1000 / framesPerSecond);
 
     setupInput();
+	setupUI();
     player.reset();
     setupBuckets();
     timer.setupTimer();
@@ -82,10 +83,12 @@ function drawEverything() {
     drawSkyGradient();
     weather.draw();
     player.drawPlayerHUD();
-    drawBuildingChoiceMenu();
-    drawInterfaceForSelected();
+    // drawBuildingChoiceMenu();
+    // drawInterfaceForSelected();
     timer.drawTimer();
 		inventoryUI.draw(); // TODO DEBUG do not ship
+	// main UI
+	drawUI();
 }
 
 function drawSkyGradient() {

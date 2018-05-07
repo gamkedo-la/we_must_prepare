@@ -78,13 +78,13 @@ function playerClass() {
     this.drawPlayerHUD = function() {
         canvasContext.fillStyle = 'white';
         var textLineY = 15, textLineSkip = 15, textLineX = 30;
-				var i = 1;
+                var i = 1;
         for (var key in this.bucketList) {
             canvasContext.fillText('Carried ' + key + ': ' + inventory.countItems(i), textLineX, textLineY);
             canvasContext.fillText('Stored ' + key + ': ' + 
             (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max, 
             textLineX * 4, textLineY); textLineY += textLineSkip;
-						i++;
+                        i++;
         }
     };
 
@@ -100,7 +100,7 @@ function playerClass() {
     };
     
     this.collectResourcesIfAble = function() {
-	    switch (walkIntoTileType) {
+        switch (walkIntoTileType) {
             case TILE_WALL:
                 distToGo = 0;
                 break;
@@ -111,11 +111,6 @@ function playerClass() {
                 if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
                     inventory.add(items.metal, 1);
                 }
-                break;
-            case TILE_METAL_DEST:
-                var temp = {carried: inventory.countItems(items.metal), makeEmpty: function(){}};
-                inventory.remove(items.metal, inventory.countItems(items.metal));
-                depositResources(temp, this.storageList[Resources.Metal]);
                 break;
             case TILE_STONE_SRC:
                 if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
@@ -177,27 +172,39 @@ function playerClass() {
 
         this.getDirectionPlayerIsCurrentlyFacing();
 
-		    if((nextX != this.x) || (nextY != this.y))
-		    {
-		        walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
-	          walkIntoTileType = TILE_WALL;
-	      
-	          if (walkIntoTileIndex != undefined) {
-	              walkIntoTileType = roomGrid[walkIntoTileIndex];
-	          }
-	      
-	          if (isTileKindWalkable(walkIntoTileType)) 
-	          {
-	              this.x = nextX;
-	              this.y = nextY;
-	          }
-	          else
-	          {
-	              // console.log('Ran into a wall!');
-	          }
+            if((nextX != this.x) || (nextY != this.y))
+            {
+                walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
+              walkIntoTileType = TILE_WALL;
+          
+              if (walkIntoTileIndex != undefined) {
+                  walkIntoTileType = roomGrid[walkIntoTileIndex];
+              }
+              if(walkIntoTileType == TILE_RECHARGE_STATION){
+                console.log("Going for recharge!");
+                for (var i = 0; i < plantTrackingArray.length; i++) {
+                    plantTrackingArray[i].dayChanged();
+                }
+                this.y = this.y + TILE_H;
+              }
+              if (isTileKindWalkable(walkIntoTileType)) 
+              {
+                  this.x = nextX;
+                  this.y = nextY;
+              }
+              else
+              {
+                  // console.log('Ran into a wall!');
+              }
 
-		    }//end if nextX & nextY
+            }//end if nextX & nextY
     }; // end move
+
+    this.plantAtFeet = function () {
+        var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
+        console.log("Going to plant at index " + plantAtIndex);
+        new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+    }
 
     this.getDirectionPlayerIsCurrentlyFacing = function() 
     {

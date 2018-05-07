@@ -10,6 +10,11 @@
     <canvas id="gameCanvas" width="800" height="600"></canvas>
 
     <p id="debugText">(recent text display or temporary debug output)</p>
+
+    <P>Music Volume<input type="range" min="0" max="100" value="70" class="slider" id="M_Volume"><P/>
+    <P>Environment Volume<input type="range" min="0" max="100" value="70" class="slider" id="E_Volume"><P/>
+    <P>SFX Volume<input type="range" min="0" max="100" value="70" class="slider" id="S_Volume"><P/>
+
     <script src="js/HTMLLog.js"></script>
     <script src="js/Debug.js"></script>
     <script src="js/GraphicsCommon.js"></script>
@@ -23,6 +28,7 @@
     <script src="js/ImageLoading.js"></script>
     <script src="js/Buildings.js"></script>
     <!--This needs to come after World.js for tile defs -->
+    <script src="js/Plant.js"></script>
     <script src="js/Input.js"></script>
     <script src="js/Player.js"></script>
     <!-- this needs to come after Input for selectedIndex -->
@@ -32,6 +38,16 @@
     <script src="js/Persistence.js"></script>
     <script src="js/Saving.js"></script>
     <script src="js/Main.js"></script>
+
+    <script>//Temp volume sliders
+        var musicVolumeSlider = document.getElementById("M_Volume");
+        var enviVolumeSlider = document.getElementById("E_Volume");
+        var sfxVolumeSlider = document.getElementById("S_Volume");
+
+        musicVolumeSlider.oninput = function(){MusicVolumeManager.setVolume(this.value/100);}
+        enviVolumeSlider.oninput = function(){EnviSFXVolumeManager.setVolume(this.value/100);}
+        sfxVolumeSlider.oninput = function(){SFXVolumeManager.setVolume(this.value/100);}
+    </script>
 
 </body>
 

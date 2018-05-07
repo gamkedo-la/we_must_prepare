@@ -5,15 +5,15 @@ const ROOM_ROWS = 14;
 var roomGrid =
     [   01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 03, 04, 00, 00, 07, 08, 09, 10, 11, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 03, 04, 00, 06, 07, 00, 00, 00, 00, 00, 00, 18, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 02, 12, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 14, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 00, 00, 05, 00, 15, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
-        01, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 19, 19, 19, 00, 00, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 01,
+        01, 19, 16, 19, 00, 00, 00, 00, 00, 00, 14, 00, 00, 00, 00, 00, 00, 01,
+        01, 19, 19, 19, 00, 00, 00, 00, 00, 05, 00, 15, 00, 00, 00, 00, 00, 01,
+        01, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 19, 19, 19, 00, 01,
+        01, 00, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 19, 17, 19, 00, 01,
+        01, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 19, 19, 19, 00, 01,
         01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 00, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01,
         01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01];
@@ -27,9 +27,10 @@ const TILE_GROUND = 00;
 const TILE_WALL = 01;
 const TILE_PLAYER = 02;
 const TILE_METAL_SRC = 03;
-const TILE_METAL_DEST = 04;
+const TILE_RECHARGE_STATION = 04;
 const TILE_WOOD_SRC = 05;
-const TILE_WOOD_DEST = 06;
+const TILE_WOOD_DEST = 0600;
+const TILE_METAL_DEST = 0600;
 const TILE_STONE_SRC = 07;
 const TILE_STONE_DEST = 08;
 const TILE_FOOD_SRC = 09;
@@ -39,6 +40,20 @@ const TILE_TILLED = 12;
 const TILE_TILLED_WATERED = 13;
 const TILE_TILLED_SEEDS = 14;
 const TILE_TILLED_SEEDS_WATERED = 15;
+const TILE_FLOWER_01 = 16;
+const TILE_FLOWER_02 = 17;
+const TILE_TWIG = 18;
+const TILE_GRASS = 19;
+const TILE_WOOD_PILE = 06;
+const TILE_WHEAT_01_SEED = 50;
+const TILE_WHEAT_01_SEEDLING = 51;
+const TILE_WHEAT_01_MEDIUM = 52;
+const TILE_WHEAT_01_FULLY_GROWN = 53;
+const TILE_WHEAT_02_SEED = 54;
+const TILE_WHEAT_02_SEEDLING = 55;
+const TILE_WHEAT_02_MEDIUM = 56;
+const TILE_WHEAT_02_FULLY_GROWN = 57;
+const START_TILE_WALKABLE_GROWTH_RANGE = TILE_WHEAT_01_SEED;
 const LAST_TILE_ENUM = TILE_TILLED_SEEDS_WATERED;
 
 var objectsWithDepth = [];
@@ -71,12 +86,18 @@ function isTileKindBuilding(tileKind) {
 }
 
 function isTileKindWalkable(tileKind) {
+    if (tileKind >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
+    }
     switch (tileKind) {
         case TILE_GROUND:
         case TILE_TILLED:
         case TILE_TILLED_WATERED:
         case TILE_TILLED_SEEDS:
         case TILE_TILLED_SEEDS_WATERED:
+        case TILE_FLOWER_01:
+        case TILE_FLOWER_02:
+        case TILE_GRASS:
             return true;
     }
     return false;
@@ -102,11 +123,18 @@ function getTileIndexAtPixelCoord(pixelX, pixelY) {
 }
 
 function tileTypeHasTransparency(checkTileType) {
+    if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
+    }
     switch (checkTileType) {
         case TILE_PLAYER:
         case TILE_METAL_SRC:
         case TILE_STONE_SRC:
         case TILE_WOOD_SRC:
+        case TILE_FLOWER_01:
+        case TILE_FLOWER_02:
+        case TILE_TWIG:
+        case TILE_WOOD_PILE:
             return true;
     }
     return false;
@@ -124,6 +152,7 @@ function drawGroundTiles() {
         for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
 
             var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
+
             if (tileTypeHasTransparency(tileTypeHere)) {
                 canvasContext.drawImage(tileSheet,
                     TILE_GROUND * TILE_W, 0, // top-left corner of tile art, multiple of tile width
@@ -131,7 +160,17 @@ function drawGroundTiles() {
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full tile size for destination
             }
-            if (tileTypeHere != TILE_WOOD_SRC || debugTreesEnabled) {
+            if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
+                var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
+                var sheetStage = sheetIndex % 4;
+                var sheetType = Math.floor(sheetIndex / 4);
+                canvasContext.drawImage(plantSpritesheet,
+                    sheetType * TILE_W, sheetStage * TILE_H, // top-left corner of tile art, multiple of tile width
+                    TILE_W, TILE_H, // get full tile size from source
+                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
+                    TILE_W, TILE_H); // draw full full tile size for destination
+
+            } else if (tileTypeHere != TILE_WOOD_SRC || debugTreesEnabled) {
                 canvasContext.drawImage(tileSheet,
                     tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source

@@ -1,4 +1,60 @@
 
+var TabMenu;
+
+function setupUI() {
+    TabMenu = new tabMenuUI();
+    //create a pane for testing
+    var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    TabMenu.push(pane);
+}
+
+function drawUI() {
+    //test
+    //setupUI();
+    
+    TabMenu.draw();
+    //placeholder - display instructions
+    colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
+}
+
+function tabMenuUI() {
+    this.panes = [];
+    
+    this.isVisible = false;
+    
+    this.draw = function() {
+        if(this.isVisible) {
+            var length = this.panes.length;
+            var i;
+            for(i=0; i < length; i++) {
+                var pane = this.panes[i];
+                if(pane.isVisible) {
+                    pane.draw();
+                }
+            }
+        }
+    }
+    
+    this.push = function(pane) {
+        this.panes.push(pane);
+    }
+}
+
+function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    
+    this.isVisible = true;
+    
+    this.draw = function() {
+        canvasContext.fillStyle = 'beige';
+        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+    }
+}
+
 const INTERFACE_Y = 500; // hacky please change
 var mouseOverBuildingInterfaceIndex = -1;
 var mouseOverButtonPerBuildingInterfaceIndex = -1;
