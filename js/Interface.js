@@ -13,12 +13,14 @@ function drawUI() {
     //setupUI();
     
     TabMenu.draw();
+    //placeholder - display instructions
+    colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
 }
 
 function tabMenuUI() {
     this.panes = [];
     
-    this.isVisible = true;
+    this.isVisible = false;
     
     this.draw = function() {
         if(this.isVisible) {
