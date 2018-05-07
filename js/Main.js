@@ -22,6 +22,7 @@ function loadingDoneSoStartGame() {
     }, 1000 / framesPerSecond);
 
     setupInput();
+	setupUI();
     player.reset();
     setupBuckets();
     timer.setupTimer();
@@ -86,6 +87,8 @@ function drawEverything() {
     // drawInterfaceForSelected();
     timer.drawTimer();
 		inventoryUI.draw(); // TODO DEBUG do not ship
+	// main UI
+	drawUI();
 }
 
 function drawSkyGradient() {

@@ -17,6 +17,7 @@ const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
 const KEY_ESAPE = 27;
+const KEY_ENTER = KEY_TOGGLE_MENU = 13;
 const MOUSE_LEFT_CLICK = 0;
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
@@ -190,6 +191,11 @@ function keyPress(evt) {
         case KEY_O:
             player.plantAtFeet();
             break;
+		case KEY_ENTER:
+			//toggle menu
+			console.log("Enter pressed");
+			TabMenu.isVisible = !TabMenu.isVisible;
+			break;
         default:
             //console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;
