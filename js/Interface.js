@@ -6,7 +6,10 @@ function setupUI() {
     //create a pane for testing
     var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
+    pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    TabMenu.push(pane);
 }
+
 
 function drawUI() {
     //test
@@ -52,6 +55,56 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.draw = function() {
         canvasContext.fillStyle = 'beige';
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
+    }
+}
+
+function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.padding = 20;
+    this.columnPadding = 40;
+    this.lineHeight = 15;
+    this.textColor = 'black';
+    this.textLine = ['Toggle Menu - ENTER',
+                    'Toggle Inventory - I',
+                    'Interact - C',
+                    '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
+                    '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
+                    '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];
+    this.isVisible = true;
+    
+    this.draw = function() {
+        canvasContext.fillStyle = 'beige';
+        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+        //colorText('test', 50, 50, 'white');
+        //colorText(this.textLine[0], this.x+this.padding, this.y+this.padding, 'black');
+        //canvasContext.colorText(textLine[1], this.x+padding, this.y+padding, 'white');
+        var lines = this.textLine.length;
+        var columnWidth = 0;
+        var textX = this.x+this.padding;
+        var startTextY = this.y+this.padding;
+        var textY = startTextY;
+        var i;
+        for(i=0; i < lines; i++) {
+            // check if at bottom of pane - is so start new column
+            if (textY > this.y+this.height-this.padding)
+            {
+                textX += columnWidth+this.columnPadding;
+                columnWidth = 0;
+                textY = startTextY;
+            }
+            var line = this.textLine[i];
+            colorText(line, textX, textY, this.textColor);
+            var textWidth = canvasContext.measureText(line).width;
+            if (textWidth > columnWidth) {
+                columnWidth = textWidth;
+            }
+            textY += this.lineHeight;
+        }
     }
 }
 
