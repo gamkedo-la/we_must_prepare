@@ -15,14 +15,12 @@ var selectedItemSlot = document.createElement("img");
 
 var playerSpriteSheetWalkUp = document.createElement("img");
 var playerSpriteSheetWalkDown = document.createElement("img");
-var playerSpriteSheetWalkLeft = document.createElement("img");
-var playerSpriteSheetWalkRight = document.createElement("img");
+var playerSpriteSheetSideWalk = document.createElement("img");
 
 //function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
-//var playerWalkUp = new SpriteSheetClass(playerSpriteSheetWalkUp,128,128);
-var playerWalkDown = new SpriteSheetClass(playerSpriteSheetWalkDown,48,48,8, 0,6,true);
-//var playerWalkLeft = new SpriteSheetClass(playerSpriteSheetWalkLeft,64,64);
-//var playerWalkRight = new SpriteSheetClass(playerSpriteSheetWalkRight,64,64);
+var playerWalkDown = new SpriteSheetClass(playerSpriteSheetWalkDown,48,48,8,0,6,true);
+var playerEastWalk = new SpriteSheetClass(playerSpriteSheetSideWalk,48,48,4,0,10,true);
+var playerWestWalk = new SpriteSheetClass(playerSpriteSheetSideWalk,48,48,4,1,10,true);
 
 var picsToLoad = 0;
 
@@ -45,8 +43,7 @@ function loadImages() {
     { varName: playerImage, theFile: "robokedo3tiny.png" },
     { varName: playerSpriteSheetWalkUp, theFile: "robokedoWalkBack.png" },
     { varName: playerSpriteSheetWalkDown, theFile: "robokedoWalk.png" },
-    { varName: playerSpriteSheetWalkLeft, theFile: "robokedoSideLeft.png" },
-    { varName: playerSpriteSheetWalkRight, theFile: "robokedoSideRight.png" },
+    { varName: playerSpriteSheetSideWalk, theFile: "robokedoSideWalk.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient2.png" },
     { varName: buildingSelection, theFile: "building_selection.png" },

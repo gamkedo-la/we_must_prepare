@@ -266,7 +266,21 @@ function draw3DTiles() {
         allObjectsToDrawDepthSorted[j].draw();
     }
     canvasContext.globalAlpha = 0.2;
-    playerWalkDown.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 0.2);
-    player.draw();
+    if (player.keyHeld_South) {
+        playerWalkDown.drawExtended(player.x - playerImage.width / 2, player.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 0.2);
+        playerWalkDown.update();
+        return;
+    }
+    if (player.keyHeld_West) {
+        playerWestWalk.drawExtended(player.x - playerImage.width / 2, player.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 0.2);
+        playerWestWalk.update();
+        return;
+    }
+    if (player.keyHeld_East) {
+        playerEastWalk.drawExtended(player.x - playerImage.width / 2, player.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 0.2);
+        playerEastWalk.update();
+        return;
+    } 
+    canvasContext.drawImage(playerImage, player.x - playerImage.width / 2, player.y - playerImage.height);
     canvasContext.globalAlpha = 1;
 } // end of draw3DTiles()
