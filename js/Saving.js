@@ -24,6 +24,7 @@ function keyPressForSaving(evt) {
     }
     else {
       HTMLLog("auto-save disabled!");
+      deactivateAutoSave();
     }
   }
 }
