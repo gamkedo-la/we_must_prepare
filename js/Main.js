@@ -26,6 +26,9 @@ function loadingDoneSoStartGame() {
     player.reset();
     setupBuckets();
     timer.setupTimer();
+    if (autoSaveEnabled) {
+        autoLoad();
+    }
     startAudioEngine();
 		inventoryUI = new inventoryUITest();
 }

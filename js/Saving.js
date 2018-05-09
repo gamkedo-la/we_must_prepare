@@ -6,6 +6,14 @@ if (autoSaveEnabled === null) {
   autoSaveEnabled = false;
 }
 
+if (autoSaveEnabled) {
+  HTMLLog("auto-save enabled!");
+  activateAutoSave();
+}
+else {
+  HTMLLog("auto-save disabled!");
+}
+
 function keyPressForSaving(evt) {
   if (evt.keyCode === KEY_0) {
     autoSaveEnabled = !autoSaveEnabled;
@@ -30,12 +38,24 @@ function deactivateAutoSave() {
 
 function autoSave() {
   HTMLLog("saving...");
+
+  var saveState = {
+    player: {
+      x: player.x,
+      y: player.y
+    }
+  };
+  persistence.setObject('autosave', saveState);
 }
 
-if (autoSaveEnabled) {
-  HTMLLog("auto-save enabled!");
-  activateAutoSave();
-}
-else {
-  HTMLLog("auto-save disabled!");
+function autoLoad() {
+  var saveState = persistence.getObject('autosave', null);
+
+  // Never saved, nothing to load
+  if (!saveState) {
+    return;
+  }
+
+  player.x = saveState.player.x;
+  player.y = saveState.player.y;
 }
