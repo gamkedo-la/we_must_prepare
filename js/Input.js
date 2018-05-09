@@ -180,6 +180,8 @@ function keyPress(evt) {
         	break;
         case KEY_I:
             inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship
+            //Switch central menu to inventory tab
+            TabMenu.switchTabName("Inventory");
             break;
         case KEY_0:
             keyPressForSaving(evt);

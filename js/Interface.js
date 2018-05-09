@@ -2,11 +2,13 @@
 var TabMenu;
 
 function setupUI() {
-    TabMenu = new tabMenuUI();
+    TabMenu = new tabMenuUI(canvas.width*.25, canvas.height*.25-30);
     //create a pane for testing
     var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane, true);
     pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    TabMenu.push(pane);
+    pane = new controlsInfoPaneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
     TabMenu.switchTabIndex(0);
     //TabMenu.switchTabName('Controls');
@@ -14,7 +16,6 @@ function setupUI() {
     TabMenu.switchTabLeft();
 
 }
-
 
 function drawUI() {
     //test
@@ -25,9 +26,11 @@ function drawUI() {
     colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
 }
 
-function tabMenuUI() {
-    this.tabHeight = 30;
-    this.tabPaddingHorizontal;
+function tabMenuUI(X=0, Y=0, tabHeight=30) {
+    this.x = X;
+    this.y = Y;
+    this.tabHeight = tabHeight;
+    this.tabTextPadding = 15;
     this.panes = [];
     this.activePane = null;
     this.activeIndex = -1;
@@ -38,8 +41,27 @@ function tabMenuUI() {
         if(this.isVisible) {
             var length = this.panes.length;
             var i;
+            var tabX = this.x;
+            var tabY = this.y
+            var str;
             for(i=0; i < length; i++) {
                 var pane = this.panes[i];
+                //draw tab
+                str = pane.name;
+                var textWidth = canvasContext.measureText(str).width;
+                var tabWidth = (this.tabTextPadding*2)+textWidth;
+                var textColor;
+                if  (i == activeIndex) {
+                    canvasContext.fillStyle = 'beige';
+                    canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
+                    textColor = 'black';
+                } else {
+                    canvasContext.fillStyle = '#eaeaae';
+                    canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
+                    textColor = 'LightSlateGray';
+                }
+                colorText(str, tabX+this.tabTextPadding, tabY+this.tabTextPadding, textColor);
+                tabX += tabWidth;
                 //draw only panes set as visible
                 if(pane.isVisible) {
                     pane.draw();
