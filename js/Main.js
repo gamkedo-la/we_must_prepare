@@ -31,6 +31,8 @@ function loadingDoneSoStartGame() {
     }
     startAudioEngine();
 		inventoryUI = new inventoryUITest();
+        inventory.add(items.axe,1);
+        inventory.add(items.watercan,1);
 }
 
 window.onload = function () {

@@ -29,8 +29,9 @@ const TILE_PLAYER = 02;
 const TILE_METAL_SRC = 03;
 const TILE_RECHARGE_STATION = 04;
 const TILE_WOOD_SRC = 05;
-const TILE_WOOD_DEST = 0600;
-const TILE_METAL_DEST = 0600;
+const TILE_WOOD_DEST = 06;
+const TILE_METAL_DEST = 06;
+const TILE_WOOD_PILE = 06;
 const TILE_STONE_SRC = 07;
 const TILE_STONE_DEST = 08;
 const TILE_FOOD_SRC = 09;
@@ -44,7 +45,6 @@ const TILE_FLOWER_01 = 16;
 const TILE_FLOWER_02 = 17;
 const TILE_TWIG = 18;
 const TILE_GRASS = 19;
-const TILE_WOOD_PILE = 06;
 const TILE_WHEAT_01_SEED = 50;
 const TILE_WHEAT_01_SEEDLING = 51;
 const TILE_WHEAT_01_MEDIUM = 52;
@@ -179,11 +179,23 @@ function drawGroundTiles() {
                     TILE_W, TILE_H); 
             }
             if (tileTypeIsFood(tileTypeHere)) {
-                canvasContext.drawImage(tileSheet,
-                    TILE_TILLED * TILE_W, 0,
-                    TILE_W, TILE_H, 
-                    tileLeftEdgeX, tileTopEdgeY,
-                    TILE_W, TILE_H); 
+                for (i = 0; i < plantTrackingArray.length; i++) {
+                    if (plantTrackingArray[i].mapIndex == tileIndex) {
+                        if (plantTrackingArray[i].is_watered == true) {
+                            canvasContext.drawImage(tileSheet,
+                            TILE_TILLED_WATERED * TILE_W, 0,
+                            TILE_W, TILE_H, 
+                            tileLeftEdgeX, tileTopEdgeY,
+                            TILE_W, TILE_H);
+                        } else {
+                            canvasContext.drawImage(tileSheet,
+                            TILE_TILLED * TILE_W, 0,
+                            TILE_W, TILE_H, 
+                            tileLeftEdgeX, tileTopEdgeY,
+                            TILE_W, TILE_H);
+                        }
+                    }
+                }
             }
             if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
                 var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
