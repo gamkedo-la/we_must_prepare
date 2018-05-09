@@ -5,9 +5,14 @@ function setupUI() {
     TabMenu = new tabMenuUI();
     //create a pane for testing
     var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
-    TabMenu.push(pane);
+    TabMenu.push(pane, true);
     pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
+    TabMenu.switchTabIndex(0);
+    //TabMenu.switchTabName('Controls');
+    TabMenu.switchTabLeft(false);
+    TabMenu.switchTabLeft();
+
 }
 
 
@@ -21,7 +26,11 @@ function drawUI() {
 }
 
 function tabMenuUI() {
+    this.tabHeight = 30;
+    this.tabPaddingHorizontal;
     this.panes = [];
+    this.activePane = null;
+    this.activeIndex = -1;
     
     this.isVisible = false;
     
@@ -31,6 +40,7 @@ function tabMenuUI() {
             var i;
             for(i=0; i < length; i++) {
                 var pane = this.panes[i];
+                //draw only panes set as visible
                 if(pane.isVisible) {
                     pane.draw();
                 }
@@ -38,8 +48,53 @@ function tabMenuUI() {
         }
     }
     
-    this.push = function(pane) {
+    this.push = function(pane, isVisible=false) {
         this.panes.push(pane);
+        pane.isVisible = isVisible;
+    }
+    
+    this.switchTabIndex = function(index) {
+        var i;
+        var pane=null;
+        for(i=0; i < this.panes.length; i++) {
+            pane = this.panes[i];
+            if( i == index) {
+                activePane = pane;
+                activeIndex = index;
+                pane.isVisible = true;
+            } else {
+                pane.isVisible = false;
+            }
+        }
+    }
+    this.switchTabName = function(name) {
+        //search panes to find next one that matches name
+        var i;
+        var pane;
+        for(i=0; i < this.panes.length; i++) {
+            pane = this.panes[i];
+            if (pane.name == name) {
+                this.switchTabIndex(i);
+            }
+        }
+    }
+    this.switchTabRight = function(doWrap=true) {
+        var i = activeIndex+1;
+        if (doWrap) {
+            i = Math.abs(i%this.panes.length); //wrap index
+        } else if (i >= this.panes.length-1) {
+            i = this.panes.length-1;
+        }
+        this.switchTabIndex(i);
+    }
+    this.switchTabLeft = function(doWrap=true) {
+        var i = activeIndex-1;
+        if (doWrap) { 
+            i = Math.abs(i%this.panes.length); //wrap index
+        } else if (i < 0) {
+            i = 0;
+        }
+        this.switchTabIndex(i);
     }
 }
 
@@ -65,6 +120,9 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
     this.name = name;
+    
+    this.isVisible = true;
+    
     this.padding = 20;
     this.columnPadding = 40;
     this.lineHeight = 15;
@@ -75,14 +133,11 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
                     '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
                     '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
                     '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];
-    this.isVisible = true;
+    
     
     this.draw = function() {
         canvasContext.fillStyle = 'beige';
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
-        //colorText('test', 50, 50, 'white');
-        //colorText(this.textLine[0], this.x+this.padding, this.y+this.padding, 'black');
-        //canvasContext.colorText(textLine[1], this.x+padding, this.y+padding, 'white');
         var lines = this.textLine.length;
         var columnWidth = 0;
         var textX = this.x+this.padding;
@@ -90,7 +145,7 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
         var textY = startTextY;
         var i;
         for(i=0; i < lines; i++) {
-            // check if at bottom of pane - is so start new column
+            // check if at bottom of pane; If so start new column
             if (textY > this.y+this.height-this.padding)
             {
                 textX += columnWidth+this.columnPadding;
