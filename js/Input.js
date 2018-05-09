@@ -16,7 +16,7 @@ const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
-const KEY_ESAPE = 27;
+const KEY_ESCAPE = 27;
 const KEY_ENTER = KEY_TOGGLE_MENU = 13;
 const MOUSE_LEFT_CLICK = 0;
 const NO_SELECTION = -1;
@@ -128,7 +128,7 @@ function inputUpdate() {
                 }
             } 
         if(toolKeyPressedThisFrame) {
-	        player.collectResourcesIfAble();
+            player.collectResourcesIfAble();
         }
     }
     player.move(); 
@@ -160,24 +160,24 @@ function keyPress(evt) {
 
     keySet(evt, player, true);
 
-    //console.log("evt keycode " + evt.keyCode);
+    // console.log("evt keycode " + evt.keyCode);
     switch (evt.keyCode) {
         case KEY_B:
             isBuildModeEnabled = !isBuildModeEnabled;
             console.log("Build mode enabled is " + isBuildModeEnabled);
             break;
-        case KEY_ESAPE:
+        case KEY_ESCAPE:
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             }
             break;
         case KEY_USE_TOOL:
             // if (properToolEquipped?) {
-        	toolKeyPressedThisFrame = true;
-        	toolKeyHeld = true;
+            toolKeyPressedThisFrame = true;
+            toolKeyHeld = true;
             // else if (otherToolEquipped)
             player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
-        	break;
+            break;
         case KEY_I:
             inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship
             //Switch central menu to inventory tab
@@ -185,19 +185,21 @@ function keyPress(evt) {
             break;
         case KEY_0:
             keyPressForSaving(evt);
+            break;
         case KEY_P:
             for (var i = 0; i < plantTrackingArray.length; i++) {
                 plantTrackingArray[i].dayChanged();
             }
             break;
         case KEY_O:
+            console.log("Pressed the O Key");
             player.plantAtFeet();
             break;
-		case KEY_ENTER:
-			//toggle menu
-			console.log("Enter pressed");
-			TabMenu.isVisible = !TabMenu.isVisible;
-			break;
+        case KEY_ENTER:
+            //toggle menu
+            console.log("Enter pressed");
+            TabMenu.isVisible = !TabMenu.isVisible;
+            break;
         default:
             //console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;
@@ -218,8 +220,8 @@ function keyReleased(evt)
     evt.preventDefault();
     
     switch(evt.keyCode) {
-	    case KEY_USE_TOOL:
-	    	toolKeyHeld = false;
-	    	break;
+        case KEY_USE_TOOL:
+            toolKeyHeld = false;
+            break;
     }
 }

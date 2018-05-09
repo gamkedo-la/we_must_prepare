@@ -13,11 +13,13 @@ var Plants = [
         tileTypeSeed: TILE_WHEAT_01_SEED,
         tileTypeStages: [TILE_WHEAT_01_SEEDLING, TILE_WHEAT_01_MEDIUM, TILE_WHEAT_01_FULLY_GROWN],
         daysPerStage: 1,
+        daysCanLiveWithoutWater: 3,
     },
     {
         tileTypeSeed: TILE_WHEAT_02_SEED,
         tileTypeStages: [TILE_WHEAT_02_SEEDLING, TILE_WHEAT_02_MEDIUM, TILE_WHEAT_02_FULLY_GROWN],
         daysPerStage: 1,
+        daysCanLiveWithoutWater: 3,
     },
 ];
 
@@ -29,6 +31,7 @@ function PlantClass(mapIndex, plantTypeSeed) {
     this.daysWithoutWater = 0;
     this.daysGrownPerStage = 0;
     this.currentPlantStage = PLANT_STAGE_NULL;
+    this.is_watered = false;
 
     plantTrackingArray.push(this);
 
@@ -51,11 +54,25 @@ function PlantClass(mapIndex, plantTypeSeed) {
 
     this.cachePlantFacts();
 
+    this.waterPlant = function () {
+        console.log("Plant has been watered!");
+        this.is_watered = true;
+        this.daysWithoutWater = 0;
+    }
+
     this.dayChanged = function () {
+        console.log("Day is changing!");
         if (this.currentPlantStage >= PLANT_STAGE_FULLY_GROWN) {
             console.log("Plant needs no more water at " + this.mapIndex);
             return;
         }
+
+        if (this.is_watered == false) {
+            this.daysWithoutWater += 1;
+        }
+
+        this.is_watered = false; // resetting for the next day
+
         if (this.daysWithoutWater == 0) {
             this.daysGrownPerStage++;
             if (this.daysGrownPerStage >= this.plantFacts.daysPerStage) {
@@ -65,5 +82,15 @@ function PlantClass(mapIndex, plantTypeSeed) {
                 this.daysGrownPerStage = 0;
             }
         }
+
+        if (this.daysWithoutWater > this.plantFacts.daysCanLiveWithoutWater) {
+            this.plantDied();
+        }
+    } // end dayChanged
+
+    this.plantDied = function () {
+        console.log("plant died. boooooo");
+        roomGrid[this.mapIndex] = TILE_GROUND;
+        plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
     }
-}
+}  // end PlantClass
