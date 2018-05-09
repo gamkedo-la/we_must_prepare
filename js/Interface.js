@@ -8,7 +8,7 @@ function setupUI() {
     TabMenu.push(pane, true);
     pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
-    pane = new controlsInfoPaneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    pane = new paneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
     TabMenu.switchTabIndex(0);
     //TabMenu.switchTabName('Controls');
