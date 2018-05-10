@@ -1,23 +1,18 @@
 var autoSaveInterval = null;
 
-var autoSaveEnabled = persistence.getValue('autoSaveEnabled', false);
-// TODO: implement getBool/setBool
-if (autoSaveEnabled === null) {
-  autoSaveEnabled = false;
-}
-
+var autoSaveEnabled = persistence.getBoolean('autoSaveEnabled', false);
 if (autoSaveEnabled) {
   HTMLLog("auto-save enabled!");
   activateAutoSave();
 }
 else {
-  HTMLLog("auto-save disabled!");
+  HTMLLog("Press `0` to enable auto-save");
 }
 
 function keyPressForSaving(evt) {
   if (evt.keyCode === KEY_0) {
     autoSaveEnabled = !autoSaveEnabled;
-    persistence.setValue('autoSaveEnabled', autoSaveEnabled);
+    persistence.setBoolean('autoSaveEnabled', autoSaveEnabled);
     if (autoSaveEnabled) {
       HTMLLog("auto-save enabled!");
       activateAutoSave();

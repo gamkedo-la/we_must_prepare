@@ -1,6 +1,21 @@
 var persistence = new Persistence();
 
 function Persistence() {
+  this.setBoolean = function(key, value) {
+    return this.setValue(key, value);
+  }
+
+  this.getBoolean = function(key, fallback) {
+    var storedValue = this.getValue(key, null);
+    if (storedValue === null) {
+      if (fallback) {
+        return fallback;
+      }
+      return false;
+    }
+    return JSON.parse(storedValue);
+  }
+
   this.setObject = function(key, value) {
     var valueToStore = JSON.stringify(value);
     return this.setValue(key, valueToStore);
