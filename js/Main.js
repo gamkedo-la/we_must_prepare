@@ -33,6 +33,7 @@ function loadingDoneSoStartGame() {
 		inventoryUI = new inventoryUITest();
         inventory.add(items.axe,1);
         inventory.add(items.watercan,1);
+        inventory.add(items.backhoe,1);
 }
 
 window.onload = function () {

@@ -5,6 +5,7 @@ var items = Object.freeze({
 	wood       :   3,
 	axe	       :   4,
 	watercan   :   5,
+	backhoe    :   6,
 });
 
 function inventorySystem(){
