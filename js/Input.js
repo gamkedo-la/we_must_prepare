@@ -87,6 +87,13 @@ function isMouseOverInterface() {
 function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
+    
+    // Central Menu
+    if (mouseClickedThisFrame) {
+        TabMenu.leftMouseClick(mouseX, mouseY);
+    }
+    
+    // Other Interface
     if (isMouseOverInterface()) {
         // will be handled by interface code
         if (mouseClickedThisFrame) {

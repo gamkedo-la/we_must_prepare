@@ -37,8 +37,18 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
     
     this.isVisible = false;
     
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        if (this.isVisible && isInPane(activePane, x, y)) {
+            activePane.leftMouseClick(x, y);
+            console.log("left mouse click in pane: " + activePane.name);
+            return true;
+        } else {
+            return false; //Input was not handled by this 
+        }
+    }
+    
     this.draw = function() {
-        if(this.isVisible) {
+        if (this.isVisible) {
             var length = this.panes.length;
             var i;
             var tabX = this.x;
@@ -129,6 +139,10 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     
     this.isVisible = true;
     
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        return true;
+    }
+    
     this.draw = function() {
         canvasContext.fillStyle = 'beige';
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
@@ -156,7 +170,10 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
                     '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
                     '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];
     
-    
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        return true;
+    }
+
     this.draw = function() {
         canvasContext.fillStyle = 'beige';
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
@@ -183,6 +200,20 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
             textY += this.lineHeight;
         }
     }
+}
+
+//utility functions for panes
+var isInPane = function(pane, x, y) {
+    if ( pane === null ) {
+        return false; //no pane referenced
+    }
+    var topLeftX = pane.x;
+    var topLeftY = pane.y;
+    var bottomRightX = topLeftX + pane.width;
+    var bottomRightY = topLeftY + pane.height;
+    var boolResult = (x >= topLeftX && x <= bottomRightX &&
+                      y >= topLeftY && y <= bottomRightY);
+    return boolResult;
 }
 
 const INTERFACE_Y = 500; // hacky please change
