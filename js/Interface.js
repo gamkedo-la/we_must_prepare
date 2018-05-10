@@ -194,12 +194,15 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
     this.columnPadding = 40;
     this.lineHeight = 15;
     this.textColor = 'black';
-    this.textLine = ['Toggle Menu - ENTER',
+    this.textLine = ['------Main Controls------',
+                    'Toggle Menu - ENTER',
+                    'Movement - WASD, Arrow Keys',
                     'Toggle Inventory - I',
                     'Interact - C',
-                    '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
-                    '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',
-                    '-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];
+                    'Plant Seeds - O',
+                    '',
+                    '------Temporary Controls------',
+                    'Grow Plants - P'];
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         return true;
