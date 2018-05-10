@@ -88,13 +88,12 @@ function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
     
-    // Central Menu
+    var inputHandled = false;
     if (mouseClickedThisFrame) {
-        TabMenu.leftMouseClick(mouseX, mouseY);
+        // Central Menu //
+        inputHandled = TabMenu.leftMouseClick(mouseX, mouseY);
     }
-    
-    // Other Interface
-    if (isMouseOverInterface()) {
+    if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
         if (mouseClickedThisFrame) {
             //if we're clicking on a building and we have the resources     
@@ -111,7 +110,7 @@ function inputUpdate() {
                 perBuildingButtonDefs[mouseOverButtonPerBuildingInterfaceIndex].onClick();
             }
         }
-    } else if (isBuildModeEnabled) {
+    } else if (!inputHandled && isBuildModeEnabled) {
         if (mouseClickedThisFrame) {
             placeBuildingAtPixelCoord(toBuild.tile);
             if (badBuildingPlacement) {
@@ -123,7 +122,7 @@ function inputUpdate() {
             mouseHeld = false;
             }
         }
-    } else { // this means we aren't in build mode
+    } else if (!inputHandled) { // this means we aren't in build mode
             var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
 
             if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {

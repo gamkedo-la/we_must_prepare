@@ -40,11 +40,42 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         if (this.isVisible && isInPane(activePane, x, y)) {
             activePane.leftMouseClick(x, y);
-            console.log("left mouse click in pane: " + activePane.name);
             return true;
+        } else if (this.isVisible) {
+            var clickedPane = this.getTabPaneAt(x, y);
+            if ( clickedPane !== null ) {
+                this.switchTabName(clickedPane.name);
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false; //Input was not handled by this 
+            return false; //Input was not handled by this
         }
+    }
+    
+    this.getTabPaneAt = function(x=mouseX, y=mouseY) {
+        var clickedPane = null;
+        var tabX = this.x;
+        var tabY = this.y; //bottom of tab
+        var i;
+        for(i=0; i < this.panes.length; i++) {
+            var pane = this.panes[i];
+            //draw tab
+            str = pane.name;
+            var textWidth = canvasContext.measureText(str).width;
+            var tabWidth = (this.tabTextPadding*2)+textWidth;
+            //check if inside current tab
+            if ( x >= tabX && x <= tabX+tabWidth && 
+                 y >= tabY && y <= tabY+this.tabHeight )
+            {
+                clickedPane = pane;
+                break;
+                //Terminate loop early, no need to check further tabs
+            }
+            tabX += tabWidth;
+        }
+        return clickedPane; //returns null if no pane clicked
     }
     
     this.draw = function() {
