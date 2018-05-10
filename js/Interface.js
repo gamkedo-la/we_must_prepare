@@ -202,7 +202,7 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
                     'Plant Seeds - O',
                     '',
                     '------Temporary Controls------',
-                    'Grow Plants - P'];
+                    'Change Day - P'];
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         return true;
