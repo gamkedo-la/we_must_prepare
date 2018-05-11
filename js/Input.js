@@ -3,6 +3,7 @@ const KEY_0 = 48;
 const KEY_A = 65;
 const KEY_B = 66;
 const KEY_D = 68;
+const KEY_E = 69;
 const KEY_I = 73;
 const KEY_J = 74;
 const KEY_K = 75;
@@ -10,17 +11,22 @@ const KEY_L = 76;
 const KEY_S = 83;
 const KEY_W = 87;
 const KEY_P = 80;
+const KEY_Q = 81;
 const KEY_O = 79;
+// Player
 const KEY_C = KEY_USE_TOOL = 67;
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
 const KEY_ESCAPE = 27;
-const KEY_ENTER = KEY_TOGGLE_MENU = 13;
 const MOUSE_LEFT_CLICK = 0;
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
+// Central Menu
+const KEY_ENTER = KEY_TOGGLE_MENU = 13;
+const KEY_SWITCH_TAB_LEFT = KEY_Q;
+const KEY_SWITCH_TAB_RIGHT = KEY_E;
 
 var mouseClickedThisFrame = false;
 var toolKeyPressedThisFrame = false;
@@ -88,6 +94,7 @@ function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
     
+    var centralMenuOpen = TabMenu.isVisible;
     var inputHandled = false;
     if (mouseClickedThisFrame) {
         // Central Menu //
@@ -167,50 +174,68 @@ function keyPress(evt) {
     keySet(evt, player, true);
 
     // console.log("evt keycode " + evt.keyCode);
-    switch (evt.keyCode) {
-        case KEY_B:
-            isBuildModeEnabled = !isBuildModeEnabled;
-            console.log("Build mode enabled is " + isBuildModeEnabled);
-            break;
-        case KEY_ESCAPE:
-            if (isBuildModeEnabled) {
-                isBuildModeEnabled = !isBuildModeEnabled;
-            }
-            break;
-        case KEY_USE_TOOL:
-            // if (properToolEquipped?) {
-            toolKeyPressedThisFrame = true;
-            toolKeyHeld = true;
-            // else if (otherToolEquipped)
-            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
-            break;
-        case KEY_I:
-            inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship
-            //Switch central menu to inventory tab
-            TabMenu.switchTabName("Inventory");
-            break;
-        case KEY_0:
-            keyPressForSaving(evt);
-            break;
-        case KEY_P:
-            for (var i = 0; i < plantTrackingArray.length; i++) {
-                plantTrackingArray[i].dayChanged();
-            }
-            break;
-        case KEY_O:
-            console.log("Pressed the O Key");
-            player.plantAtFeet();
-            break;
-        case KEY_ENTER:
-            //toggle menu
-            console.log("Enter pressed");
-            TabMenu.isVisible = !TabMenu.isVisible;
-            break;
-        default:
-            //console.log("keycode press is " + evt.keyCode);
-            keyUsedByGame = false;
-            break;
+    // Menu Context Controls - if the menu is open, menu keys take priorty
+    var centralMenuOpen = TabMenu.isVisible;
+    if( centralMenuOpen ) {
+        switch (evt.keyCode) {
+            case KEY_SWITCH_TAB_LEFT:
+                TabMenu.switchTabLeft();
+                break;
+            case KEY_SWITCH_TAB_RIGHT:
+                TabMenu.switchTabRight();
+                break;
+            default:
+                keyUsedByGame = false;
+                break;
+        }
     }
+    // Common Controls (These are always checked)
+    switch (evt.keyCode) {
+            case KEY_B:
+                isBuildModeEnabled = !isBuildModeEnabled;
+                console.log("Build mode enabled is " + isBuildModeEnabled);
+                break;
+            case KEY_ESCAPE:
+                if (isBuildModeEnabled) {
+                    isBuildModeEnabled = !isBuildModeEnabled;
+                }
+                break;
+            case KEY_USE_TOOL:
+                // if (properToolEquipped?) {
+                toolKeyPressedThisFrame = true;
+                toolKeyHeld = true;
+                // else if (otherToolEquipped)
+                player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
+                break;
+            case KEY_I:
+                inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship
+                
+                //Switch central menu to inventory tab
+                TabMenu.switchTabName("Inventory");
+                break;
+            case KEY_0:
+                keyPressForSaving(evt);
+                break;
+            case KEY_P:
+                for (var i = 0; i < plantTrackingArray.length; i++) {
+                    plantTrackingArray[i].dayChanged();
+                }
+                break;
+            case KEY_O:
+                console.log("Pressed the O Key");
+                player.plantAtFeet();
+                break;
+            case KEY_ENTER:
+                //toggle menu
+                console.log("Enter pressed");
+                TabMenu.isVisible = !TabMenu.isVisible;
+                break;
+            default:
+                //console.log("keycode press is " + evt.keyCode);
+                keyUsedByGame = false;
+                break;
+        }
+
     if (keyUsedByGame) {
         evt.preventDefault();
     }
