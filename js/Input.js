@@ -145,7 +145,9 @@ function inputUpdate() {
             player.collectResourcesIfAble();
         }
     }
-    player.move(); 
+    if ( !centralMenuOpen ) {
+        player.move();
+    }
 }
 
 
