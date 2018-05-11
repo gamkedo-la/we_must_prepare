@@ -151,25 +151,6 @@ function playerClass() {
         }
     };
 
-    this.workingLand = function(index, oncePerClick) {
-        if (oncePerClick) {
-            if (toolKeyPressedThisFrame == false) {
-                return;
-            }   
-        }
-        // if (proper tool is equipped / something else?) {
-        if (roomGrid[index] == TILE_GROUND) {
-            roomGrid[index] = TILE_TILLED;
-        } else if (roomGrid[index] == TILE_TILLED) {
-            roomGrid[index] = TILE_TILLED_WATERED;
-        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
-            for (i = 0; i < plantTrackingArray.length; i++)
-            if (plantTrackingArray[i].mapIndex == index) {
-                plantTrackingArray[i].is_watered = true;
-            }
-        }
-    };
-
     this.move = function() {
         var nextX = this.x;
         var nextY = this.y;
@@ -227,8 +208,33 @@ function playerClass() {
         if (roomGrid[plantAtIndex] == TILE_TILLED) {
             console.log("Going to plant at index " + plantAtIndex);
             new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+        } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
+            new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+            for (i = 0; i < plantTrackingArray.length; i++)
+            if (plantTrackingArray[i].mapIndex == plantAtIndex) {
+                plantTrackingArray[i].is_watered = true;
+            }
         }
     }
+
+    this.workingLand = function(index, oncePerClick) {
+        if (oncePerClick) {
+            if (toolKeyPressedThisFrame == false) {
+                return;
+            }   
+        }
+        // if (proper tool is equipped / something else?) {
+        if (roomGrid[index] == TILE_GROUND) {
+            roomGrid[index] = TILE_TILLED;
+        } else if (roomGrid[index] == TILE_TILLED) {
+            roomGrid[index] = TILE_TILLED_WATERED;
+        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
+            for (i = 0; i < plantTrackingArray.length; i++)
+            if (plantTrackingArray[i].mapIndex == index) {
+                plantTrackingArray[i].is_watered = true;
+            }
+        }
+    };
 
     this.getDirectionPlayerIsCurrentlyFacing = function() 
     {
