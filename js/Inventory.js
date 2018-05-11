@@ -5,11 +5,12 @@ var items = Object.freeze({
 	wood       :   3,
 	axe	       :   4,
 	watercan   :   5,
-	backhoe    :   6,
+	hoe        :   6,
 });
 
 function inventorySystem(){
 	this.selectedSlot = -1;
+	this.equippedItemIndex = 0;
 	this.holdingSlot = items.nothing;
 	this.slotCount = 35;
 	this.hotbarCount = 5;
@@ -61,7 +62,7 @@ function inventorySystem(){
 		
 		return count; //Tells calling function how many items are left
 	};
-	
+
 	this.grabSlot = function(){
 		if(this.holdingSlot == item.nothing){
 			this.holdingSlot = this.inventorySlots[this.selectedSlot];
@@ -158,6 +159,11 @@ function inventoryUITest(){
 				
 				if(this.testMouse(itemX, itemY)){
 					inventory.selectedItemSlot = i;
+				}
+
+				if (i == inventory.equippedItemIndex) {
+					colorRect(itemX-25, itemY-25, 50, 50, 'green');
+					canvasContext.fillStyle = 'white'; 
 				}
 				
 				if(inventory.inventorySlots[i].count > 0){

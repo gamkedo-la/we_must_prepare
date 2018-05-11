@@ -137,8 +137,10 @@ function playerClass() {
                 depositResources(temp, this.storageList[Resources.Stone]);
                 break;
             case TILE_WOOD_SRC:
-                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                    inventory.add(items.wood, 1);
+                if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.axe) {
+                    if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
+                        inventory.add(items.wood, 1);
+                    }
                 }
                 break;
             case TILE_WOOD_DEST:
@@ -224,14 +226,18 @@ function playerClass() {
             }   
         }
         // if (proper tool is equipped / something else?) {
-        if (roomGrid[index] == TILE_GROUND) {
+        if (roomGrid[index] == TILE_GROUND && 
+            inventory.inventorySlots[inventory.equippedItemIndex].item == items.hoe) {
             roomGrid[index] = TILE_TILLED;
-        } else if (roomGrid[index] == TILE_TILLED) {
+        } else if (roomGrid[index] == TILE_TILLED && 
+            inventory.inventorySlots[inventory.equippedItemIndex].item == items.watercan) {
             roomGrid[index] = TILE_TILLED_WATERED;
-        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
-            for (i = 0; i < plantTrackingArray.length; i++)
-            if (plantTrackingArray[i].mapIndex == index) {
-                plantTrackingArray[i].is_watered = true;
+        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE && 
+            inventory.inventorySlots[inventory.equippedItemIndex].item == items.watercan) {
+            for (i = 0; i < plantTrackingArray.length; i++) {
+                if (plantTrackingArray[i].mapIndex == index) {
+                    plantTrackingArray[i].is_watered = true;
+                }
             }
         }
     };

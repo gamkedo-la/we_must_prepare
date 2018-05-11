@@ -1,4 +1,5 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
+const KEY_TAB = 9;
 const KEY_0 = 48;
 const KEY_A = 65;
 const KEY_B = 66;
@@ -191,6 +192,15 @@ function keyPress(evt) {
     }
     // Common Controls (These are always checked)
     switch (evt.keyCode) {
+            case KEY_TAB:
+                inventory.equippedItemIndex++;
+                if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.nothing) {
+                    inventory.equippedItemIndex = 0;
+                }
+                if (inventory.equippedItemIndex > 4) {
+                    inventory.equippedItemIndex = 0;
+                }
+                break;
             case KEY_B:
                 isBuildModeEnabled = !isBuildModeEnabled;
                 console.log("Build mode enabled is " + isBuildModeEnabled);
@@ -201,11 +211,9 @@ function keyPress(evt) {
                 }
                 break;
             case KEY_USE_TOOL:
-                // if (properToolEquipped?) {
                 toolKeyPressedThisFrame = true;
                 toolKeyHeld = true;
-                // else if (otherToolEquipped)
-                player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true); 
+                player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
                 break;
             case KEY_I:
                 inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship

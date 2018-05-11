@@ -31,9 +31,9 @@ function loadingDoneSoStartGame() {
     }
     startAudioEngine();
 		inventoryUI = new inventoryUITest();
+        inventory.add(items.hoe,1);
         inventory.add(items.axe,1);
         inventory.add(items.watercan,1);
-        inventory.add(items.backhoe,1);
 }
 
 window.onload = function () {
