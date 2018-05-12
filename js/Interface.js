@@ -38,8 +38,8 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.isVisible = false;
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        if (this.isVisible && isInPane(activePane, x, y)) {
-            activePane.leftMouseClick(x, y);
+        if (this.isVisible && isInPane(this.activePane, x, y)) {
+            this.activePane.leftMouseClick(x, y);
             return true;
         } else if (this.isVisible) {
             var clickedPane = this.getTabPaneAt(x, y);
@@ -92,7 +92,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                 var textWidth = canvasContext.measureText(str).width;
                 var tabWidth = (this.tabTextPadding*2)+textWidth;
                 var textColor;
-                if  (i == activeIndex) {
+                if  (i == this.activeIndex) {
                     canvasContext.fillStyle = 'beige';
                     canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
                     textColor = 'black';
@@ -122,8 +122,8 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
         for(i=0; i < this.panes.length; i++) {
             pane = this.panes[i];
             if( i == index) {
-                activePane = pane;
-                activeIndex = index;
+                this.activePane = pane;
+                this.activeIndex = index;
                 pane.isVisible = true;
             } else {
                 pane.isVisible = false;
@@ -142,7 +142,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
         }
     }
     this.switchTabRight = function(doWrap=true) {
-        var i = activeIndex+1;
+        var i = this.activeIndex+1;
         if (doWrap) {
             i = Math.abs(i%this.panes.length); //wrap index
         } else if (i >= this.panes.length-1) {
@@ -151,7 +151,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
         this.switchTabIndex(i);
     }
     this.switchTabLeft = function(doWrap=true) {
-        var i = activeIndex-1;
+        var i = this.activeIndex-1;
         if (doWrap) { 
             i = Math.abs(i%this.panes.length); //wrap index
         } else if (i < 0) {
