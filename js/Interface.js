@@ -1,10 +1,3 @@
-//constructors for UI panes
-var tabMenuUI;
-var paneUI;
-var controlsInfoPaneUI;
-var inventoryPaneUI; //in inventory.js
- 
-
 function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;

@@ -14,6 +14,7 @@ var timer = new TimerClass();
 //Central Menu
 var TabMenu; 
 var InventoryPane;
+var hotbarPane;
 
 function loadingDoneSoStartGame() {
     var framesPerSecond = 30;
@@ -57,13 +58,14 @@ function setupUI() {
     
     pane = new inventoryPaneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     InventoryPane = pane;
-    
-    
     TabMenu.push(pane);
+
     TabMenu.switchTabIndex(0);
     //TabMenu.switchTabName('Controls');
     TabMenu.switchTabLeft(false);
     TabMenu.switchTabLeft();
+
+    hotbarPane = new hotbarPaneUI();
 }
 function setupInventory() {
     inventory.add(items.hoe,1);
@@ -131,6 +133,7 @@ function drawSkyGradient() {
 }
 
 function drawUI() {
+    hotbarPane.draw();
     TabMenu.draw();
     //inventoryUI.draw(); // TODO DEBUG do not ship
     //TODO placeholder - display instructions

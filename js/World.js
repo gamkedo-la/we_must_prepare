@@ -76,7 +76,8 @@ const LAST_TILE_ENUM = TILE_WHEAT_02_FULLY_GROWN;
 
 var objectsWithDepth = [];
 
-var tileTestColors = ['black', // TILE_GROUND
+var tileTestColors = [
+    'black', // TILE_GROUND
     'purple', // TILE_WALL
     'blue', // TILE_PLAYER
     'grey', // TILE_METAL_SRC

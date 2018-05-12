@@ -15,7 +15,8 @@ const KEY_P = 80;
 const KEY_Q = 81;
 const KEY_O = 79;
 // Player
-const KEY_C = KEY_USE_TOOL = 67;
+const KEY_C = 67;
+const KEY_USE_TOOL = 67;
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;

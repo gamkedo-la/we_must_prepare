@@ -141,9 +141,6 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
 	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
     //formatting variables
-    this.hotbarItemX = 215;
-    this.hotbarItemXSpacing = 55;
-    this.hotbarItemY = 570;
 
     this.inventoryX = 150;
     this.itemXSpacing = 55;
@@ -151,7 +148,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.itemYSpacing = 55;
     this.itemsPerRow = 10;
     
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+    this.leftMouseClick = function(mouseX, mouseY) {
         return true;
     }
 
@@ -160,50 +157,23 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         //canvasContext.fillStyle = 'beige';
         //canvasContext.fillRect(this.x,this.y,this.width,this.height);
         
-        var itemX = 0;
-		var itemY = 0;
-		
 		inventory.selectedItemSlot = -1;
 		
-		for(var i = 0; i < inventory.slotCount; i++) {
-			
-			if(i < inventory.hotbarCount) {
-				//draw as hotbar
-				this.itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
-				this.itemY = this.hotbarItemY;
-				
-				if(this.testMouse(this.itemX, this.itemY)){
-					inventory.selectedItemSlot = i;
-				}
+		for(var i = inventory.hotbarCount; i < inventory.slotCount; i++) {
+			//draw as regular slot
+			this.itemX = this.inventoryX + this.itemXSpacing * ((i - inventory.hotbarCount) % this.itemsPerRow);
+			this.itemY = this.inventoryY + this.itemYSpacing * Math.floor((i - inventory.hotbarCount)/this.itemsPerRow);
 
-				if (i == inventory.equippedItemIndex) {
-					colorRect(this.itemX-25, this.itemY-25, 50, 50, 'green');
-					canvasContext.fillStyle = 'white'; 
-				}
-				
-				if(inventory.inventorySlots[i].count > 0){
-					itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
-				}
-				
-				if(inventory.inventorySlots[i].count > 1){
-					canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
-				}
-			} else {
-				//draw as regular slot
-				this.itemX = this.inventoryX + this.itemXSpacing * ((i - inventory.hotbarCount) % this.itemsPerRow);
-				this.itemY = this.inventoryY + this.itemYSpacing * Math.floor((i - inventory.hotbarCount)/this.itemsPerRow);
-				
-				if(this.testMouse(this.itemX, this.itemY)){
-					inventory.selectedItemSlot = i;
-				}
-				
-				if(inventory.inventorySlots[i].count > 0){
-					itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
-				}
-				
-				if(inventory.inventorySlots[i].count > 1){
-					canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
-				}
+			if(this.testMouse(this.itemX, this.itemY)){
+				inventory.selectedItemSlot = i;
+			}
+
+			if(inventory.inventorySlots[i].count > 0){
+				itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
+			}
+
+			if(inventory.inventorySlots[i].count > 1){
+				canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
 			}
 		}
     } // end draw()
@@ -215,4 +185,49 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 			itemSpriteSheet.draw(itemX, itemY, 0, 0);
 		}
 	}
-} //end inventorypaneUI()
+} //end inventoryPaneUI()
+
+function hotbarPaneUI() {
+    var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
+	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
+    this.hotbarItemX = 215;
+    this.hotbarItemXSpacing = 55;
+    this.hotbarItemY = 570;
+
+    this.leftMouseClick = function(mouseX, mouseY) {
+        return true;
+    }
+
+    this.draw = function(draw) {
+		for(var i = 0; i < inventory.hotbarCount; i++) {
+			//draw as hotbar
+			this.itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
+			this.itemY = this.hotbarItemY;
+
+			if(this.testMouse(this.itemX, this.itemY)){
+				inventory.selectedItemSlot = i;
+			}
+
+			if (i == inventory.equippedItemIndex) {
+				colorRect(this.itemX-25, this.itemY-25, 50, 50, 'green');
+				canvasContext.fillStyle = 'white';
+			}
+
+			if(inventory.inventorySlots[i].count > 0){
+				itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
+			}
+
+			if(inventory.inventorySlots[i].count > 1){
+				canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
+			}
+		}
+    } // end draw()
+
+    this.testMouse = function(itemX, itemY) {
+        if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
+			selectedSlotSprite.draw(itemX, itemY);
+		} else {
+			itemSpriteSheet.draw(itemX, itemY, 0, 0);
+		}
+	}
+} //end hotbarPaneUI()
