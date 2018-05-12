@@ -125,7 +125,7 @@ function inventorySystem(){
 	};
 }
 
-//TODO move this to UI code
+//TODO move this to InventoryPaneUI code
 hotbarItemX = 215;
 hotbarItemXSpacing = 55;
 hotbarItemY = 570;
@@ -141,8 +141,6 @@ var inventory = new inventorySystem();
 function inventoryUITest(){
 	var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
 	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
-	
-	this.active = false;
 	
 	this.draw = function(){
 		var itemX = 0;
@@ -173,7 +171,7 @@ function inventoryUITest(){
 				if(inventory.inventorySlots[i].count > 1){
 					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
 				}
-			} else if(this.active) {
+			} else {
 				//draw as regular slot
 				itemX = inventoryX + itemXSpacing * ((i - inventory.hotbarCount) % itemsPerRow);
 				itemY = inventoryY + itemYSpacing * Math.floor((i - inventory.hotbarCount)/itemsPerRow);
