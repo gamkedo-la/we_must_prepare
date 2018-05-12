@@ -126,15 +126,7 @@ function inventorySystem(){
 }
 
 //TODO move this to InventoryPaneUI code
-hotbarItemX = 215;
-hotbarItemXSpacing = 55;
-hotbarItemY = 570;
 
-inventoryX = 150;
-itemXSpacing = 55;
-inventoryY = 250;
-itemYSpacing = 55;
-itemsPerRow = 10;
 
 var inventory = new inventorySystem();
 
@@ -146,25 +138,29 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.name = name;
     this.isVisible = true;
     
-    this.InventoryUITest = new inventoryUITest();
+    var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
+	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
+    //formatting variables
+    this.hotbarItemX = 215;
+    this.hotbarItemXSpacing = 55;
+    this.hotbarItemY = 570;
+
+    this.inventoryX = 150;
+    this.itemXSpacing = 55;
+    this.inventoryY = 250;
+    this.itemYSpacing = 55;
+    this.itemsPerRow = 10;
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         return true;
     }
 
     this.draw = function(draw) {
-        canvasContext.fillStyle = 'beige';
-        canvasContext.fillRect(this.x,this.y,this.width,this.height);
-        this.InventoryUITest.draw();
-    }
-} //end inventorypaneUI definition
-
-function inventoryUITest(){
-	var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
-	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
-	
-	this.draw = function(){
-		var itemX = 0;
+        colorRect(this.x,this.y,this.width,this.height, 'beige');
+        //canvasContext.fillStyle = 'beige';
+        //canvasContext.fillRect(this.x,this.y,this.width,this.height);
+        
+        var itemX = 0;
 		var itemY = 0;
 		
 		inventory.selectedItemSlot = -1;
@@ -173,52 +169,50 @@ function inventoryUITest(){
 			
 			if(i < inventory.hotbarCount) {
 				//draw as hotbar
-				itemX = hotbarItemX + hotbarItemXSpacing * i;
-				itemY = hotbarItemY;
+				this.itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
+				this.itemY = this.hotbarItemY;
 				
-				if(this.testMouse(itemX, itemY)){
+				if(this.testMouse(this.itemX, this.itemY)){
 					inventory.selectedItemSlot = i;
 				}
 
 				if (i == inventory.equippedItemIndex) {
-					colorRect(itemX-25, itemY-25, 50, 50, 'green');
+					colorRect(this.itemX-25, this.itemY-25, 50, 50, 'green');
 					canvasContext.fillStyle = 'white'; 
 				}
 				
 				if(inventory.inventorySlots[i].count > 0){
-					itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+					itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
 				}
 				
 				if(inventory.inventorySlots[i].count > 1){
-					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+					canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
 				}
 			} else {
 				//draw as regular slot
-				itemX = inventoryX + itemXSpacing * ((i - inventory.hotbarCount) % itemsPerRow);
-				itemY = inventoryY + itemYSpacing * Math.floor((i - inventory.hotbarCount)/itemsPerRow);
+				this.itemX = this.inventoryX + this.itemXSpacing * ((i - inventory.hotbarCount) % this.itemsPerRow);
+				this.itemY = this.inventoryY + this.itemYSpacing * Math.floor((i - inventory.hotbarCount)/this.itemsPerRow);
 				
-				if(this.testMouse(itemX, itemY)){
+				if(this.testMouse(this.itemX, this.itemY)){
 					inventory.selectedItemSlot = i;
 				}
 				
 				if(inventory.inventorySlots[i].count > 0){
-					itemSpriteSheet.draw(itemX, itemY, inventory.inventorySlots[i].item, 0);
+					itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
 				}
 				
 				if(inventory.inventorySlots[i].count > 1){
-					canvasContext.fillText(inventory.inventorySlots[i].count, itemX, itemY);
+					canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
 				}
 			}
 		}
-	};
-	
-	this.testMouse = function(itemX, itemY){
-		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25){
+    } // end draw()
+    
+    this.testMouse = function(itemX, itemY) {
+        if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
 			selectedSlotSprite.draw(itemX, itemY);
 		} else {
 			itemSpriteSheet.draw(itemX, itemY, 0, 0);
 		}
 	}
-}
-
-//var inventoryUI;
+} //end inventorypaneUI()
