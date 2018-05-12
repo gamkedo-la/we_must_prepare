@@ -83,6 +83,11 @@ function mousedownHandler(evt) {
 
 
 function mouseupHandler(evt) {
+    if (isPaused) {
+        startGameLoop();
+        return;
+    }
+
     calculateMousePos(evt);
     mouseHeld = false;
 } // end mouse up handler
@@ -173,6 +178,10 @@ function keySet(keyEvent, whichUnit, setTo)
 }
 
 function keyPress(evt) {
+    if (isPaused) {
+        return;
+    }
+
     var keyUsedByGame = true;
 
     keySet(evt, player, true);
@@ -255,6 +264,11 @@ function keyPress(evt) {
 
 function keyReleased(evt)
 {
+    if (isPaused) {
+        startGameLoop();
+        return;
+    }
+
     keySet(evt, player, false);
 
     evt.preventDefault();

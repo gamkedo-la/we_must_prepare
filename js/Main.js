@@ -1,4 +1,5 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
+const FRAMES_PER_SECOND = 30;
 const PLAYER_START_UNITS = 1;
 const ENEMY_START_UNITS = 20;
 const CAM_PAN_SPEED = 5;
@@ -11,20 +12,16 @@ var canvas, canvasContext;
 var player = new playerClass();
 var timer = new TimerClass();
 
+var isPaused = false;
+var gameInterval;
+
 //Central Menu
 var TabMenu; 
 var InventoryPane;
 var hotbarPane;
 
 function loadingDoneSoStartGame() {
-    var framesPerSecond = 30;
-    setInterval(function () {
-        moveEverything();
-        drawEverything();
-        AudioEventManager.updateEvents();
-        mouseClickedThisFrame = false;
-        toolKeyPressedThisFrame = false;
-    }, 1000 / framesPerSecond);
+    startGameLoop();
 
     setupInput();
 	setupUI(); //interface.js
@@ -38,7 +35,37 @@ function loadingDoneSoStartGame() {
     //TODO remove this, it doesn't appear to be needed anymore.
 		//inventoryUI = new inventoryUITest();
     setupInventory();
+    window.addEventListener('blur', windowOnBlur);
 }
+
+function startGameLoop() {
+    isPaused = false;
+    gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
+}
+
+function gameLoop() {
+    moveEverything();
+    drawEverything();
+    AudioEventManager.updateEvents();
+    mouseClickedThisFrame = false;
+    toolKeyPressedThisFrame = false;
+}
+
+function windowOnBlur() {
+    if (gameInterval) {
+        isPaused = true;
+        clearInterval(gameInterval);
+        gameInterval = false;
+
+        // @todo replace with a proper pause-screen
+        colorRect(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 75, 'black');
+        canvasContext.textAlign = 'center';
+        colorText('Game Paused', canvas.width / 2, canvas.height  / 2, 'white');
+        colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');
+        canvasContext.textAlign = 'left';
+    }
+}
+
 window.onload = function () {
     canvas = document.getElementById('gameCanvas');
     canvasContext = canvas.getContext('2d');
