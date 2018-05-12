@@ -1,31 +1,3 @@
-
-var TabMenu;
-
-function setupUI() {
-    TabMenu = new tabMenuUI(canvas.width*.25, canvas.height*.25-30);
-    //create a pane for testing
-    var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
-    TabMenu.push(pane, true);
-    pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
-    TabMenu.push(pane);
-    pane = new paneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
-    TabMenu.push(pane);
-    TabMenu.switchTabIndex(0);
-    //TabMenu.switchTabName('Controls');
-    TabMenu.switchTabLeft(false);
-    TabMenu.switchTabLeft();
-
-}
-
-function drawUI() {
-    //test
-    //setupUI();
-    
-    TabMenu.draw();
-    //placeholder - display instructions
-    colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
-}
-
 function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;
@@ -167,7 +139,6 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
     this.name = name;
-    
     this.isVisible = true;
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
@@ -179,6 +150,27 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
     }
 }
+
+function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.isVisible = true;
+    
+    this.InventoryUITest = new inventoryUITest();
+    
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        return true;
+    }
+
+    this.draw = function(draw) {
+        canvasContext.fillStyle = 'beige';
+        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+        this.InventoryUITest.draw();
+    }
+} //end inventorypaneUI definition
 
 function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 

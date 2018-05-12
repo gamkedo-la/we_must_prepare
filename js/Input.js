@@ -218,7 +218,7 @@ function keyPress(evt) {
                 player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
                 break;
             case KEY_I:
-                inventoryUI.active = !inventoryUI.active; // TODO DEBUG code, do not ship
+                InventoryPane.InventoryUITest.active = !InventoryPane.InventoryUITest.active; // TODO DEBUG code, do not ship
                 
                 //Switch central menu to inventory tab
                 TabMenu.switchTabName("Inventory");

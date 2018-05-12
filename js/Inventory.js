@@ -202,4 +202,4 @@ function inventoryUITest(){
 	}
 }
 
-var inventoryUI;
+//var inventoryUI;

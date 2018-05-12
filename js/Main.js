@@ -11,6 +11,10 @@ var canvas, canvasContext;
 var player = new playerClass();
 var timer = new TimerClass();
 
+//Central Menu
+var TabMenu; 
+var InventoryPane;
+
 function loadingDoneSoStartGame() {
     var framesPerSecond = 30;
     setInterval(function () {
@@ -22,7 +26,7 @@ function loadingDoneSoStartGame() {
     }, 1000 / framesPerSecond);
 
     setupInput();
-	setupUI();
+	setupUI(); //interface.js
     player.reset();
     setupBuckets();
     timer.setupTimer();
@@ -30,12 +34,10 @@ function loadingDoneSoStartGame() {
         autoLoad();
     }
     startAudioEngine();
-		inventoryUI = new inventoryUITest();
-        inventory.add(items.hoe,1);
-        inventory.add(items.axe,1);
-        inventory.add(items.watercan,1);
+    //TODO remove this, it doesn't appear to be needed anymore.
+		//inventoryUI = new inventoryUITest();
+    setupInventory();
 }
-
 window.onload = function () {
     canvas = document.getElementById('gameCanvas');
     canvasContext = canvas.getContext('2d');
@@ -43,6 +45,31 @@ window.onload = function () {
     loadImages();
 
 }  // end onload
+
+function setupUI() {
+    TabMenu = new tabMenuUI(canvas.width*.25, canvas.height*.25-30);
+    //create a pane for testing
+    var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    TabMenu.push(pane);
+    
+    pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    TabMenu.push(pane);
+    
+    pane = new inventoryPaneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    InventoryPane = pane;
+    
+    
+    TabMenu.push(pane);
+    TabMenu.switchTabIndex(0);
+    //TabMenu.switchTabName('Controls');
+    TabMenu.switchTabLeft(false);
+    TabMenu.switchTabLeft();
+}
+function setupInventory() {
+    inventory.add(items.hoe,1);
+    inventory.add(items.axe,1);
+    inventory.add(items.watercan,1);
+}
 
 function moveEverything() {
     inputUpdate();
@@ -92,9 +119,8 @@ function drawEverything() {
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
     timer.drawTimer();
-		inventoryUI.draw(); // TODO DEBUG do not ship
 	// main UI
-	drawUI();
+	drawUI(); //interface.js
 }
 
 function drawSkyGradient() {
@@ -102,4 +128,11 @@ function drawSkyGradient() {
             timeOfDayGradient,
             (Math.floor(masterFrameDelayTick * 0.2) % timeOfDayGradient.width), 0, 1, 100, // source x,y,w,d (scroll source x over time)
             0, 0, 800, 600); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
+}
+
+function drawUI() {
+    TabMenu.draw();
+    //inventoryUI.draw(); // TODO DEBUG do not ship
+    //TODO placeholder - display instructions
+    colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
 }
