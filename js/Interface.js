@@ -1,3 +1,10 @@
+//constructors for UI panes
+var tabMenuUI;
+var paneUI;
+var controlsInfoPaneUI;
+var inventoryPaneUI; //in inventory.js
+ 
+
 function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;
@@ -150,27 +157,6 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
     }
 }
-
-function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;
-    this.isVisible = true;
-    
-    this.InventoryUITest = new inventoryUITest();
-    
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        return true;
-    }
-
-    this.draw = function(draw) {
-        canvasContext.fillStyle = 'beige';
-        canvasContext.fillRect(this.x,this.y,this.width,this.height);
-        this.InventoryUITest.draw();
-    }
-} //end inventorypaneUI definition
 
 function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 

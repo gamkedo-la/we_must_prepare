@@ -138,6 +138,27 @@ itemsPerRow = 10;
 
 var inventory = new inventorySystem();
 
+function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.isVisible = true;
+    
+    this.InventoryUITest = new inventoryUITest();
+    
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        return true;
+    }
+
+    this.draw = function(draw) {
+        canvasContext.fillStyle = 'beige';
+        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+        this.InventoryUITest.draw();
+    }
+} //end inventorypaneUI definition
+
 function inventoryUITest(){
 	var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
 	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
