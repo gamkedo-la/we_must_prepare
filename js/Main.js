@@ -14,6 +14,7 @@ var timer = new TimerClass();
 
 var isPaused = false;
 var gameInterval;
+var blurInterval;
 
 //Central Menu
 var TabMenu; 
@@ -31,7 +32,6 @@ function loadingDoneSoStartGame() {
     if (autoSaveEnabled) {
         autoLoad();
     }
-    startAudioEngine();
     //TODO remove this, it doesn't appear to be needed anymore.
 		//inventoryUI = new inventoryUITest();
     setupInventory();
@@ -40,6 +40,7 @@ function loadingDoneSoStartGame() {
 
 function startGameLoop() {
     isPaused = false;
+    startAudioEngine();
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
 }
 

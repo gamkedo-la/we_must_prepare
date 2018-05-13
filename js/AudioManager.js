@@ -267,8 +267,9 @@ function scaleRange(inputStart, inputEnd, outputStart, outputEnd, value) {
 
 //Game hooks
 function startAudioEngine() {
-	console.log("Starting Audio Engine");
-	inGame_music_master.play();
+	if(inGame_music_master.getPaused()) {
+		inGame_music_master.play();
+	}
 }
 
 function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
