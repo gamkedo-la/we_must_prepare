@@ -87,6 +87,9 @@ function setupUI() {
     InventoryPane = pane;
     TabMenu.push(pane);
 
+    var pane = new audioPaneUI('Audio', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    TabMenu.push(pane);
+
     TabMenu.switchTabIndex(0);
     //TabMenu.switchTabName('Controls');
     TabMenu.switchTabLeft(false);

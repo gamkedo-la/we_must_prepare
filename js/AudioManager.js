@@ -11,6 +11,7 @@ var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new 
 													inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8),
 													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
 var inGame_music_track3 = new musicTrackNonLooping("morning", 18.4);  //By Kise
+inGame_music_track3.setMixVolume(0.7);
 var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3],240,90);
 
 MusicVolumeManager.setVolume(0.7);
@@ -23,6 +24,8 @@ rain_enviSFX.setMixVolume(0.5);
 var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
 
 EnviSFXVolumeManager.setVolume(0.7);
+
+SFXVolumeManager.setVolume(0.7);
 
 function setFormat() {
 	var audio = new Audio();
@@ -59,8 +62,6 @@ function setMute(TorF) {
 
 function getMute(TorF) {
 	return isMuted;
-	SFXVolumeManager.updateVolume();
-	MusicVolumeManager.updateVolume();
 }
 
 
@@ -299,5 +300,74 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 		rain_enviSFX.setVolume(rainLevel);
 	} else {
 		rain_enviSFX.setVolume(rainLevel);
+	}
+}
+
+function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+	this.x = topLeftX;
+	this.y = topLeftY;
+	this.width = bottomRightX - topLeftX;
+	this.height = bottomRightY - topLeftY;
+	this.name = name;
+	this.isVisible = true;
+
+	this.sliders = [mSlider = new audioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, MusicVolumeManager),
+					eSlider = new audioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, EnviSFXVolumeManager),
+					sfxSlider = new audioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, SFXVolumeManager)];
+    
+	this.leftMouseClick = function(x=mouseX, y=mouseY) {
+		for(var i = 0; i < this.sliders.length; i++){
+			if(y >= this.sliders[i].y && y <= this.sliders[i].y+this.sliders[i].height &&
+			   x >= this.sliders[i].x && x <= this.sliders[i].x+this.sliders[i].width){
+				this.sliders[i].leftMouseClick();
+				return;
+			}
+		}
+		return true;
+	}
+
+	this.draw = function() {
+		colorRect(this.x,this.y,this.width,this.height, 'beige');
+		for(var i = 0; i < this.sliders.length; i++){
+			this.sliders[i].draw();
+		}
+
+	}
+}
+
+function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
+	this.x = topLeftX;
+	this.y = topLeftY;
+	this.width = bottomRightX - topLeftX;
+	this.height = bottomRightY - topLeftY;
+	this.name = name;
+	this.isVisible = true;
+
+	if(this.height < 15){this.height = 15;}
+
+	this.lineHeight = 10;
+	this.textLine = name;
+
+	this.sliderHeight = this.height - this.lineHeight;
+	this.lengthScale = this.width - this.sliderHeight;
+	this.sliderValue = volumeManager.getVolume();
+
+	this.leftMouseClick = function(x=mouseX, y=mouseY) {
+		if(y >= this.y + this.lineHeight && y <= this.y + this.height) {
+			var newVolume = (mouseX - this.x)/this.width;
+			this.sliderValue = newVolume;
+			volumeManager.setVolume(this.sliderValue);
+		}
+		return true;
+	}
+
+	this.draw = function() {
+		var textX = this.x;
+		var textY = this.y + this.lineHeight - 2; 
+		var sliderX = this.x;
+		var sliderY = this.y + this.lineHeight;
+		colorText(this.textLine, textX, textY, 'black');
+		colorRect(sliderX, sliderY, this.width, this.sliderHeight, 'black');
+		colorRect(sliderX+2 + this.sliderValue*this.lengthScale, sliderY+2, this.sliderHeight-4, this.sliderHeight-4, 'white');
 	}
 }

@@ -643,6 +643,8 @@ function musicTrackNonLooping(filename, playLength) {
 	this.getPaused = function() {
 		return musicFile.paused;
 	}
+
+	return this;
 }
 
 function musicTrackLoopingWTail(filename, playLength) {
