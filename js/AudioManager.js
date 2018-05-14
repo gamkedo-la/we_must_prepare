@@ -352,17 +352,24 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 	this.sliderHeight = this.height - this.lineHeight;
 	this.lengthScale = this.width - this.sliderHeight;
 	this.sliderValue = volumeManager.getVolume();
+	this.clicked = false;
 
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
 		if(y >= this.y + this.lineHeight && y <= this.y + this.height) {
-			var newVolume = (mouseX - this.x)/this.width;
-			this.sliderValue = newVolume;
-			volumeManager.setVolume(this.sliderValue);
+			this.clicked = true;
 		}
 		return true;
 	}
 
 	this.draw = function() {
+		if(mouseY >= this.y && mouseY <= this.y + this.height + this.lineHeight && 
+		   mouseX >= this.x && mouseX <= this.x + this.width && mouseHeld && this.clicked) {
+			var newVolume = (mouseX - this.x)/this.width;
+			this.sliderValue = newVolume;
+			volumeManager.setVolume(this.sliderValue);
+		} else if(!mouseHeld){
+			this.clicked = false;
+		}
 		var textX = this.x;
 		var textY = this.y + this.lineHeight - 2; 
 		var sliderX = this.x;
