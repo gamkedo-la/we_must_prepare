@@ -222,6 +222,100 @@ function sfxClipOverlap(filename, voices = 2) {
 	}
 }
 
+function sfxClipClipLoopingWTail(filename, playLength) {
+	var soundFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
+	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
+	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
+	var currentClip = 0;
+	var duration = playLength;
+	var trackName = filename;
+	var clipVolume = 1;
+	var mixVolume = 1;
+
+	soundFile[0].pause();
+	soundFile[1].pause();
+	SFXVolumeManager.addToList(this);
+
+	this.play = function() {
+		soundFile[currentClip].currentTime = 0;
+		this.updateVolume();
+		soundFile[currentClip].play();
+		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+	}
+
+	this.stop = function() {
+		soundFile[0].pause();
+		soundFile[0].currentTime = 0;
+		soundFile[1].pause();
+		soundFile[1].currentTime = 0;
+	}
+
+	this.resume = function() {
+		soundFile[currentClip].play();
+		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+	}
+
+	this.pause = function() {
+		soundFile[0].pause();
+		soundFile[1].pause();
+	}
+
+	this.triggerTimerEnded = function(callSign) {
+		currentClip++;
+		if (currentClip > 1) {currentClip = 0;}
+		this.play();
+	}
+
+	this.updateVolume = function() {
+		soundFile[0].volume = Math.pow(mixVolume * envisfxVolume  * clipVolume * !isMuted, 2);
+		soundFile[1].volume = Math.pow(mixVolume * envisfxVolume  * clipVolume * !isMuted, 2);
+	}
+
+	this.setVolume = function(newVolume) {
+		if(newVolume > 1) {newVolume = 1;}
+		if(newVolume < 0) {newVolume = 0;}
+		soundFile[currentClip].volume = Math.pow(mixVolume * newVolume * envisfxVolume * !isMuted, 2);
+		clipVolume = newVolume;
+		if (clipVolume <= 0) { this.pause();}
+	}
+
+	this.getVolume = function() {
+		return clipVolume * !isMuted;
+	}
+
+	this.setMixVolume = function(volume) {
+		mixVolume = volume;
+	}
+
+	this.setTime = function(time) {
+		var newTime = time;
+		if(newTime < 0) {newTime = 0;}
+		while (newTime >= duration) {newTime -= duration;}
+		soundFile[currentClip].currentTime = newTime;
+		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+	}
+
+	this.getTime = function() {
+		return soundFile[currentClip].currentTime;
+	}
+	
+	this.setClipName = function(name) {
+		trackName = name;
+	}
+
+	this.getClipName = function() {
+		return trackName;
+	}
+	
+	this.getDuration = function() {
+		return duration;
+	}
+
+	this.getPaused = function() {
+		return soundFile[currentClip].paused;
+	}
+}
+
 function sfxContainer(clipList) {
 	var soundFile = [];
 	currentClip = 0;
@@ -521,6 +615,121 @@ function enviSFXClipLoopingWTail(filename, playLength) {
 
 	this.getPaused = function() {
 		return soundFile[currentClip].paused;
+	}
+}
+
+
+//Environment SFX Classes
+var uisfxVolume = 1;
+UISFXVolumeManager = new uiSFXVolumeManager();
+function uiSFXVolumeManager() {
+	var clipList = [];
+
+	this.setVolume = function(amount) {
+		if (amount > 1) {uisfxVolume = 1;}
+		else if (amount < 0) {uisfxVolume = 0;}
+		else {uisfxVolume = amount;}
+		for (var i in clipList) {
+			clipList[i].updateVolume();
+		}
+	}
+
+	this.getVolume = function() {
+		return uisfxVolume;
+	}
+
+	this.updateVolume = function() {
+		for(var i in clipList) {
+			clipList[i].updateVolume();
+		}
+	}
+
+	this.addToList = function(uiSFXClip) {
+		clipList.push(uiSFXClip);
+	}
+
+	this.reportList = function() {
+		return clipList;
+	}
+}
+
+function uiSFXClipSingle(filename) {
+	var soundFile = new Audio(audioPath+filename+audioFormat());
+	soundFile.onerror = function(){soundFile = new Audio(audioPath+filename+audioFormat(true))};
+	var clipVolume = 1;
+	var randVolume = true;
+	var clipName = filename;
+	var duration = soundFile.duration;
+	var mixVolume = 1;
+
+	soundFile.pause();
+	UISFXVolumeManager.addToList(this);
+
+
+	this.play = function() {
+		soundFile.currentTime = 0;
+		this.updateVolume();
+		soundFile.play();
+	}
+
+	this.stop = function() {
+		soundFile.pause();
+		soundFile.currentTime = 0;
+	}
+
+	this.resume = function() {
+		soundFile.play();
+	}
+
+	this.pause = function() {
+		soundFile.pause();
+	}
+
+	this.updateVolume = function() {
+		if (randVolume) {
+			soundFile.volume = Math.pow(mixVolume * sfxVolume * clipVolume * getRandomVolume() * !isMuted, 2);
+		} else {
+			soundFile.volume = Math.pow(mixVolume * sfxVolume * clipVolume * !isMuted, 2);
+		}
+	}
+
+	this.setVolume = function(newVolume) {
+		if(newVolume > 1) {newVolume = 1;}
+		if(newVolume < 0) {newVolume = 0;}
+		soundFile.volume = Math.pow(mixVolume * newVolume * sfxVolume * !isMuted, 2);
+		clipVolume = newVolume;
+	}
+
+	this.getVolume = function() {
+		return sfxVolume * clipVolume * !isMuted;
+	}
+
+	this.setMixVolume = function(volume) {
+		mixVolume = volume;
+	}
+
+	this.setTime = function(time) {
+		soundFile.currentTime = time;
+	}
+
+	this.getTime = function() {
+		return soundFile.currentTime;
+	}
+	
+	this.setClipName = function(name) {
+		clipName = name;
+	}
+
+	this.getClipName = function() {
+		return clipName;
+	}
+	
+	this.getDuration = function() {
+		return duration;
+	}
+
+	this.getPaused = function() {
+		return soundFile.paused;
 	}
 }
 

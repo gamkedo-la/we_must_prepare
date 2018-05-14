@@ -27,6 +27,8 @@ EnviSFXVolumeManager.setVolume(0.7);
 
 SFXVolumeManager.setVolume(0.7);
 
+UISFXVolumeManager.setVolume(0.7);
+
 function setFormat() {
 	var audio = new Audio();
 	if (audio.canPlayType("audio/ogg")) {
@@ -60,7 +62,7 @@ function setMute(TorF) {
 	MusicVolumeManager.updateVolume();
 }
 
-function getMute(TorF) {
+function getMute() {
 	return isMuted;
 }
 
@@ -314,7 +316,9 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
 	this.sliders = [mSlider = new audioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, MusicVolumeManager),
 					eSlider = new audioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, EnviSFXVolumeManager),
-					sfxSlider = new audioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, SFXVolumeManager)];
+					sfxSlider = new audioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, SFXVolumeManager),
+					uiSlider = new audioSliderUI('UI Volume', this.x+20, this.y+110, this.x + this.width-20, this.y+130, UISFXVolumeManager),
+					muteToggle = new audioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x + this.width-20, this.y+160)];
     
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
 		for(var i = 0; i < this.sliders.length; i++){
@@ -370,12 +374,53 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 		} else if(!mouseHeld){
 			this.clicked = false;
 		}
+
 		var textX = this.x;
 		var textY = this.y + this.lineHeight - 2; 
 		var sliderX = this.x;
 		var sliderY = this.y + this.lineHeight;
+
 		colorText(this.textLine, textX, textY, 'black');
 		colorRect(sliderX, sliderY, this.width, this.sliderHeight, 'black');
 		colorRect(sliderX+2 + this.sliderValue*this.lengthScale, sliderY+2, this.sliderHeight-4, this.sliderHeight-4, 'white');
+	}
+}
+
+function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+	this.x = topLeftX;
+	this.y = topLeftY;
+	this.width = bottomRightX - topLeftX;
+	this.height = bottomRightY - topLeftY;
+	this.name = name;
+	this.isVisible = true;
+
+	this.lineHeight = 10;
+	this.textLine = name;
+
+	this.toggleHeight = this.height - this.lineHeight;
+	this.toggleValue = getMute();
+
+	this.leftMouseClick = function(x=mouseX, y=mouseY) {
+		if(y >= this.y + this.lineHeight && y <= this.y + this.height &&
+		   x >= this.x && x <= this.x + this.toggleHeight) {
+			toggleMute();
+		}
+		return true;
+	}
+
+	this.draw = function() {
+		this.toggleValue = getMute();
+		var textX = this.x;
+		var textY = this.y + this.lineHeight - 2; 
+		var toggleX = this.x;
+		var toggleY = this.y + this.lineHeight;
+
+		colorText(this.textLine, textX, textY, 'black');
+		colorRect(toggleX, toggleY, this.toggleHeight, this.toggleHeight, 'black');
+		colorRect(toggleX+2, toggleY+2, this.toggleHeight-4, this.toggleHeight-4, 'white');
+		if (this.toggleValue) {
+			colorRect(toggleX+3, toggleY+3, this.toggleHeight-6, this.toggleHeight-6, 'black');
+		}
+
 	}
 }
