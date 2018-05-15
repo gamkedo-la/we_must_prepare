@@ -149,15 +149,15 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         canvasContext.fillStyle = 'beige';
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
     }
-}
+} // end paneUI
 
 function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;
+	paneUI.call(this, name, topLeftX, topLeftY, bottomRightX, bottomRightY);
+    //this.x = topLeftX;
+    //this.y = topLeftY;
+    //this.width = bottomRightX - topLeftX;
+    //this.height = bottomRightY - topLeftY;
+    //this.name = name;
     
     this.isVisible = true;
     
@@ -180,8 +180,9 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
     }
 
     this.draw = function() {
-        canvasContext.fillStyle = 'beige';
-        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+		this.prototype.draw.call(this);
+        //canvasContext.fillStyle = 'beige';
+        //canvasContext.fillRect(this.x,this.y,this.width,this.height);
         var lines = this.textLine.length;
         var columnWidth = 0;
         var textX = this.x+this.padding;
@@ -205,7 +206,9 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
             textY += this.lineHeight;
         }
     }
-}
+} // end controlsInfoPaneUI
+controlsInfoPaneUI.prototype = Object.create(
+paneUI.prototype);
 
 //utility functions for panes
 var isInPane = function(pane, x, y) {
