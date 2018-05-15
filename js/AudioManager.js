@@ -318,7 +318,8 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 					eSlider = new audioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, EnviSFXVolumeManager),
 					sfxSlider = new audioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, SFXVolumeManager),
 					uiSlider = new audioSliderUI('UI Volume', this.x+20, this.y+110, this.x + this.width-20, this.y+130, UISFXVolumeManager),
-					muteToggle = new audioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x + this.width-20, this.y+160)];
+					muteToggle = new audioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x + this.width-20, this.y+160),
+					currentSong = new audioCurrentTrackUI('Now playing:', this.x+20, this.y+190, this.x + this.width-20, this.y+210)];
     
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
 		for(var i = 0; i < this.sliders.length; i++){
@@ -367,7 +368,7 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 
 	this.draw = function() {
 		if(mouseY >= this.y && mouseY <= this.y + this.height + this.lineHeight && 
-		   mouseX >= this.x && mouseX <= this.x + this.width && mouseHeld && this.clicked) {
+		   mouseX >= this.x - this.lineHeight && mouseX <= this.x + this.width + this.lineHeight && mouseHeld && this.clicked) {
 			var newVolume = (mouseX - this.x)/this.width;
 			this.sliderValue = newVolume;
 			volumeManager.setVolume(this.sliderValue);
@@ -379,6 +380,7 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 		var textY = this.y + this.lineHeight - 2; 
 		var sliderX = this.x;
 		var sliderY = this.y + this.lineHeight;
+		this.sliderValue = volumeManager.getVolume();
 
 		colorText(this.textLine, textX, textY, 'black');
 		colorRect(sliderX, sliderY, this.width, this.sliderHeight, 'black');
@@ -423,4 +425,52 @@ function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY)
 		}
 
 	}
+}
+
+function audioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+	this.x = topLeftX;
+	this.y = topLeftY;
+	this.width = bottomRightX - topLeftX;
+	this.height = bottomRightY - topLeftY;
+	this.name = name;
+	this.isVisible = true;
+
+	this.lineHeight = 10;
+	this.textLine1 = name;
+	this.textLine2 = getCurrentTrackInfo();
+
+	this.leftMouseClick = function(x=mouseX, y=mouseY) {
+		return true;
+	}
+
+	this.draw = function() {
+		this.textLine2 = getCurrentTrackInfo();
+		var textX = this.x;
+		var textY = this.y + this.lineHeight - 2; 
+		var titleX = this.x;
+		var titleY = this.y + this.lineHeight*2 - 2;
+
+		colorText(this.textLine1, textX, textY, 'black');
+		colorText(this.textLine2, titleX, titleY, 'black');
+	}
+}
+
+function getCurrentTrackInfo() {
+	var details = "";
+	var currentTrack = inGame_music_master.getTrackName();
+
+	currentTrack = currentTrack.slice(0,3);
+	switch(currentTrack){
+		case "Pea":
+			details = "Peace by Vignesh"
+			break;
+		case "mor":
+			details = "Morning by Kise"
+			break;
+		case "laz":
+			details = "Lazy Guitar by Misha"
+			break;
+	}
+
+	return details;
 }
