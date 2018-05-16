@@ -64,17 +64,15 @@ function inventorySystem(){
 	};
 
 	this.grabSlot = function(){
-		if(this.holdingSlot == item.nothing){
+		if(this.holdingSlot.item != this.inventorySlots[this.selectedSlot].item){
+			var tempSlot = this.holdingSlot;
 			this.holdingSlot = this.inventorySlots[this.selectedSlot];
-			this.inventorySlots[this.selectedSlot] = new this.emptySlot();
-		}else if(this.holdingSlot.item == this.inventorySlots[this.selectedSlot].item){
-			this.holdingSlot.count += this.inventorySlots[this.selectedSlot].count;
-			this.inventorySlots[this.selectedSlot] = new this.emptySlot();
+			this.inventorySlots[this.selectedSlot] = tempSlot;
+		} else {
+			// TODO account for stack limits
+			this.inventorySlots[this.selectedSlot].count += this.holdingSlot.count;
+			this.holdingSlot = new this.emptySlot();
 		}
-		
-		var tempSlot = this.holdingSlot;
-		this.holdingSlot = this.inventorySlots[this.selectedSlot];
-		this.inventorySlots[this.selectedSlot] = tempSlot;
 	};
 	
 	//Automatically remove count number of items from inventory iff they exist
@@ -130,8 +128,12 @@ function hotbarPaneUI() {
 	this.hotbarItemXSpacing = 55;
 	this.hotbarItemY = 570;
 
-	this.leftMouseClick = function(mouseX, mouseY) {
-		return true;
+	this.leftMouseClick = function(x = mouseX, y = mouseY) {
+		if(inventory.selectedSlot >= 0){
+			inventory.grabSlot();
+			return true;
+		}
+		return false;
 	};
 
 	this.draw = function() {
@@ -153,7 +155,7 @@ var inventoryUIHelper = {
 
 	drawSlot:	function (x, y, i){
 		if(this.testMouse(x, y)){
-			inventory.selectedItemSlot = i;
+			inventory.selectedSlot = i;
 		}
 
 		if (i == inventory.equippedItemIndex) {
@@ -173,8 +175,10 @@ var inventoryUIHelper = {
 	testMouse: function (itemX, itemY) {
 		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
 			this.selectedSlotSprite.draw(itemX, itemY);
+			return true;
 		} else {
 			this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+			return false;
 		}
 	},
 };

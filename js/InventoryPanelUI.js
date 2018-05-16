@@ -17,15 +17,13 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.itemsPerRow = 10;
     
     this.leftMouseClick = function(mouseX, mouseY) {
-        return true;
+        return false;
     }
 
 	this.draw = function() {
 		colorRect(this.x,this.y,this.width,this.height, 'beige');
 		//canvasContext.fillStyle = 'beige';
 		//canvasContext.fillRect(this.x,this.y,this.width,this.height);
-		
-//		inventory.selectedItemSlot = -1;
 		
 		var itemX, itemY;
 		for(var i = inventory.hotbarCount; i < inventory.slotCount; i++) {

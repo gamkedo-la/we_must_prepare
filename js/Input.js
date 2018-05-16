@@ -105,7 +105,7 @@ function inputUpdate() {
     var inputHandled = false;
     if (mouseClickedThisFrame) {
         // Central Menu //
-        inputHandled = TabMenu.leftMouseClick(mouseX, mouseY);
+        inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
     }
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code

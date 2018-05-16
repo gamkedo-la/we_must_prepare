@@ -142,7 +142,7 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.isVisible = true;
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        return true;
+        return false;
     }
     
     this.draw = function() {
@@ -176,7 +176,7 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
                     'Change Day - P'];
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        return true;
+        return false;
     }
 
     this.draw = function() {

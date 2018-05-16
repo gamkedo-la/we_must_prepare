@@ -326,10 +326,10 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 			if(y >= this.sliders[i].y && y <= this.sliders[i].y+this.sliders[i].height &&
 			   x >= this.sliders[i].x && x <= this.sliders[i].x+this.sliders[i].width){
 				this.sliders[i].leftMouseClick();
-				return;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	this.draw = function() {
@@ -362,8 +362,9 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
 		if(y >= this.y + this.lineHeight && y <= this.y + this.height) {
 			this.clicked = true;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	this.draw = function() {
@@ -406,8 +407,9 @@ function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY)
 		if(y >= this.y + this.lineHeight && y <= this.y + this.height &&
 		   x >= this.x && x <= this.x + this.toggleHeight) {
 			toggleMute();
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	this.draw = function() {
@@ -440,7 +442,7 @@ function audioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRight
 	this.textLine2 = getCurrentTrackInfo();
 
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
-		return true;
+		return false;
 	}
 
 	this.draw = function() {
