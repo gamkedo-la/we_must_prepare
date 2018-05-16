@@ -194,6 +194,26 @@ function tileTypeIsPlant(checkTileType) {
     return false;
 }
 
+function tileTypeIsCliff(checkTileType) {
+    switch(checkTileType) {
+        case TILE_CLIFF_TOP_LEFT:
+        case TILE_CLIFF_TOP_MIDDLE:
+        case TILE_CLIFF_TOP_RIGHT:
+        case TILE_CLIFF_MIDDLE_LEFT:
+        case TILE_CLIFF_MIDDLE:
+        case TILE_CLIFF_MIDDLE_RIGHT:
+        case TILE_CLIFF_BOTTOM_LEFT:
+        case TILE_CLIFF_BOTTOM_MIDDLE:
+        case TILE_CLIFF_BOTTOM_RIGHT:
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+
+}
+
 function drawGroundTiles() {
     var tileIndex = 0;
     var tileLeftEdgeX = 0;
