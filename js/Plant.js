@@ -64,6 +64,9 @@ function PlantClass(mapIndex, plantTypeSeed) {
         console.log("Day is changing!");
         if (this.currentPlantStage >= PLANT_STAGE_FULLY_GROWN) {
             console.log("Plant needs no more water at " + this.mapIndex);
+            if (this.is_watered == true) {
+                this.is_watered = false;
+            }
             return;
         }
 
