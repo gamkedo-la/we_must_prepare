@@ -8,11 +8,11 @@ var weather = (function () {
     const DEBUG_WEATHER_GUI = true; // weather states for visual debugging
 
     var rainDrops = [];
-    const RAIN_COUNT = 500;
+    const RAIN_COUNT = 400;
     const RAIN_SPRITE_SIZE = 32;
 
     var clouds = [];
-    const CLOUD_COUNT = 8;
+    const CLOUD_COUNT = 6;
     const CLOUD_SPRITE_SIZE = 256;
 
     // weather systems can fade in and out and overlap
@@ -92,11 +92,11 @@ var weather = (function () {
         } // if rainy
 
         if (howCloudy > 0) {
-            for (var loop = 0; loop < CLOUD_COUNT * howCloudy; loop++) {
+            for (var loop = 0; loop < CLOUD_COUNT; loop++) {
 
                 // cloud speed is a very sloooow circle, like shifting winds, mostly horizontal
-                spdx = Math.sin(performance.now() * 0.0001) * 0.5 + (loop * 0.05); // some clouds go a little faster
-                spdy = Math.cos(performance.now() * 0.0001) * 0.2 - (loop * 0.05);
+                spdx = Math.sin(performance.now() * 0.0001) * 0.75 + (loop * 0.15); // some clouds go a little faster
+                spdy = Math.cos(performance.now() * 0.0001) * 0.25 - (loop * 0.15);
 
                 if (!clouds[loop]) { //lazy init once only
                     // start somewhere onscreen:
@@ -113,20 +113,8 @@ var weather = (function () {
 
                     var randy = Math.random();
 
-                    /* // buggy:
-                    // comes from any of the four edges?
-                    // top edge
-                    if (randy > 0.75) { spawnx = Math.random() * canvas.width * 2 - cameraOffsetX; spawny = -CLOUD_SPRITE_SIZE + cameraOffsetY; }
-                    // bottom edge
-                    else if (randy > 0.50) { spawnx = Math.random() * canvas.width * 2 - cameraOffsetX; spawny = maxY + cameraOffsetY; }
-                    // left edge
-                    else if (randy > 0.25) { spawnx = -CLOUD_SPRITE_SIZE + cameraOffsetY; spawny = Math.random() * canvas.height * 2 + cameraOffsetY; }
-                    // right edge
-                    else { spawnx = maxX + CLOUD_SPRITE_SIZE + cameraOffsetY; spawny = Math.random() * canvas.height * 2 + cameraOffsetY; }
-                    */
-
-                    // always comes from the right (because the rain is angled that way!)
-                    spawnx = canvas.width + /* (CLOUD_SPRITE_SIZE * 3) + */ cameraOffsetX;
+                    // clouds always come from the right (to match rain angle)
+                    spawnx = canvas.width + (CLOUD_SPRITE_SIZE) + cameraOffsetX;
                     spawny = Math.random() * canvas.height + cameraOffsetY - CLOUD_SPRITE_SIZE;
 
                     spawnx = Math.round(spawnx);
@@ -147,6 +135,7 @@ var weather = (function () {
 
                 //if (loop == 1) console.log("cloud " + loop + " pos " + clouds[loop].x + "," + clouds[loop].y);
 
+                canvasContext.globalAlpha = howCloudy;
                 canvasContext.drawImage(cloudSpritesheet, // see imgLoading.js
                     CLOUD_SPRITE_SIZE * (loop % 4), // sx
                     0, // sy
@@ -156,6 +145,7 @@ var weather = (function () {
                     clouds[loop].y, // dy
                     CLOUD_SPRITE_SIZE * 3, // dw // make em huge
                     CLOUD_SPRITE_SIZE * 3); // dh        
+                canvasContext.globalAlpha = 1;
             }
         } // if cloudy
 
