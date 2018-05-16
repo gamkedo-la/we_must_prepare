@@ -127,8 +127,10 @@ function playerClass() {
                 }
                 break;
             case TILE_STONE_SRC:
-                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                    inventory.add(items.stone, 1);
+                if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.pickaxe) {
+                    if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
+                        inventory.add(items.stone, 1);
+                    }
                 }
                 break;
             case TILE_STONE_DEST:
@@ -208,13 +210,25 @@ function playerClass() {
     this.plantAtFeet = function () {
         var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
         if (roomGrid[plantAtIndex] == TILE_TILLED) {
-            console.log("Going to plant at index " + plantAtIndex);
-            new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+            //console.log("Going to plant at index " + plantAtIndex);
+            if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedOne) {
+                new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
+                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
+            } else if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedTwo) {
+                new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
+            }
         } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
-            new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+            if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedOne) {
+                new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
+                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
+            } else if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedTwo) {
+                new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
+            }
             for (i = 0; i < plantTrackingArray.length; i++)
-            if (plantTrackingArray[i].mapIndex == plantAtIndex) {
-                plantTrackingArray[i].is_watered = true;
+                if (plantTrackingArray[i].mapIndex == plantAtIndex) {
+                    plantTrackingArray[i].is_watered = true;
             }
         }
     }

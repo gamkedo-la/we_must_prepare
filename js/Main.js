@@ -98,8 +98,10 @@ function setupUI() {
 }
 function setupInventory() {
     inventory.add(items.hoe,1);
-    inventory.add(items.axe,1);
+    inventory.add(items.pickaxe,1);
     inventory.add(items.watercan,1);
+    inventory.add(items.wheatSeedOne,3);
+    inventory.add(items.wheatSeedTwo,3);
 }
 
 function moveEverything() {
