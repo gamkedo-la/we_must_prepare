@@ -22,7 +22,8 @@ const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
 const KEY_ESCAPE = 27;
-const MOUSE_LEFT_CLICK = 0;
+const MOUSE_LEFT_CLICK = 1;
+const MOUSE_RIGHT_CLICK = 3;
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
 // Central Menu
@@ -31,6 +32,7 @@ const KEY_SWITCH_TAB_LEFT = KEY_Q;
 const KEY_SWITCH_TAB_RIGHT = KEY_E;
 
 var mouseClickedThisFrame = false;
+var rightMouseClickedThisFrame = false;
 var toolKeyPressedThisFrame = false;
 var mouseHeld = false;
 var toolKeyHeld = false;
@@ -72,13 +74,15 @@ function mousemoveHandler(evt) {
 
 function mousedownHandler(evt) {
     calculateMousePos(evt);
-    if (evt.button == MOUSE_LEFT_CLICK) {
+    if (evt.which === MOUSE_LEFT_CLICK) {
         mouseHeld = true;
         mouseClickedThisFrame = true;
     } else {
+        if (evt.which === MOUSE_RIGHT_CLICK) {
+            rightMouseClickedThisFrame = true;
+				}
         selectedIndex = NO_SELECTION;
     }
-
 }
 
 
@@ -150,6 +154,10 @@ function inputUpdate() {
         if(toolKeyPressedThisFrame) {
             player.collectResourcesIfAble();
         }
+    }
+    if(rightMouseClickedThisFrame) {
+        inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || hotbarPane.rightMouseClick(mouseX, mouseY);
+				rightMouseClickedThisFrame = false;
     }
     if ( !centralMenuOpen ) {
         player.move();

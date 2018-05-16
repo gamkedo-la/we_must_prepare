@@ -9,18 +9,18 @@ var items = Object.freeze({
 });
 
 function inventorySystem(){
-	this.selectedSlot = -1;
-	this.equippedItemIndex = 0;
-	this.holdingSlot = items.nothing;
-	this.hotbarCount = 5;
-	this.slotCount = 30 + this.hotbarCount;
-	
-	this.inventorySlots = [];
-	
 	this.emptySlot = function(){
 		this.item = items.nothing;
 		this.count = 0;
 	};
+	
+	this.selectedSlot = -1;
+	this.equippedItemIndex = 0;
+	this.holdingSlot = new this.emptySlot();
+	this.hotbarCount = 5;
+	this.slotCount = 30 + this.hotbarCount;
+	
+	this.inventorySlots = [];
 	
 	//Working backwards decreases array allocation time
 	for(var i = this.slotCount - 1; i >= 0; i--){
@@ -72,6 +72,28 @@ function inventorySystem(){
 			// TODO account for stack limits
 			this.inventorySlots[this.selectedSlot].count += this.holdingSlot.count;
 			this.holdingSlot = new this.emptySlot();
+		}
+	};
+	
+	this.altGrabSlot = function() {
+		if(this.holdingSlot.count <= 0) {
+			this.holdingSlot.item = this.inventorySlots[this.selectedSlot].item;
+			this.holdingSlot.count = Math.ceil(this.inventorySlots[this.selectedSlot].count/2);
+			this.inventorySlots[this.selectedSlot].count = Math.floor(this.inventorySlots[this.selectedSlot].count/2);
+			return;
+		}
+		
+		if(this.inventorySlots[this.selectedSlot].count <= 0) {
+			this.inventorySlots[this.selectedSlot].item = this.holdingSlot.item;
+		}
+		
+		if(this.holdingSlot.item === this.inventorySlots[this.selectedSlot].item) {
+			this.inventorySlots[this.selectedSlot].count++;
+			
+			this.holdingSlot.count--;
+			if(this.holdingSlot.count === 0) {
+				this.holdingSlot = new this.emptySlot();
+			}
 		}
 	};
 	
@@ -136,6 +158,14 @@ function hotbarPaneUI() {
 		return false;
 	};
 
+	this.rightMouseClick = function(x=mouseX, y=mouseY) {
+		if(inventory.selectedSlot >= 0){
+			inventory.altGrabSlot();
+			return true;
+		}
+		return false;
+	};
+
 	this.draw = function() {
 		var itemX, itemY;
 		inventory.selectedSlot = -1;
@@ -163,6 +193,7 @@ var inventoryUIHelper = {
 		}
 
 		if(slot.count > 1){
+			canvasContext.fillStyle = 'white';
 			canvasContext.fillText(slot.count, itemX, itemY);
 		}
 	},

@@ -16,9 +16,17 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.itemYSpacing = 55;
     this.itemsPerRow = 10;
     
-    this.leftMouseClick = function(mouseX, mouseY) {
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
         if(inventory.selectedSlot >= 0){
             inventory.grabSlot();
+            return true;
+        }
+        return false;
+    };
+
+    this.rightMouseClick = function(x=mouseX, y=mouseY) {
+        if(inventory.selectedSlot >= 0){
+            inventory.altGrabSlot();
             return true;
         }
         return false;

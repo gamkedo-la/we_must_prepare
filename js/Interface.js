@@ -24,7 +24,14 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
         } else {
             return false; //Input was not handled by this
         }
-    }
+    };
+    
+    this.rightMouseClick = function(x=mouseX, y=mouseY) {
+        if(InventoryPane.isVisible) {
+            return InventoryPane.rightMouseClick(x, y);
+        }
+        return false;
+    };
     
     this.getTabPaneAt = function(x=mouseX, y=mouseY) {
         var clickedPane = null;
@@ -48,7 +55,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             tabX += tabWidth;
         }
         return clickedPane; //returns null if no pane clicked
-    }
+    };
     
     this.draw = function() {
         if (this.isVisible) {
@@ -81,12 +88,12 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                 }
             }
         }
-    }
+    };
     
     this.push = function(pane, isVisible=false) {
         this.panes.push(pane);
         pane.isVisible = isVisible;
-    }
+    };
     
     this.switchTabIndex = function(index) {
         var i;
@@ -101,7 +108,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                 pane.isVisible = false;
             }
         }
-    }
+    };
     this.switchTabName = function(name) {
         //search panes to find next one that matches name
         var i;
@@ -112,7 +119,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                 this.switchTabIndex(i);
             }
         }
-    }
+    };
     this.switchTabRight = function(doWrap=true) {
         var i = this.activeIndex+1;
         if (doWrap) {
@@ -121,7 +128,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             i = this.panes.length-1;
         }
         this.switchTabIndex(i);
-    }
+    };
     this.switchTabLeft = function(doWrap=true) {
         var i = this.activeIndex-1;
         if (doWrap) { 
@@ -130,7 +137,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             i = 0;
         }
         this.switchTabIndex(i);
-    }
+    };
 }
 
 function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
@@ -143,12 +150,12 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         return false;
-    }
+    };
     
     this.draw = function() {
         canvasContext.fillStyle = 'beige';
         canvasContext.fillRect(this.x,this.y,this.width,this.height);
-    }
+    };
 }
 
 function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
@@ -177,7 +184,7 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         return false;
-    }
+    };
 
     this.draw = function() {
         canvasContext.fillStyle = 'beige';
@@ -204,7 +211,7 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
             }
             textY += this.lineHeight;
         }
-    }
+    };
 }
 
 //utility functions for panes
@@ -219,7 +226,7 @@ var isInPane = function(pane, x, y) {
     var boolResult = (x >= topLeftX && x <= bottomRightX &&
                       y >= topLeftY && y <= bottomRightY);
     return boolResult;
-}
+};
 
 const INTERFACE_Y = 500; // hacky please change
 var mouseOverBuildingInterfaceIndex = -1;
