@@ -12,8 +12,8 @@ function inventorySystem(){
 	this.selectedSlot = -1;
 	this.equippedItemIndex = 0;
 	this.holdingSlot = items.nothing;
-	this.slotCount = 35;
 	this.hotbarCount = 5;
+	this.slotCount = 30 + this.hotbarCount;
 	
 	this.inventorySlots = [];
 	
@@ -126,46 +126,55 @@ function inventorySystem(){
 }
 
 function hotbarPaneUI() {
-    var itemSpriteSheet = new SpriteSheetClass(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
-	var selectedSlotSprite = new SpriteClass(selectedItemSlot, 50, 50);
-    this.hotbarItemX = 215;
-    this.hotbarItemXSpacing = 55;
-    this.hotbarItemY = 570;
+	this.hotbarItemX = 215;
+	this.hotbarItemXSpacing = 55;
+	this.hotbarItemY = 570;
 
-    this.leftMouseClick = function(mouseX, mouseY) {
-        return true;
-    }
+	this.leftMouseClick = function(mouseX, mouseY) {
+		return true;
+	};
 
-    this.draw = function(draw) {
+	this.draw = function() {
+		var itemX, itemY;
+		
 		for(var i = 0; i < inventory.hotbarCount; i++) {
 			//draw as hotbar
-			this.itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
-			this.itemY = this.hotbarItemY;
-
-			if(this.testMouse(this.itemX, this.itemY)){
-				inventory.selectedItemSlot = i;
-			}
-
-			if (i == inventory.equippedItemIndex) {
-				colorRect(this.itemX-25, this.itemY-25, 50, 50, 'green');
-				canvasContext.fillStyle = 'white';
-			}
-
-			if(inventory.inventorySlots[i].count > 0){
-				itemSpriteSheet.draw(this.itemX, this.itemY, inventory.inventorySlots[i].item, 0);
-			}
-
-			if(inventory.inventorySlots[i].count > 1){
-				canvasContext.fillText(inventory.inventorySlots[i].count, this.itemX, this.itemY);
-			}
+			itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
+			itemY = this.hotbarItemY;
+			
+			inventoryUIHelper.drawSlot(itemX, itemY, i);
 		}
-    } // end draw()
+	};
+}
 
-    this.testMouse = function(itemX, itemY) {
-        if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
-			selectedSlotSprite.draw(itemX, itemY);
+var inventoryUIHelper = {
+	itemSpriteSheet: new SpriteSheetClass(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
+	selectedSlotSprite: new SpriteClass(selectedItemSlot, 50, 50),
+
+	drawSlot:	function (x, y, i){
+		if(this.testMouse(x, y)){
+			inventory.selectedItemSlot = i;
+		}
+
+		if (i == inventory.equippedItemIndex) {
+			colorRect(x - 25, y - 25, 50, 50, 'green');
+			canvasContext.fillStyle = 'white';
+		}
+			
+		if(inventory.inventorySlots[i].count > 0){
+			this.itemSpriteSheet.draw(x, y, inventory.inventorySlots[i].item, 0);
+		}
+
+		if(inventory.inventorySlots[i].count > 1){
+			canvasContext.fillText(inventory.inventorySlots[i].count, x, y);
+		}
+	},
+  
+	testMouse: function (itemX, itemY) {
+		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
+			this.selectedSlotSprite.draw(itemX, itemY);
 		} else {
-			itemSpriteSheet.draw(itemX, itemY, 0, 0);
+			this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
 		}
-	}
-} //end hotbarPaneUI()
+	},
+};
