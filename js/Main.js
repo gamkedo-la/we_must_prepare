@@ -32,8 +32,6 @@ function loadingDoneSoStartGame() {
     if (autoSaveEnabled) {
         autoLoad();
     }
-    //TODO remove this, it doesn't appear to be needed anymore.
-		//inventoryUI = new inventoryUITest();
     setupInventory();
     window.addEventListener('blur', windowOnBlur);
 }
@@ -166,7 +164,10 @@ function drawSkyGradient() {
 function drawUI() {
     hotbarPane.draw();
     TabMenu.draw();
-    //inventoryUI.draw(); // TODO DEBUG do not ship
+
+		if(inventory.holdingSlot.count > 0){ // TODO move this to inventory code somewhere
+			inventoryUIHelper.drawSlot(mouseX, mouseY, inventory.holdingSlot);
+		}
     //TODO placeholder - display instructions
     colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
 }

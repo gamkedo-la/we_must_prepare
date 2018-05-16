@@ -17,8 +17,12 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.itemsPerRow = 10;
     
     this.leftMouseClick = function(mouseX, mouseY) {
+        if(inventory.selectedSlot >= 0){
+            inventory.grabSlot();
+            return true;
+        }
         return false;
-    }
+    };
 
 	this.draw = function() {
 		colorRect(this.x,this.y,this.width,this.height, 'beige');
@@ -31,7 +35,8 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 			itemX = this.inventoryX + this.itemXSpacing * ((i - inventory.hotbarCount) % this.itemsPerRow);
 			itemY = this.inventoryY + this.itemYSpacing * Math.floor((i - inventory.hotbarCount)/this.itemsPerRow);
 
-			inventoryUIHelper.drawSlot(itemX, itemY, i);
+			inventoryUIHelper.drawSlockBackground(itemX, itemY, i);
+			inventoryUIHelper.drawSlot(itemX, itemY, inventory.inventorySlots[i]);
 		}
 	};
 }

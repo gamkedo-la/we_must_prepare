@@ -138,13 +138,17 @@ function hotbarPaneUI() {
 
 	this.draw = function() {
 		var itemX, itemY;
+		inventory.selectedSlot = -1;
 		
 		for(var i = 0; i < inventory.hotbarCount; i++) {
 			//draw as hotbar
 			itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
 			itemY = this.hotbarItemY;
 			
-			inventoryUIHelper.drawSlot(itemX, itemY, i);
+			inventoryUIHelper.drawSlockBackground(itemX, itemY, i);
+			
+
+			inventoryUIHelper.drawSlot(itemX, itemY, inventory.inventorySlots[i]);
 		}
 	};
 }
@@ -153,32 +157,37 @@ var inventoryUIHelper = {
 	itemSpriteSheet: new SpriteSheetClass(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
 	selectedSlotSprite: new SpriteClass(selectedItemSlot, 50, 50),
 
-	drawSlot:	function (x, y, i){
-		if(this.testMouse(x, y)){
-			inventory.selectedSlot = i;
+	drawSlot:	function (itemX, itemY, slot){
+		if(slot.count > 0){
+			this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
 		}
 
-		if (i == inventory.equippedItemIndex) {
-			colorRect(x - 25, y - 25, 50, 50, 'green');
-			canvasContext.fillStyle = 'white';
-		}
-			
-		if(inventory.inventorySlots[i].count > 0){
-			this.itemSpriteSheet.draw(x, y, inventory.inventorySlots[i].item, 0);
-		}
-
-		if(inventory.inventorySlots[i].count > 1){
-			canvasContext.fillText(inventory.inventorySlots[i].count, x, y);
+		if(slot.count > 1){
+			canvasContext.fillText(slot.count, itemX, itemY);
 		}
 	},
   
-	testMouse: function (itemX, itemY) {
-		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
-			this.selectedSlotSprite.draw(itemX, itemY);
-			return true;
+	drawSlockBackground: function(itemX, itemY, i) {
+		this.testMouse(itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+		
+		if(inventory.selectedSlot === i) {
+			if (i === inventory.equippedItemIndex) {
+				colorRect(itemX - 25, itemY - 25, 50, 50, 'lightgreen');
+				canvasContext.fillStyle = 'white';
+			} else {
+				this.selectedSlotSprite.draw(itemX, itemY);
+			}
+		} else if (i === inventory.equippedItemIndex) {
+			colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
+			canvasContext.fillStyle = 'white';
 		} else {
 			this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
-			return false;
+		}
+	},
+	
+	testMouse: function (itemX, itemY, i) {
+		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
+			inventory.selectedSlot = i;
 		}
 	},
 };
