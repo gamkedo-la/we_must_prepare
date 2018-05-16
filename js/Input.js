@@ -207,7 +207,7 @@ function keyPress(evt) {
             case KEY_TAB:
                 inventory.equippedItemIndex++;
                 if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.nothing) {
-                    inventory.equippedItemIndex = 0;
+                    inventory.equippedItemIndex++;
                 }
                 if (inventory.equippedItemIndex > 4) {
                     inventory.equippedItemIndex = 0;
@@ -226,6 +226,7 @@ function keyPress(evt) {
                 toolKeyPressedThisFrame = true;
                 toolKeyHeld = true;
                 player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
+                player.plantAtFeet();
                 break;
             case KEY_I:
                 //Switch central menu to inventory tab
@@ -241,7 +242,6 @@ function keyPress(evt) {
                 break;
             case KEY_O:
                 console.log("Pressed the O Key");
-                player.plantAtFeet();
                 break;
             case KEY_ENTER:
                 //toggle menu
