@@ -14,7 +14,6 @@ var weather = (function () {
     var clouds = [];
     const CLOUD_COUNT = 6;
     const CLOUD_SPRITE_SIZE = 256;
-    const WIND_CLOUD_SPEED_INFLUENCE = 2;
 
     // weather systems can fade in and out and overlap
     var howSunny = 1;
@@ -98,10 +97,6 @@ var weather = (function () {
                 // cloud speed is a very sloooow circle, like shifting winds, mostly horizontal
                 spdx = Math.sin(performance.now() * 0.0001) * 0.75 + (loop * 0.15); // some clouds go a little faster
                 spdy = Math.cos(performance.now() * 0.0001) * 0.25 - (loop * 0.15);
-
-                // add some extra cloud speed when it is windy!
-                spdx += howWindy * WIND_CLOUD_SPEED_INFLUENCE;
-                spdy += howWindy * WIND_CLOUD_SPEED_INFLUENCE;
 
                 if (!clouds[loop]) { //lazy init once only
                     // start somewhere onscreen:
