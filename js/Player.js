@@ -75,6 +75,28 @@ function playerClass() {
 
     };  // end reset
 
+    this.getSaveState = function() {
+        var result = {};
+        result.x = this.x;
+        result.y = this.y;
+        var bucketList = [];
+        // FIXME: player uses string indices???
+        console.log(this.bucketList);
+        // this.bucketList.forEach(function(bucket) {
+        //     bucketList.push({
+        //         max: bucket.max,
+        //         carried: bucket.carried
+        //     });
+        // });
+        // result.bucketList = bucketList;
+        return result;
+    };
+
+    this.loadSaveState = function(saveState) {
+        this.x = saveState.x;
+        this.y = saveState.y;
+    };
+
     this.drawPlayerHUD = function() {
         canvasContext.fillStyle = 'white';
         var textLineY = 15, textLineSkip = 15, textLineX = 30;

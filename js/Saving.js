@@ -36,12 +36,11 @@ function autoSave() {
   HTMLLog("saving...");
 
   var saveState = {
-    player: {
-      x: player.x,
-      y: player.y
-    }
+    player: player.getSaveState()
   };
   persistence.setObject('autosave', saveState);
+
+  console.log(JSON.stringify(saveState));
 }
 
 function autoLoad() {
@@ -52,6 +51,5 @@ function autoLoad() {
     return;
   }
 
-  player.x = saveState.player.x;
-  player.y = saveState.player.y;
+  player.loadSaveState(saveState.player);
 }
