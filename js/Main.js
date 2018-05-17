@@ -82,7 +82,7 @@ function setupUI() {
     pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
     
-    pane = new inventoryPaneUI('Inventory', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    pane = new inventoryPaneUI('Inventory', canvas.width*.14, canvas.height*.25, canvas.width*.855, canvas.height*.75);
     InventoryPane = pane;
     TabMenu.push(pane);
 
