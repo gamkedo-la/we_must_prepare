@@ -23,6 +23,8 @@ var rain_enviSFX = new enviSFXClipLoopingWTail("rain_loop_45", 45);
 rain_enviSFX.setMixVolume(0.5);
 var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
 
+var robotIdleSFX = new sfxClipOverlap("robot_idle");
+
 EnviSFXVolumeManager.setVolume(0.7);
 
 SFXVolumeManager.setVolume(0.7);
