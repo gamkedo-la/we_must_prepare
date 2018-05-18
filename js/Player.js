@@ -79,22 +79,44 @@ function playerClass() {
         var result = {};
         result.x = this.x;
         result.y = this.y;
-        var bucketList = [];
-        // FIXME: player uses string indices???
-        console.log(this.bucketList);
-        // this.bucketList.forEach(function(bucket) {
-        //     bucketList.push({
-        //         max: bucket.max,
-        //         carried: bucket.carried
-        //     });
-        // });
-        // result.bucketList = bucketList;
+
+        var bucketList = {};
+        for (var resourceType in this.bucketList) {
+            var bucket = this.bucketList[resourceType];
+            bucketList[resourceType] = {
+                max: bucket.max,
+                carried: bucket.carried
+            };
+        }
+        result.bucketList = bucketList;
+
+        var storageList = {};
+        for (var resourceType in this.storageList) {
+            var bucket = this.storageList[resourceType];
+            storageList[resourceType] = {
+                max: bucket.max,
+                carried: bucket.carried
+            };
+        }
+        result.storageList = storageList;
         return result;
     };
 
     this.loadSaveState = function(saveState) {
         this.x = saveState.x;
         this.y = saveState.y;
+
+        for (var resourceType in saveState.bucketList) {
+            var bucket = saveState.bucketList[resourceType];
+            this.bucketList[resourceType].max = bucket.max;
+            this.bucketList[resourceType].carried = bucket.carried;
+        }
+
+        for (var resourceType in saveState.storageList) {
+            var bucket = saveState.storageList[resourceType];
+            this.storageList[resourceType].max = bucket.max;
+            this.storageList[resourceType].carried = bucket.carried;
+        }
     };
 
     this.drawPlayerHUD = function() {
