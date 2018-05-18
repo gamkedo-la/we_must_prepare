@@ -202,8 +202,16 @@ function playerClass() {
     this.move = function() {
         var nextX = this.x;
         var nextY = this.y;
-      
-        //Works but note that in order to pick up materials you need to keep moving into the material
+
+        /*if(this.isPlayerIdle())
+        {
+            robotIdleSFX.play();
+        }
+        else
+        {
+            robotIdleSFX.pause();
+        }*/
+
         if (this.keyHeld_North) 
         {
             nextY -= PLAYER_PIXELS_MOVE_RATE;
@@ -223,10 +231,10 @@ function playerClass() {
 
         this.getDirectionPlayerIsCurrentlyFacing();
 
-            if((nextX != this.x) || (nextY != this.y))
-            {
-                walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
-              walkIntoTileType = TILE_WALL;
+        if((nextX != this.x) || (nextY != this.y))
+        {
+            walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
+            walkIntoTileType = TILE_WALL;
           
               if (walkIntoTileIndex != undefined) {
                   walkIntoTileType = roomGrid[walkIntoTileIndex];
@@ -242,13 +250,8 @@ function playerClass() {
               {
                   this.x = nextX;
                   this.y = nextY;
-              }
-              else
-              {
-                  // console.log('Ran into a wall!');
-              }
-
-            }//end if nextX & nextY
+              }           
+        }//end if nextX & nextY
     }; // end move
 
     this.plantAtFeet = function () {
@@ -299,6 +302,14 @@ function playerClass() {
             }
         }
     };
+
+    this.isPlayerIdle = function()
+    {
+      return (!this.keyHeld_North ||
+                !this.keyHeld_South ||
+                !this.keyHeld_West ||
+                !this.keyHeld_East);
+    }
 
     this.getDirectionPlayerIsCurrentlyFacing = function() 
     {
