@@ -36,6 +36,7 @@ var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt
 											grass = new sfxContainerRandom([grass1 = new sfxClipSingle("temp_footstep_grass01"),
 																			grass2 = new sfxClipSingle("temp_footstep_grass02"),
 																			grass3 = new sfxClipSingle("temp_footstep_grass03")])]);
+robotFootstepGround.setVolume(0.7);
 
 SFXVolumeManager.setVolume(0.7);
 

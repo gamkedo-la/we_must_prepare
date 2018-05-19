@@ -374,7 +374,9 @@ function sfxContainer(clipList) {
 	}
 
 	this.setVolume = function(newVolume) {
-		soundFile[currentClip].setVolume(newVolume);
+		for (var i in soundFile) {
+			soundFile[i].setVolume(newVolume);
+		}	
 	}
 
 	this.getVolume = function() {
@@ -461,7 +463,9 @@ function sfxContainerRandom(clipList) {
 	}
 
 	this.setVolume = function(newVolume) {
-		soundFile[currentClip].setVolume(newVolume);
+		for (var i in soundFile) {
+			soundFile[i].setVolume(newVolume);
+		}
 	}
 
 	this.getVolume = function() {
