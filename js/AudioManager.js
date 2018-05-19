@@ -1,7 +1,7 @@
 setFormat();
 setAudioPath("./audio/");
 
-//set sound clips and music tracks here
+//set music tracks here
 var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
@@ -16,19 +16,21 @@ var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,
 
 MusicVolumeManager.setVolume(0.7);
 
-
+//set environment sound here
 var wind_enviSFX = new enviSFXClipLoopingWTail("wind_loop_45", 45);
 wind_enviSFX.setMixVolume(0.8);
 var rain_enviSFX = new enviSFXClipLoopingWTail("rain_loop_45", 45);
 rain_enviSFX.setMixVolume(0.5);
 var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
 
-var robotIdleSFX = new sfxClipOverlap("robot_idle");
-
 EnviSFXVolumeManager.setVolume(0.7);
+
+//set SFX here
+var robotIdleSFX = new sfxClipOverlap("robot_idle");
 
 SFXVolumeManager.setVolume(0.7);
 
+//set UI sound here
 UISFXVolumeManager.setVolume(0.7);
 
 function setFormat() {

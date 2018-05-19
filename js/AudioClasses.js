@@ -122,19 +122,15 @@ function sfxClipSingle(filename) {
 	}
 }
 
-function sfxClipOverlap(filename) {
-	var soundFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
-	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
-	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
-	soundFile[0].pause();
-	soundFile[1].pause();
-	var maxVoices = soundFile.length;
+function sfxClipOverlap(filename, voices = 2) {
+	var soundFile = [];
+	var maxVoices = voices;
 
-	/*for (var i in soundFile) {
+	for (var i = 0;i < voices;i++) {
 		soundFile[i] = new Audio(audioPath+filename+audioFormat());
 		soundFile[i].onerror = function(){soundFile[i] = new Audio(audioPath+filename+audioFormat(true))};
 		soundFile[i].pause();
-	}*/
+	}
 
 	var currentClip = 0;
 	var clipVolume = 1;
@@ -226,7 +222,7 @@ function sfxClipOverlap(filename) {
 	}
 }
 
-function sfxClipClipLoopingWTail(filename, playLength) {
+function sfxClipLoopingWTail(filename, playLength) {
 	var soundFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
 	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
 	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
