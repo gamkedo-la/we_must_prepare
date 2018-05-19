@@ -136,16 +136,19 @@ function playerClass() {
         if (this.keyHeld_South) {
             playerWalkDown.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 1);
             playerWalkDown.update();
+            playFootstep(playerWalkDown);
             return;
         }
         if (this.keyHeld_West) {
             playerWestWalk.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 1);
             playerWestWalk.update();
+            playFootstep(playerWestWalk);
             return;
         }
         if (this.keyHeld_East) {
             playerEastWalk.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 1);
             playerEastWalk.update();
+            playFootstep(playerEastWalk);
             return;
         }
         canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet

@@ -348,7 +348,7 @@ function sfxContainer(clipList) {
 	}
 
 	this.stop = function() {
-		for (var i in trackList) {
+		for (var i in soundFile) {
 			soundFile[i].stop();
 		}
 	}
@@ -358,7 +358,7 @@ function sfxContainer(clipList) {
 	}
 
 	this.pause = function() {
-		for (var i in trackList) {
+		for (var i in soundFile) {
 			soundFile[i].pause();
 		}
 	}
@@ -368,7 +368,7 @@ function sfxContainer(clipList) {
 	}
 
 	this.updateVolume = function() {
-		for (var i in trackList) {
+		for (var i in soundFile) {
 			soundFile[i].updateVolume();
 		}
 	}
@@ -435,7 +435,7 @@ function sfxContainerRandom(clipList) {
 	}
 
 	this.stop = function() {
-		for (var i in trackList) {
+		for (var i in soundFile) {
 			soundFile[i].stop();
 		}
 	}
@@ -445,7 +445,7 @@ function sfxContainerRandom(clipList) {
 	}
 
 	this.pause = function() {
-		for (var i in trackList) {
+		for (var i in soundFile) {
 			soundFile[i].pause();
 		}
 	}
@@ -455,7 +455,7 @@ function sfxContainerRandom(clipList) {
 	}
 
 	this.updateVolume = function() {
-		for (var i in trackList) {
+		for (var i in soundFile) {
 			soundFile[i].updateVolume();
 		}
 	}

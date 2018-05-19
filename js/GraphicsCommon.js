@@ -125,4 +125,12 @@ function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animati
 	this.getDimensions = function(){
 		return {width:width, height:height};
 	};
+
+	this.getCurrentFrame = function(){
+		return animationIndex;
+	}
+
+	this.getNumberOfFrames = function() {
+		return numberOfFrames;
+	}
 }

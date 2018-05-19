@@ -27,6 +27,15 @@ EnviSFXVolumeManager.setVolume(0.7);
 
 //set SFX here
 var robotIdleSFX = new sfxClipOverlap("robot_idle");
+var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
+																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
+																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
+											soil = new sfxContainerRandom([ soil1 = new sfxClipSingle("temp_footstep_soil01"),
+																			soil2 = new sfxClipSingle("temp_footstep_soil02"),
+																			soil3 = new sfxClipSingle("temp_footstep_soil03")]),
+											grass = new sfxContainerRandom([grass1 = new sfxClipSingle("temp_footstep_grass01"),
+																			grass2 = new sfxClipSingle("temp_footstep_grass02"),
+																			grass3 = new sfxClipSingle("temp_footstep_grass03")])]);
 
 SFXVolumeManager.setVolume(0.7);
 
@@ -479,4 +488,22 @@ function getCurrentTrackInfo() {
 	}
 
 	return details;
+}
+
+var walkFrame = 0;
+function playFootstep(spriteSheetObject) {
+	groundType = roomGrid[getTileIndexAtPixelCoord(player.x,player.y)];
+	if(groundType == TILE_GROUND) {
+		robotFootstepGround.setCurrentClip(0);
+	} else if(groundType == TILE_TILLED || groundType == TILE_TILLED_WATERED || 
+			  groundType == TILE_TILLED_SEEDS || groundType == TILE_TILLED_SEEDS_WATERED) {
+		robotFootstepGround.setCurrentClip(1);
+	} else if(groundType == TILE_GRASS) {
+		robotFootstepGround.setCurrentClip(2);
+	}
+	var currentFrame = spriteSheetObject.getCurrentFrame() % 4;
+	if (currentFrame == 0 && currentFrame != walkFrame) {
+		robotFootstepGround.play();
+	}
+	walkFrame = currentFrame;
 }

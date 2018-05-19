@@ -19,8 +19,8 @@ var playerSpriteSheetSideWalk = document.createElement("img");
 
 //function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
 var playerWalkDown = new SpriteSheetClass(playerSpriteSheetWalkDown,48,48,8,0,6,true);
-var playerEastWalk = new SpriteSheetClass(playerSpriteSheetSideWalk,48,48,4,0,10,true);
-var playerWestWalk = new SpriteSheetClass(playerSpriteSheetSideWalk,48,48,4,1,10,true);
+var playerEastWalk = new SpriteSheetClass(playerSpriteSheetSideWalk,48,48,4,0,6,true);
+var playerWestWalk = new SpriteSheetClass(playerSpriteSheetSideWalk,48,48,4,1,6,true);
 
 var picsToLoad = 0;
 
