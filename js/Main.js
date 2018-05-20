@@ -12,6 +12,7 @@ var canvas, canvasContext;
 var player = new playerClass();
 var timer = new TimerClass();
 
+var hasGameStartedByClick = false;
 var isPaused = false;
 var gameInterval;
 var blurInterval;
@@ -22,6 +23,7 @@ var InventoryPane;
 var hotbarPane;
 
 function loadingDoneSoStartGame() {
+    hasGameStartedByClick = true;
     startGameLoop();
 
     setupInput();
@@ -73,6 +75,7 @@ window.onload = function () {
     canvas = document.getElementById('gameCanvas');
     canvasContext = canvas.getContext('2d');
     // these next few lines set up our game logic and render to happen 30 times per second
+    canvas.addEventListener('mouseup', mouseupHandler);
     loadImages();
 
 }  // end onload

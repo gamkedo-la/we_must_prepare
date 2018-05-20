@@ -62,9 +62,8 @@ function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
     canvas.addEventListener('mousedown', mousedownHandler);
     canvas.addEventListener('dblclick', mousedblclickHandler);
-    canvas.addEventListener('mouseup', mouseupHandler);
+    // note for init reason canvas.addEventListener('mouseup', mouseupHandler); is in the onload handler for the main window
 
-    
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keydown', keyPressSecondary);
     document.addEventListener('keyup', keyReleased);
@@ -101,6 +100,13 @@ function mousedblclickHandler(evt) {
 }
 
 function mouseupHandler(evt) {
+    if (hasGameStartedByClick == false) {
+        console.log('we are in hasGameStartedByClick == false in mouseupHandler: num pics to load ' + picsToLoad);
+        if (picsToLoad == 0) {
+            loadingDoneSoStartGame();
+        }
+        return;
+    }
     if (isPaused) {
         startGameLoop();
         return;
