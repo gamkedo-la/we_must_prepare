@@ -166,16 +166,19 @@ function playerClass() {
         if (this.keyHeld_South) {
             playerWalkDown.draw(this.x, this.y - playerImage.height / 2);
             playerWalkDown.update();
+            playFootstep(playerWalkDown);
             return;
         }
         if (this.keyHeld_West) {
             playerWestWalk.draw(this.x, this.y - playerImage.height / 2);
             playerWestWalk.update();
+            playFootstep(playerWestWalk);
             return;
         }
         if (this.keyHeld_East) {
             playerEastWalk.draw(this.x, this.y - playerImage.height / 2);
             playerEastWalk.update();
+            playFootstep(playerEastWalk);
             return;
         }
         canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet

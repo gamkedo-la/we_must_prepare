@@ -141,4 +141,12 @@ function AnimationClass(sheetIn, colWidth, rowHeight, sheetInFrames, animationIn
 	this.getDimensions = function(){
 		return spriteSheet.getDimensions();
 	};
+	
+	this.getCurrentFrame = function(){
+		return animationIndex;
+	};
+
+	this.getNumberOfFrames = function() {
+		return numberOfFrames;
+	};
 }
