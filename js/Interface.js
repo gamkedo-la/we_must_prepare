@@ -121,17 +121,18 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
         }
     };
     this.switchTab = function(scrollLeftIfTrue = false, doWrap=true) {
+        var i;
         if (scrollLeftIfTrue) {
-            var i = this.activeIndex-1;
+            i = this.activeIndex-1;
             if (doWrap) { 
-                i = Math.abs(i%this.panes.length); //wrap index
-            } else if (i < 0) {
-                i = 0;
-            }
+                if (i < 0) {
+                    i = this.panes.length-1;
+                }
+            }            
             this.switchTabIndex(i);
         }
         else {
-            var i = this.activeIndex+1;
+            i = this.activeIndex+1;
             if (doWrap) {
                 i = Math.abs(i%this.panes.length); //wrap index
             } else if (i >= this.panes.length-1) {
