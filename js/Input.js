@@ -1,5 +1,6 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
 const KEY_TAB = 9;
+const KEY_SHIFT = 16;
 const KEY_0 = 48;
 const KEY_A = 65;
 const KEY_B = 66;
@@ -37,6 +38,7 @@ var rightMouseClickedThisFrame = false;
 var toolKeyPressedThisFrame = false;
 var mouseHeld = false;
 var toolKeyHeld = false;
+var shiftKeyHeld = false;
 var mouseX = 0;
 var mouseY = 0;
 var mouseWorldX = 0;
@@ -64,7 +66,9 @@ function setupInput() {
 
     
     document.addEventListener('keydown', keyPress);
+    document.addEventListener('keydown', keyPressSecondary);
     document.addEventListener('keyup', keyReleased);
+    document.addEventListener('keyup', keyReleasedSecondary);
 
     player.setupInput(KEY_A,KEY_W,KEY_S,KEY_D, KEY_LEFT_ARROW,KEY_UP_ARROW,KEY_DOWN_ARROW,KEY_RIGHT_ARROW);
 }
@@ -178,8 +182,7 @@ function inputUpdate() {
 }
 
 
-function keySet(keyEvent, whichUnit, setTo) 
-{
+function keySet(keyEvent, whichUnit, setTo) {
     if (keyEvent.keyCode == whichUnit.controlKeyLeft || keyEvent.keyCode == whichUnit.controlKeyLeft2)
     {
         whichUnit.keyHeld_West = setTo;
@@ -225,59 +228,61 @@ function keyPress(evt) {
     }
     // Common Controls (These are always checked)
     switch (evt.keyCode) {
-            case KEY_TAB:
+        case KEY_TAB:
+            if (!TabMenu.isVisible) {
+                player.hotbar.scrollThrough(shiftKeyHeld);
+            }
+            break;
+        case KEY_SWITCH_TAB_LEFT:
+            if (!TabMenu.isVisible) {
+                player.hotbar.scrollThrough(true);
+            }
+            break;
+        case KEY_SWITCH_TAB_RIGHT:
+            if (!TabMenu.isVisible) {
                 player.hotbar.scrollThrough();
-                break;
-            case KEY_SWITCH_TAB_LEFT:
-                if (!TabMenu.isVisible) {
-                    player.hotbar.scrollThrough(true);
-                }
-                break;
-            case KEY_SWITCH_TAB_RIGHT:
-                if (!TabMenu.isVisible) {
-                    player.hotbar.scrollThrough();
-                }
-                break;
-            case KEY_B:
+            }
+            break;
+        case KEY_B:
+            isBuildModeEnabled = !isBuildModeEnabled;
+            console.log("Build mode enabled is " + isBuildModeEnabled);
+            break;
+        case KEY_ESCAPE:
+            if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
-                console.log("Build mode enabled is " + isBuildModeEnabled);
-                break;
-            case KEY_ESCAPE:
-                if (isBuildModeEnabled) {
-                    isBuildModeEnabled = !isBuildModeEnabled;
-                }
-                break;
-            case KEY_USE_TOOL:
-                toolKeyPressedThisFrame = true;
-                toolKeyHeld = true;
-                player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
-                player.plantAtFeet();
-                break;
-            case KEY_I:
-                //Switch central menu to inventory tab
-                TabMenu.switchTabName("Inventory");
-                break;
-            case KEY_0:
-                keyPressForSaving(evt);
-                break;
-            case KEY_P:
-                for (var i = 0; i < plantTrackingArray.length; i++) {
-                    plantTrackingArray[i].dayChanged();
-                }
-                break;
-            case KEY_O:
-                console.log("Pressed the O Key");
-                break;
-            case KEY_ENTER:
-                //toggle menu
-                console.log("Enter pressed");
-                TabMenu.isVisible = !TabMenu.isVisible;
-                break;
-            default:
-                console.log("keycode press is " + evt.keyCode);
-                keyUsedByGame = false;
-                break;
-        }
+            }
+            break;
+        case KEY_USE_TOOL:
+            toolKeyPressedThisFrame = true;
+            toolKeyHeld = true;
+            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
+            player.plantAtFeet();
+            break;
+        case KEY_I:
+            //Switch central menu to inventory tab
+            TabMenu.switchTabName("Inventory");
+            break;
+        case KEY_0:
+            keyPressForSaving(evt);
+            break;
+        case KEY_P:
+            for (var i = 0; i < plantTrackingArray.length; i++) {
+                plantTrackingArray[i].dayChanged();
+            }
+            break;
+        case KEY_O:
+            console.log("Pressed the O Key");
+            break;
+        case KEY_ENTER:
+            //toggle menu
+            console.log("Enter pressed");
+            TabMenu.isVisible = !TabMenu.isVisible;
+            break;
+        default:
+            console.log("keycode press is " + evt.keyCode);
+            keyUsedByGame = false;
+            break;
+    }
 
     if (keyUsedByGame) {
         evt.preventDefault();
@@ -287,20 +292,33 @@ function keyPress(evt) {
     evt.preventDefault();
 }
 
-function keyReleased(evt)
-{
+function keyPressSecondary(evt) {
+    switch (evt.keyCode) {
+        case KEY_SHIFT:
+            shiftKeyHeld = true;
+    }
+}
+
+function keyReleased(evt) {
     if (isPaused) {
         startGameLoop();
         return;
     }
 
     keySet(evt, player, false);
-
+    
     evt.preventDefault();
     
     switch(evt.keyCode) {
         case KEY_USE_TOOL:
-            toolKeyHeld = false;
+            toolKeyHeld = false;            
             break;
+    }
+}
+
+function keyReleasedSecondary(evt) {
+    switch (evt.keyCode) {
+        case KEY_SHIFT:
+            shiftKeyHeld = false;
     }
 }
