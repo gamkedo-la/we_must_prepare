@@ -228,6 +228,16 @@ function keyPress(evt) {
             case KEY_TAB:
                 player.hotbar.scrollThrough();
                 break;
+            case KEY_SWITCH_TAB_LEFT:
+                if (!TabMenu.isVisible) {
+                    player.hotbar.scrollThrough(true);
+                }
+                break;
+            case KEY_SWITCH_TAB_RIGHT:
+                if (!TabMenu.isVisible) {
+                    player.hotbar.scrollThrough();
+                }
+                break;
             case KEY_B:
                 isBuildModeEnabled = !isBuildModeEnabled;
                 console.log("Build mode enabled is " + isBuildModeEnabled);
