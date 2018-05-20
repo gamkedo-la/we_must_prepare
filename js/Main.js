@@ -92,8 +92,9 @@ function setupUI() {
 
     TabMenu.switchTabIndex(0);
     //TabMenu.switchTabName('Controls');
-    TabMenu.switchTabLeft(false);
-    TabMenu.switchTabLeft();
+    const SCROLL_TO_THE_LEFT = true;
+    TabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
+    TabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
     hotbarPane = new hotbarPaneUI();
 }

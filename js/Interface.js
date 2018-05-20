@@ -120,23 +120,25 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             }
         }
     };
-    this.switchTabRight = function(doWrap=true) {
-        var i = this.activeIndex+1;
-        if (doWrap) {
-            i = Math.abs(i%this.panes.length); //wrap index
-        } else if (i >= this.panes.length-1) {
-            i = this.panes.length-1;
+    this.switchTab = function(scrollLeftIfTrue = false, doWrap=true) {
+        if (scrollLeftIfTrue) {
+            var i = this.activeIndex-1;
+            if (doWrap) { 
+                i = Math.abs(i%this.panes.length); //wrap index
+            } else if (i < 0) {
+                i = 0;
+            }
+            this.switchTabIndex(i);
         }
-        this.switchTabIndex(i);
-    };
-    this.switchTabLeft = function(doWrap=true) {
-        var i = this.activeIndex-1;
-        if (doWrap) { 
-            i = Math.abs(i%this.panes.length); //wrap index
-        } else if (i < 0) {
-            i = 0;
+        else {
+            var i = this.activeIndex+1;
+            if (doWrap) {
+                i = Math.abs(i%this.panes.length); //wrap index
+            } else if (i >= this.panes.length-1) {
+                i = this.panes.length-1;
+            }
+            this.switchTabIndex(i);
         }
-        this.switchTabIndex(i);
     };
 }
 

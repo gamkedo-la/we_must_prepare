@@ -213,13 +213,18 @@ function keyPress(evt) {
     // console.log("evt keycode " + evt.keyCode);
     // Menu Context Controls - if the menu is open, menu keys take priorty
     var centralMenuOpen = TabMenu.isVisible;
+    const SCROLL_TO_THE_LEFT = true;
+    
     if( centralMenuOpen ) {
         switch (evt.keyCode) {
+            case KEY_TAB:
+                TabMenu.switchTab(shiftKeyHeld);
+                break;
             case KEY_SWITCH_TAB_LEFT:
-                TabMenu.switchTabLeft();
+                TabMenu.switchTab(SCROLL_TO_THE_LEFT);
                 break;
             case KEY_SWITCH_TAB_RIGHT:
-                TabMenu.switchTabRight();
+                TabMenu.switchTab();
                 break;
             default:
                 keyUsedByGame = false;
