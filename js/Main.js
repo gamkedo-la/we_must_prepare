@@ -47,6 +47,7 @@ function gameLoop() {
     drawEverything();
     AudioEventManager.updateEvents();
     mouseClickedThisFrame = false;
+    mouseDblClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
 }
 

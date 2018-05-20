@@ -32,6 +32,7 @@ const KEY_SWITCH_TAB_LEFT = KEY_Q;
 const KEY_SWITCH_TAB_RIGHT = KEY_E;
 
 var mouseClickedThisFrame = false;
+var mouseDblClickedThisFrame = false;
 var rightMouseClickedThisFrame = false;
 var toolKeyPressedThisFrame = false;
 var mouseHeld = false;
@@ -58,7 +59,9 @@ function calculateMousePos(evt) {
 function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
     canvas.addEventListener('mousedown', mousedownHandler);
+    canvas.addEventListener('dblclick', mousedblclickHandler);
     canvas.addEventListener('mouseup', mouseupHandler);
+
     
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyReleased);
@@ -85,6 +88,13 @@ function mousedownHandler(evt) {
     }
 }
 
+function mousedblclickHandler(evt) {    
+    calculateMousePos(evt);
+    if (evt.which === MOUSE_LEFT_CLICK) {        
+        mouseHeld = true;
+        mouseDblClickedThisFrame = true;
+    }
+}
 
 function mouseupHandler(evt) {
     if (isPaused) {
@@ -110,6 +120,9 @@ function inputUpdate() {
     if (mouseClickedThisFrame) {
         // Central Menu //
         inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
+    }
+    if (mouseDblClickedThisFrame) {
+        inputHandled = hotbarPane.leftMouseDblClick(mouseX, mouseY);
     }
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code

@@ -87,6 +87,14 @@ function hotbarPaneUI() {
 		return false;
 	};
 
+	this.leftMouseDblClick = function(x = mouseX, y = mouseY) {
+		if(player.hotbar.selectedSlotIndex >= 0){
+			player.hotbar.equippedItemIndex = player.hotbar.selectedSlotIndex;
+			return true;
+		}
+		return false;
+	};
+
 	this.rightMouseClick = function(x=mouseX, y=mouseY) {
 		if(player.hotbar.selectedSlotIndex >= 0){
 			player.hotbar.altGrabSlot();
