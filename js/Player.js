@@ -237,6 +237,7 @@ function playerClass() {
         var movementY = 0;
 
         playIdleSFX(this);
+        playMovingSFX(this);
 
         if (this.keyHeld_West) 
         {
