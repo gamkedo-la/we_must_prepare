@@ -128,8 +128,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                 if (i < 0) {
                     i = this.panes.length-1;
                 }
-            }            
-            this.switchTabIndex(i);
+            }                        
         }
         else {
             i = this.activeIndex+1;
@@ -138,8 +137,8 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             } else if (i >= this.panes.length-1) {
                 i = this.panes.length-1;
             }
-            this.switchTabIndex(i);
         }
+        this.switchTabIndex(i);
     };
 }
 
