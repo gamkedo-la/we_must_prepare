@@ -32,7 +32,6 @@ function InventoryClass(size){
 	this.add = function(item, count){
 		if(count <= 0) return;
 		
-		console.log("adding " + item + " in quantity " + count + " - slots[0]: " + this.slots[0].item);
 		//Check for slots with the same item and fill those first
 		for(var i = 0; i < this.slotCount; i++){
 			if(this.slots[i].item === item){
@@ -51,7 +50,6 @@ function InventoryClass(size){
 		for(var i = 0; i < this.slotCount; i++){
 			if(count <= 0) break;
 			if(this.slots[i].item === items.nothing){
-				console.log("empty slot");
 				this.slots[i].item = item;
 				
 				if(count > this.slots[i].item.maxStackSize){

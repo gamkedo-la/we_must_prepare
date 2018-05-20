@@ -164,17 +164,17 @@ function playerClass() {
 
     this.draw = function() {
         if (this.keyHeld_South) {
-            playerWalkDown.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 1);
+            playerWalkDown.draw(this.x, this.y - playerImage.height / 2);
             playerWalkDown.update();
             return;
         }
         if (this.keyHeld_West) {
-            playerWestWalk.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 1);
+            playerWestWalk.draw(this.x, this.y - playerImage.height / 2);
             playerWestWalk.update();
             return;
         }
         if (this.keyHeld_East) {
-            playerEastWalk.drawExtended(this.x - playerImage.width / 2, this.y - playerImage.height,withAngle = 0, flipped = false, scale = 1, alpha = 1);
+            playerEastWalk.draw(this.x, this.y - playerImage.height / 2);
             playerEastWalk.update();
             return;
         }

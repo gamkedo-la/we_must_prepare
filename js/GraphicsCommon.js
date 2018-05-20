@@ -69,43 +69,24 @@ function SpriteClass(imageIn, widthIn, heightIn){
 	};
 }
 
-function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping) {
+function SpriteSheetClass(sheetIn, colWidth, rowHeight) {
 	var sheet = sheetIn;
-	var numberOfFrames = sheetInFrames;
-	var width = frameWidth;
-	var height = frameHeight;
-	var animationIndex = 0; 
-	var tickCount = 0;
-	var ticksPerFrame = frameTickRate;
-	var loop = looping;
-	var rowIndex = animationInRowIndex;
+	var width = colWidth;
+	var height = rowHeight;
 	
 	//These save division operations when drawing to increase performance at the cost of memory
-	/*var halfWidth = ;
-	var halfHeight = ;*/
+	var halfWidth = width/2;
+	var halfHeight = height/2;
 	
 	this.draw = function(atX, atY, col, row){
 		canvasContext.drawImage(sheet,
 		                        col * width, row * height,
 		                        width, height,
-		                        atX - width/2, atY - height/2,
+		                        atX - halfWidth, atY - halfHeight,
 		                        width, height);
 	};
 
-	this.update = function() {
-        tickCount++;
-        if (tickCount > ticksPerFrame) {
-            tickCount = 0;
-            // if the current frame index is in range
-            if (animationIndex < numberOfFrames - 1) {
-                animationIndex++; // go to the next frame
-            } else if (loop) {
-                animationIndex = 0;
-            }
-        }
-    }
-	
-	this.drawExtended = function(atX, atY, withAngle = 0, flipped = false, scale = 1, alpha = 1){
+	this.drawExtended = function(atX, atY, row, col, withAngle = 0, flipped = false, scale = 1, alpha = 1){
 		canvasContext.save();
 		
 		canvasContext.translate(atX, atY);
@@ -114,9 +95,9 @@ function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animati
 		canvasContext.globalAlpha = alpha;
 		
 		canvasContext.drawImage(sheet,
-		                        animationIndex * width, rowIndex * height,
+		                        col * width, row * height,
 		                        width, height,
-		                        0, 0,
+		                        -halfWidth, -halfHeight,
 		                        width, height);
 		
 		canvasContext.restore();
@@ -124,5 +105,40 @@ function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animati
 	
 	this.getDimensions = function(){
 		return {width:width, height:height};
+	};
+}
+
+function AnimationClass(sheetIn, colWidth, rowHeight, sheetInFrames, animationInRowIndex, frameTickRate,looping) {
+	var spriteSheet = new SpriteSheetClass(sheetIn, colWidth, rowHeight);
+	var numberOfFrames = sheetInFrames;
+	var animationIndex = 0; 
+	var tickCount = 0;
+	var ticksPerFrame = frameTickRate;
+	var loop = looping;
+	var rowIndex = animationInRowIndex;
+	
+	this.draw = function(atX, atY){
+		spriteSheet.draw(atX, atY, animationIndex, rowIndex);
+	};
+
+	this.update = function() {
+		tickCount++;
+		if (tickCount > ticksPerFrame) {
+			tickCount = 0;
+			// if the current frame index is in range
+			if (animationIndex < numberOfFrames - 1) {
+				animationIndex++; // go to the next frame
+			} else if (loop) {
+				animationIndex = 0;
+			}
+		}
+	};
+	
+	this.drawExtended = function(atX, atY, withAngle = 0, flipped = false, scale = 1, alpha = 1){
+		spriteSheet.draw(atX, atY, animationIndex, rowIndex, withAngle, flipped, scale, alpha);
+	};
+	
+	this.getDimensions = function(){
+		return spriteSheet.getDimensions();
 	};
 }
