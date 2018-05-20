@@ -40,6 +40,8 @@ function startGameLoop() {
     isPaused = false;
     startAudioEngine();
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
+    timer.pauseTime(false);
+    console.log("Game unpaused");
 }
 
 function gameLoop() {
@@ -56,13 +58,14 @@ function windowOnBlur() {
         isPaused = true;
         clearInterval(gameInterval);
         gameInterval = false;
-
+        timer.pauseTime(true);
         // @todo replace with a proper pause-screen
         colorRect(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 75, 'black');
         canvasContext.textAlign = 'center';
         colorText('Game Paused', canvas.width / 2, canvas.height  / 2, 'white');
         colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');
         canvasContext.textAlign = 'left';
+        console.log("Game is now paused");
     }
 }
 

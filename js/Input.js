@@ -271,12 +271,11 @@ function keyPress(evt) {
             keyPressForSaving(evt);
             break;
         case KEY_P:
-            for (var i = 0; i < plantTrackingArray.length; i++) {
-                plantTrackingArray[i].dayChanged();
-            }
+            timer.endOfDay();
             break;
         case KEY_O:
             console.log("Pressed the O Key");
+            timer.pauseTime();
             break;
         case KEY_ENTER:
             //toggle menu
