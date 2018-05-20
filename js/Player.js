@@ -1,11 +1,18 @@
 const PLAYER_PIXELS_MOVE_RATE = 3;
 
 function playerClass() {
-    this.isWalking = false;
-    this.bucketList = [];
-    this.storageList = [];
     this.x = 0;
     this.y = 0;
+    this.isWalking = false;
+
+    this.holdingSlot = new emptyInventorySlot();
+
+    this.inventory = new InventoryClass(30);
+    this.hotbar = new InventoryClass(5);
+    this.hotbar.equippedItemIndex = 0;
+
+    this.bucketList = [];
+    this.storageList = [];
 
     this.keyHeld_West = false;
     this.keyHeld_North = false;
@@ -72,7 +79,30 @@ function playerClass() {
         this.storageList[Resources.Metal] = new resourceClass(50, 0);
         this.storageList[Resources.Stone] = new resourceClass(50, 0);
         this.storageList[Resources.Wood] = new resourceClass(50, 0);
-
+        
+        this.inventory.oldAdd = this.inventory.add;
+        this.inventory.add = function(item, count){
+            return player.inventory.oldAdd(item, player.hotbar.add(item, count));
+        };
+        
+        this.inventory.oldCountItems = this.inventory.countItems;
+        this.inventory.countItems = function(item){
+            return player.inventory.oldCountItems(item) + player.hotbar.countItems(item);
+        };
+        
+        this.inventory.oldRemove = this.inventory.remove;
+        this.inventory.remove = function(item, count){
+            if(count > player.inventory.countItems(item)){
+                return false;
+            }
+            
+            return player.inventory.oldRemove(items, count) || player.hotbar.remove(items, count);
+        };
+        
+        this.inventory.oldRemoveAll = this.inventory.removeAll;
+        this.inventory.removeAll = function(item){
+            return player.inventory.oldRemoveAll(item) + player.hotbar.removeAll(item);
+        };
     };  // end reset
 
     this.getSaveState = function() {
@@ -124,7 +154,7 @@ function playerClass() {
         var textLineY = 15, textLineSkip = 15, textLineX = 30;
                 var i = 1;
         for (var key in this.bucketList) {
-            canvasContext.fillText('Carried ' + key + ': ' + inventory.countItems(i), textLineX, textLineY);
+            canvasContext.fillText('Carried ' + key + ': ' + this.inventory.countItems(i), textLineX, textLineY);
             canvasContext.fillText('Stored ' + key + ': ' + 
             (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max, 
             textLineX * 4, textLineY); textLineY += textLineSkip;
@@ -167,31 +197,31 @@ function playerClass() {
                 break;
             case TILE_METAL_SRC:
                 if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                    inventory.add(items.metal, 1);
+                    this.inventory.add(items.metal, 1);
                 }
                 break;
             case TILE_STONE_SRC:
-                if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.pickaxe) {
+                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.pickaxe) {
                     if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                        inventory.add(items.stone, 1);
+                        this.inventory.add(items.stone, 1);
                     }
                 }
                 break;
             case TILE_STONE_DEST:
-                var temp = {carried: inventory.countItems(items.stone), makeEmpty: function(){}};
-                inventory.remove(items.stone, inventory.countItems(items.stone));
+                var temp = {carried: this.inventory.countItems(items.stone), makeEmpty: function(){}};
+                this.inventory.remove(items.stone, this.inventory.countItems(items.stone));
                 depositResources(temp, this.storageList[Resources.Stone]);
                 break;
             case TILE_WOOD_SRC:
-                if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.axe) {
+                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.axe) {
                     if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                        inventory.add(items.wood, 1);
+                        this.inventory.add(items.wood, 1);
                     }
                 }
                 break;
             case TILE_WOOD_DEST:
-                var temp = {carried: inventory.countItems(items.wood), makeEmpty: function(){}};
-                inventory.remove(items.wood, inventory.countItems(items.wood));
+                var temp = {carried: this.inventory.countItems(items.wood), makeEmpty: function(){}};
+                this.inventory.remove(items.wood, this.inventory.countItems(items.wood));
                 depositResources(temp, this.storageList[Resources.Wood]);
                 break;
             default:
@@ -258,20 +288,20 @@ function playerClass() {
         var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
         if (roomGrid[plantAtIndex] == TILE_TILLED) {
             //console.log("Going to plant at index " + plantAtIndex);
-            if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedOne) {
+            if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
                 new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
-                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
-            } else if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedTwo) {
+                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
+            } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
                 new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
-                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
+                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
             }
         } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
-            if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedOne) {
+            if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
                 new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
-                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
-            } else if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.wheatSeedTwo) {
+                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
+            } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
                 new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
-                inventory.remove(inventory.inventorySlots[inventory.equippedItemIndex].item, 1);
+                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
             }
             for (i = 0; i < plantTrackingArray.length; i++)
                 if (plantTrackingArray[i].mapIndex == plantAtIndex) {
@@ -288,13 +318,13 @@ function playerClass() {
         }
         // if (proper tool is equipped / something else?) {
         if (roomGrid[index] == TILE_GROUND && 
-            inventory.inventorySlots[inventory.equippedItemIndex].item == items.hoe) {
+            this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
             roomGrid[index] = TILE_TILLED;
         } else if (roomGrid[index] == TILE_TILLED && 
-            inventory.inventorySlots[inventory.equippedItemIndex].item == items.watercan) {
+            this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
             roomGrid[index] = TILE_TILLED_WATERED;
         } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE && 
-            inventory.inventorySlots[inventory.equippedItemIndex].item == items.watercan) {
+            this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
             for (i = 0; i < plantTrackingArray.length; i++) {
                 if (plantTrackingArray[i].mapIndex == index) {
                     plantTrackingArray[i].is_watered = true;

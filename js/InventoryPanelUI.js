@@ -1,4 +1,4 @@
-var inventory = new inventorySystem();
+//var inventory = new inventoryClass(30);
 
 function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
@@ -12,21 +12,32 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     this.inventoryX = 150;
     this.itemXSpacing = 55;
-    this.inventoryY = 250;
+    this.inventoryY = 362;
     this.itemYSpacing = 55;
     this.itemsPerRow = 10;
     
+    this.secondInventoryX = 150;
+    this.secondItemXSpacing = 55;
+    this.secondInventoryY = 187;
+    this.secondItemYSpacing = 55;
+    
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        if(inventory.selectedSlot >= 0){
-            inventory.grabSlot();
+        if(player.inventory.selectedSlotIndex >= 0){
+            player.inventory.grabSlot();
+            return true;
+        } else if(secondInventory.selectedSlotIndex >= 0) {
+            secondInventory.grabSlot();
             return true;
         }
         return false;
     };
 
     this.rightMouseClick = function(x=mouseX, y=mouseY) {
-        if(inventory.selectedSlot >= 0){
-            inventory.altGrabSlot();
+        if(player.inventory.selectedSlotIndex >= 0){
+            player.inventory.altGrabSlot();
+            return true;
+        } else if(secondInventory.selectedSlotIndex >= 0) {
+            secondInventory.altGrabSlot();
             return true;
         }
         return false;
@@ -38,13 +49,27 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 		//canvasContext.fillRect(this.x,this.y,this.width,this.height);
 		
 		var itemX, itemY;
-		for(var i = inventory.hotbarCount; i < inventory.slotCount; i++) {
-			//draw as regular slot
-			itemX = this.inventoryX + this.itemXSpacing * ((i - inventory.hotbarCount) % this.itemsPerRow);
-			itemY = this.inventoryY + this.itemYSpacing * Math.floor((i - inventory.hotbarCount)/this.itemsPerRow);
+		secondInventory.selectedSlotIndex = -1;
+		player.inventory.selectedSlotIndex = -1;
+		
+		//draw regular slots
+		for(var i = 0; i < player.inventory.slotCount; i++) {
+			itemX = this.inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
+			itemY = this.inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
 
-			inventoryUIHelper.drawSlockBackground(itemX, itemY, i);
-			inventoryUIHelper.drawSlot(itemX, itemY, inventory.inventorySlots[i]);
+			inventoryUIHelper.testMouse(player.inventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+			inventoryUIHelper.drawSlockBackground(player.inventory, itemX, itemY, i);
+			inventoryUIHelper.drawSlot(itemX, itemY, player.inventory.slots[i]);
+		}
+		
+		for(var i = 0; i < secondInventory.slotCount; i++) {
+			//draw as regular slot
+			itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
+			itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
+
+			inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+			inventoryUIHelper.drawSlockBackground(secondInventory, itemX, itemY, i);
+			inventoryUIHelper.drawSlot(itemX, itemY, secondInventory.slots[i]);
 		}
 	};
 }

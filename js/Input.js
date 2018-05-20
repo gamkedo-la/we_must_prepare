@@ -80,7 +80,7 @@ function mousedownHandler(evt) {
     } else {
         if (evt.which === MOUSE_RIGHT_CLICK) {
             rightMouseClickedThisFrame = true;
-				}
+        }
         selectedIndex = NO_SELECTION;
     }
 }
@@ -157,7 +157,7 @@ function inputUpdate() {
     }
     if(rightMouseClickedThisFrame) {
         inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || hotbarPane.rightMouseClick(mouseX, mouseY);
-				rightMouseClickedThisFrame = false;
+        rightMouseClickedThisFrame = false;
     }
     if ( !centralMenuOpen ) {
         player.move();
@@ -213,12 +213,9 @@ function keyPress(evt) {
     // Common Controls (These are always checked)
     switch (evt.keyCode) {
             case KEY_TAB:
-                inventory.equippedItemIndex++;
-                if (inventory.inventorySlots[inventory.equippedItemIndex].item == items.nothing) {
-                    inventory.equippedItemIndex++;
-                }
-                if (inventory.equippedItemIndex > 4) {
-                    inventory.equippedItemIndex = 0;
+                player.hotbar.equippedItemIndex++;
+                if (player.hotbar.equippedItemIndex >= player.hotbar.slotCount) {
+                    player.hotbar.equippedItemIndex = 0;
                 }
                 break;
             case KEY_B:
@@ -257,7 +254,7 @@ function keyPress(evt) {
                 TabMenu.isVisible = !TabMenu.isVisible;
                 break;
             default:
-                //console.log("keycode press is " + evt.keyCode);
+                console.log("keycode press is " + evt.keyCode);
                 keyUsedByGame = false;
                 break;
         }

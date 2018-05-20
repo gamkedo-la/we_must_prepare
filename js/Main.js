@@ -82,7 +82,7 @@ function setupUI() {
     pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
     TabMenu.push(pane);
     
-    pane = new inventoryPaneUI('Inventory', canvas.width*.14, canvas.height*.25, canvas.width*.855, canvas.height*.75);
+    pane = new inventoryPaneUI('Inventory', canvas.width*.14, canvas.height*.25, canvas.width*.855, canvas.height*.85);
     InventoryPane = pane;
     TabMenu.push(pane);
 
@@ -96,12 +96,13 @@ function setupUI() {
 
     hotbarPane = new hotbarPaneUI();
 }
+
 function setupInventory() {
-    inventory.add(items.hoe,1);
-    inventory.add(items.pickaxe,1);
-    inventory.add(items.watercan,1);
-    inventory.add(items.wheatSeedOne,3);
-    inventory.add(items.wheatSeedTwo,3);
+    player.inventory.add(items.hoe,1);
+    player.inventory.add(items.pickaxe,1);
+    player.inventory.add(items.watercan,1);
+    player.inventory.add(items.wheatSeedOne,3);
+    player.inventory.add(items.wheatSeedTwo,3);
 }
 
 function moveEverything() {
@@ -167,8 +168,8 @@ function drawUI() {
     hotbarPane.draw();
     TabMenu.draw();
 
-		if(inventory.holdingSlot.count > 0){ // TODO move this to inventory code somewhere
-			inventoryUIHelper.drawSlot(mouseX, mouseY, inventory.holdingSlot);
+		if(player.holdingSlot.count > 0){ // TODO move this to inventory code somewhere
+			inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
 		}
     //TODO placeholder - display instructions
     colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
