@@ -236,14 +236,7 @@ function playerClass() {
         var movementX = 0;
         var movementY = 0;
 
-        /*if(this.isPlayerIdle())
-        {
-            robotIdleSFX.play();
-        }
-        else
-        {
-            robotIdleSFX.pause();
-        }*/
+        playIdleSFX(this);
 
         if (this.keyHeld_West) 
         {
@@ -350,9 +343,9 @@ function playerClass() {
 
     this.isPlayerIdle = function()
     {
-      return (!this.keyHeld_North ||
-                !this.keyHeld_South ||
-                !this.keyHeld_West ||
+      return (!this.keyHeld_North &&
+                !this.keyHeld_South &&
+                !this.keyHeld_West &&
                 !this.keyHeld_East);
     }
 

@@ -26,7 +26,7 @@ var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
 EnviSFXVolumeManager.setVolume(0.7);
 
 //set SFX here
-var robotIdleSFX = new sfxClipOverlap("robot_idle");
+var robotIdleSFX = new sfxClipLoopingWTail("robot_idle", 20);
 var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
 																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
 																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
@@ -507,4 +507,30 @@ function playFootstep(spriteSheetObject) {
 		robotFootstepGround.play();
 	}
 	walkFrame = currentFrame;
+}
+
+var isIdleSFXPlaying = false;
+function playIdleSFX(player)
+{
+	if (player.isPlayerIdle() && !isIdleSFXPlaying)
+	{
+		robotIdleSFX.play();
+		isIdleSFXPlaying = true;
+	}
+	else
+	{
+		if (!player.isPlayerIdle() && isIdleSFXPlaying)
+		{
+			robotIdleSFX.pause();
+		}
+		else if (player.isPlayerIdle() && isIdleSFXPlaying)
+		{
+			robotIdleSFX.resume();
+		}
+	}
+
+	if (robotIdleSFX.getTime() >= robotIdleSFX.getDuration())
+	{
+		robotIdleSFX.setTime(0);
+	}
 }
