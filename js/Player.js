@@ -1,4 +1,4 @@
-const PLAYER_PIXELS_MOVE_RATE = 3;
+const PLAYER_PIXELS_MOVE_RATE = 7;
 
 function playerClass() {
     this.x = 0;
@@ -233,8 +233,8 @@ function playerClass() {
     };
 
     this.move = function() {
-        var nextX = this.x;
-        var nextY = this.y;
+        var movementX = 0;
+        var movementY = 0;
 
         /*if(this.isPlayerIdle())
         {
@@ -245,45 +245,57 @@ function playerClass() {
             robotIdleSFX.pause();
         }*/
 
-        if (this.keyHeld_North) 
-        {
-            nextY -= PLAYER_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_South) 
-        {
-            nextY += PLAYER_PIXELS_MOVE_RATE;
-        }
         if (this.keyHeld_West) 
         {
-            nextX -= PLAYER_PIXELS_MOVE_RATE;
+            movementX -= PLAYER_PIXELS_MOVE_RATE;
         }
         if (this.keyHeld_East) 
         {
-            nextX += PLAYER_PIXELS_MOVE_RATE;
+            movementX += PLAYER_PIXELS_MOVE_RATE;
+        }
+        if (this.keyHeld_North) 
+        {
+            movementY -= PLAYER_PIXELS_MOVE_RATE;
+        }
+        if (this.keyHeld_South) 
+        {
+            movementY += PLAYER_PIXELS_MOVE_RATE;
         }
 
         this.getDirectionPlayerIsCurrentlyFacing();
 
-        if((nextX != this.x) || (nextY != this.y))
+        if((movementX != 0) || (movementY != 0))
         {
-            walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
-            walkIntoTileType = TILE_WALL;
-          
-              if (walkIntoTileIndex != undefined) {
-                  walkIntoTileType = roomGrid[walkIntoTileIndex];
-              }
-              if(walkIntoTileType == TILE_RECHARGE_STATION){
+            // Adjust speed for diagonal movement
+            if((movementX != 0) && (movementY != 0)){
+                movementX = movementX * Math.SQRT1_2;
+                movementY = movementY * Math.SQRT1_2;
+            }
+            
+            var nextX = Math.round(this.x + movementX);
+            var nextY = Math.round(this.y + movementY);
+            
+            walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY)
+            if(walkIntoTileType === undefined){
+                walkIntoTileType = TILE_WALL;
+            }
+            
+            if(walkIntoTileType == TILE_RECHARGE_STATION){
                 console.log("Going for recharge!");
                 for (var i = 0; i < plantTrackingArray.length; i++) {
                     plantTrackingArray[i].dayChanged();
                 }
                 this.y = this.y + TILE_H;
-              }
-              if (isTileKindWalkable(walkIntoTileType)) 
-              {
-                  this.x = nextX;
-                  this.y = nextY;
-              }           
+            }
+            if (isTileKindWalkable(walkIntoTileType)) 
+            {
+                this.x = nextX;
+                this.y = nextY;
+            } else if(isTileKindWalkable(getTileTypeAtPixelCoord(this.x, nextY))){
+                this.y = nextY;
+            } else if(isTileKindWalkable(getTileTypeAtPixelCoord(nextX, this.y))){
+                this.x = nextX;
+            }
         }//end if nextX & nextY
     }; // end move
 

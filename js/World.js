@@ -165,6 +165,10 @@ function getTileIndexAtPixelCoord(pixelX, pixelY) {
     return tileIndex;
 }
 
+function getTileTypeAtPixelCoord(pixelX, pixelY) {
+    return roomGrid[getTileIndexAtPixelCoord(pixelX, pixelY)];
+}
+
 function tileTypeHasTransparency(checkTileType) {
     switch (checkTileType) {
         case TILE_PLAYER:
