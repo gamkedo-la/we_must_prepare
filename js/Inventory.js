@@ -166,6 +166,21 @@ function InventoryClass(size){
 		
 		return count;
 	};
+
+	this.scrollThrough = function(scrollLeftIfTrue = false) {
+		if (scrollLeftIfTrue) {
+			this.equippedItemIndex--;
+			if (this.equippedItemIndex < 0) {
+				this.equippedItemIndex = this.slotCount - 1;
+			}
+		}
+		else {
+			this.equippedItemIndex++;
+			if (this.equippedItemIndex >= this.slotCount) {
+				this.equippedItemIndex = 0;
+			}
+		}
+	}
 }
 
 var secondInventory = new InventoryClass(30);

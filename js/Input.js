@@ -226,10 +226,7 @@ function keyPress(evt) {
     // Common Controls (These are always checked)
     switch (evt.keyCode) {
             case KEY_TAB:
-                player.hotbar.equippedItemIndex++;
-                if (player.hotbar.equippedItemIndex >= player.hotbar.slotCount) {
-                    player.hotbar.equippedItemIndex = 0;
-                }
+                player.hotbar.scrollThrough();
                 break;
             case KEY_B:
                 isBuildModeEnabled = !isBuildModeEnabled;
