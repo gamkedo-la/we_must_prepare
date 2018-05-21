@@ -1,3 +1,23 @@
+var ControlsText = ['------Keyboard Controls------',
+                    'Menu - ESC',
+                    'Movement - WASD, Arrow Keys',
+                    'Toggle Inventory - I',
+                    'Use Tool - C',
+                    'Plant Seeds - O',
+                    'Open Inventory - E',
+                    'Cycle Hotbar Forward - TAB',
+                    'Cycle Hotbar Back - SHIFT+TAB',
+                    'Build? - B',
+                    '',
+                    '------Mouse Controls------',
+                    'Select - Mouse Left-Click',
+                    'Move Inventory Item - Mouse Left-Click Drag',
+                    'Cycle Hotbar - Mouse Scroll',
+                    '',
+                    '------Temporary Controls------',
+                    'End Day - P',
+                    'Paue Time? - O'];
+
 function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;
@@ -174,15 +194,7 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
     this.columnPadding = 40;
     this.lineHeight = 15;
     this.textColor = 'black';
-    this.textLine = ['------Main Controls------',
-                    'Toggle Menu - ENTER',
-                    'Movement - WASD, Arrow Keys',
-                    'Toggle Inventory - I',
-                    'Interact - C',
-                    'Plant Seeds - O',
-                    '',
-                    '------Temporary Controls------',
-                    'Change Day - P'];
+    this.textLine = ControlsText;
     
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         return false;

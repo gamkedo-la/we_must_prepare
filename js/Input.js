@@ -5,8 +5,6 @@ const MOUSE_LEFT_CLICK = 1;
 const MOUSE_RIGHT_CLICK = 3;
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
-// Central Menu
-const KEY_ENTER = KEY_TOGGLE_MENU = 13;
 
 var mouseClickedThisFrame = false;
 var mouseDblClickedThisFrame = false;
