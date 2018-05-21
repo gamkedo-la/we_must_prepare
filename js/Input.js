@@ -92,9 +92,10 @@ function mouseupHandler(evt) {
 } // end mouse up handler
 
 function mousewheelHandler(evt) {
-    if (!TabMenu.isVisible) {
-        player.hotbar.scrollThrough(evt.deltaY > 0);
+    if (!TabMenu.isVisible) {        
+        player.hotbar.scrollThrough(evt.deltaY > 0);        
     }
+    evt.preventDefault();
 }
 
 function isMouseOverInterface() {
