@@ -27,7 +27,9 @@ var picsToLoad = 0;
 function countLoadedImageAndLaunchIfReady() {
   picsToLoad--;
   if (picsToLoad == 0) { // last image loaded?
-    loadingDoneSoStartGame();
+    // loadingDoneSoStartGame();
+    colorRect(0, 0, canvas.width, canvas.height, 'black');
+    colorText('Click to Start', canvas.width / 2, canvas.height / 2, 'white');
   }
 }
 

@@ -12,6 +12,7 @@ var canvas, canvasContext;
 var player = new playerClass();
 var timer = new TimerClass();
 
+var hasGameStartedByClick = false;
 var isPaused = false;
 var gameInterval;
 var blurInterval;
@@ -22,6 +23,7 @@ var InventoryPane;
 var hotbarPane;
 
 function loadingDoneSoStartGame() {
+    hasGameStartedByClick = true;
     startGameLoop();
 
     setupInput();
@@ -40,6 +42,8 @@ function startGameLoop() {
     isPaused = false;
     startAudioEngine();
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
+    timer.pauseTime(false);
+    console.log("Game unpaused");
 }
 
 function gameLoop() {
@@ -56,13 +60,14 @@ function windowOnBlur() {
         isPaused = true;
         clearInterval(gameInterval);
         gameInterval = false;
-
+        timer.pauseTime(true);
         // @todo replace with a proper pause-screen
         colorRect(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 75, 'black');
         canvasContext.textAlign = 'center';
         colorText('Game Paused', canvas.width / 2, canvas.height  / 2, 'white');
         colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');
         canvasContext.textAlign = 'left';
+        console.log("Game is now paused");
     }
 }
 
@@ -70,6 +75,7 @@ window.onload = function () {
     canvas = document.getElementById('gameCanvas');
     canvasContext = canvas.getContext('2d');
     // these next few lines set up our game logic and render to happen 30 times per second
+    canvas.addEventListener('mouseup', mouseupHandler);
     loadImages();
 
 }  // end onload

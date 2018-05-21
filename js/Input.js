@@ -38,10 +38,9 @@ function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
     canvas.addEventListener('mousedown', mousedownHandler);
     canvas.addEventListener('dblclick', mousedblclickHandler);
-    canvas.addEventListener('mouseup', mouseupHandler);
     canvas.addEventListener('wheel', mousewheelHandler);
+    // note for init reason canvas.addEventListener('mouseup', mouseupHandler); is in the onload handler for the main window
 
-    
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyReleased);
 
@@ -76,6 +75,13 @@ function mousedblclickHandler(evt) {
 }
 
 function mouseupHandler(evt) {
+    if (hasGameStartedByClick == false) {
+        console.log('we are in hasGameStartedByClick == false in mouseupHandler: num pics to load ' + picsToLoad);
+        if (picsToLoad == 0) {
+            loadingDoneSoStartGame();
+        }
+        return;
+    }
     if (isPaused) {
         startGameLoop();
         return;
@@ -256,12 +262,11 @@ function keyPress(evt) {
             keyPressForSaving(evt);
             break;
         case "KeyP":
-            for (var i = 0; i < plantTrackingArray.length; i++) {
-                plantTrackingArray[i].dayChanged();
-            }
+            timer.endOfDay();
             break;
         case "KeyO":
             console.log("Pressed the O Key");
+            timer.pauseTime();
             break;
         default:
             console.log("keycode press is " + evt.keyCode);

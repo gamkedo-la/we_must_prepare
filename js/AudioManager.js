@@ -38,6 +38,8 @@ var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt
 																			grass2 = new sfxClipSingle("temp_footstep_grass02"),
 																			grass3 = new sfxClipSingle("temp_footstep_grass03")])]);
 robotFootstepGround.setVolume(0.7);
+robotIdleSFX.setVolume(0.9);
+robotMovementDefault.setVolume(0.9);
 
 SFXVolumeManager.setVolume(0.7);
 
@@ -508,6 +510,32 @@ function playFootstep(spriteSheetObject) {
 		robotFootstepGround.play();
 	}
 	walkFrame = currentFrame;
+}
+
+var isRobotMovingSFXPlaying = false;
+function playMovingSFX(player)
+{
+	if (!player.isPlayerIdle() && !isRobotMovingSFXPlaying) 
+	{
+		robotMovementDefault.play();
+		isRobotMovingSFXPlaying = true;
+	}
+	else
+	{
+		if (player.isPlayerIdle()) 
+		{
+			robotMovementDefault.pause();
+		}
+		else
+		{
+			robotMovementDefault.resume();
+		}
+	}
+
+	if (robotMovementDefault.getTime() >= robotMovementDefault.getDuration()) 
+	{
+		robotMovementDefault.setTime(0);
+	}
 }
 
 var isIdleSFXPlaying = false;
