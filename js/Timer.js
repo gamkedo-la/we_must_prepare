@@ -28,6 +28,9 @@ function TimerClass() {
         var secondsRemainder = this.secondsInDay % 60;
         var minutesRemainder = minutesInDay % 60;
         hoursInDay %= 24;
+        if (hoursInDay == 2) {
+            this.endOfDay();
+        }
         if (hoursInDay < 10) {
             hoursInDay = '0' + hoursInDay;
         }
@@ -43,6 +46,7 @@ function TimerClass() {
 
     this.endOfDay = function () {
         console.log("The day has ended!");
+        this.secondsInDay = 0;
         for (var i = 0; i < plantTrackingArray.length; i++) {
             plantTrackingArray[i].dayChanged();
         }
