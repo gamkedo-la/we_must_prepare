@@ -51,7 +51,7 @@ var weather = (function () {
         // sunrise and sunset depends on game timer
         // note: this means it changes VERY SLOWLY (takes an entire day (16 minutes) to go from 0..1..0
         var dayPercent = timer.secondsInDay / SECONDS_PER_DAY;
-        howSunny = Math.sin(dayPercent);
+        howSunny = Math.sin(dayPercent * 5);
 
         // oscillate in and out from -1 to 1 at different rates
         howCloudy = Math.sin(now / cloudLength / 100);
@@ -206,7 +206,7 @@ var weather = (function () {
             drawBitmapCenteredAtLocationWithRotation(skyCircle,
                 Math.round(canvas.width / 2),
                 Math.round(skyCircle.height / 2),
-                2 * Math.PI * howSunny - (0.5 * Math.PI)); // is this math right? FIXME
+                2 * Math.PI * dayPercent - (0.5 * Math.PI)); // is this math right? FIXME
 
             // weather gui (overlay)
             canvasContext.drawImage(weatherGUI, // see imgLoading.js

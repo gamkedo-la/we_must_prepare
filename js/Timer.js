@@ -5,7 +5,7 @@ function TimerClass() {
     this.isTimeFrozen = false;
     this.timeTick = function () {
         if (this.isTimeFrozen == false) {
-            this.secondsInDay++;
+            this.secondsInDay += 30;
         }
     }
 

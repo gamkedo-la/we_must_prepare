@@ -49,7 +49,7 @@ function loadImages() {
     { varName: playerSpriteSheetWalkDown, theFile: "robokedoWalk.png" },
     { varName: playerSpriteSheetSideWalk, theFile: "robokedoSideWalk.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
-    { varName: timeOfDayGradient, theFile: "time_of_day_gradient2.png" },
+    { varName: timeOfDayGradient, theFile: "time_of_day_gradient3.png" },
     { varName: buildingSelection, theFile: "building_selection.png" },
     { varName: tree3D, theFile: "survivingTree1.png" },
     { varName: treeDead3D, theFile: "deadTree1.png" },
