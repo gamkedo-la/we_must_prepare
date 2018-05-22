@@ -299,8 +299,8 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 	var windLevel = Math.max(wind, 0);
 	var rainLevel = Math.max(rain, 0);
 
-	sunLevel -= Math.max((cloudLevel + fogLevel + windLevel)/1.5, 0);
-	//Set birds to sun - the average of cloud, fog, and wind
+	sunLevel -= Math.max((cloudLevel + windLevel), 0);
+	//Set birds to sun - the average of cloudand wind
 	if (sun_enviSFX.getPaused()) {
 		sun_enviSFX.resume();
 		sun_enviSFX.setVolume(sunLevel);
