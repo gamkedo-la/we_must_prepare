@@ -28,6 +28,7 @@ EnviSFXVolumeManager.setVolume(0.7);
 //set SFX here
 var robotIdleSFX = new sfxClipLoopingWTail("robot_idle", 20);
 var robotMovementDefault = new sfxClipLoopingWTail("Robot_Moving", 5);
+var robotWateringSFX = new sfxClipSingle("robot_green_thumb");
 var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
 																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
 																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
@@ -40,6 +41,7 @@ var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt
 robotFootstepGround.setVolume(0.7);
 robotIdleSFX.setVolume(0.9);
 robotMovementDefault.setVolume(0.9);
+robotWateringSFX.setVolume(0.9);
 
 SFXVolumeManager.setVolume(0.7);
 
