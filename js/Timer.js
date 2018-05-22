@@ -1,16 +1,17 @@
+const SECONDS_PER_DAY = 24 * 60 * 60; // used in Main.js and Weather.js to determind % of day elapsed
 
 function TimerClass() {
     this.secondsInDay = 0;
     this.isTimeFrozen = false;
     this.timeTick = function () {
-        if (this.isTimeFrozen == false){
+        if (this.isTimeFrozen == false) {
             this.secondsInDay++;
         }
     }
 
     this.setupTimer = function () {
         var t = this;
-        setInterval(function() {t.timeTick();}, 12);
+        setInterval(function () { t.timeTick(); }, 12);
     }
 
     this.pauseTime = function (freezeNow) {

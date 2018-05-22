@@ -45,9 +45,15 @@ var weather = (function () {
 
         var now = performance.now(); // in seconds
 
-        // oscillate in and out from -1 to 1
         // only draw if > 1 so there are gaps with no weather
-        howSunny = Math.sin(now / sunLength / 100);
+        //howSunny = Math.sin(now / sunLength / 100);
+
+        // sunrise and sunset depends on game timer
+        // note: this means it changes VERY SLOWLY (takes an entire day (16 minutes) to go from 0..1..0
+        var dayPercent = timer.secondsInDay / SECONDS_PER_DAY;
+        howSunny = Math.sin(dayPercent);
+
+        // oscillate in and out from -1 to 1 at different rates
         howCloudy = Math.sin(now / cloudLength / 100);
         howFoggy = Math.sin(now / fogLength / 100);
         howWindy = Math.sin(now / windLength / 100);

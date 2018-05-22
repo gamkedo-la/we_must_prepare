@@ -18,7 +18,7 @@ var gameInterval;
 var blurInterval;
 
 //Central Menu
-var TabMenu; 
+var TabMenu;
 var InventoryPane;
 var hotbarPane;
 
@@ -27,7 +27,7 @@ function loadingDoneSoStartGame() {
     startGameLoop();
 
     setupInput();
-	setupUI(); //interface.js
+    setupUI(); //interface.js
     player.reset();
     setupBuckets();
     timer.setupTimer();
@@ -64,7 +64,7 @@ function windowOnBlur() {
         // @todo replace with a proper pause-screen
         colorRect(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 75, 'black');
         canvasContext.textAlign = 'center';
-        colorText('Game Paused', canvas.width / 2, canvas.height  / 2, 'white');
+        colorText('Game Paused', canvas.width / 2, canvas.height / 2, 'white');
         colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');
         canvasContext.textAlign = 'left';
         console.log("Game is now paused");
@@ -81,19 +81,19 @@ window.onload = function () {
 }  // end onload
 
 function setupUI() {
-    TabMenu = new tabMenuUI(canvas.width*.25, canvas.height*.25-30);
+    TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
     //create a pane for testing
-    var pane = new paneUI('Test Pane', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
-    
-    pane = new controlsInfoPaneUI('Controls', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+
+    pane = new controlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
-    
-    pane = new inventoryPaneUI('Inventory', canvas.width*.14, canvas.height*.25, canvas.width*.855, canvas.height*.85);
+
+    pane = new inventoryPaneUI('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     InventoryPane = pane;
     TabMenu.push(pane);
 
-    var pane = new audioPaneUI('Audio', canvas.width*.25, canvas.height*.25, canvas.width*.75, canvas.height*.75);
+    var pane = new audioPaneUI('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
 
     TabMenu.switchTabIndex(0);
@@ -106,11 +106,11 @@ function setupUI() {
 }
 
 function setupInventory() {
-    player.inventory.add(items.hoe,1);
-    player.inventory.add(items.pickaxe,1);
-    player.inventory.add(items.watercan,1);
-    player.inventory.add(items.wheatSeedOne,3);
-    player.inventory.add(items.wheatSeedTwo,3);
+    player.inventory.add(items.hoe, 1);
+    player.inventory.add(items.pickaxe, 1);
+    player.inventory.add(items.watercan, 1);
+    player.inventory.add(items.wheatSeedOne, 3);
+    player.inventory.add(items.wheatSeedTwo, 3);
 }
 
 function moveEverything() {
@@ -161,24 +161,35 @@ function drawEverything() {
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
     timer.drawTimer();
-	// main UI
-	drawUI(); //interface.js
+    // main UI
+    drawUI(); //interface.js
 }
 
 function drawSkyGradient() {
-        canvasContext.drawImage(
-            timeOfDayGradient,
-            (Math.floor(masterFrameDelayTick * 0.2) % timeOfDayGradient.width), 0, 1, 100, // source x,y,w,d (scroll source x over time)
-            0, 0, 800, 600); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
+    var dayPercent = timer.secondsInDay / SECONDS_PER_DAY;
+    var skyX = Math.floor(dayPercent * timeOfDayGradient.width);
+    //console.log("day %:" + dayPercent);
+    //console.log("sky x:" + skyX);
+
+    canvasContext.drawImage(
+        timeOfDayGradient,
+
+        // old way: frame locked, mismatched with weather sun etc
+        // (Math.floor(masterFrameDelayTick * 0.2) % timeOfDayGradient.width), 0, 1, 100, // source x,y,w,d (scroll source x over time)
+
+        // new way: uses timer current value for % of day elapsed
+        skyX, 0, 1, 100, // source x,y,w,d (scroll source x over time)
+
+        0, 0, 800, 600); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
 }
 
 function drawUI() {
     hotbarPane.draw();
     TabMenu.draw();
 
-		if(player.holdingSlot.count > 0){ // TODO move this to inventory code somewhere
-			inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
-		}
+    if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
+        inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
+    }
     //TODO placeholder - display instructions
     colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
 }
