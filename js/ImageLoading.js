@@ -12,15 +12,17 @@ var plantSpritesheet = document.createElement("img");
 var sunshine = document.createElement("img");
 var itemSheet = document.createElement("img");
 var selectedItemSlot = document.createElement("img");
+var weatherGUI = document.createElement("img");
+var skyCircle = document.createElement("img");
 
 var playerSpriteSheetWalkUp = document.createElement("img");
 var playerSpriteSheetWalkDown = document.createElement("img");
 var playerSpriteSheetSideWalk = document.createElement("img");
 
 //function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
-var playerWalkDown = new AnimationClass(playerSpriteSheetWalkDown,48,48,8,0,6,true);
-var playerEastWalk = new AnimationClass(playerSpriteSheetSideWalk,48,48,4,0,6,true);
-var playerWestWalk = new AnimationClass(playerSpriteSheetSideWalk,48,48,4,1,6,true);
+var playerWalkDown = new AnimationClass(playerSpriteSheetWalkDown, 48, 48, 8, 0, 6, true);
+var playerEastWalk = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 6, true);
+var playerWestWalk = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 6, true);
 
 var picsToLoad = 0;
 
@@ -58,6 +60,8 @@ function loadImages() {
     { varName: sunshine, theFile: "sunshine.png" },
     { varName: itemSheet, theFile: "item_sheet.png" },
     { varName: selectedItemSlot, theFile: "selected_item_slot.png" },
+    { varName: weatherGUI, theFile: "weatherGUI.png" },
+    { varName: skyCircle, theFile: "skyCircle.png" },
   ];
 
   picsToLoad = imageList.length;

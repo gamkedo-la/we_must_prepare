@@ -172,22 +172,45 @@ var weather = (function () {
             );
             */
 
-            var barW = 100;
-            var barH = 6;
-            var barX = 400;
-            var barY = 6;
 
-            colorText('sun', barX - 26, barY + 5, 'white');
-            colorText('cloud', barX - 26, barY + 5 + 8, 'white');
-            colorText('fog', barX - 26, barY + 5 + 16, 'white');
-            colorText('wind', barX - 26, barY + 5 + 24, 'white');
-            colorText('rain', barX - 26, barY + 5 + 32, 'white');
+            // old text and bars
+            //colorText('sun', barX - 26, barY + 5, 'white');
+            //colorText('cloud', barX - 26, barY + 5 + 8, 'white');
+            //colorText('fog', barX - 26, barY + 5 + 16, 'white');
+            //colorText('wind', barX - 26, barY + 5 + 24, 'white');
+            //colorText('rain', barX - 26, barY + 5 + 32, 'white');
+            //colorRect(barX, barY, Math.max(barW * howSunny, 0), barH, "yellow");
+            //colorRect(barX, barY + 8, Math.max(barW * howCloudy, 1), barH, "#777799");
+            //colorRect(barX, barY + 16, Math.max(barW * howFoggy, 1), barH, "#333333");
+            //colorRect(barX, barY + 24, Math.max(barW * howWindy, 1), barH, "#ccbbaa");
+            //colorRect(barX, barY + 32, Math.max(barW * howRainy, 1), barH, "blue");
 
-            colorRect(barX, barY, Math.max(barW * howSunny, 0), barH, "yellow");
-            colorRect(barX, barY + 8, Math.max(barW * howCloudy, 1), barH, "#777799");
-            colorRect(barX, barY + 16, Math.max(barW * howFoggy, 1), barH, "#333333");
-            colorRect(barX, barY + 24, Math.max(barW * howWindy, 1), barH, "#ccbbaa");
-            colorRect(barX, barY + 32, Math.max(barW * howRainy, 1), barH, "blue");
+            var barW = 44;
+            var barH = 12;
+            var barX = Math.round(canvas.width / 2);
+            var barY = 21;
+
+            colorRect(barX - 86, barY, barW, barH, "rgba(255,255,0,0.25)");
+            colorRect(barX - 86, barY, Math.max(barW * howSunny, 0), barH, "rgba(255,255,0,1.0)");
+
+            colorRect(barX + 42, barY, barW, barH, "rgba(180,180,255,0.25)");
+            colorRect(barX + 42, barY, Math.max(barW * howCloudy, 1), barH, "rgba(180,180,255,1.0)");
+
+            colorRect(barX - 86, barY + 25, barW, barH, "rgba(80,180,255,0.25)");
+            colorRect(barX - 86, barY + 25, Math.max(barW * howWindy, 1), barH, "rgba(80,180,255,1.0)");
+
+            colorRect(barX + 42, barY + 25, barW, barH, "rgba(0,0,255,0.25)");
+            colorRect(barX + 42, barY + 25, Math.max(barW * howRainy, 1), barH, "rgba(0,0,255,1.0)");
+
+            // sky circle (shows sun/moon state)
+            drawBitmapCenteredAtLocationWithRotation(skyCircle,
+                Math.round(canvas.width / 2),
+                Math.round(skyCircle.height / 2),
+                2 * Math.PI * howSunny - (0.5 * Math.PI)); // is this math right? FIXME
+
+            // weather gui (overlay)
+            canvasContext.drawImage(weatherGUI, // see imgLoading.js
+                Math.round(canvas.width / 2 - weatherGUI.width / 2), 0);
 
         }
 
