@@ -35,17 +35,39 @@ function deactivateAutoSave() {
 function autoSave() {
   HTMLLog("saving...");
 
-  var saveState = {
-    player: player.getSaveState()
-  };
+  var saveState = getSaveState();
   persistence.setObject('autosave', saveState);
 
   console.log(JSON.stringify(saveState));
 }
 
+function save(slotIndex) {
+  var slotName = 'save_' + slotIndex;
+  console.log('saving to ' + slotName);
+  var saveState = getSaveState();
+  persistence.setObject(slotName, saveState);
+}
+
+function getSaveState() {
+  var saveState = {
+    player: player.getSaveState()
+  };
+  return saveState;
+}
+
 function autoLoad() {
   var saveState = persistence.getObject('autosave', null);
+  loadSaveState(saveState);
+}
 
+function load(slotIndex) {
+  var slotName = 'save_' + slotIndex;
+  console.log('loading from ' + slotName);
+  var saveState = persistence.getObject(slotName, null);
+  loadSaveState(saveState);
+}
+
+function loadSaveState(saveState) {
   // Never saved, nothing to load
   if (!saveState) {
     return;
