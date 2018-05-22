@@ -1,4 +1,4 @@
-const PLAYER_PIXELS_MOVE_RATE = 7;
+const PLAYER_PIXELS_MOVE_RATE = 6;
 
 function playerClass() {
     this.x = 0;
