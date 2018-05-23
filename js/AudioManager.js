@@ -39,13 +39,17 @@ var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt
 																			grass2 = new sfxClipSingle("temp_footstep_grass02"),
 																			grass3 = new sfxClipSingle("temp_footstep_grass03")])]);
 robotFootstepGround.setVolume(0.7);
-robotIdleSFX.setVolume(0.9);
-robotMovementDefault.setVolume(0.9);
-robotWateringSFX.setVolume(0.9);
+robotIdleSFX.setMixVolume(0.9);
+robotMovementDefault.setMixVolume(0.9);
+robotWateringSFX.setMixVolume(0.9);
 
 SFXVolumeManager.setVolume(0.7);
 
 //set UI sound here
+var uiSelect = new uiSFXClipSingle("uiSelect");
+var uiCancel = new uiSFXClipSingle("uiCancel");
+var uiChange = new uiSFXClipSingle("uiChange");
+
 UISFXVolumeManager.setVolume(0.7);
 
 function setFormat() {
