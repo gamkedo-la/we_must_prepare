@@ -108,8 +108,11 @@ function inputUpdate() {
     var centralMenuOpen = TabMenu.isVisible;
     var inputHandled = false;
     if (mouseClickedThisFrame) {
+        inputHandled = MainMenu.leftMouseClick(mouseX, mouseY);
         // Central Menu //
-        inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
+        if(!inputHandled) {
+            inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
+        }
     }
     if (mouseDblClickedThisFrame) {
         inputHandled = hotbarPane.leftMouseDblClick(mouseX, mouseY);

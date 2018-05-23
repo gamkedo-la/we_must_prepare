@@ -17,7 +17,11 @@ var isPaused = false;
 var gameInterval;
 var blurInterval;
 
+//Change to false to disable main menu on open
+var isMainMenuOpen = true;
+
 //Central Menu
+var MainMenu;
 var TabMenu;
 var InventoryPane;
 var hotbarPane;
@@ -81,11 +85,11 @@ window.onload = function () {
 }  // end onload
 
 function setupUI() {
-    TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
-    //create a pane for testing
-    var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    TabMenu.push(pane);
+    MainMenu = new mainMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
 
+    TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
+    //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    //TabMenu.push(pane);
     pane = new controlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
 
@@ -188,6 +192,7 @@ function drawSkyGradient() {
 function drawUI() {
     hotbarPane.draw();
     TabMenu.draw();
+    MainMenu.draw();
 
     if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
         inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);

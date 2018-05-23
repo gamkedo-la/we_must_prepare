@@ -17,6 +17,10 @@ var ControlsText = ['------Keyboard Controls------',
                     '------Temporary Controls------',
                     'End Day - P',
                     'Paue Time? - O'];
+function drawUIPaneBackground(pane) {
+    canvasContext.fillStyle = 'beige';
+    canvasContext.fillRect(pane.x,pane.y,pane.width,pane.height);
+}
 
 function tabMenuUI(X=0, Y=0, tabHeight=30) {
     this.x = X;
