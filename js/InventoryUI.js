@@ -44,9 +44,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     };
 
 	this.draw = function() {
-		colorRect(this.x,this.y,this.width,this.height, 'beige');
-		//canvasContext.fillStyle = 'beige';
-		//canvasContext.fillRect(this.x,this.y,this.width,this.height);
+		drawUIPaneBackground(this);
 		
 		var itemX, itemY;
 		secondInventory.selectedSlotIndex = -1;
