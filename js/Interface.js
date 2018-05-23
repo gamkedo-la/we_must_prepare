@@ -5,6 +5,7 @@
 var BackgroundUIColor = "beige";
 var BorderUIColor = "#c69c6d";
 var BorderUIWidth = 3;
+var TabUIBackgroundDark = "#eaeaae";
 
 var ControlsText = ['------Keyboard Controls------',
                     'Menu - ESC',
@@ -28,7 +29,7 @@ var ControlsText = ['------Keyboard Controls------',
 
 function drawUIPaneBackground(pane, backgroundColor=BackgroundUIColor, borderColor=BorderUIColor) {
     colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
-    drawUIPaneBorder(pane, borderColor, borderColor);
+    drawUIPaneBorder(pane, BorderUIWidth, borderColor);
 }
 
 function drawUIPaneBorder(pane, borderWidth, color) {
@@ -126,7 +127,13 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             var i;
             var tabX = this.x;
             var tabY = this.y
+            var activeTabX=0;
+            var activeTabY=0;
+            var activeTabWidth=0;
+            var activeTabStr="";
             var str;
+            
+            // draw inactive tabs
             for(i=0; i < length; i++) {
                 var pane = this.panes[i];
                 //draw tab
@@ -135,11 +142,14 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                 var tabWidth = (this.tabTextPadding*2)+textWidth;
                 var textColor;
                 if  (i == this.activeIndex) {
-                    canvasContext.fillStyle = 'beige';
-                    canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
-                    textColor = 'black';
+                    //active tab, skip drawing (will draw at end over other elements)
+                    activeTabX = tabX;
+                    activeTabY = tabY;
+                    activeTabWidth = tabWidth;
+                    activeTabStr = str;
                 } else {
-                    canvasContext.fillStyle = '#eaeaae';
+                    //inactive tab
+                    canvasContext.fillStyle = TabUIBackgroundDark;
                     canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
                     textColor = 'LightSlateGray';
                 }
@@ -150,6 +160,16 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
                     pane.draw();
                 }
             }
+            // draw active pane
+            var pane = this.activePane;
+            if(pane.isVisible) {
+                pane.draw();
+            }
+            //draw active tab on top
+            canvasContext.fillStyle = BackgroundUIColor;
+            canvasContext.fillRect(activeTabX, activeTabY, activeTabWidth, this.tabHeight);
+            var textColor = 'black';
+            colorText(activeTabStr, activeTabX+this.tabTextPadding, activeTabY+this.tabTextPadding, textColor);
         }
     };
     
