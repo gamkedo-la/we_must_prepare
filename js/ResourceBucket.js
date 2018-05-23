@@ -68,7 +68,7 @@ function setupBuckets() {
         if (resourceType != '') {
             resouceLookupTable[i] = [];
             resouceLookupTable[i][resourceType] = new resourceClass(resourceQuantity, resourceQuantity);
-            console.log("Added in " + resourceType);
+            //console.log("Added in " + resourceType);
         }
 
       } // end of for

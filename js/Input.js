@@ -233,7 +233,7 @@ function keyPress(evt) {
             break;
         case "Escape":
 				case "Esc":
-            console.log("Escape pressed");
+           // console.log("Escape pressed");
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             } else {
@@ -268,7 +268,7 @@ function keyPress(evt) {
             timer.pauseTime();
             break;
         default:
-            console.log("keycode press is " + evt.keyCode);
+           // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;
             break;
     }
