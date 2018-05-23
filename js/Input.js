@@ -267,12 +267,17 @@ function keyPress(evt) {
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
-						if(TabMenu.activePane.name != "Inventory") {
+			if(TabMenu.activePane.name != "Inventory") {
                 TabMenu.switchTabName("Inventory");
                 TabMenu.isVisible = true;
             } else {
                 TabMenu.isVisible = !TabMenu.isVisible;
             }
+            if(TabMenu.isVisible) {
+                    uiSelect.play();
+                } else {
+                    uiCancel.play();
+                }
             break;
         case "0":
             keyPressForSaving(evt);
@@ -287,6 +292,7 @@ function keyPress(evt) {
         case "KeyF":
             console.log("Pressed the F Key");
             toggleRadiation ();
+            uiChange.play();
             break;
         default:
            // console.log("keycode press is " + evt.keyCode);

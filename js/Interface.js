@@ -41,6 +41,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
             var clickedPane = this.getTabPaneAt(x, y);
             if ( clickedPane !== null ) {
                 this.switchTabName(clickedPane.name);
+                uiSelect.play();
                 return true;
             } else {
                 return false;
