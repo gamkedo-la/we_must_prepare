@@ -11,14 +11,12 @@ function mainMenuUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
             this.isVisible = false;
             return true; //mouse input handled
         } else {
-            console.log("false");
             return false; //mouse input not handled
         }
     };
     
     this.draw = function() {
         if(this.isVisible) {
-            console.log("draw");
             drawUIPaneBackground(this);
             var str = "-- Press Left Click --";
             var strWidth = canvasContext.measureText(str).width;

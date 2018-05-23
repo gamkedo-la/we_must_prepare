@@ -240,14 +240,23 @@ function keyPress(evt) {
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             } else {
-                //toggle menu
-                TabMenu.switchTabName("Audio");
-                TabMenu.isVisible = !TabMenu.isVisible;
-                if(TabMenu.isVisible) {
+                //toggle main menu
+                MainMenu.isVisible = !MainMenu.isVisible;
+                if(MainMenu.isVisible) {
                     uiSelect.play();
                 } else {
                     uiCancel.play();
                 }
+
+                //TODO remove old mapping
+                //toggle tab menu
+                //TabMenu.switchTabName("Audio");
+                //TabMenu.isVisible = !TabMenu.isVisible;
+                //if(TabMenu.isVisible) {
+                //    uiSelect.play();
+                //} else {
+                //    uiCancel.play();
+                //}
             }
             break;
         case KEY_USE_TOOL:
