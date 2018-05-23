@@ -240,6 +240,11 @@ function keyPress(evt) {
                 //toggle menu
                 TabMenu.switchTabName("Audio");
                 TabMenu.isVisible = !TabMenu.isVisible;
+                if(TabMenu.isVisible) {
+                    uiSelect.play();
+                } else {
+                    uiCancel.play();
+                }
             }
             break;
         case KEY_USE_TOOL:
