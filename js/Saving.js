@@ -46,6 +46,7 @@ function save(slotIndex) {
   console.log('saving to ' + slotName);
   var saveState = getSaveState();
   persistence.setObject(slotName, saveState);
+  uiSelect.play();
 }
 
 function getSaveState() {
@@ -65,6 +66,7 @@ function load(slotIndex) {
   console.log('loading from ' + slotName);
   var saveState = persistence.getObject(slotName, null);
   loadSaveState(saveState);
+  uiSelect.play();
 }
 
 function loadSaveState(saveState) {

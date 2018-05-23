@@ -75,14 +75,18 @@ function audioFormat(alt = false) {
 
 function toggleMute() {
 	isMuted = !isMuted;
-	SFXVolumeManager.updateVolume();
 	MusicVolumeManager.updateVolume();
+	EnviSFXVolumeManager.updateVolume();
+	SFXVolumeManager.updateVolume();
+	UISFXVolumeManager.updateVolume();
 }
 
 function setMute(TorF) {
 	isMuted = TorF;
-	SFXVolumeManager.updateVolume();
 	MusicVolumeManager.updateVolume();
+	EnviSFXVolumeManager.updateVolume();
+	SFXVolumeManager.updateVolume();
+	UISFXVolumeManager.updateVolume();
 }
 
 function getMute() {
@@ -385,6 +389,7 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
 		if(y >= this.y + this.lineHeight && y <= this.y + this.height) {
 			this.clicked = true;
+			uiSelect.play();
 			return true;
 		}
 		return false;
@@ -395,6 +400,9 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 		   mouseX >= this.x - this.lineHeight && mouseX <= this.x + this.width + this.lineHeight && mouseHeld && this.clicked) {
 			var newVolume = (mouseX - this.x)/this.width;
 			this.sliderValue = newVolume;
+			if(this.sliderValue != volumeManager.getVolume()) {
+				uiChange.play();
+			}
 			volumeManager.setVolume(this.sliderValue);
 		} else if(!mouseHeld){
 			this.clicked = false;
@@ -429,6 +437,7 @@ function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY)
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
 		if(y >= this.y + this.lineHeight && y <= this.y + this.height &&
 		   x >= this.x && x <= this.x + this.toggleHeight) {
+		   	uiChange.play();
 			toggleMute();
 			return true;
 		}

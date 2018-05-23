@@ -751,6 +751,8 @@ function uiSFXClipSingle(filename) {
 	this.getPaused = function() {
 		return soundFile.paused;
 	}
+
+	return this;
 }
 
 
