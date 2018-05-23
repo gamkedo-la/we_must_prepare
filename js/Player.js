@@ -281,6 +281,9 @@ function playerClass() {
                 for (var i = 0; i < plantTrackingArray.length; i++) {
                     plantTrackingArray[i].dayChanged();
                 }
+
+                timer.resetDay();
+
                 this.y = this.y + TILE_H;
             }
             if (isTileKindWalkable(walkIntoTileType)) 
