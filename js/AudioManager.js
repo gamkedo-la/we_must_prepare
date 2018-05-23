@@ -42,6 +42,9 @@ robotFootstepGround.setVolume(0.7);
 robotIdleSFX.setMixVolume(0.9);
 robotMovementDefault.setMixVolume(0.9);
 robotWateringSFX.setMixVolume(0.9);
+robotIdleSFX.setVolume(1);
+robotMovementDefault.setVolume(0.9);
+robotWateringSFX.setVolume(0.9);
 
 SFXVolumeManager.setVolume(0.7);
 

@@ -269,7 +269,8 @@ function playerClass() {
             var nextX = Math.round(this.x + movementX);
             var nextY = Math.round(this.y + movementY);
             
-            walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY)
+            walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY);
+            walkIntoTileIndex = getTileIndexAtPixelCoord(nextX,nextY);
             if(walkIntoTileType === undefined){
                 walkIntoTileType = TILE_WALL;
             }
