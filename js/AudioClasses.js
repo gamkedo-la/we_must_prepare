@@ -243,13 +243,15 @@ function sfxClipLoopingWTail(filename, playLength) {
 	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
 	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
 	var currentClip = 0;
-	var duration = playLength;
-	var trackName = filename;
 	var clipVolume = 1;
 	var mixVolume = 1;
+	var duration = playLength;
+	var trackName = filename;
 
 	soundFile[0].pause();
 	soundFile[1].pause();
+
+
 	SFXVolumeManager.addToList(this);
 
 	this.play = function() {
@@ -283,14 +285,14 @@ function sfxClipLoopingWTail(filename, playLength) {
 	}
 
 	this.updateVolume = function() {
-		soundFile[0].volume = Math.pow(mixVolume * envisfxVolume  * clipVolume * !isMuted, 2);
-		soundFile[1].volume = Math.pow(mixVolume * envisfxVolume  * clipVolume * !isMuted, 2);
+		soundFile[0].volume = Math.pow(mixVolume * sfxVolume  * clipVolume * !isMuted, 2);
+		soundFile[1].volume = Math.pow(mixVolume * sfxVolume  * clipVolume * !isMuted, 2);
 	}
 
 	this.setVolume = function(newVolume) {
 		if(newVolume > 1) {newVolume = 1;}
 		if(newVolume < 0) {newVolume = 0;}
-		soundFile[currentClip].volume = Math.pow(mixVolume * newVolume * envisfxVolume * !isMuted, 2);
+		soundFile[currentClip].volume = Math.pow(mixVolume * newVolume * sfxVolume * !isMuted, 2);
 		clipVolume = newVolume;
 		if (clipVolume <= 0) { this.pause();}
 	}
@@ -677,14 +679,14 @@ function uiSFXClipSingle(filename) {
 	var soundFile = new Audio(audioPath+filename+audioFormat());
 	soundFile.onerror = function(){soundFile = new Audio(audioPath+filename+audioFormat(true))};
 	var clipVolume = 1;
-	var randVolume = true;
-	var clipName = filename;
 	var duration = soundFile.duration;
 	var mixVolume = 1;
+	var clipName = filename;
+	var randVolume = true;
+
 
 	soundFile.pause();
 	UISFXVolumeManager.addToList(this);
-
 
 	this.play = function() {
 		soundFile.currentTime = 0;
@@ -707,16 +709,16 @@ function uiSFXClipSingle(filename) {
 
 	this.updateVolume = function() {
 		if (randVolume) {
-			soundFile.volume = Math.pow(mixVolume * sfxVolume * clipVolume * getRandomVolume() * !isMuted, 2);
+			soundFile.volume = Math.pow(mixVolume * uisfxVolume * clipVolume * getRandomVolume() * !isMuted, 2);
 		} else {
-			soundFile.volume = Math.pow(mixVolume * sfxVolume * clipVolume * !isMuted, 2);
+			soundFile.volume = Math.pow(mixVolume * uisfxVolume * clipVolume * !isMuted, 2);
 		}
 	}
 
 	this.setVolume = function(newVolume) {
 		if(newVolume > 1) {newVolume = 1;}
 		if(newVolume < 0) {newVolume = 0;}
-		soundFile.volume = Math.pow(mixVolume * newVolume * sfxVolume * !isMuted, 2);
+		soundFile.volume = Math.pow(mixVolume * newVolume * uisfxVolume * !isMuted, 2);
 		clipVolume = newVolume;
 	}
 
