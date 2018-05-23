@@ -26,9 +26,9 @@ var ControlsText = ['------Keyboard Controls------',
                     'End Day - P',
                     'Pause Time - O'];
 
-function drawUIPaneBackground(pane) {
-    colorRect(pane.x, pane.y, pane.width, pane.height, BackgroundUIColor)
-    drawUIPaneBorder(pane, BorderUIWidth, BorderUIColor);
+function drawUIPaneBackground(pane, backgroundColor=BackgroundUIColor, borderColor=BorderUIColor) {
+    colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
+    drawUIPaneBorder(pane, borderColor, borderColor);
 }
 
 function drawUIPaneBorder(pane, borderWidth, color) {
