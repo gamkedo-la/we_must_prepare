@@ -1,3 +1,11 @@
+//TODO these colors match the weather UI image
+//var BackgroundUIColor = "#fefcc9";
+//var BorderUIColor = "#c69c6d";
+
+var BackgroundUIColor = "beige";
+var BorderUIColor = "#c69c6d";
+var BorderUIWidth = 3;
+
 var ControlsText = ['------Keyboard Controls------',
                     'Menu - ESC',
                     'Movement - WASD, Arrow Keys',
@@ -16,10 +24,40 @@ var ControlsText = ['------Keyboard Controls------',
                     '',
                     '------Temporary Controls------',
                     'End Day - P',
-                    'Paue Time? - O'];
+                    'Pause Time - O'];
+
 function drawUIPaneBackground(pane) {
-    canvasContext.fillStyle = 'beige';
-    canvasContext.fillRect(pane.x,pane.y,pane.width,pane.height);
+    colorRect(pane.x, pane.y, pane.width, pane.height, BackgroundUIColor)
+    drawUIPaneBorder(pane, BorderUIWidth, BorderUIColor);
+}
+
+function drawUIPaneBorder(pane, borderWidth, color) {
+    //draw border lines - 
+    colorRect(pane.x,             pane.y-borderWidth,  pane.width,  borderWidth, color);
+    colorRect(pane.x+pane.width,  pane.y, borderWidth, pane.height, color);
+    colorRect(pane.x,             pane.y+pane.height,  pane.width,  borderWidth, color);
+    colorRect(pane.x-borderWidth, pane.y, borderWidth, pane.height, color);
+    //draw round corners
+    //color *should* be the same from previous calls
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x+pane.width, pane.y, borderWidth, -0.5*Math.PI, 0);
+    canvasContext.lineTo(pane.x+pane.width, pane.y);
+    canvasContext.fill();
+
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x+pane.width, pane.y+pane.height, borderWidth, 0, 0.5*Math.PI);
+    canvasContext.lineTo(pane.x+pane.width, pane.y+pane.height);
+    canvasContext.fill();
+
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x, pane.y+pane.height, borderWidth, 0.5*Math.PI, Math.PI);
+    canvasContext.lineTo(pane.x, pane.y+pane.height);
+    canvasContext.fill();
+
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x, pane.y, borderWidth, Math.PI, -0.5*Math.PI);
+    canvasContext.lineTo(pane.x, pane.y);
+    canvasContext.fill();
 }
 
 function tabMenuUI(X=0, Y=0, tabHeight=30) {
@@ -179,8 +217,7 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     };
     
     this.draw = function() {
-        canvasContext.fillStyle = 'beige';
-        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+        drawUIPaneBackground(this);
     };
 }
 
@@ -205,8 +242,8 @@ function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY
     };
 
     this.draw = function() {
-        canvasContext.fillStyle = 'beige';
-        canvasContext.fillRect(this.x,this.y,this.width,this.height);
+        drawUIPaneBackground(this);
+
         var lines = this.textLine.length;
         var columnWidth = 0;
         var textX = this.x+this.padding;

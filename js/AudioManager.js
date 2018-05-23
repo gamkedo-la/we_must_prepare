@@ -363,7 +363,7 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	}
 
 	this.draw = function() {
-		colorRect(this.x,this.y,this.width,this.height, 'beige');
+		drawUIPaneBackground(this);
 		for(var i = 0; i < this.sliders.length; i++){
 			this.sliders[i].draw();
 		}
