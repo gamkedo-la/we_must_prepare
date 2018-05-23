@@ -267,6 +267,10 @@ function keyPress(evt) {
             console.log("Pressed the O Key");
             timer.pauseTime();
             break;
+        case "KeyF":
+            console.log("Pressed the F Key");
+            toggleRadiation ();
+            break;
         default:
            // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

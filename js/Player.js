@@ -69,6 +69,7 @@ function playerClass() {
         this.playerColor = 'white';
         this.x = this.homeX;
         this.y = this.homeY;
+        centerRadiation (this.x, this.y);
         
         this.bucketList = [];
         this.bucketList[Resources.Metal] = new resourceClass(1000, 0);
@@ -292,6 +293,7 @@ function playerClass() {
                 this.x = nextX;
             }
         }//end if nextX & nextY
+        boundPlayerInRadiation ();
     }; // end move
 
     this.plantAtFeet = function () {
