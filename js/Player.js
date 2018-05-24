@@ -334,9 +334,11 @@ function playerClass() {
         // if (proper tool is equipped / something else?) {
         if (roomGrid[index] == TILE_GROUND && 
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
+            robotTillingLandSFX.play();
             roomGrid[index] = TILE_TILLED;
         } else if (roomGrid[index] == TILE_TILLED && 
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
+            robotWateringSFX.play();
             roomGrid[index] = TILE_TILLED_WATERED;
         } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE && 
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
