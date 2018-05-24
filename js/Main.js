@@ -57,6 +57,10 @@ function gameLoop() {
     mouseClickedThisFrame = false;
     mouseDblClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
+    //TODO add update for menus which need it (e.g. buttonMenus like mainMenu)
+    if (MainMenu.isVisible) {
+        MainMenu.update(mouseX, mouseY);
+    }
 }
 
 function windowOnBlur() {
@@ -85,7 +89,12 @@ window.onload = function () {
 }  // end onload
 
 function setupUI() {
-    MainMenu = new mainMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
+    MainMenu = new buttonMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
+        var button = new buttonUI("Test Button", (canvas.width*0.5)-50, (canvas.height*0.5)-20, (canvas.width*0.5)+50, (canvas.height*0.5)+20 );
+        button.action = function() {
+            MainMenu.isVisible = false; 
+        };
+        MainMenu.push(button);
 
     TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
     //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
