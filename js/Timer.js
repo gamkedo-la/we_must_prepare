@@ -14,6 +14,10 @@ function TimerClass() {
         setInterval(function () { t.timeTick(); }, 12);
     }
 
+    this.resetDay = function() {
+        this.secondsInDay = SECONDS_PER_DAY;
+    }
+
     this.pauseTime = function (freezeNow) {
         if (freezeNow === undefined) {
             this.isTimeFrozen = !this.isTimeFrozen;
