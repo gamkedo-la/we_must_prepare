@@ -43,27 +43,25 @@ var weather = (function () {
         const maxY = canvas.height;
         const maxX = canvas.width;
 
-        var now = performance.now(); // in seconds
+        // weather and sunrise/sunset depend on game timer
+        // note: this means it changes VERY SLOWLY
+        // (takes an entire day (16 minutes) to go from 0..1..0
 
-        // only draw if > 1 so there are gaps with no weather
-        //howSunny = Math.sin(now / sunLength / 100);
-
-        // sunrise and sunset depends on game timer
-        // note: this means it changes VERY SLOWLY (takes an entire day (16 minutes) to go from 0..1..0
         var dayPercent = timer.secondsInDay / SECONDS_PER_DAY;
         howSunny = Math.sin(dayPercent * 5);
 
         // oscillate in and out from -1 to 1 at different rates
-        howCloudy = Math.sin(now / cloudLength / 100);
-        howFoggy = Math.sin(now / fogLength / 100);
-        howWindy = Math.sin(now / windLength / 100);
-        howRainy = Math.cos(now / rainLength / 100);
+        howCloudy = Math.sin(timer.secondsInDay / cloudLength / 60);
+        howFoggy = Math.sin(timer.secondsInDay / fogLength / 60);
+        howWindy = Math.sin(timer.secondsInDay / windLength / 60);
+        howRainy = Math.cos(timer.secondsInDay / rainLength / 60);
 
         if (howSunny > 0) {
             canvasContext.globalAlpha = howSunny;
+            // sun "ray" rotation animation is in realtime, not affected by game timer
             drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, performance.now() / 14000);
-            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, -performance.now() / 12765);
-            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, performance.now() / 33333);
+            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, -performance.now() / 12701);
+            drawBitmapCenteredAtLocationWithRotation(sunshine, 0, 0, performance.now() / 33303);
             canvasContext.globalAlpha = 1;
         } // if sunny
 
@@ -102,6 +100,7 @@ var weather = (function () {
             for (var loop = 0; loop < CLOUD_COUNT; loop++) {
 
                 // cloud speed is a very sloooow circle, like shifting winds, mostly horizontal
+                // these rotations are not tied to the game timer, just realtime
                 spdx = Math.sin(performance.now() * 0.0001) * 0.75 + (loop * 0.15); // some clouds go a little faster
                 spdy = Math.cos(performance.now() * 0.0001) * 0.25 - (loop * 0.15);
 

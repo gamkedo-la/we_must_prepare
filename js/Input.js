@@ -1,6 +1,7 @@
 // Player
 const KEY_USE_TOOL = "KeyC";
 const KEY_INVENTORY = "KeyE";
+const KEY_FAST_FORWARD = "F1"; // press F1 to toggle timer.fastForward
 const MOUSE_LEFT_CLICK = 1;
 const MOUSE_RIGHT_CLICK = 3;
 const NO_SELECTION = -1;
@@ -42,7 +43,7 @@ function setupInput() {
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyReleased);
 
-    player.setupInput("KeyA","KeyW","KeyS","KeyD", "ArrowLeft","ArrowUp","ArrowDown","ArrowRight");
+    player.setupInput("KeyA", "KeyW", "KeyS", "KeyD", "ArrowLeft", "ArrowUp", "ArrowDown", "ArrowRight");
 }
 
 
@@ -64,9 +65,9 @@ function mousedownHandler(evt) {
     }
 }
 
-function mousedblclickHandler(evt) {    
+function mousedblclickHandler(evt) {
     calculateMousePos(evt);
-    if (evt.which === MOUSE_LEFT_CLICK) {        
+    if (evt.which === MOUSE_LEFT_CLICK) {
         mouseHeld = true;
         mouseDblClickedThisFrame = true;
     }
@@ -90,8 +91,8 @@ function mouseupHandler(evt) {
 } // end mouse up handler
 
 function mousewheelHandler(evt) {
-    if (!TabMenu.isVisible) {        
-        player.hotbar.scrollThrough(evt.deltaY > 0);        
+    if (!TabMenu.isVisible) {
+        player.hotbar.scrollThrough(evt.deltaY > 0);
     }
     evt.preventDefault();
 }
@@ -104,13 +105,13 @@ function isMouseOverInterface() {
 function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
-    
+
     var centralMenuOpen = TabMenu.isVisible;
     var inputHandled = false;
     if (mouseClickedThisFrame) {
         inputHandled = MainMenu.leftMouseClick(mouseX, mouseY);
         // Central Menu //
-        if(!inputHandled) {
+        if (!inputHandled) {
             inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
         }
     }
@@ -128,8 +129,8 @@ function inputUpdate() {
                 console.log("I clicked " + toBuild.label);
                 toBuild.onClick();
                 isBuildModeEnabled = true;
-                
-            //if we're clicking one the buttons in a submenu
+
+                //if we're clicking one the buttons in a submenu
             } else if (mouseOverButtonPerBuildingInterfaceIndex != -1) {
                 perBuildingButtonDefs[mouseOverButtonPerBuildingInterfaceIndex].onClick();
             }
@@ -141,65 +142,61 @@ function inputUpdate() {
                 badBuildingPlacement = false;
                 return;
             } else {
-            removeResourcesForBuilding(player.storageList, toBuild);
-            isBuildModeEnabled = !isBuildModeEnabled;
-            mouseHeld = false;
+                removeResourcesForBuilding(player.storageList, toBuild);
+                isBuildModeEnabled = !isBuildModeEnabled;
+                mouseHeld = false;
             }
         }
     } else if (!inputHandled) { // this means we aren't in build mode
-            var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
+        var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
 
-            if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
-                if (mouseClickedThisFrame) {
-                    if (selectedIndex != PLAYER_SELECTED) {
-                        console.log('Clicked on a building!');
-                        selectedIndex = indexUnderMouse;
-                    }
+        if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
+            if (mouseClickedThisFrame) {
+                if (selectedIndex != PLAYER_SELECTED) {
+                    console.log('Clicked on a building!');
+                    selectedIndex = indexUnderMouse;
                 }
-            } 
-        if(toolKeyPressedThisFrame) {
+            }
+        }
+        if (toolKeyPressedThisFrame) {
             player.collectResourcesIfAble();
         }
     }
-    if(rightMouseClickedThisFrame) {
+    if (rightMouseClickedThisFrame) {
         inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || hotbarPane.rightMouseClick(mouseX, mouseY);
         rightMouseClickedThisFrame = false;
     }
-    if ( !centralMenuOpen ) {
+    if (!centralMenuOpen) {
         player.move();
     }
 }
 
 
 function keySet(keyEvent, whichUnit, setTo) {
-    if (keyEvent.code == whichUnit.controlKeyLeft || keyEvent.code == whichUnit.controlKeyLeft2)
-    {
+    if (keyEvent.code == whichUnit.controlKeyLeft || keyEvent.code == whichUnit.controlKeyLeft2) {
         whichUnit.keyHeld_West = setTo;
     }
-    if (keyEvent.code == whichUnit.controlKeyUp || keyEvent.code == whichUnit.controlKeyUp2)
-    {
+    if (keyEvent.code == whichUnit.controlKeyUp || keyEvent.code == whichUnit.controlKeyUp2) {
         whichUnit.keyHeld_North = setTo;
-    } 
-    if (keyEvent.code == whichUnit.controlKeyDown || keyEvent.code == whichUnit.controlKeyDown2)
-    {
+    }
+    if (keyEvent.code == whichUnit.controlKeyDown || keyEvent.code == whichUnit.controlKeyDown2) {
         whichUnit.keyHeld_South = setTo;
-    } 
-    if (keyEvent.code == whichUnit.controlKeyRight || keyEvent.code == whichUnit.controlKeyRight2)
-    {
+    }
+    if (keyEvent.code == whichUnit.controlKeyRight || keyEvent.code == whichUnit.controlKeyRight2) {
         whichUnit.keyHeld_East = setTo;
-    }  
+    }
 }
 
 function keyPress(evt) {
     if (isPaused) {
         return;
     }
-    
+
     // Stop eating the console display key
-    if(evt.code === "F12") {
+    if (evt.code === "F12") {
         return;
     }
-    
+
     var keyUsedByGame = true;
 
     keySet(evt, player, true);
@@ -208,8 +205,8 @@ function keyPress(evt) {
     // Menu Context Controls - if the menu is open, menu keys take priorty
     var centralMenuOpen = TabMenu.isVisible;
     const SCROLL_TO_THE_LEFT = true;
-    
-    if( centralMenuOpen ) {
+
+    if (centralMenuOpen) {
         switch (evt.code) {
             case "Tab":
                 TabMenu.switchTab(shiftKeyHeld);
@@ -235,14 +232,14 @@ function keyPress(evt) {
             console.log("Build mode enabled is " + isBuildModeEnabled);
             break;
         case "Escape":
-				case "Esc":
-           // console.log("Escape pressed");
+        case "Esc":
+            // console.log("Escape pressed");
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             } else {
                 //toggle main menu
                 MainMenu.isVisible = !MainMenu.isVisible;
-                if(MainMenu.isVisible) {
+                if (MainMenu.isVisible) {
                     uiSelect.play();
                 } else {
                     uiCancel.play();
@@ -267,17 +264,17 @@ function keyPress(evt) {
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
-			if(TabMenu.activePane.name != "Inventory") {
+            if (TabMenu.activePane.name != "Inventory") {
                 TabMenu.switchTabName("Inventory");
                 TabMenu.isVisible = true;
             } else {
                 TabMenu.isVisible = !TabMenu.isVisible;
             }
-            if(TabMenu.isVisible) {
-                    uiSelect.play();
-                } else {
-                    uiCancel.play();
-                }
+            if (TabMenu.isVisible) {
+                uiSelect.play();
+            } else {
+                uiCancel.play();
+            }
             break;
         case "0":
             keyPressForSaving(evt);
@@ -291,11 +288,15 @@ function keyPress(evt) {
             break;
         case "KeyF":
             console.log("Pressed the F Key");
-            toggleRadiation ();
+            toggleRadiation();
             uiChange.play();
             break;
+        case KEY_FAST_FORWARD:
+            timer.fastForward = !timer.fastForward; // flip on/off
+            console.log("Fast Forward: " + timer.fastForward);
+            break
         default:
-           // console.log("keycode press is " + evt.keyCode);
+            // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;
             break;
     }
@@ -315,12 +316,12 @@ function keyReleased(evt) {
     }
 
     keySet(evt, player, false);
-    
+
     evt.preventDefault();
-    
-    switch(evt.code) {
+
+    switch (evt.code) {
         case KEY_USE_TOOL:
-            toolKeyHeld = false;            
+            toolKeyHeld = false;
             break;
         case "ShiftLeft":
         case "ShiftRight":

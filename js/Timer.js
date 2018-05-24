@@ -1,20 +1,29 @@
-const SECONDS_PER_DAY = 24 * 60 * 60; // used in Main.js and Weather.js to determind % of day elapsed
+const SECONDS_PER_DAY = 24 * 60 * 60; // used in Main.js and Weather.js to determine % of day elapsed
+const MS_PER_TIMETICK = 12; // how often the timer ticks in milliseconds
+const DAY_SECONDS_PER_TIMETICK = 1; // how many seconds to simulate each tick
+const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debugging (or sleep?)
 
 function TimerClass() {
     this.secondsInDay = 0;
     this.isTimeFrozen = false;
+    this.fastForward = false;
     this.timeTick = function () {
         if (this.isTimeFrozen == false) {
-            this.secondsInDay++;
+            if (!this.fastForward) {
+                this.secondsInDay += DAY_SECONDS_PER_TIMETICK;
+            }
+            else {
+                this.secondsInDay += DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD;
+            }
         }
     }
 
     this.setupTimer = function () {
         var t = this;
-        setInterval(function () { t.timeTick(); }, 12);
+        setInterval(function () { t.timeTick(); }, MS_PER_TIMETICK);
     }
 
-    this.resetDay = function() {
+    this.resetDay = function () {
         this.secondsInDay = SECONDS_PER_DAY;
     }
 
