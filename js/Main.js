@@ -129,7 +129,7 @@ function setupInventory() {
 function moveEverything() {
     inputUpdate();
     interfaceUpdate();
-    handleRadiationGrowth ();
+    handleRadiationGrowth();
 }
 
 function startCameraPan() {
@@ -168,7 +168,7 @@ function drawEverything() {
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }
-    drawRadiation ();
+    drawRadiation();
     endCameraPan();
     drawSkyGradient();
     weather.draw();
