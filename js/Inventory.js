@@ -11,6 +11,7 @@ var items = Object.freeze({
 	wheatSeedTwo  :   9,
 });
 
+// when pressing number key in Input.js, we assign numbers to slots
 const SLOT_1 = 0;
 const SLOT_2 = 1;
 const SLOT_3 = 2;

@@ -109,7 +109,7 @@ function hotbarPaneUI() {
 		for(var i = 0; i < player.hotbar.slotCount; i++) {
 			itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
 			itemY = this.hotbarItemY;
-			
+			var keyText = i + 1; // i + 1 to show the correct keybind
 			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
 			
 			// Draw equipped slot differently
@@ -126,6 +126,7 @@ function hotbarPaneUI() {
 			}
 			
 			inventoryUIHelper.drawSlot(itemX, itemY, player.hotbar.slots[i]);
+			colorText(keyText, itemX + 17, itemY + 22, 'white'); // 17 and 22 are just values to put keybind text in corner
 		}
 	};
 }
