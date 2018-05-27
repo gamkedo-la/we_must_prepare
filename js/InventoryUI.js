@@ -141,8 +141,7 @@ var inventoryUIHelper = {
 		}
 
 		if(slot.count > 1){
-			canvasContext.fillStyle = 'white';
-			canvasContext.fillText(slot.count, itemX, itemY);
+			colorText(slot.count, itemX - 3, itemY - 15, 'white');
 		}
 	},
   
