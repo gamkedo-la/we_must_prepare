@@ -32,10 +32,6 @@ function buttonMenuUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
                 button.draw();
             }
         }
-        //TODO remove this text (just for testing)
-        var str = "-- Press Esc To Toggle MainMenu --";
-        var strWidth = canvasContext.measureText(str).width;
-        colorText(str, (canvas.width-strWidth) * 0.5, canvas.height-40, "black");
     };
     
     // this menu needs to be updated every frame 
