@@ -198,3 +198,4 @@ function InventoryClass(size){
 }
 
 var secondInventory = new InventoryClass(30);
+secondInventory.active = true;
