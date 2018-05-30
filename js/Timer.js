@@ -61,8 +61,25 @@ function TimerClass() {
     this.endOfDay = function () {
         console.log("The day has ended!");
         this.secondsInDay = 0;
+
+        // make plants grow and absorb water
         for (var i = 0; i < plantTrackingArray.length; i++) {
             plantTrackingArray[i].dayChanged();
         }
+
+        // make soil dry up - must happen after plant logic or seeds may not sprout
+        var drycount = 0;
+        for (var i = 0; i < roomGrid.length; i++) {
+            if (roomGrid[i] == TILE_TILLED_WATERED) {
+                drycount++;
+                roomGrid[i] = TILE_TILLED;
+            }
+            if (roomGrid[i] == TILE_TILLED_SEEDS_WATERED) {
+                drycount++;
+                roomGrid[i] = TILE_TILLED_SEEDS;
+            }
+        }
+        console.log(drycount + " patches of soil dried up.");
+
     }
 }
