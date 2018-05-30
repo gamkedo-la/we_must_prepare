@@ -16,6 +16,9 @@ var weather = (function () {
     const CLOUD_SPRITE_SIZE = 256;
     const WIND_CLOUD_SPEED_INFLUENCE = 2;
 
+    // very small chance, since this is checked per tile every frame it's raining
+    const PER_FRAME_CHANCE_RAIN_WATERS_A_TILE = 0.005;
+
     // weather systems can fade in and out and overlap
     var howSunny = 1;
     var howCloudy = 0;
@@ -29,6 +32,27 @@ var weather = (function () {
     const fogLength = 189;
     const windLength = 50;
     const rainLength = 101;
+
+    // rain occasionally waters tilled soil
+    this.handleRainWater = function () {
+        var wetcount = 0;
+        for (var i = 0; i < roomGrid.length; i++) {
+
+            if (Math.random() < PER_FRAME_CHANCE_RAIN_WATERS_A_TILE) {
+                if (roomGrid[i] == TILE_TILLED) {
+                    wetcount++;
+                    roomGrid[i] = TILE_TILLED_WATERED;
+                }
+                if (roomGrid[i] == TILE_TILLED_SEEDS) {
+                    wetcount++;
+                    roomGrid[i] = TILE_TILLED_SEEDS_WATERED;
+                }
+            }
+        }
+        //if (wetcount) {
+        //    console.log(wetcount + " patches of soil got wet from the rain.");
+        //}
+    }
 
     this.draw = function (cameraOffsetX, cameraOffsetY) {
         updateWeatherVolumes(howSunny, howCloudy, howFoggy, howWindy, howRainy);
@@ -67,6 +91,9 @@ var weather = (function () {
 
 
         if (howRainy > 0) {
+
+            this.handleRainWater();
+
             for (var loop = 0; loop < RAIN_COUNT * howRainy; loop++) { // number of drops depends on HOW rainy it is
                 if (!rainDrops[loop]) //lazy init once only
                     rainDrops[loop] = { x: 0, y: 999999, sx: -1, sy: 2 };
