@@ -276,7 +276,7 @@ function keyPress(evt) {
                 uiCancel.play();
             }
             break;
-        case "0":
+        case "Digit0":
             keyPressForSaving(evt);
             break;
         case "KeyP":
@@ -294,7 +294,32 @@ function keyPress(evt) {
         case KEY_FAST_FORWARD:
             timer.fastForward = !timer.fastForward; // flip on/off
             console.log("Fast Forward: " + timer.fastForward);
-            break
+            break;
+        case "Digit1":
+            if (!TabMenu.isVisible) {
+                player.hotbar.selectSlot(SLOT_1);
+            }
+            break;
+        case "Digit2":
+            if (!TabMenu.isVisible) {
+                player.hotbar.selectSlot(SLOT_2);
+            }
+            break;
+        case "Digit3":
+            if (!TabMenu.isVisible) {
+                player.hotbar.selectSlot(SLOT_3);
+            }
+            break;
+        case "Digit4":
+            if (!TabMenu.isVisible) {
+                player.hotbar.selectSlot(SLOT_4);
+            }
+            break;
+        case "Digit5":
+            if (!TabMenu.isVisible) {
+                player.hotbar.selectSlot(SLOT_5);
+            }
+            break;
         default:
             // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

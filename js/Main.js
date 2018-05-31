@@ -129,7 +129,7 @@ function setupInventory() {
 function moveEverything() {
     inputUpdate();
     interfaceUpdate();
-    handleRadiationGrowth ();
+    handleRadiationGrowth();
 }
 
 function startCameraPan() {
@@ -168,7 +168,7 @@ function drawEverything() {
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }
-    drawRadiation ();
+    drawRadiation();
     endCameraPan();
     drawSkyGradient();
     weather.draw();
@@ -206,6 +206,8 @@ function drawUI() {
     if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
         inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
     }
+    
     //TODO placeholder - display instructions
-    colorText('press ENTER to toggle menu', canvas.width - 200, canvas.height - 25, 'white');
+    colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
+    colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
 }

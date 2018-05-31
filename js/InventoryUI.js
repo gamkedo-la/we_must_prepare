@@ -12,9 +12,12 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     this.inventoryX = 150;
     this.itemXSpacing = 55;
-    this.inventoryY = 362;
+    this.inventoryY = 275;
     this.itemYSpacing = 55;
     this.itemsPerRow = 10;
+		
+    this.firstInventoryX = 150;
+    this.firstInventoryY = 362;
     
     this.secondInventoryX = 150;
     this.secondItemXSpacing = 55;
@@ -25,7 +28,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         if(player.inventory.selectedSlotIndex >= 0){
             player.inventory.grabSlot();
             return true;
-        } else if(secondInventory.selectedSlotIndex >= 0) {
+        } else if(secondInventory.active && secondInventory.selectedSlotIndex >= 0) {
             secondInventory.grabSlot();
             return true;
         }
@@ -36,7 +39,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         if(player.inventory.selectedSlotIndex >= 0){
             player.inventory.altGrabSlot();
             return true;
-        } else if(secondInventory.selectedSlotIndex >= 0) {
+        } else if(secondInventory.active && secondInventory.selectedSlotIndex >= 0) {
             secondInventory.altGrabSlot();
             return true;
         }
@@ -47,27 +50,36 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 		drawUIPaneBackground(this);
 		
 		var itemX, itemY;
+		if(secondInventory.active) {
+			var inventoryX = this.firstInventoryX;
+			var inventoryY = this.firstInventoryY;
+		} else {
+			var inventoryX = this.inventoryX;
+			var inventoryY = this.inventoryY;
+		}
 		secondInventory.selectedSlotIndex = -1;
 		player.inventory.selectedSlotIndex = -1;
 		
 		//draw regular slots
 		for(var i = 0; i < player.inventory.slotCount; i++) {
-			itemX = this.inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
-			itemY = this.inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
+			itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
+			itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
 
 			inventoryUIHelper.testMouse(player.inventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
 			inventoryUIHelper.drawSlockBackground(player.inventory, itemX, itemY, i);
 			inventoryUIHelper.drawSlot(itemX, itemY, player.inventory.slots[i]);
 		}
 		
-		for(var i = 0; i < secondInventory.slotCount; i++) {
-			//draw as regular slot
-			itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
-			itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
-
-			inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
-			inventoryUIHelper.drawSlockBackground(secondInventory, itemX, itemY, i);
-			inventoryUIHelper.drawSlot(itemX, itemY, secondInventory.slots[i]);
+		if(secondInventory.active) {
+			for(var i = 0; i < secondInventory.slotCount; i++) {
+				//draw as regular slot
+				itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
+				itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
+	
+				inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+				inventoryUIHelper.drawSlockBackground(secondInventory, itemX, itemY, i);
+				inventoryUIHelper.drawSlot(itemX, itemY, secondInventory.slots[i]);
+			}
 		}
 	};
 }
@@ -109,7 +121,7 @@ function hotbarPaneUI() {
 		for(var i = 0; i < player.hotbar.slotCount; i++) {
 			itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
 			itemY = this.hotbarItemY;
-			
+			var keyText = i + 1; // i + 1 to show the correct keybind
 			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
 			
 			// Draw equipped slot differently
@@ -126,6 +138,7 @@ function hotbarPaneUI() {
 			}
 			
 			inventoryUIHelper.drawSlot(itemX, itemY, player.hotbar.slots[i]);
+			colorText(keyText, itemX + 17, itemY + 22, 'white'); // 17 and 22 are just values to put keybind text in corner
 		}
 	};
 }
@@ -140,8 +153,7 @@ var inventoryUIHelper = {
 		}
 
 		if(slot.count > 1){
-			canvasContext.fillStyle = 'white';
-			canvasContext.fillText(slot.count, itemX, itemY);
+			colorText(slot.count, itemX - 3, itemY - 15, 'white');
 		}
 	},
   

@@ -11,6 +11,13 @@ var items = Object.freeze({
 	wheatSeedTwo  :   9,
 });
 
+// when pressing number key in Input.js, we assign numbers to slots
+const SLOT_1 = 0;
+const SLOT_2 = 1;
+const SLOT_3 = 2;
+const SLOT_4 = 3;
+const SLOT_5 = 4;
+
 function emptyInventorySlot(){
 	this.item = items.nothing;
 	this.count = 0;
@@ -181,6 +188,14 @@ function InventoryClass(size){
 			}
 		}
 	}
+
+	this.selectSlot = function(whichSlot) {
+		this.equippedItemIndex = whichSlot;
+		if (whichSlot > this.slotCount) {
+			console.log ('Cannot find a slot for this key, increase your slot count!');
+		}
+	}
 }
 
 var secondInventory = new InventoryClass(30);
+secondInventory.active = true;
