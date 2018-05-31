@@ -1,5 +1,25 @@
 var resouceLookupTable = [];
 
+function getResourceLookupTableSaveState() {
+    var resourceLookupTableSaveState = [];
+    for (var i = 0; i < resouceLookupTable.length; i++) {
+        var tileLookupTable = resouceLookupTable[i];
+        if (!tileLookupTable) {
+            resourceLookupTableSaveState[i] = null;
+            continue;
+        }
+        Object.keys(Resources).forEach(function(resourceType) {
+            var resourceBucket = tileLookupTable[resourceType];
+            if (resourceBucket) {
+                // TODO: save actual bucket
+                console.log(resourceType);
+                console.log(resourceBucket);
+            }
+        });
+    }
+    return resourceLookupTableSaveState;
+}
+
 const Resources = {
 	Wood:"Wood",
 	Metal:"Metal",
