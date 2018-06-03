@@ -100,6 +100,9 @@ function PlantClass(mapIndex, plantTypeSeed) {
     this.plantRemoved = function () {
         console.log("Plant removed at index " + this.mapIndex + "!");
         roomGrid[this.mapIndex] = TILE_TILLED;
+        if (this.is_watered) {
+            roomGrid[this.mapIndex] = TILE_TILLED_WATERED;
+        }
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
     }
 }  // end PlantClass
