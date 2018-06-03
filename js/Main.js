@@ -76,6 +76,7 @@ function windowOnBlur() {
         colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');
         canvasContext.textAlign = 'left';
         console.log("Game is now paused");
+        stopAudioEngine();
     }
 }
 
