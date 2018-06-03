@@ -115,8 +115,8 @@ function roomTileToIndex(tileCol, tileRow) {
     return (tileCol + ROOM_COLS * tileRow);
 }
 
-function isTileKindBuilding(tileKind) {
-    switch (tileKind) {
+function isTileTypeBuilding(tileType) {
+    switch (tileType) {
         case TILE_WOOD_DEST:
         case TILE_STONE_DEST:
         case TILE_METAL_DEST:
@@ -128,11 +128,11 @@ function isTileKindBuilding(tileKind) {
     return false;
 }
 
-function isTileKindWalkable(tileKind) {
-    if (tileKind >= START_TILE_WALKABLE_GROWTH_RANGE) {
+function isTileTypeWalkable(tileType) {
+    if (tileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
         return true;
     }
-    switch (tileKind) {
+    switch (tileType) {
         case TILE_GROUND:
         case TILE_TILLED:
         case TILE_TILLED_WATERED:

@@ -149,7 +149,7 @@ function inputUpdate() {
     } else if (!inputHandled) { // this means we aren't in build mode
         var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
 
-        if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
+        if (indexUnderMouse != undefined && isTileTypeBuilding(roomGrid[indexUnderMouse])) {
             if (mouseClickedThisFrame) {
                 if (selectedIndex != PLAYER_SELECTED) {
                     console.log('Clicked on a building!');

@@ -282,12 +282,12 @@ function playerClass() {
 
                 this.y = this.y + TILE_H;
             }
-            if (isTileKindWalkable(walkIntoTileType)) {
+            if (isTileTypeWalkable(walkIntoTileType)) {
                 this.x = nextX;
                 this.y = nextY;
-            } else if (isTileKindWalkable(getTileTypeAtPixelCoord(this.x, nextY))) {
+            } else if (isTileTypeWalkable(getTileTypeAtPixelCoord(this.x, nextY))) {
                 this.y = nextY;
-            } else if (isTileKindWalkable(getTileTypeAtPixelCoord(nextX, this.y))) {
+            } else if (isTileTypeWalkable(getTileTypeAtPixelCoord(nextX, this.y))) {
                 this.x = nextX;
             }
         }//end if nextX & nextY
