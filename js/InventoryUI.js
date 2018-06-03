@@ -62,8 +62,8 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 		
 		//draw regular slots
 		for(var i = 0; i < player.inventory.slotCount; i++) {
-			itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
-			itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
+            itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
+            itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
 
 			inventoryUIHelper.testMouse(player.inventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
 			inventoryUIHelper.drawSlockBackground(player.inventory, itemX, itemY, i);
@@ -73,8 +73,8 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 		if(secondInventory.active) {
 			for(var i = 0; i < secondInventory.slotCount; i++) {
 				//draw as regular slot
-				itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
-				itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
+                itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
+                itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
 	
 				inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
 				inventoryUIHelper.drawSlockBackground(secondInventory, itemX, itemY, i);
@@ -85,9 +85,9 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 }
 
 function hotbarPaneUI() {
-	this.hotbarItemX = 215;
+	this.hotbarItemX = canvas.width * 0.5 - 115;
 	this.hotbarItemXSpacing = 55;
-	this.hotbarItemY = 570;
+	this.hotbarItemY = canvas.height - 50;
 
 	this.leftMouseClick = function(x = mouseX, y = mouseY) {
 		if(player.hotbar.selectedSlotIndex >= 0){
@@ -118,8 +118,8 @@ function hotbarPaneUI() {
 		player.hotbar.selectedSlotIndex = -1;
 		
 		// draw hotbar
-		for(var i = 0; i < player.hotbar.slotCount; i++) {
-			itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
+        for (var i = 0; i < player.hotbar.slotCount; i++) {
+            itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
 			itemY = this.hotbarItemY;
 			var keyText = i + 1; // i + 1 to show the correct keybind
 			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
