@@ -25,7 +25,7 @@ var Plants = [
 
 
 function PlantClass(mapIndex, plantTypeSeed) {
-    this.mapIndex = mapIndex;
+    this.mapIndex = mapIndex;    
     this.plantTypeSeed = plantTypeSeed;
     this.plantFacts;
     this.daysWithoutWater = 0;
@@ -92,8 +92,14 @@ function PlantClass(mapIndex, plantTypeSeed) {
     } // end dayChanged
 
     this.plantDied = function () {
-        console.log("plant died. boooooo");
+        console.log("Plant died at index " + this.mapIndex + "! So... err... booooo?");
         roomGrid[this.mapIndex] = TILE_GROUND;
+        plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
+    }
+
+    this.plantRemoved = function () {
+        console.log("Plant removed at index " + this.mapIndex + "!");
+        roomGrid[this.mapIndex] = TILE_TILLED;
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
     }
 }  // end PlantClass

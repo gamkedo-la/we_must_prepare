@@ -335,11 +335,24 @@ function playerClass() {
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
             robotWateringSFX.play();
             roomGrid[index] = TILE_TILLED_WATERED;
-        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE &&
-            this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
-            for (i = 0; i < plantTrackingArray.length; i++) {
-                if (plantTrackingArray[i].mapIndex == index) {
-                    plantTrackingArray[i].is_watered = true;
+        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
+
+            if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
+                for (i = 0; i < plantTrackingArray.length; i++) {
+                    if (plantTrackingArray[i].mapIndex == index) {
+                        plantTrackingArray[i].is_watered = true;
+                    }
+                }
+            }
+            else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
+                robotTillingLandSFX.play();
+
+                var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
+                
+                for (i = 0; i < plantTrackingArray.length; i++) {
+                    if (plantTrackingArray[i].mapIndex == plantAtIndex) {
+                        plantTrackingArray[i].plantRemoved();                       
+                    }
                 }
             }
         }
