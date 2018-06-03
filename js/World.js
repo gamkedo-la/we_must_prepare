@@ -115,37 +115,6 @@ function roomTileToIndex(tileCol, tileRow) {
     return (tileCol + ROOM_COLS * tileRow);
 }
 
-function isTileTypeBuilding(tileType) {
-    switch (tileType) {
-        case TILE_WOOD_DEST:
-        case TILE_STONE_DEST:
-        case TILE_METAL_DEST:
-        case TILE_FOOD_DEST:
-        case TILE_FOOD_SRC:
-        case TILE_BUILDING:
-            return true;
-    }
-    return false;
-}
-
-function isTileTypeWalkable(tileType) {
-    if (tileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
-        return true;
-    }
-    switch (tileType) {
-        case TILE_GROUND:
-        case TILE_TILLED:
-        case TILE_TILLED_WATERED:
-        case TILE_TILLED_SEEDS:
-        case TILE_TILLED_SEEDS_WATERED:
-        case TILE_FLOWER_01:
-        case TILE_FLOWER_02:
-        case TILE_GRASS:
-            return true;
-    }
-    return false;
-}
-
 function getTileIndexAtPixelCoord(pixelX, pixelY) {
     var tileCol = pixelX / TILE_W;
     var tileRow = pixelY / TILE_H;
@@ -169,7 +138,7 @@ function getTileTypeAtPixelCoord(pixelX, pixelY) {
     return roomGrid[getTileIndexAtPixelCoord(pixelX, pixelY)];
 }
 
-function tileTypeHasTransparency(checkTileType) {
+function isTileTypeTransparent(checkTileType) {
     switch (checkTileType) {
         case TILE_PLAYER:
         case TILE_METAL_SRC:
@@ -182,14 +151,32 @@ function tileTypeHasTransparency(checkTileType) {
     return false;
 }
 
-function tileTypeIsFood(checkTileType) {
+function isTileTypeWalkable(tileType) {
+    if (tileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        return true;
+    }
+    switch (tileType) {
+        case TILE_GROUND:
+        case TILE_TILLED:
+        case TILE_TILLED_WATERED:
+        case TILE_TILLED_SEEDS:
+        case TILE_TILLED_SEEDS_WATERED:
+        case TILE_FLOWER_01:
+        case TILE_FLOWER_02:
+        case TILE_GRASS:
+            return true;
+    }
+    return false;
+}
+
+function isTileTypeFood(checkTileType) {
     if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
         return true;
     }
     return false;
 }
 
-function tileTypeIsPlant(checkTileType) {
+function isTileTypePlant(checkTileType) {
     switch (checkTileType) {
         case TILE_FLOWER_01:
         case TILE_FLOWER_02:
@@ -198,7 +185,7 @@ function tileTypeIsPlant(checkTileType) {
     return false;
 }
 
-function tileTypeIsCliff(checkTileType) {
+function isTileTypeCliff(checkTileType) {
     switch(checkTileType) {
         case TILE_CLIFF_TOP_LEFT:
         case TILE_CLIFF_TOP_MIDDLE:
@@ -215,7 +202,19 @@ function tileTypeIsCliff(checkTileType) {
             return false;
             break;
     }
+}
 
+function isTileTypeBuilding(tileType) {
+    switch (tileType) {
+        case TILE_WOOD_DEST:
+        case TILE_STONE_DEST:
+        case TILE_METAL_DEST:
+        case TILE_FOOD_DEST:
+        case TILE_FOOD_SRC:
+        case TILE_BUILDING:
+            return true;
+    }
+    return false;
 }
 
 function drawGroundTiles() {
@@ -231,21 +230,21 @@ function drawGroundTiles() {
 
             var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
 
-            if (tileTypeHasTransparency(tileTypeHere)) {
+            if (isTileTypeTransparent(tileTypeHere)) {
                 canvasContext.drawImage(tileSheet,
                     TILE_GROUND * TILE_W, 0, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full tile size for destination
             }
-            if (tileTypeIsPlant(tileTypeHere)) {
+            if (isTileTypePlant(tileTypeHere)) {
                 canvasContext.drawImage(tileSheet,
                     TILE_GRASS * TILE_W, 0,
                     TILE_W, TILE_H, 
                     tileLeftEdgeX, tileTopEdgeY,
                     TILE_W, TILE_H); 
             }
-            if (tileTypeIsFood(tileTypeHere)) {
+            if (isTileTypeFood(tileTypeHere)) {
                 for (i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
                         if (plantTrackingArray[i].is_watered == true) {
