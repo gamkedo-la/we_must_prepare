@@ -92,7 +92,7 @@ function mouseupHandler(evt) {
 
 function mousewheelHandler(evt) {
     if (!TabMenu.isVisible) {
-        player.hotbar.scrollThrough(evt.deltaY > 0);
+        player.hotbar.scrollThrough(evt.deltaY < 0);
     }
     evt.preventDefault();
 }
