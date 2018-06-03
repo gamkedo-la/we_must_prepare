@@ -101,7 +101,6 @@ function isMouseOverInterface() {
     return mouseY > INTERFACE_Y;
 }
 
-
 function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
@@ -259,8 +258,8 @@ function keyPress(evt) {
         case KEY_USE_TOOL:
             toolKeyPressedThisFrame = true;
             toolKeyHeld = true;
-            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
             player.plantAtFeet();
+            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
