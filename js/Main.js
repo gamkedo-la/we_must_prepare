@@ -43,6 +43,7 @@ function loadingDoneSoStartGame() {
 }
 
 function startGameLoop() {
+	uiSelect.play();
     isPaused = false;
     startAudioEngine();
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
@@ -77,6 +78,7 @@ function windowOnBlur() {
         canvasContext.textAlign = 'left';
         console.log("Game is now paused");
         stopAudioEngine();
+        uiCancel.play();
     }
 }
 
