@@ -55,7 +55,7 @@ function TimerClass() {
             secondsRemainder = '0' + secondsRemainder;
         }
 
-        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, canvas.width - 150, 25, 'white');
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 20, 22, 'rgba(255,255,255,0.6)');
     }
 
     this.endOfDay = function () {

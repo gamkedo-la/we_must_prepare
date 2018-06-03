@@ -33,12 +33,11 @@ function playerClass() {
     this.controlKeyUp2;
     this.controlKeyDown2;
     this.controlKeyRight2;
-    
+
     var walkIntoTileIndex = -1;
     var walkIntoTileType = TILE_WALL;
 
-    this.setupInput = function (leftKey,upKey,downKey,rightKey, leftKey2,upKey2,downKey2,rightKey2)
-    {
+    this.setupInput = function (leftKey, upKey, downKey, rightKey, leftKey2, upKey2, downKey2, rightKey2) {
         //next four lines set a,w,s,d
         this.controlKeyLeft = leftKey;
         this.controlKeyUp = upKey;
@@ -52,10 +51,10 @@ function playerClass() {
         this.controlKeyRight2 = rightKey2;
     };
 
-    this.reset = function() {
-        if(this.homeX == undefined) {
-            for(var i=0; i<roomGrid.length; i++) {
-                if( roomGrid[i] == TILE_PLAYER) {
+    this.reset = function () {
+        if (this.homeX == undefined) {
+            for (var i = 0; i < roomGrid.length; i++) {
+                if (roomGrid[i] == TILE_PLAYER) {
                     var tileRow = Math.floor(i / ROOM_COLS);
                     var tileCol = i % ROOM_COLS;
                     this.homeX = tileCol * TILE_W + 0.5 * TILE_W;
@@ -64,13 +63,13 @@ function playerClass() {
                     break; // found it, so no need to keep searching 
                 } // end of if
             } // end of for
-          } // end of if position not saved yet
-        
+        } // end of if position not saved yet
+
         this.playerColor = 'white';
         this.x = this.homeX;
         this.y = this.homeY;
-        centerRadiation (this.x, this.y);
-        
+        centerRadiation(this.x, this.y);
+
         this.bucketList = [];
         this.bucketList[Resources.Metal] = new resourceClass(1000, 0);
         this.bucketList[Resources.Stone] = new resourceClass(1000, 0);
@@ -80,33 +79,33 @@ function playerClass() {
         this.storageList[Resources.Metal] = new resourceClass(50, 0);
         this.storageList[Resources.Stone] = new resourceClass(50, 0);
         this.storageList[Resources.Wood] = new resourceClass(50, 0);
-        
+
         this.inventory.oldAdd = this.inventory.add;
-        this.inventory.add = function(item, count){
+        this.inventory.add = function (item, count) {
             return player.inventory.oldAdd(item, player.hotbar.add(item, count));
         };
-        
+
         this.inventory.oldCountItems = this.inventory.countItems;
-        this.inventory.countItems = function(item){
+        this.inventory.countItems = function (item) {
             return player.inventory.oldCountItems(item) + player.hotbar.countItems(item);
         };
-        
+
         this.inventory.oldRemove = this.inventory.remove;
-        this.inventory.remove = function(item, count){
-            if(count > player.inventory.countItems(item)){
+        this.inventory.remove = function (item, count) {
+            if (count > player.inventory.countItems(item)) {
                 return false;
             }
-            
+
             return player.inventory.oldRemove(items, count) || player.hotbar.remove(items, count);
         };
-        
+
         this.inventory.oldRemoveAll = this.inventory.removeAll;
-        this.inventory.removeAll = function(item){
+        this.inventory.removeAll = function (item) {
             return player.inventory.oldRemoveAll(item) + player.hotbar.removeAll(item);
         };
     };  // end reset
 
-    this.getSaveState = function() {
+    this.getSaveState = function () {
         var result = {};
         result.x = this.x;
         result.y = this.y;
@@ -133,7 +132,7 @@ function playerClass() {
         return result;
     };
 
-    this.loadSaveState = function(saveState) {
+    this.loadSaveState = function (saveState) {
         this.x = saveState.x;
         this.y = saveState.y;
 
@@ -150,20 +149,22 @@ function playerClass() {
         }
     };
 
-    this.drawPlayerHUD = function() {
+    this.drawPlayerHUD = function () {
         canvasContext.fillStyle = 'white';
-        var textLineY = 15, textLineSkip = 15, textLineX = 30;
-                var i = 1;
+        var textLineY = 37, textLineSkip = 10, textLineX = Math.round(canvas.width / 2) - 32;
+        var i = 1;
         for (var key in this.bucketList) {
-            canvasContext.fillText('Carried ' + key + ': ' + this.inventory.countItems(i), textLineX, textLineY);
-            canvasContext.fillText('Stored ' + key + ': ' + 
-            (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max, 
-            textLineX * 4, textLineY); textLineY += textLineSkip;
-                        i++;
+            canvasContext.fillStyle = 'brown';
+            canvasContext.fillText(/*'Carried +  '*/ key + ': ' + this.inventory.countItems(i), textLineX, textLineY);
+            canvasContext.fillText(/*'Stored + ' key + ': ' + */
+                (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max,
+                textLineX + 42, textLineY);
+            textLineY += textLineSkip;
+            i++;
         }
     };
 
-    this.draw = function() {
+    this.draw = function () {
         if (this.keyHeld_South) {
             playerWalkDown.draw(this.x, this.y - playerImage.height / 2);
             playerWalkDown.update();
@@ -184,14 +185,14 @@ function playerClass() {
         }
         canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
     };
-    
+
     this.distFrom = function (otherX, otherY) {
         var deltaX = otherX - this.x;
         var deltaY = otherY - (this.y - playerImage.height / 2);
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     };
-    
-    this.collectResourcesIfAble = function() {
+
+    this.collectResourcesIfAble = function () {
         switch (walkIntoTileType) {
             case TILE_WALL:
                 distToGo = 0;
@@ -212,7 +213,7 @@ function playerClass() {
                 }
                 break;
             case TILE_STONE_DEST:
-                var temp = {carried: this.inventory.countItems(items.stone), makeEmpty: function(){}};
+                var temp = { carried: this.inventory.countItems(items.stone), makeEmpty: function () { } };
                 this.inventory.remove(items.stone, this.inventory.countItems(items.stone));
                 depositResources(temp, this.storageList[Resources.Stone]);
                 break;
@@ -224,7 +225,7 @@ function playerClass() {
                 }
                 break;
             case TILE_WOOD_DEST:
-                var temp = {carried: this.inventory.countItems(items.wood), makeEmpty: function(){}};
+                var temp = { carried: this.inventory.countItems(items.wood), makeEmpty: function () { } };
                 this.inventory.remove(items.wood, this.inventory.countItems(items.wood));
                 depositResources(temp, this.storageList[Resources.Wood]);
                 break;
@@ -233,50 +234,45 @@ function playerClass() {
         }
     };
 
-    this.move = function() {
+    this.move = function () {
         var movementX = 0;
         var movementY = 0;
 
         playIdleSFX(this);
         playMovingSFX(this);
 
-        if (this.keyHeld_West) 
-        {
+        if (this.keyHeld_West) {
             movementX -= PLAYER_PIXELS_MOVE_RATE;
         }
-        if (this.keyHeld_East) 
-        {
+        if (this.keyHeld_East) {
             movementX += PLAYER_PIXELS_MOVE_RATE;
         }
-        if (this.keyHeld_North) 
-        {
+        if (this.keyHeld_North) {
             movementY -= PLAYER_PIXELS_MOVE_RATE;
         }
-        if (this.keyHeld_South) 
-        {
+        if (this.keyHeld_South) {
             movementY += PLAYER_PIXELS_MOVE_RATE;
         }
 
         this.getDirectionPlayerIsCurrentlyFacing();
 
-        if((movementX != 0) || (movementY != 0))
-        {
+        if ((movementX != 0) || (movementY != 0)) {
             // Adjust speed for diagonal movement
-            if((movementX != 0) && (movementY != 0)){
+            if ((movementX != 0) && (movementY != 0)) {
                 movementX = movementX * Math.SQRT1_2;
                 movementY = movementY * Math.SQRT1_2;
             }
-            
+
             var nextX = Math.round(this.x + movementX);
             var nextY = Math.round(this.y + movementY);
-            
+
             walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY);
-            walkIntoTileIndex = getTileIndexAtPixelCoord(nextX,nextY);
-            if(walkIntoTileType === undefined){
+            walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
+            if (walkIntoTileType === undefined) {
                 walkIntoTileType = TILE_WALL;
             }
-            
-            if(walkIntoTileType == TILE_RECHARGE_STATION){
+
+            if (walkIntoTileType == TILE_RECHARGE_STATION) {
                 console.log("Going for recharge!");
                 for (var i = 0; i < plantTrackingArray.length; i++) {
                     plantTrackingArray[i].dayChanged();
@@ -286,17 +282,16 @@ function playerClass() {
 
                 this.y = this.y + TILE_H;
             }
-            if (isTileKindWalkable(walkIntoTileType)) 
-            {
+            if (isTileKindWalkable(walkIntoTileType)) {
                 this.x = nextX;
                 this.y = nextY;
-            } else if(isTileKindWalkable(getTileTypeAtPixelCoord(this.x, nextY))){
+            } else if (isTileKindWalkable(getTileTypeAtPixelCoord(this.x, nextY))) {
                 this.y = nextY;
-            } else if(isTileKindWalkable(getTileTypeAtPixelCoord(nextX, this.y))){
+            } else if (isTileKindWalkable(getTileTypeAtPixelCoord(nextX, this.y))) {
                 this.x = nextX;
             }
         }//end if nextX & nextY
-        boundPlayerInRadiation ();
+        boundPlayerInRadiation();
     }; // end move
 
     this.plantAtFeet = function () {
@@ -321,26 +316,26 @@ function playerClass() {
             for (i = 0; i < plantTrackingArray.length; i++)
                 if (plantTrackingArray[i].mapIndex == plantAtIndex) {
                     plantTrackingArray[i].is_watered = true;
-            }
+                }
         }
     }
 
-    this.workingLand = function(index, oncePerClick) {
+    this.workingLand = function (index, oncePerClick) {
         if (oncePerClick) {
             if (toolKeyPressedThisFrame == false) {
                 return;
-            }   
+            }
         }
         // if (proper tool is equipped / something else?) {
-        if (roomGrid[index] == TILE_GROUND && 
+        if (roomGrid[index] == TILE_GROUND &&
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
             robotTillingLandSFX.play();
             roomGrid[index] = TILE_TILLED;
-        } else if (roomGrid[index] == TILE_TILLED && 
+        } else if (roomGrid[index] == TILE_TILLED &&
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
             robotWateringSFX.play();
             roomGrid[index] = TILE_TILLED_WATERED;
-        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE && 
+        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE &&
             this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
             for (i = 0; i < plantTrackingArray.length; i++) {
                 if (plantTrackingArray[i].mapIndex == index) {
@@ -350,16 +345,14 @@ function playerClass() {
         }
     };
 
-    this.isPlayerIdle = function()
-    {
-      return (!this.keyHeld_North &&
-                !this.keyHeld_South &&
-                !this.keyHeld_West &&
-                !this.keyHeld_East);
+    this.isPlayerIdle = function () {
+        return (!this.keyHeld_North &&
+            !this.keyHeld_South &&
+            !this.keyHeld_West &&
+            !this.keyHeld_East);
     }
 
-    this.getDirectionPlayerIsCurrentlyFacing = function() 
-    {
+    this.getDirectionPlayerIsCurrentlyFacing = function () {
         //next four if/else if statements set direction only for horizontal and vertical movement
         if (this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) {
             this.isPlayerFacingWest = true;
@@ -375,7 +368,7 @@ function playerClass() {
 
             //console.log("facing east");
 
-            this.isPlayerFacingWest = false;           
+            this.isPlayerFacingWest = false;
             this.isPlayerFacingSouth = false;
             this.isPlayerFacingNorth = false;
         }
@@ -385,7 +378,7 @@ function playerClass() {
             //console.log("facing north");
 
             this.isPlayerFacingWest = false;
-            this.isPlayerFacingEast = false;            
+            this.isPlayerFacingEast = false;
             this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_South && !this.keyHeld_West && !this.keyHeld_East) {
@@ -395,7 +388,7 @@ function playerClass() {
 
             this.isPlayerFacingWest = false;
             this.isPlayerFacingEast = false;
-            this.isPlayerFacingNorth = false;           
+            this.isPlayerFacingNorth = false;
         }
 
         //these four else if statements set direction for diagonal movement rather than horizontal and vertical movement
@@ -405,7 +398,7 @@ function playerClass() {
 
             //console.log("facing northeast");
 
-            this.isPlayerFacingWest = false;                        
+            this.isPlayerFacingWest = false;
             this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_North && this.keyHeld_West) {
@@ -414,7 +407,7 @@ function playerClass() {
 
             //console.log("facing northwest");
 
-            this.isPlayerFacingEast = false;            
+            this.isPlayerFacingEast = false;
             this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_South && this.keyHeld_East) {
@@ -423,8 +416,8 @@ function playerClass() {
 
             //console.log("facing southeast");
 
-            this.isPlayerFacingWest = false;            
-            this.isPlayerFacingNorth = false;            
+            this.isPlayerFacingWest = false;
+            this.isPlayerFacingNorth = false;
         }
         else if (this.keyHeld_South && this.keyHeld_West) {
             this.isPlayerFacingSouth = true;
@@ -433,7 +426,7 @@ function playerClass() {
             //console.log("facing southwest");
 
             this.isPlayerFacingEast = false;
-            this.isPlayerFacingNorth = false;      
+            this.isPlayerFacingNorth = false;
         }
     };
 
