@@ -14,6 +14,9 @@ var itemSheet = document.createElement("img");
 var selectedItemSlot = document.createElement("img");
 var weatherGUI = document.createElement("img");
 var skyCircle = document.createElement("img");
+var siloImage = document.createElement("img");
+var barnImage = document.createElement("img");
+var farmhouseImage = document.createElement("img");
 
 var playerSpriteSheetWalkUp = document.createElement("img");
 var playerSpriteSheetWalkDown = document.createElement("img");
@@ -62,6 +65,9 @@ function loadImages() {
     { varName: selectedItemSlot, theFile: "selected_item_slot.png" },
     { varName: weatherGUI, theFile: "weatherGUI.png" },
     { varName: skyCircle, theFile: "skyCircle.png" },
+    { varName: siloImage, theFile: "siloBuilding.png" },
+    { varName: farmhouseImage, theFile: "farmhouse_large.png" },
+    { varName: barnImage, theFile: "barn.png" },
   ];
 
   picsToLoad = imageList.length;

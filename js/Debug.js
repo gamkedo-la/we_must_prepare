@@ -1,1 +1,1 @@
-var debugTreesEnabled = false;
+var debug3DTiles = false;

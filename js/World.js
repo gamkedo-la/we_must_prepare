@@ -12,13 +12,13 @@ var roomGrid =
         05, 00, 00, 05, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
         05, 00, 05, 00, 00, 05, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
         05, 00, 05, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 19, 19, 19, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
-        05, 00, 00, 00, 05, 05, 00, 00, 00, 00, 00, 00, 00, 19, 17, 19, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 30, 32, 32, 32,
+        05, 00, 00, 00, 05, 05, 00, 00, 00, 00, 00, 00, 00, 19, 17, 19, 00, 00, 00, 00, 00, 00, 44, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 30, 32, 32, 32,
         05, 00, 00, 18, 00, 05, 00, 00, 00, 00, 00, 00, 00, 19, 19, 19, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32,
-        05, 00, 00, 00, 00, 05, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 18, 00, 03, 04, 00, 06, 07, 00, 00, 00, 00, 00, 00, 00, 30, 32, 32, 32, 32, 32, 32,
-        05, 00, 05, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
+        05, 00, 00, 00, 00, 05, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 18, 00, 03, 04, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 30, 32, 32, 32, 32, 32, 32,
+        05, 00, 05, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 43, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
         05, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 19, 19, 19, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
         05, 00, 00, 05, 00, 00, 00, 05, 00, 33, 34, 34, 34, 34, 35, 00, 00, 00, 19, 16, 19, 00, 00, 00, 00, 02, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
-        05, 00, 05, 07, 00, 00, 00, 05, 00, 36, 37, 38, 40, 40, 41, 00, 00, 00, 19, 19, 19, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
+        05, 00, 05, 07, 00, 00, 00, 05, 00, 36, 37, 38, 40, 40, 41, 00, 00, 00, 19, 19, 19, 00, 00, 00, 00, 00, 00, 00, 00, 42, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
         05, 00, 00, 00, 00, 05, 00, 00, 00, 39, 40, 41, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
         05, 05, 00, 00, 07, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 32, 32, 32, 32, 32, 32, 32,
         05, 00, 00, 05, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 26, 22, 22, 22, 22, 20, 00, 21, 22, 22, 23, 24, 22, 27, 00, 00, 00, 31, 32, 32, 32, 32, 32, 32,
@@ -87,6 +87,13 @@ const TILE_CLIFF_BOTTOM_LEFT = 39;
 const TILE_CLIFF_BOTTOM_MIDDLE = 40;
 const TILE_CLIFF_BOTTOM_RIGHT = 41;
 
+const TILE_SILO = 42;
+const TILE_FARMHOUSE = 43;
+const TILE_BARN = 44;
+const START_BUILDING_RANGE = TILE_SILO;
+const TILE_BUILDING_HEIGHT = 250;
+const TILE_BUILDING_WIDTH = 250;
+
 const TILE_WHEAT_01_SEED = 50;
 const TILE_WHEAT_01_SEEDLING = 51;
 const TILE_WHEAT_01_MEDIUM = 52;
@@ -110,6 +117,28 @@ var tileTestColors = [
     'yellow', // TILE_FOOD_SRC
     'white', // TILE_BUILDING
 ];
+
+function extendBuildingCollision() {
+    var tileIndex = 0;
+    for (var eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
+        for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
+            switch(roomGrid[tileIndex]) {
+                case TILE_BARN:
+                case TILE_SILO:
+                    roomGrid[tileIndex -1] = TILE_BUILDING;
+                    roomGrid[tileIndex +1] = TILE_BUILDING;
+                    break;
+                case TILE_FARMHOUSE:
+                    roomGrid[tileIndex -1] = TILE_BUILDING;
+                    roomGrid[tileIndex +1] = TILE_BUILDING;
+                    roomGrid[tileIndex -2] = TILE_BUILDING;
+                    roomGrid[tileIndex +2] = TILE_BUILDING;
+                    break;
+            }
+            tileIndex++;
+        }
+    }
+}
 
 function roomTileToIndex(tileCol, tileRow) {
     return (tileCol + ROOM_COLS * tileRow);
@@ -139,6 +168,9 @@ function getTileTypeAtPixelCoord(pixelX, pixelY) {
 }
 
 function isTileTypeTransparent(checkTileType) {
+    if (isTileTypeBuilding(checkTileType)) {
+        return true;
+    }
     switch (checkTileType) {
         case TILE_PLAYER:
         case TILE_METAL_SRC:
@@ -206,12 +238,15 @@ function isTileTypeCliff(checkTileType) {
 
 function isTileTypeBuilding(tileType) {
     switch (tileType) {
-        case TILE_WOOD_DEST:
-        case TILE_STONE_DEST:
-        case TILE_METAL_DEST:
-        case TILE_FOOD_DEST:
+        // case TILE_WOOD_DEST:
+        // case TILE_STONE_DEST:
+        // case TILE_METAL_DEST:
+        // case TILE_FOOD_DEST:
         case TILE_FOOD_SRC:
         case TILE_BUILDING:
+        case TILE_BARN:
+        case TILE_FARMHOUSE:
+        case TILE_SILO:
             return true;
     }
     return false;
@@ -273,7 +308,7 @@ function drawGroundTiles() {
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full full tile size for destination
 
-            } else if (tileTypeHere != TILE_WOOD_SRC || debugTreesEnabled) {
+            } else if ((tileTypeHere != TILE_WOOD_SRC && isTileTypeBuilding(tileTypeHere) == false) || debug3DTiles) {
                 canvasContext.drawImage(tileSheet,
                     tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source
@@ -315,6 +350,15 @@ function draw3DTiles() {
                         useImage = treeDead3D;
                     }
                     depthGap = 6;
+                    break;
+                case TILE_BARN:
+                    useImage = barnImage;
+                    break;
+                case TILE_FARMHOUSE:
+                    useImage = farmhouseImage;
+                    break;
+                case TILE_SILO:
+                    useImage = siloImage;
                     break;
                 default:
                     break;

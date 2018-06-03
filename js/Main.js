@@ -32,6 +32,7 @@ function loadingDoneSoStartGame() {
 
     setupInput();
     setupUI(); //interface.js
+    extendBuildingCollision();
     player.reset();
     setupBuckets();
     timer.setupTimer();
