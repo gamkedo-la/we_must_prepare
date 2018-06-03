@@ -6,7 +6,7 @@ var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var inGame_music_track1 = new musicTrackNonLooping("Peace", 90.5);  //By Vignesh
-var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8),
+var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8), //By Misha
 													inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8),
 													inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8),
 													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
@@ -299,8 +299,17 @@ function scaleRange(inputStart, inputEnd, outputStart, outputEnd, value) {
 //Game hooks
 function startAudioEngine() {
 	if(inGame_music_master.getPaused()) {
-		inGame_music_master.play();
+		inGame_music_master.resume();
 	}
+}
+
+function stopAudioEngine() {
+	inGame_music_master.pause();
+	wind_enviSFX.pause();
+	rain_enviSFX.pause();
+	sun_enviSFX.pause();
+	robotIdleSFX.pause();
+	robotMovementDefault.pause();
 }
 
 function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
@@ -530,8 +539,7 @@ function playFootstep(spriteSheetObject) {
 }
 
 var isRobotMovingSFXPlaying = false;
-function playMovingSFX(player)
-{
+function playMovingSFX(player){
 	if (!player.isPlayerIdle() && !isRobotMovingSFXPlaying) 
 	{
 		robotMovementDefault.play();
@@ -556,8 +564,7 @@ function playMovingSFX(player)
 }
 
 var isIdleSFXPlaying = false;
-function playIdleSFX(player)
-{
+function playIdleSFX(player){
 	if (player.isPlayerIdle() && !isIdleSFXPlaying)
 	{
 		robotIdleSFX.play();
