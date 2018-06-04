@@ -23,7 +23,8 @@ function getResourceLookupTableSaveState() {
 const Resources = {
 	Wood:"Wood",
 	Metal:"Metal",
-	Stone:"Stone" 
+    Stone:"Stone",
+    Food:"Food" 
 };
 
 function resourceClass(max, carried) {

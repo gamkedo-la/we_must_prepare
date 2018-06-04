@@ -76,9 +76,10 @@ function playerClass() {
         this.bucketList[Resources.Wood] = new resourceClass(1000, 0);
 
         this.storageList = [];
-        this.storageList[Resources.Metal] = new resourceClass(50, 0);
-        this.storageList[Resources.Stone] = new resourceClass(50, 0);
-        this.storageList[Resources.Wood] = new resourceClass(50, 0);
+        this.storageList[Resources.Metal] = new resourceClass(2550, 0);
+        this.storageList[Resources.Stone] = new resourceClass(2550, 0);
+        this.storageList[Resources.Wood] = new resourceClass(1550, 0);
+        this.storageList[Resources.Food] = new resourceClass(1550, 0);
 
         this.inventory.oldAdd = this.inventory.add;
         this.inventory.add = function (item, count) {
@@ -155,7 +156,7 @@ function playerClass() {
         var i = 1;
         for (var key in this.bucketList) {
             canvasContext.fillStyle = 'brown';
-            canvasContext.fillText(/*'Carried +  '*/ key + ': ' + this.inventory.countItems(i), textLineX, textLineY);
+            canvasContext.fillText(/*'Carried +  '*/ key + ': ', textLineX, textLineY);
             canvasContext.fillText(/*'Stored + ' key + ': ' + */
                 (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max,
                 textLineX + 42, textLineY);
@@ -165,25 +166,29 @@ function playerClass() {
     };
 
     this.draw = function () {
-        if (this.keyHeld_South) {
-            playerWalkDown.draw(this.x, this.y - playerImage.height / 2);
-            playerWalkDown.update();
-            playFootstep(playerWalkDown);
+        if (this.keyHeld_North) {
+            playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
+            playerWalkNorth.update();
+            playFootstep(playerWalkNorth);
             return;
-        }
-        if (this.keyHeld_West) {
-            playerWestWalk.draw(this.x, this.y - playerImage.height / 2);
-            playerWestWalk.update();
-            playFootstep(playerWestWalk);
+        } else if (this.keyHeld_East) {
+            playerWalkEast.draw(this.x, this.y - playerImage.height / 2);
+            playerWalkEast.update();
+            playFootstep(playerWalkEast);
             return;
-        }
-        if (this.keyHeld_East) {
-            playerEastWalk.draw(this.x, this.y - playerImage.height / 2);
-            playerEastWalk.update();
-            playFootstep(playerEastWalk);
+        } else if (this.keyHeld_South) {
+            playerWalkSouth.draw(this.x, this.y - playerImage.height / 2);
+            playerWalkSouth.update();
+            playFootstep(playerWalkSouth);
             return;
+        } else if (this.keyHeld_West) {
+            playerWalkWest.draw(this.x, this.y - playerImage.height / 2);
+            playerWalkWest.update();
+            playFootstep(playerWalkWest);
+            return;
+        } else {
+            canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
         }
-        canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
     };
 
     this.distFrom = function (otherX, otherY) {

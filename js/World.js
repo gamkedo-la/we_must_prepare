@@ -389,15 +389,15 @@ function draw3DTiles() {
     }
     canvasContext.globalAlpha = 0.2;
     if (player.keyHeld_South) {
-        playerWalkDown.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
+        playerWalkSouth.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
         return;
     }
     if (player.keyHeld_West) {
-        playerWestWalk.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
+        playerWalkWest.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
         return;
     }
     if (player.keyHeld_East) {
-        playerEastWalk.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
+        playerWalkEast.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
         return;
     } 
     canvasContext.drawImage(playerImage, player.x - playerImage.width / 2, player.y - playerImage.height);

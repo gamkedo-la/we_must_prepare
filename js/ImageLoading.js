@@ -18,14 +18,15 @@ var siloImage = document.createElement("img");
 var barnImage = document.createElement("img");
 var farmhouseImage = document.createElement("img");
 
-var playerSpriteSheetWalkUp = document.createElement("img");
-var playerSpriteSheetWalkDown = document.createElement("img");
+var playerSpriteSheetWalkNorth = document.createElement("img");
+var playerSpriteSheetWalkSouth = document.createElement("img");
 var playerSpriteSheetSideWalk = document.createElement("img");
 
 //function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
-var playerWalkDown = new AnimationClass(playerSpriteSheetWalkDown, 48, 48, 8, 0, 3, true);
-var playerEastWalk = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
-var playerWestWalk = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
+var playerWalkNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 3, true);
+var playerWalkEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
+var playerWalkSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
+var playerWalkWest = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
 
 var picsToLoad = 0;
 
@@ -48,8 +49,8 @@ function loadImages() {
   var imageList = [
     { varName: tileSheet, theFile: "sprite_strip.png" },
     { varName: playerImage, theFile: "robokedo3tiny.png" },
-    { varName: playerSpriteSheetWalkUp, theFile: "robokedoWalkBack.png" },
-    { varName: playerSpriteSheetWalkDown, theFile: "robokedoWalk.png" },
+    { varName: playerSpriteSheetWalkNorth, theFile: "robokedoWalkBack.png" },
+    { varName: playerSpriteSheetWalkSouth, theFile: "robokedoWalk.png" },
     { varName: playerSpriteSheetSideWalk, theFile: "robokedoSideWalk.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient3.png" },
