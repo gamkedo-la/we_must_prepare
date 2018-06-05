@@ -8,16 +8,36 @@ function getResourceLookupTableSaveState() {
             resourceLookupTableSaveState[i] = null;
             continue;
         }
+        var tileLookupTableSaveState = [];
         Object.keys(Resources).forEach(function(resourceType) {
             var resourceBucket = tileLookupTable[resourceType];
             if (resourceBucket) {
-                // TODO: save actual bucket
-                console.log(resourceType);
-                console.log(resourceBucket);
+                tileLookupTableSaveState[resourceType] = resourceBucket.getSaveState();
             }
         });
+        resourceLookupTableSaveState[i] = tileLookupTableSaveState;
     }
     return resourceLookupTableSaveState;
+}
+
+function loadResourceLookupTableSaveState(saveState) {
+    for (var i = 0; i < resouceLookupTable.length; i++) {
+        var tileLookupTableSaveState = saveState[i];
+        if (tileLookupTable) {
+            var tileLookupTable = [];
+            Object.keys(Resources).forEach(function(resourceType) {
+                var resourceBucketSaveState = tileLookupTableSaveState[resourceType];
+                if (resourceBucket) {
+                    tileLookupTable[resourceType] = new resourceClass(0, 0);
+                    tileLookupTable[resourceType].loadSaveState(resourceBucketSaveState);
+                }
+            });
+            resouceLookupTable[i] = tileLookupTable;
+        }
+        else {
+            resouceLookupTable[i] = undefined;
+        }
+    }
 }
 
 const Resources = {
@@ -34,6 +54,18 @@ function resourceClass(max, carried) {
     this.makeEmpty = function() {
         this.carried = 0;
     }
+
+    this.getSaveState = function() {
+        return {
+            max: this.max,
+            carried: this.carried
+        };
+    };
+
+    this.loadSaveState = function(saveState) {
+        this.max = saveState.max;
+        this.carried = saveState.carried;
+    };
 }
 
 function depositResources(fromContainer, toContainer, quantity) {

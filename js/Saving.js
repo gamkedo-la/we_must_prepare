@@ -50,10 +50,9 @@ function save(slotIndex) {
 }
 
 function getSaveState() {
-  // TODO: save actual value
-  getResourceLookupTableSaveState();
   var saveState = {
-    player: player.getSaveState()
+    player: player.getSaveState(),
+    resourceLookupTable: getResourceLookupTableSaveState()
   };
   return saveState;
 }
@@ -78,4 +77,5 @@ function loadSaveState(saveState) {
   }
 
   player.loadSaveState(saveState.player);
+  loadResourceLookupTableSaveState(saveState.resourceLookupTable);
 }
