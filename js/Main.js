@@ -44,7 +44,7 @@ function loadingDoneSoStartGame() {
 }
 
 function startGameLoop() {
-	uiSelect.play();
+    uiSelect.play();
     isPaused = false;
     startAudioEngine();
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
@@ -94,11 +94,11 @@ window.onload = function () {
 
 function setupUI() {
     MainMenu = new buttonMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
-        var button = new buttonUI("Test Button", (canvas.width*0.5)-50, (canvas.height*0.5)-20, (canvas.width*0.5)+50, (canvas.height*0.5)+20 );
-        button.action = function() {
-            MainMenu.isVisible = false; 
-        };
-        MainMenu.push(button);
+    var button = new buttonUI("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
+    button.action = function () {
+        MainMenu.isVisible = false;
+    };
+    MainMenu.push(button);
 
     TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
     //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
@@ -175,7 +175,8 @@ function drawEverything() {
     drawRadiation();
     endCameraPan();
     drawSkyGradient();
-    weather.draw();
+    wildlife.draw(camPanX, camPanY);
+    weather.draw(camPanX, camPanY);
     player.drawPlayerHUD();
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
@@ -210,7 +211,7 @@ function drawUI() {
     if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
         inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
     }
-    
+
     //TODO placeholder - display instructions
     colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
     colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');

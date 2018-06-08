@@ -17,6 +17,7 @@ var skyCircle = document.createElement("img");
 var siloImage = document.createElement("img");
 var barnImage = document.createElement("img");
 var farmhouseImage = document.createElement("img");
+var wildlifeSpritesheet = document.createElement("img");
 
 var playerSpriteSheetWalkNorth = document.createElement("img");
 var playerSpriteSheetWalkSouth = document.createElement("img");
@@ -69,6 +70,7 @@ function loadImages() {
     { varName: siloImage, theFile: "siloBuilding.png" },
     { varName: farmhouseImage, theFile: "farmhouse_large.png" },
     { varName: barnImage, theFile: "barn.png" },
+    { varName: wildlifeSpritesheet, theFile: "wildlife.png" }
   ];
 
   picsToLoad = imageList.length;

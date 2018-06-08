@@ -246,4 +246,4 @@ var weather = (function () {
 
     return this; // weather constructor
 
-}()); // end weather class 
+}()); // create one weather system now
