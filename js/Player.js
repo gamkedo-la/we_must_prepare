@@ -159,7 +159,7 @@ function playerClass() {
             canvasContext.fillText(/*'Carried +  '*/ key + ': ', textLineX, textLineY);
             canvasContext.fillText(/*'Stored + ' key + ': ' + */
                 (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0) + '/' + this.storageList[key].max,
-                textLineX + 42, textLineY);
+                textLineX + 34, textLineY);
             textLineY += textLineSkip;
             i++;
         }
@@ -353,10 +353,10 @@ function playerClass() {
                 robotTillingLandSFX.play();
 
                 var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
-                
+
                 for (i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == plantAtIndex) {
-                        plantTrackingArray[i].plantRemoved();                       
+                        plantTrackingArray[i].plantRemoved();
                     }
                 }
             }

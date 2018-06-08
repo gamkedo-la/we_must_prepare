@@ -3,7 +3,7 @@ const ROOM_COLS = 40;
 const ROOM_ROWS = 32;
 
 var roomGrid =
-    [   00, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05,
+    [00, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05,
         05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
         05, 00, 05, 05, 05, 05, 07, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
         05, 00, 05, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
@@ -122,17 +122,17 @@ function extendBuildingCollision() {
     var tileIndex = 0;
     for (var eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
         for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
-            switch(roomGrid[tileIndex]) {
+            switch (roomGrid[tileIndex]) {
                 case TILE_BARN:
                 case TILE_SILO:
-                    roomGrid[tileIndex -1] = TILE_BUILDING;
-                    roomGrid[tileIndex +1] = TILE_BUILDING;
+                    roomGrid[tileIndex - 1] = TILE_BUILDING;
+                    roomGrid[tileIndex + 1] = TILE_BUILDING;
                     break;
                 case TILE_FARMHOUSE:
-                    roomGrid[tileIndex -1] = TILE_BUILDING;
-                    roomGrid[tileIndex +1] = TILE_BUILDING;
-                    roomGrid[tileIndex -2] = TILE_BUILDING;
-                    roomGrid[tileIndex +2] = TILE_BUILDING;
+                    roomGrid[tileIndex - 1] = TILE_BUILDING;
+                    roomGrid[tileIndex + 1] = TILE_BUILDING;
+                    roomGrid[tileIndex - 2] = TILE_BUILDING;
+                    roomGrid[tileIndex + 2] = TILE_BUILDING;
                     break;
             }
             tileIndex++;
@@ -218,7 +218,7 @@ function isTileTypePlant(checkTileType) {
 }
 
 function isTileTypeCliff(checkTileType) {
-    switch(checkTileType) {
+    switch (checkTileType) {
         case TILE_CLIFF_TOP_LEFT:
         case TILE_CLIFF_TOP_MIDDLE:
         case TILE_CLIFF_TOP_RIGHT:
@@ -275,25 +275,25 @@ function drawGroundTiles() {
             if (isTileTypePlant(tileTypeHere)) {
                 canvasContext.drawImage(tileSheet,
                     TILE_GRASS * TILE_W, 0,
-                    TILE_W, TILE_H, 
+                    TILE_W, TILE_H,
                     tileLeftEdgeX, tileTopEdgeY,
-                    TILE_W, TILE_H); 
+                    TILE_W, TILE_H);
             }
             if (isTileTypeFood(tileTypeHere)) {
                 for (i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
                         if (plantTrackingArray[i].is_watered == true) {
                             canvasContext.drawImage(tileSheet,
-                            TILE_TILLED_WATERED * TILE_W, 0,
-                            TILE_W, TILE_H, 
-                            tileLeftEdgeX, tileTopEdgeY,
-                            TILE_W, TILE_H);
+                                TILE_TILLED_WATERED * TILE_W, 0,
+                                TILE_W, TILE_H,
+                                tileLeftEdgeX, tileTopEdgeY,
+                                TILE_W, TILE_H);
                         } else {
                             canvasContext.drawImage(tileSheet,
-                            TILE_TILLED * TILE_W, 0,
-                            TILE_W, TILE_H, 
-                            tileLeftEdgeX, tileTopEdgeY,
-                            TILE_W, TILE_H);
+                                TILE_TILLED * TILE_W, 0,
+                                TILE_W, TILE_H,
+                                tileLeftEdgeX, tileTopEdgeY,
+                                TILE_W, TILE_H);
                         }
                     }
                 }
@@ -387,7 +387,8 @@ function draw3DTiles() {
     for (var j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
         allObjectsToDrawDepthSorted[j].draw();
     }
-    canvasContext.globalAlpha = 0.2;
+
+    canvasContext.globalAlpha = 0.2; // make the following mostly transparent:
     if (player.keyHeld_South) {
         playerWalkSouth.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
         return;
@@ -399,7 +400,9 @@ function draw3DTiles() {
     if (player.keyHeld_East) {
         playerWalkEast.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
         return;
-    } 
+    }
     canvasContext.drawImage(playerImage, player.x - playerImage.width / 2, player.y - playerImage.height);
     canvasContext.globalAlpha = 1;
+
+
 } // end of draw3DTiles()

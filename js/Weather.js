@@ -1,9 +1,7 @@
 // weather system
 // made by mcfunkypants for gamkedo
 
-var weather = (function () {
-
-    console.log("Weather system init...");
+function WeatherSystem() {
 
     const DEBUG_WEATHER_GUI = true; // weather states for visual debugging
 
@@ -52,9 +50,12 @@ var weather = (function () {
         //if (wetcount) {
         //    console.log(wetcount + " patches of soil got wet from the rain.");
         //}
-    }
+    };
 
     this.draw = function (cameraOffsetX, cameraOffsetY) {
+
+        //console.log("weather.draw()");
+
         updateWeatherVolumes(howSunny, howCloudy, howFoggy, howWindy, howRainy);
 
         if (cameraOffsetX == undefined) cameraOffsetX = 0;
@@ -242,8 +243,8 @@ var weather = (function () {
 
     }; // weather.draw()
 
-    console.log("Weather system init complete.");
+} // weather system class
 
-    return this; // weather constructor
-
-}()); // create one weather system now
+// make one immediately
+console.log("Weather system init complete.");
+window.weather = new WeatherSystem();

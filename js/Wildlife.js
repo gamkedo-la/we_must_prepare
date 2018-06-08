@@ -1,7 +1,7 @@
 // a simple "juice/polish" effect: little ai critters! =)
 // made for we must prepare by mcfunkypants
 
-var wildlife = (function () {
+function WildlifeSystem() {
 
     var frameCount = 0;
     const SPRITE_SIZE = 16;
@@ -51,10 +51,12 @@ var wildlife = (function () {
                 SPRITE_SIZE); // dh        
 
         } // loop through all birds
-    }
+    };
 
-    console.log("Wildlife system init complete.");
 
-    return this; // wildlife constructor
+} // wildlife system
 
-}()); // create one wildlife system now
+// make one immediately
+window.wildlife = new WildlifeSystem();
+console.log("Wildlife system init complete.");
+
