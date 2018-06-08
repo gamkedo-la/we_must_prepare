@@ -28,11 +28,11 @@ var wildlife = (function () {
                 !birdy[me] ||
                 (birdx[me] > canvas.width + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN) ||
                 (birdy[me] > canvas.height + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN)) { // far enough offscreen?
-                console.log("Respawning bird " + me);
                 birdx[me] = -SPRITE_SIZE + cameraOffsetX - Math.random() * 500;
                 birdy[me] = Math.random() * canvas.height + cameraOffsetY;
                 birdSpeedX[me] = 0.5;
                 birdSpeedY[me] = Math.random() - 0.5;
+                console.log("Respawning bird " + me + " at " + birdx[me] + "," + birdy[me]);
             }
 
             // fly forward
@@ -41,7 +41,7 @@ var wildlife = (function () {
 
             // draw bird
             canvasContext.drawImage(wildlifeSpritesheet, // see imgLoading.js
-                SPRITE_SIZE * (Math.round(frameCount / ANIM_SPEED) % ANIM_FRAMES), // sx
+                SPRITE_SIZE * (Math.round(frameCount / ANIM_SPEED + me) % ANIM_FRAMES), // sx
                 0, // sy
                 SPRITE_SIZE, // sw
                 SPRITE_SIZE, // sh
