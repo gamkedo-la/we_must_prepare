@@ -401,7 +401,7 @@ function draw3DTiles() {
         playerWalkEast.drawExtended(player.x, player.y - playerImage.height / 2, 0, false, 1, 0.2);
         return;
     }
-    canvasContext.drawImage(playerImage, player.x - playerImage.width / 2, player.y - playerImage.height);
+    // canvasContext.drawImage(playerImage, player.x - playerImage.width / 2, player.y - playerImage.height);
     canvasContext.globalAlpha = 1;
 
 

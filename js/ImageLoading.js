@@ -49,9 +49,9 @@ function loadImages() {
 
   var imageList = [
     { varName: tileSheet, theFile: "sprite_strip.png" },
-    { varName: playerImage, theFile: "robokedo3tiny.png" },
+    { varName: playerImage, theFile: "robokedo3tiny2.png" },
     { varName: playerSpriteSheetWalkNorth, theFile: "robokedoWalkBack.png" },
-    { varName: playerSpriteSheetWalkSouth, theFile: "robokedoWalk.png" },
+    { varName: playerSpriteSheetWalkSouth, theFile: "robokedoWalk2.png" },
     { varName: playerSpriteSheetSideWalk, theFile: "robokedoSideWalk.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient3.png" },
