@@ -9,7 +9,7 @@ else {
   HTMLLog("Press `0` to enable auto-save");
 }
 
-function keyPressForSaving(evt) {
+function keyPressForSaving() {
     autoSaveEnabled = !autoSaveEnabled;
     persistence.setBoolean('autoSaveEnabled', autoSaveEnabled);
     if (autoSaveEnabled) {
