@@ -183,25 +183,30 @@ function InventoryClass(size){
 		return count;
 	};
 
-	this.scrollThrough = function(scrollLeftIfTrue = false) {
-        if (scrollLeftIfTrue) {            
-            this.equipSlot(this.equippedItemIndex - 1);
-			if (this.equippedItemIndex < 0) {
-                this.equipSlot(this.slotCount - 1);
-			}
+    this.scrollThrough = function (scrollLeftIfTrue = false) {
+        var scrollDir = scrollLeftIfTrue ? -1 : 1;
+        this.equipSlot(this.equippedItemIndex + scrollDir);
+
+        if (scrollLeftIfTrue) {
+            while (this.equippedItemIndex >= 0 && this.equippedItemIndex < this.slotCount && this.slots[this.equippedItemIndex].item == 0) {
+                this.equippedItemIndex--;
+            }
 		}
 		else {            
-            this.equipSlot(this.equippedItemIndex + 1);
-			if (this.equippedItemIndex >= this.slotCount) {
-                this.equipSlot(0);
-			}
-		}
+            while (this.equippedItemIndex >= 0 && this.equippedItemIndex < this.slotCount && this.slots[this.equippedItemIndex].item == 0) {
+                this.equippedItemIndex++;
+            }
+        }
 	}
 
-	this.equipSlot = function(whichSlot) {
-		this.equippedItemIndex = whichSlot;
-		if (whichSlot > this.slotCount) {
-			console.log ('Cannot find a slot for this key, increase your slot count!');
+    this.equipSlot = function (whichSlot) {
+        this.equippedItemIndex = whichSlot;
+
+        if (this.equippedItemIndex < -1) {
+            this.equipSlot(this.slotCount - 1);
+        }
+        else if (this.equippedItemIndex > this.slotCount) {
+            this.equipSlot(0);
         }
 	}
 }
