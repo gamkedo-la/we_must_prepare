@@ -122,8 +122,7 @@ function setupBuckets() {
         if (resourceType != '') {
             resourceLookupTable[i] = [];
             resourceLookupTable[i][resourceType] = new resourceClass(resourceQuantity, resourceQuantity);
-            console.log("Added in " + resourceType + " to roomGrid index " + i);
-            console.log("")
+            // console.log("Added in " + resourceType + " to roomGrid index " + i);
         }
 
       } // end of for

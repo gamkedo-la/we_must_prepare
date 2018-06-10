@@ -319,6 +319,9 @@ function keyPress(evt) {
                 player.hotbar.equipSlot(SLOT_5);
             }
             break;
+        case "KeyL":
+            resetGame(false);
+            break;
         default:
             // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

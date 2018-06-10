@@ -2,7 +2,7 @@ var radCenterX = 200;
 var radCenterY = 200;
 var radSize = 150;
 var radGrowthRate = 0.1;
-var radEnabled = true;
+var radEnabled = false;
 
 function drawRadiation () {
 	if (radEnabled == false) {

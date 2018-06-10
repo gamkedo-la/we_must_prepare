@@ -34,14 +34,26 @@ function loadingDoneSoStartGame() {
     setupInput();
     setupUI(); //interface.js
     extendBuildingCollision();
-    player.reset();
+    
     timer.setupTimer();
-    if (autoSaveEnabled) {
-        autoLoad();
-    }
-    setupBuckets();  // setupBuckets has to be called after autoLoad during game start otherwise all resources are zeroed out.
-    setupInventory();
+
+    resetGame(true);  // has to be called after autoLoad or resources don't get setup correctly
+    
+    
     window.addEventListener('blur', windowOnBlur);
+}
+
+function resetGame(loadSave) {
+    roomGrid = defaultRoomGrid.slice();
+    player.reset();
+    
+    if (loadSave) {
+        if (autoSaveEnabled) {
+            autoLoad();
+        }
+    }
+    setupBuckets();
+    setupInventory();
 }
 
 function startGameLoop() {
@@ -128,6 +140,7 @@ function setupUI() {
 }
 
 function setupInventory() {
+    // player.inventory.clear();
     player.inventory.add(items.hoe, 1);
     player.inventory.add(items.pickaxe, 1);
     player.inventory.add(items.watercan, 1);

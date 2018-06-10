@@ -7,10 +7,6 @@ function playerClass() {
 
     this.holdingSlot = new emptyInventorySlot();
 
-    this.inventory = new InventoryClass(30);
-    this.hotbar = new InventoryClass(5);
-    this.hotbar.equippedItemIndex = 0;
-
     this.bucketList = [];
     this.storageList = [];
 
@@ -51,20 +47,25 @@ function playerClass() {
         this.controlKeyRight2 = rightKey2;
     };
 
-    this.reset = function () {
-        if (this.homeX == undefined) {
-            for (var i = 0; i < roomGrid.length; i++) {
-                if (roomGrid[i] == TILE_PLAYER) {
-                    var tileRow = Math.floor(i / ROOM_COLS);
-                    var tileCol = i % ROOM_COLS;
-                    this.homeX = tileCol * TILE_W + 0.5 * TILE_W;
-                    this.homeY = tileRow * TILE_H + 0.5 * TILE_H;
-                    roomGrid[i] = TILE_GROUND;
-                    break; // found it, so no need to keep searching 
-                } // end of if
-            } // end of for
-        } // end of if position not saved yet
+    this.setupInventory = function () {
+        this.inventory = new InventoryClass(30);
+        this.hotbar = new InventoryClass(5);
+        this.hotbar.equippedItemIndex = 0;
+    }
 
+    this.reset = function () {
+        for (var i = 0; i < roomGrid.length; i++) {
+            if (roomGrid[i] == TILE_PLAYER) {
+                var tileRow = Math.floor(i / ROOM_COLS);
+                var tileCol = i % ROOM_COLS;
+                this.homeX = tileCol * TILE_W + 0.5 * TILE_W;
+                this.homeY = tileRow * TILE_H + 0.5 * TILE_H;
+                console.log("homeX: " + this.homeX + " and homeY: " + this.homeY);
+                roomGrid[i] = TILE_GROUND;
+                break; // found it, so no need to keep searching 
+            } // end of if
+        } // end of for
+        this.setupInventory();
         this.playerColor = 'white';
         this.x = this.homeX;
         this.y = this.homeY;
@@ -166,6 +167,7 @@ function playerClass() {
     };
 
     this.draw = function () {
+        // colorCircle(this.homeX, this.homeY, 25, 'yellow');
         if (this.keyHeld_North) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkNorth.update();
@@ -265,6 +267,7 @@ function playerClass() {
         this.getDirectionPlayerIsCurrentlyFacing();
 
         if ((movementX != 0) || (movementY != 0)) {
+            console.log("We are moving!");
             // Adjust speed for diagonal movement
             if ((movementX != 0) && (movementY != 0)) {
                 movementX = movementX * Math.SQRT1_2;
