@@ -206,9 +206,11 @@ function playerClass() {
                 distToGo = 0;
                 break;
             case TILE_METAL_SRC:
-                if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                    playSFXForCollectingResource(TILE_METAL_SRC);
-                    this.inventory.add(items.metal, 1);
+                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.pickaxe) {
+                    if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
+                        playSFXForCollectingResource(TILE_METAL_SRC);
+                        this.inventory.add(items.metal, 1);
+                    }
                 }
                 break;
             case TILE_STONE_SRC:
@@ -321,7 +323,7 @@ function playerClass() {
                     new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 }
-                for (i = 0; i < plantTrackingArray.length; i++)
+                for (var i = 0; i < plantTrackingArray.length; i++)
                     if (plantTrackingArray[i].mapIndex == plantAtIndex) {
                         plantTrackingArray[i].is_watered = true;
                     }
@@ -348,7 +350,7 @@ function playerClass() {
             } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
 
                 if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
-                    for (i = 0; i < plantTrackingArray.length; i++) {
+                    for (var i = 0; i < plantTrackingArray.length; i++) {
                         if (plantTrackingArray[i].mapIndex == index) {
                             plantTrackingArray[i].is_watered = true;
                         }
@@ -359,7 +361,7 @@ function playerClass() {
 
                     var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
 
-                    for (i = 0; i < plantTrackingArray.length; i++) {
+                    for (var i = 0; i < plantTrackingArray.length; i++) {
                         if (plantTrackingArray[i].mapIndex == plantAtIndex) {
                             plantTrackingArray[i].plantRemoved();
                         }

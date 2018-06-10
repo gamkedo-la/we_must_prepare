@@ -1,9 +1,9 @@
-var resouceLookupTable = [];
+var resourceLookupTable = [];
 
 function getResourceLookupTableSaveState() {
     var resourceLookupTableSaveState = [];
-    for (var i = 0; i < resouceLookupTable.length; i++) {
-        var tileLookupTable = resouceLookupTable[i];
+    for (var i = 0; i < resourceLookupTable.length; i++) {
+        var tileLookupTable = resourceLookupTable[i];
         if (!tileLookupTable) {
             resourceLookupTableSaveState[i] = null;
             continue;
@@ -21,7 +21,8 @@ function getResourceLookupTableSaveState() {
 }
 
 function loadResourceLookupTableSaveState(saveState) {
-    for (var i = 0; i < resouceLookupTable.length; i++) {
+    console.log("Loading state");
+    for (var i = 0; i < resourceLookupTable.length; i++) {
         var tileLookupTableSaveState = saveState[i];
         if (tileLookupTable) {
             var tileLookupTable = [];
@@ -32,10 +33,10 @@ function loadResourceLookupTableSaveState(saveState) {
                     tileLookupTable[resourceType].loadSaveState(resourceBucketSaveState);
                 }
             });
-            resouceLookupTable[i] = tileLookupTable;
+            resourceLookupTable[i] = tileLookupTable;
         }
         else {
-            resouceLookupTable[i] = undefined;
+            resourceLookupTable[i] = undefined;
         }
     }
 }
@@ -119,9 +120,10 @@ function setupBuckets() {
                 break;
         }
         if (resourceType != '') {
-            resouceLookupTable[i] = [];
-            resouceLookupTable[i][resourceType] = new resourceClass(resourceQuantity, resourceQuantity);
-            //console.log("Added in " + resourceType);
+            resourceLookupTable[i] = [];
+            resourceLookupTable[i][resourceType] = new resourceClass(resourceQuantity, resourceQuantity);
+            console.log("Added in " + resourceType + " to roomGrid index " + i);
+            console.log("")
         }
 
       } // end of for
@@ -135,21 +137,21 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
             return;
         }
     }
-    if (typeof resouceLookupTable[index] === "undefined") {
-        console.log("No resource bucket exists.");
+    if (typeof resourceLookupTable[index] === "undefined") {
+        console.log("No resource bucket exists.  Resource at index " + index);
     } else {
-        for (var key in resouceLookupTable[index]) {
-            if (resouceLookupTable[index][key].carried > 1) {
-                depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
-                console.log("Just gathered from a bucket of " + key + " with count of " + resouceLookupTable[index][key].carried + " left!");
-            } else if (resouceLookupTable[index][key].carried == 1) {
-                depositResources(resouceLookupTable[index][key], playerBucket[key], 1);
+        for (var key in resourceLookupTable[index]) {
+            if (resourceLookupTable[index][key].carried > 1) {
+                depositResources(resourceLookupTable[index][key], playerBucket[key], 1);
+                console.log("Just gathered from a bucket of " + key + " with count of " + resourceLookupTable[index][key].carried + " left!");
+            } else if (resourceLookupTable[index][key].carried == 1) {
+                depositResources(resourceLookupTable[index][key], playerBucket[key], 1);
                 roomGrid[index] = TILE_GROUND;
                 console.log("Cannot grab any resources, destroying resource");
                 return true;
             }
 
-            return resouceLookupTable[index][key].carried > 0;
+            return resourceLookupTable[index][key].carried > 0;
         }
     }
 }

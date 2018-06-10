@@ -35,11 +35,11 @@ function loadingDoneSoStartGame() {
     setupUI(); //interface.js
     extendBuildingCollision();
     player.reset();
-    setupBuckets();
     timer.setupTimer();
     if (autoSaveEnabled) {
         autoLoad();
     }
+    setupBuckets();  // setupBuckets has to be called after autoLoad during game start otherwise all resources are zeroed out.
     setupInventory();
     window.addEventListener('blur', windowOnBlur);
 }
@@ -132,7 +132,7 @@ function setupInventory() {
     player.inventory.add(items.pickaxe, 1);
     player.inventory.add(items.watercan, 1);
     player.inventory.add(items.wheatSeedOne, 3);
-    player.inventory.add(items.wheatSeedTwo, 3);
+    player.inventory.add(items.axe, 1);
 }
 
 function moveEverything() {

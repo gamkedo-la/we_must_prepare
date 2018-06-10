@@ -36,7 +36,7 @@ function autoSave() {
   var saveState = getSaveState();
   persistence.setObject('autosave', saveState);
 
-  console.log(JSON.stringify(saveState));
+  // console.log(JSON.stringify(saveState));
 }
 
 function save(slotIndex) {
