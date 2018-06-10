@@ -284,7 +284,7 @@ function playerClass() {
                     plantTrackingArray[i].dayChanged();
                 }
 
-                timer.resetDay();
+                timer.endOfDay();
 
                 this.y = this.y + TILE_H;
             }
