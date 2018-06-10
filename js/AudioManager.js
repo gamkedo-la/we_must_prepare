@@ -2,7 +2,7 @@ setFormat();
 setAudioPath("./audio/");
 
 //set music tracks here
-var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var menu_music_track = new musicTrackLoopingWTail("menu", 102.33);
 var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var inGame_music_track1 = new musicTrackNonLooping("Peace", 90.5);  //By Vignesh
@@ -12,7 +12,8 @@ var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new 
 													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
 var inGame_music_track3 = new musicTrackNonLooping("morning", 18.4);  //By Kise
 inGame_music_track3.setMixVolume(0.7);
-var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3],240,90);
+var inGame_music_track4 = new musicTrackNonLooping("ambientmenu", 41.42);  //By Btrumps
+var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3,inGame_music_track4],240,90);
 
 MusicVolumeManager.setVolume(0.7);
 
@@ -31,8 +32,8 @@ var robotMovementDefault = new sfxClipLoopingWTail("Robot_Moving", 5);
 var robotWateringSFX = new sfxClipSingle("robot_green_thumb_halfsec");
 var robotTillingLandSFX = new sfxClipSingle("tilling_land_version2");
 var robotCollectingResourcesSFX = new sfxContainer([metal = new sfxContainerRandom([metal1 = new sfxClipSingle("mining metal"),
-																		metal2 = new sfxClipSingle("mining metal version 2")])
-										]);
+																					metal2 = new sfxClipSingle("mining metal version 2")])
+													]);
 var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
 																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
 																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
@@ -302,14 +303,18 @@ function scaleRange(inputStart, inputEnd, outputStart, outputEnd, value) {
 }
 
 //Game hooks
+var musicPastMainMenu = false;
 function startAudioEngine() {
-	if(inGame_music_master.getPaused()) {
+	if(inGame_music_master.getPaused() && musicPastMainMenu) {
 		inGame_music_master.resume();
+	} else if (!musicPastMainMenu) {
+		menu_music_track.resume();
 	}
 }
 
 function stopAudioEngine() {
 	inGame_music_master.pause();
+	menu_music_track.pause();
 	wind_enviSFX.pause();
 	rain_enviSFX.pause();
 	sun_enviSFX.pause();
@@ -326,7 +331,7 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 	var rainLevel = Math.max(rain, 0);
 
 	sunLevel -= Math.max((cloudLevel + windLevel), 0);
-	//Set birds to sun - the average of cloudand wind
+	//Set birds to sun - the average of cloud and wind
 	if (sun_enviSFX.getPaused()) {
 		sun_enviSFX.resume();
 		sun_enviSFX.setVolume(sunLevel);
@@ -520,6 +525,9 @@ function getCurrentTrackInfo() {
 		case "laz":
 			details = "Lazy Guitar by Misha"
 			break;
+		case "amb":
+			details = "Ambient Menu by Btrumps"
+			break;
 	}
 
 	return details;
@@ -543,8 +551,7 @@ function playFootstep(spriteSheetObject) {
 	walkFrame = currentFrame;
 }
 
-function playSFXForCollectingResource(tileType)
-{
+function playSFXForCollectingResource(tileType) {
 	switch(tileType)
 	{
 		case TILE_METAL_SRC:
@@ -556,7 +563,7 @@ function playSFXForCollectingResource(tileType)
 }
 
 var isRobotMovingSFXPlaying = false;
-function playMovingSFX(player){
+function playMovingSFX(player) {
 	if (!player.isPlayerIdle() && !isRobotMovingSFXPlaying) 
 	{
 		robotMovementDefault.play();
@@ -581,7 +588,7 @@ function playMovingSFX(player){
 }
 
 var isIdleSFXPlaying = false;
-function playIdleSFX(player){
+function playIdleSFX(player) {
 	if (player.isPlayerIdle() && !isIdleSFXPlaying)
 	{
 		robotIdleSFX.play();
