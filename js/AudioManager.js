@@ -12,7 +12,8 @@ var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new 
 													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
 var inGame_music_track3 = new musicTrackNonLooping("morning", 18.4);  //By Kise
 inGame_music_track3.setMixVolume(0.7);
-var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3],240,90);
+var inGame_music_track4 = new musicTrackNonLooping("ambientmenu", 41.42);  //By Btrumps
+var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3,inGame_music_track4],240,90);
 
 MusicVolumeManager.setVolume(0.7);
 
@@ -31,8 +32,8 @@ var robotMovementDefault = new sfxClipLoopingWTail("Robot_Moving", 5);
 var robotWateringSFX = new sfxClipSingle("robot_green_thumb_halfsec");
 var robotTillingLandSFX = new sfxClipSingle("tilling_land_version2");
 var robotCollectingResourcesSFX = new sfxContainer([metal = new sfxContainerRandom([metal1 = new sfxClipSingle("mining metal"),
-																		metal2 = new sfxClipSingle("mining metal version 2")])
-										]);
+																					metal2 = new sfxClipSingle("mining metal version 2")])
+													]);
 var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
 																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
 																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
@@ -519,6 +520,9 @@ function getCurrentTrackInfo() {
 		case "laz":
 			details = "Lazy Guitar by Misha"
 			break;
+		case "amb":
+			details = "Ambient Menu by Btrumps"
+			break;
 	}
 
 	return details;
@@ -542,8 +546,7 @@ function playFootstep(spriteSheetObject) {
 	walkFrame = currentFrame;
 }
 
-function playSFXForCollectingResource(tileType)
-{
+function playSFXForCollectingResource(tileType) {
 	switch(tileType)
 	{
 		case TILE_METAL_SRC:
@@ -555,7 +558,7 @@ function playSFXForCollectingResource(tileType)
 }
 
 var isRobotMovingSFXPlaying = false;
-function playMovingSFX(player){
+function playMovingSFX(player) {
 	if (!player.isPlayerIdle() && !isRobotMovingSFXPlaying) 
 	{
 		robotMovementDefault.play();
@@ -580,7 +583,7 @@ function playMovingSFX(player){
 }
 
 var isIdleSFXPlaying = false;
-function playIdleSFX(player){
+function playIdleSFX(player) {
 	if (player.isPlayerIdle() && !isIdleSFXPlaying)
 	{
 		robotIdleSFX.play();
