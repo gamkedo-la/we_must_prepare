@@ -207,6 +207,7 @@ function playerClass() {
                 break;
             case TILE_METAL_SRC:
                 if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
+                    playSFXForCollectingResource(TILE_METAL_SRC);
                     this.inventory.add(items.metal, 1);
                 }
                 break;
