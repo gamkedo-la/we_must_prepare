@@ -55,6 +55,7 @@ SFXVolumeManager.setVolume(0.7);
 var uiSelect = new uiSFXClipSingle("uiSelect");
 var uiCancel = new uiSFXClipSingle("uiCancel");
 var uiChange = new uiSFXClipSingle("uiChange");
+var uiInventorySelect = new uiSFXClipSingle("uiInventorySelect");
 
 UISFXVolumeManager.setVolume(0.7);
 

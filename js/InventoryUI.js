@@ -123,7 +123,7 @@ function hotbarPaneUI() {
 			itemY = this.hotbarItemY;
 			var keyText = i + 1; // i + 1 to show the correct keybind
 			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
-			
+
 			// Draw equipped slot differently
 			if(i === player.hotbar.equippedItemIndex) {
 				if(i === player.hotbar.selectedSlotIndex) {
@@ -151,7 +151,10 @@ function holdingSlotUI() {
     };
 }
 
-var inventoryUIHelper = {
+var inventoryUIHelper = {	
+	isAudioUIInventorySelectPlaying : false,
+	uiMouseX: mouseX,
+	uiMouseY: mouseY,
 	itemSpriteSheet: new SpriteSheetClass(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
 	selectedSlotSprite: new SpriteClass(selectedItemSlot, 50, 50),
 
@@ -166,16 +169,29 @@ var inventoryUIHelper = {
 	},
   
 	drawSlockBackground: function(inventory, itemX, itemY, i) {
-		if(inventory.selectedSlotIndex === i) {
-				this.selectedSlotSprite.draw(itemX, itemY);
+		if(inventory.selectedSlotIndex === i) {			
+			this.selectedSlotSprite.draw(itemX, itemY);
 		} else {
 			this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
 		}
 	},
-	
-	testMouse: function (inventory, itemX, itemY, i) {
-		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
+
+	testMouse: function (inventory, itemX, itemY, i) {		
+		if(mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {				
 			inventory.selectedSlotIndex = i;
+
+			if (this.uiMouseX != mouseX || this.uiMouseY != mouseY)	{
+				if (this.uiMouseX > itemX - 25 && this.uiMouseX < itemX + 25 && this.uiMouseY > itemY - 25 && this.uiMouseY < itemY + 25) {
+					this.isAudioUIInventorySelectPlaying = false;
+				}
+				else if (!this.isAudioUIInventorySelectPlaying) {				
+					uiInventorySelect.play();
+					this.isAudioUIInventorySelectPlaying = true;			
+				}		
+			}			
+
+			this.uiMouseX = mouseX;
+			this.uiMouseY = mouseY;
 		}
-	},
+	}
 };
