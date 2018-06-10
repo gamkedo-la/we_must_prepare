@@ -98,6 +98,9 @@ function setupUI() {
     var button = new buttonUI("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
     button.action = function () {
         MainMenu.isVisible = false;
+        AudioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
+        inGame_music_master.play();
+        musicPastMainMenu = true;
     };
     MainMenu.push(button);
 

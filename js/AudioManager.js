@@ -302,14 +302,18 @@ function scaleRange(inputStart, inputEnd, outputStart, outputEnd, value) {
 }
 
 //Game hooks
+var musicPastMainMenu = false;
 function startAudioEngine() {
-	if(inGame_music_master.getPaused()) {
+	if(inGame_music_master.getPaused() && musicPastMainMenu) {
 		inGame_music_master.resume();
+	} else if (!musicPastMainMenu) {
+		menu_music_track.resume();
 	}
 }
 
 function stopAudioEngine() {
 	inGame_music_master.pause();
+	menu_music_track.pause();
 	wind_enviSFX.pause();
 	rain_enviSFX.pause();
 	sun_enviSFX.pause();
@@ -326,7 +330,7 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 	var rainLevel = Math.max(rain, 0);
 
 	sunLevel -= Math.max((cloudLevel + windLevel), 0);
-	//Set birds to sun - the average of cloudand wind
+	//Set birds to sun - the average of cloud and wind
 	if (sun_enviSFX.getPaused()) {
 		sun_enviSFX.resume();
 		sun_enviSFX.setVolume(sunLevel);
