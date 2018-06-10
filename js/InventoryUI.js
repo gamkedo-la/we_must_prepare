@@ -143,6 +143,14 @@ function hotbarPaneUI() {
 	};
 }
 
+function holdingSlotUI() {
+    this.draw = function () {
+        if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
+            inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
+        }
+    };
+}
+
 var inventoryUIHelper = {
 	itemSpriteSheet: new SpriteSheetClass(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
 	selectedSlotSprite: new SpriteClass(selectedItemSlot, 50, 50),

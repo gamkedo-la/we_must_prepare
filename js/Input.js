@@ -111,11 +111,11 @@ function inputUpdate() {
         inputHandled = MainMenu.leftMouseClick(mouseX, mouseY);
         // Central Menu //
         if (!inputHandled) {
-            inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
+            inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || HotbarPane.leftMouseClick(mouseX, mouseY);
         }
     }
     if (mouseDblClickedThisFrame) {
-        inputHandled = hotbarPane.leftMouseDblClick(mouseX, mouseY);
+        inputHandled = HotbarPane.leftMouseDblClick(mouseX, mouseY);
     }
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
@@ -162,7 +162,7 @@ function inputUpdate() {
         }
     }
     if (rightMouseClickedThisFrame) {
-        inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || hotbarPane.rightMouseClick(mouseX, mouseY);
+        inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || HotbarPane.rightMouseClick(mouseX, mouseY);
         rightMouseClickedThisFrame = false;
     }
     if (!centralMenuOpen) {

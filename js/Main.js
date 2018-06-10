@@ -21,10 +21,11 @@ var blurInterval;
 var isMainMenuOpen = true;
 
 //Central Menu
-var MainMenu;
-var TabMenu;
 var InventoryPane;
-var hotbarPane;
+var HotbarPane;
+var TabMenu;
+var MainMenu;
+var HoldingSlot;
 
 function loadingDoneSoStartGame() {
     hasGameStartedByClick = true;
@@ -119,7 +120,8 @@ function setupUI() {
     TabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
     TabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
-    hotbarPane = new hotbarPaneUI();
+    HotbarPane = new hotbarPaneUI();
+    HoldingSlot = new holdingSlotUI();
 }
 
 function setupInventory() {
@@ -209,13 +211,10 @@ function drawSkyGradient() {
 }
 
 function drawUI() {
-    hotbarPane.draw();
+    HotbarPane.draw();
     TabMenu.draw();
     MainMenu.draw();
-
-    if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
-        inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
-    }
+    HoldingSlot.draw();
 
     //TODO placeholder - display instructions
     colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
