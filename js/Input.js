@@ -296,27 +296,27 @@ function keyPress(evt) {
             break;
         case "Digit1":
             if (!TabMenu.isVisible) {
-                player.hotbar.selectSlot(SLOT_1);
+                player.hotbar.equipSlot(SLOT_1);
             }
             break;
         case "Digit2":
             if (!TabMenu.isVisible) {
-                player.hotbar.selectSlot(SLOT_2);
+                player.hotbar.equipSlot(SLOT_2);
             }
             break;
         case "Digit3":
             if (!TabMenu.isVisible) {
-                player.hotbar.selectSlot(SLOT_3);
+                player.hotbar.equipSlot(SLOT_3);
             }
             break;
         case "Digit4":
             if (!TabMenu.isVisible) {
-                player.hotbar.selectSlot(SLOT_4);
+                player.hotbar.equipSlot(SLOT_4);
             }
             break;
         case "Digit5":
             if (!TabMenu.isVisible) {
-                player.hotbar.selectSlot(SLOT_5);
+                player.hotbar.equipSlot(SLOT_5);
             }
             break;
         default:

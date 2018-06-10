@@ -76,12 +76,16 @@ function InventoryClass(size){
 		if(player.holdingSlot.item != this.slots[this.selectedSlotIndex].item){
 			var tempSlot = player.holdingSlot;
 			player.holdingSlot = this.slots[this.selectedSlotIndex];
-			this.slots[this.selectedSlotIndex] = tempSlot;
+            this.slots[this.selectedSlotIndex] = tempSlot;
 		} else {
 			// TODO account for stack limits
 			this.slots[this.selectedSlotIndex].count += player.holdingSlot.count;
 			player.holdingSlot = new emptyInventorySlot();
-		}
+        }
+
+        if (this.selectedSlotIndex == this.equippedItemIndex) {
+            this.equippedItemIndex = -1;
+        }
 	};
 	
 	this.altGrabSlot = function() {
@@ -103,7 +107,11 @@ function InventoryClass(size){
 			if(player.holdingSlot.count === 0) {
 				player.holdingSlot = new emptyInventorySlot();
 			}
-		}
+        }
+
+        if (this.selectedSlotIndex == this.equippedItemIndex) {
+            this.equippedItemIndex = -1;
+        }
 	};
 	
 	//Automatically remove count number of items from inventory iff they exist
@@ -175,25 +183,25 @@ function InventoryClass(size){
 	};
 
 	this.scrollThrough = function(scrollLeftIfTrue = false) {
-		if (scrollLeftIfTrue) {
-			this.equippedItemIndex--;
+        if (scrollLeftIfTrue) {            
+            this.equipSlot(this.equippedItemIndex - 1);
 			if (this.equippedItemIndex < 0) {
-				this.equippedItemIndex = this.slotCount - 1;
+                this.equipSlot(this.slotCount - 1);
 			}
 		}
-		else {
-			this.equippedItemIndex++;
+		else {            
+            this.equipSlot(this.equippedItemIndex + 1);
 			if (this.equippedItemIndex >= this.slotCount) {
-				this.equippedItemIndex = 0;
+                this.equipSlot(0);
 			}
 		}
 	}
 
-	this.selectSlot = function(whichSlot) {
+	this.equipSlot = function(whichSlot) {
 		this.equippedItemIndex = whichSlot;
 		if (whichSlot > this.slotCount) {
 			console.log ('Cannot find a slot for this key, increase your slot count!');
-		}
+        }
 	}
 }
 
