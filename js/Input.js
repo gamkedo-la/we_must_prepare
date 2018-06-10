@@ -276,7 +276,7 @@ function keyPress(evt) {
             }
             break;
         case "Digit0":
-            keyPressForSaving(evt);
+            keyPressForSaving();
             break;
         case "KeyP":
             timer.endOfDay();

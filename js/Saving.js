@@ -10,7 +10,6 @@ else {
 }
 
 function keyPressForSaving(evt) {
-  if (evt.keyCode === KEY_0) {
     autoSaveEnabled = !autoSaveEnabled;
     persistence.setBoolean('autoSaveEnabled', autoSaveEnabled);
     if (autoSaveEnabled) {
@@ -21,7 +20,6 @@ function keyPressForSaving(evt) {
       HTMLLog("auto-save disabled!");
       deactivateAutoSave();
     }
-  }
 }
 
 function activateAutoSave() {
