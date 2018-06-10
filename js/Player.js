@@ -302,27 +302,30 @@ function playerClass() {
 
     this.plantAtFeet = function () {
         var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
-        if (roomGrid[plantAtIndex] == TILE_TILLED) {
-            //console.log("Going to plant at index " + plantAtIndex);
-            if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
-                new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
-                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-            } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
-                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-            }
-        } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
-            if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
-                new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
-                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-            } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
-                this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-            }
-            for (i = 0; i < plantTrackingArray.length; i++)
-                if (plantTrackingArray[i].mapIndex == plantAtIndex) {
-                    plantTrackingArray[i].is_watered = true;
+
+        if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
+            if (roomGrid[plantAtIndex] == TILE_TILLED) {
+                //console.log("Going to plant at index " + plantAtIndex);
+                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
+                    new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
+                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
+                } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
+                    new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 }
+            } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
+                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
+                    new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
+                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
+                } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
+                    new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
+                }
+                for (i = 0; i < plantTrackingArray.length; i++)
+                    if (plantTrackingArray[i].mapIndex == plantAtIndex) {
+                        plantTrackingArray[i].is_watered = true;
+                    }
+            }
         }
     }
 
@@ -333,31 +336,33 @@ function playerClass() {
             }
         }
         // if (proper tool is equipped / something else?) {
-        if (roomGrid[index] == TILE_GROUND &&
-            this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
-            robotTillingLandSFX.play();
-            roomGrid[index] = TILE_TILLED;
-        } else if (roomGrid[index] == TILE_TILLED &&
-            this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
-            robotWateringSFX.play();
-            roomGrid[index] = TILE_TILLED_WATERED;
-        } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
+        if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
+            if (roomGrid[index] == TILE_GROUND &&
+                this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
+                robotTillingLandSFX.play();
+                roomGrid[index] = TILE_TILLED;
+            } else if (roomGrid[index] == TILE_TILLED &&
+                this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
+                robotWateringSFX.play();
+                roomGrid[index] = TILE_TILLED_WATERED;
+            } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
 
-            if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
-                for (i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == index) {
-                        plantTrackingArray[i].is_watered = true;
+                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
+                    for (i = 0; i < plantTrackingArray.length; i++) {
+                        if (plantTrackingArray[i].mapIndex == index) {
+                            plantTrackingArray[i].is_watered = true;
+                        }
                     }
                 }
-            }
-            else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
-                robotTillingLandSFX.play();
+                else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
+                    robotTillingLandSFX.play();
 
-                var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
+                    var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
 
-                for (i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == plantAtIndex) {
-                        plantTrackingArray[i].plantRemoved();
+                    for (i = 0; i < plantTrackingArray.length; i++) {
+                        if (plantTrackingArray[i].mapIndex == plantAtIndex) {
+                            plantTrackingArray[i].plantRemoved();
+                        }
                     }
                 }
             }

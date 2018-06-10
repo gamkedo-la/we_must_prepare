@@ -124,8 +124,8 @@ function InventoryClass(size){
 		for(var i = this.slotCount - 1; i >= 0; i--){
 			if(this.slots[i].item == item){
 				if(count == this.slots[i].count){
-					this.slots[i] = new emptyInventorySlot();
-					
+                    this.slots[i] = new emptyInventorySlot();
+                    this.equippedItemIndex = -1;
 					removeItems = true;
 				}else if(count < this.slots[i].count){
 					this.slots[i].count -= count;
