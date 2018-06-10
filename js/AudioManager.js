@@ -2,7 +2,7 @@ setFormat();
 setAudioPath("./audio/");
 
 //set music tracks here
-var menu_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
+var menu_music_track = new musicTrackLoopingWTail("menu", 102.33);
 var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
 var inGame_music_track1 = new musicTrackNonLooping("Peace", 90.5);  //By Vignesh
