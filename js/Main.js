@@ -147,6 +147,7 @@ function setupInventory() {
     player.inventory.add(items.watercan, 1);
     player.inventory.add(items.wheatSeedOne, 3);
     player.inventory.add(items.axe, 1);
+    player.inventory.add(items.wheatSeedTwo, 3);
 }
 
 function moveEverything() {

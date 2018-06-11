@@ -314,7 +314,7 @@ function playerClass() {
                     new PlantClass(plantAtIndex, TILE_CORN_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                    new PlantClass(plantAtIndex, TILE_POTATO_SEED);
+                    new PlantClass(plantAtIndex, TILE_TOMATO_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 }
             } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
@@ -322,7 +322,7 @@ function playerClass() {
                     new PlantClass(plantAtIndex, TILE_CORN_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                    new PlantClass(plantAtIndex, TILE_POTATO_SEED);
+                    new PlantClass(plantAtIndex, TILE_TOMATO_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 }
                 for (var i = 0; i < plantTrackingArray.length; i++)

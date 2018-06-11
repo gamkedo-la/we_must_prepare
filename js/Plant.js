@@ -12,7 +12,7 @@ var Plants = [
     {
         tileTypeSeed: TILE_CORN_SEED,
         tileTypeStages: [TILE_CORN_SEEDLING, TILE_CORN_MEDIUM, TILE_CORN_FULLY_GROWN, TILE_CORN_RIPE, TILE_CORN_HARVESTED],
-        daysPerStage: 1,
+        daysPerStage: 2,
         daysCanLiveWithoutWater: 3,
     },
     {
@@ -24,7 +24,7 @@ var Plants = [
     {
         tileTypeSeed: TILE_POTATO_SEED,
         tileTypeStages: [TILE_POTATO_SEEDLING, TILE_POTATO_MEDIUM, TILE_POTATO_FULLY_GROWN, TILE_POTATO_RIPE],
-        daysPerStage: 2,
+        daysPerStage: 1,
         daysCanLiveWithoutWater: 3,
     },
     {
