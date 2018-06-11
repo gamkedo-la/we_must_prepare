@@ -267,7 +267,6 @@ function playerClass() {
         this.getDirectionPlayerIsCurrentlyFacing();
 
         if ((movementX != 0) || (movementY != 0)) {
-            console.log("We are moving!");
             // Adjust speed for diagonal movement
             if ((movementX != 0) && (movementY != 0)) {
                 movementX = movementX * Math.SQRT1_2;
@@ -312,18 +311,18 @@ function playerClass() {
             if (roomGrid[plantAtIndex] == TILE_TILLED) {
                 //console.log("Going to plant at index " + plantAtIndex);
                 if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
-                    new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
+                    new PlantClass(plantAtIndex, TILE_CORN_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                    new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+                    new PlantClass(plantAtIndex, TILE_POTATO_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 }
             } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
                 if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
-                    new PlantClass(plantAtIndex, TILE_WHEAT_01_SEED);
+                    new PlantClass(plantAtIndex, TILE_CORN_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                    new PlantClass(plantAtIndex, TILE_WHEAT_02_SEED);
+                    new PlantClass(plantAtIndex, TILE_POTATO_SEED);
                     this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
                 }
                 for (var i = 0; i < plantTrackingArray.length; i++)

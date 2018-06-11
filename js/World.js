@@ -96,16 +96,32 @@ const START_BUILDING_RANGE = TILE_SILO;
 const TILE_BUILDING_HEIGHT = 250;
 const TILE_BUILDING_WIDTH = 250;
 
-const TILE_WHEAT_01_SEED = 50;
-const TILE_WHEAT_01_SEEDLING = 51;
-const TILE_WHEAT_01_MEDIUM = 52;
-const TILE_WHEAT_01_FULLY_GROWN = 53;
-const TILE_WHEAT_02_SEED = 54;
-const TILE_WHEAT_02_SEEDLING = 55;
-const TILE_WHEAT_02_MEDIUM = 56;
-const TILE_WHEAT_02_FULLY_GROWN = 57;
-const START_TILE_WALKABLE_GROWTH_RANGE = TILE_WHEAT_01_SEED;
-const LAST_TILE_ENUM = TILE_WHEAT_02_FULLY_GROWN;
+const TILE_CORN_SEED = 50;
+const TILE_CORN_SEEDLING = 51;
+const TILE_CORN_MEDIUM = 52;
+const TILE_CORN_FULLY_GROWN = 53;
+const TILE_CORN_RIPE = 54;
+const TILE_CORN_HARVESTED = 55;
+const TILE_EGGPLANT_SEED = 56;
+const TILE_EGGPLANT_SEEDLING = 57;
+const TILE_EGGPLANT_MEDIUM = 58;
+const TILE_EGGPLANT_FULLY_GROWN = 59;
+const TILE_EGGPLANT_RIPE = 60;
+const TILE_EGGPLANT_HARVESTED = 61;
+const TILE_POTATO_SEED = 62;
+const TILE_POTATO_SEEDLING = 63;
+const TILE_POTATO_MEDIUM = 64;
+const TILE_POTATO_FULLY_GROWN = 65;
+const TILE_POTATO_RIPE = 66;
+const TILE_POTATO_HARVESTED = 67;
+const TILE_TOMATO_SEED = 68;
+const TILE_TOMATO_SEEDLING = 69;
+const TILE_TOMATO_MEDIUM = 70;
+const TILE_TOMATO_FULLY_GROWN = 71;
+const TILE_TOMATO_RIPE = 72;
+const TILE_TOMATO_HARVESTED = 73;
+const START_TILE_WALKABLE_GROWTH_RANGE = TILE_CORN_SEED;  // make sure to keeps plants at the end of this list or there will be weird issues with walking through items
+const LAST_TILE_ENUM = TILE_TOMATO_HARVESTED;
 
 var objectsWithDepth = [];
 
@@ -302,14 +318,13 @@ function drawGroundTiles() {
             }
             if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
                 var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
-                var sheetStage = sheetIndex % 4;
-                var sheetType = Math.floor(sheetIndex / 4);
+                var sheetStage = sheetIndex % 6;
+                var sheetType = Math.floor(sheetIndex / 6);
                 canvasContext.drawImage(plantSpritesheet,
-                    sheetType * TILE_W, sheetStage * TILE_H, // top-left corner of tile art, multiple of tile width
+                    sheetStage * TILE_W, sheetType * TILE_H, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source
                     tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
                     TILE_W, TILE_H); // draw full full tile size for destination
-
             } else if ((tileTypeHere != TILE_WOOD_SRC && isTileTypeBuilding(tileTypeHere) == false) || debug3DTiles) {
                 canvasContext.drawImage(tileSheet,
                     tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width

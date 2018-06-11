@@ -10,15 +10,27 @@ var plantTrackingArray = [];
 //Plant Class
 var Plants = [
     {
-        tileTypeSeed: TILE_WHEAT_01_SEED,
-        tileTypeStages: [TILE_WHEAT_01_SEEDLING, TILE_WHEAT_01_MEDIUM, TILE_WHEAT_01_FULLY_GROWN],
+        tileTypeSeed: TILE_CORN_SEED,
+        tileTypeStages: [TILE_CORN_SEEDLING, TILE_CORN_MEDIUM, TILE_CORN_FULLY_GROWN, TILE_CORN_RIPE, TILE_CORN_HARVESTED],
         daysPerStage: 1,
         daysCanLiveWithoutWater: 3,
     },
     {
-        tileTypeSeed: TILE_WHEAT_02_SEED,
-        tileTypeStages: [TILE_WHEAT_02_SEEDLING, TILE_WHEAT_02_MEDIUM, TILE_WHEAT_02_FULLY_GROWN],
+        tileTypeSeed: TILE_EGGPLANT_SEED,
+        tileTypeStages: [TILE_EGGPLANT_SEEDLING, TILE_EGGPLANT_MEDIUM, TILE_EGGPLANT_FULLY_GROWN, TILE_EGGPLANT_RIPE, TILE_EGGPLANT_HARVESTED],
         daysPerStage: 1,
+        daysCanLiveWithoutWater: 3,
+    },
+    {
+        tileTypeSeed: TILE_POTATO_SEED,
+        tileTypeStages: [TILE_POTATO_SEEDLING, TILE_POTATO_MEDIUM, TILE_POTATO_FULLY_GROWN, TILE_POTATO_RIPE],
+        daysPerStage: 2,
+        daysCanLiveWithoutWater: 3,
+    },
+    {
+        tileTypeSeed: TILE_TOMATO_SEED,
+        tileTypeStages: [TILE_TOMATO_SEEDLING, TILE_TOMATO_MEDIUM, TILE_TOMATO_FULLY_GROWN, TILE_TOMATO_RIPE, TILE_TOMATO_HARVESTED],
+        daysPerStage: 2,
         daysCanLiveWithoutWater: 3,
     },
 ];
@@ -62,7 +74,8 @@ function PlantClass(mapIndex, plantTypeSeed) {
 
     this.dayChanged = function () {
         console.log("Day is changing!");
-        if (this.currentPlantStage >= PLANT_STAGE_FULLY_GROWN) {
+        console.log("length is " + this.plantFacts.tileTypeStages.length);
+        if (this.currentPlantStage >= this.plantFacts.tileTypeStages.length) {
             console.log("Plant needs no more water at " + this.mapIndex);
             if (this.is_watered == true) {
                 this.is_watered = false;

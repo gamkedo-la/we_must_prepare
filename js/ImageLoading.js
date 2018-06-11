@@ -60,7 +60,7 @@ function loadImages() {
     { varName: treeDead3D, theFile: "deadTree1.png" },
     { varName: treeSpritesheet, theFile: "treeSpritesheet.png" },
     { varName: weatherSpritesheet, theFile: "weatherSpritesheet.png" },
-    { varName: plantSpritesheet, theFile: "plants_sprite_sheet.png" },
+    { varName: plantSpritesheet, theFile: "plants_sprite_sheet_3.png" },
     { varName: cloudSpritesheet, theFile: "clouds.png" },
     { varName: sunshine, theFile: "sunshine.png" },
     { varName: itemSheet, theFile: "item_sheet.png" },
