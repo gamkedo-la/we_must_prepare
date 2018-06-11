@@ -168,8 +168,8 @@ function WeatherSystem() {
                 }
 
                 // cloud speed changes en masses in realtime, not according to spawn values
-                clouds[loop].x += -Math.abs(spdx); //clouds[loop].sx; // only in one direction: left
-                clouds[loop].y += spdy; //clouds[loop].sy;
+                clouds[loop].x += -Math.abs(spdx) - camDeltaX; //clouds[loop].sx; // only in one direction: left
+                clouds[loop].y += spdy - camDeltaY; //clouds[loop].sy;
 
                 //if (loop == 1) console.log("cloud " + loop + " pos " + clouds[loop].x + "," + clouds[loop].y);
 

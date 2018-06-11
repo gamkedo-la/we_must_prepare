@@ -54,6 +54,7 @@ function resetGame(loadSave) {
     }
     setupBuckets();
     setupInventory();
+    timer.resetDay();
 }
 
 function startGameLoop() {
@@ -153,12 +154,18 @@ function moveEverything() {
     interfaceUpdate();
     handleRadiationGrowth();
 }
+var camDeltaX;
+var camDeltaY;
 
 function startCameraPan() {
     var cameraRightMax = ROOM_COLS * TILE_W - canvas.width;
     var cameraBottomMax = ROOM_ROWS * TILE_H - canvas.height;
+    var campanXWas = camPanX;
+    var campanYWas = camPanY;
     camPanX = player.x - canvas.width / 2;
     camPanY = player.y - canvas.height / 2;
+    camDeltaX = camPanX - campanXWas;
+    camDeltaY = camPanY - campanYWas;
     if (camPanX < 0) {
         camPanX = 0;
     }
