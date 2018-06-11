@@ -362,18 +362,22 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.name = name;
 	this.isVisible = true;
 
-	this.sliders = [mSlider = new audioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, MusicVolumeManager),
+	this.pieces = [mSlider = new audioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, MusicVolumeManager),
 					eSlider = new audioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, EnviSFXVolumeManager),
 					sfxSlider = new audioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, SFXVolumeManager),
 					uiSlider = new audioSliderUI('UI Volume', this.x+20, this.y+110, this.x + this.width-20, this.y+130, UISFXVolumeManager),
-					muteToggle = new audioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x + this.width-20, this.y+160),
+					muteToggle = new audioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x+40, this.y+160),
+					skipButton = new audioButtonUI('Skip Track', this.x + this.width/4, this.y+140, this.x + this.width/4 + 60, this.y+160),
 					currentSong = new audioCurrentTrackUI('Now playing:', this.x+20, this.y+190, this.x + this.width-20, this.y+210)];
+	skipButton.action = function() {
+		inGame_music_master.jump();
+	};
     
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
-		for(var i = 0; i < this.sliders.length; i++){
-			if(y >= this.sliders[i].y && y <= this.sliders[i].y+this.sliders[i].height &&
-			   x >= this.sliders[i].x && x <= this.sliders[i].x+this.sliders[i].width){
-				this.sliders[i].leftMouseClick();
+		for(var i = 0; i < this.pieces.length; i++){
+			if(y >= this.pieces[i].y && y <= this.pieces[i].y+this.pieces[i].height &&
+			   x >= this.pieces[i].x && x <= this.pieces[i].x+this.pieces[i].width){
+				this.pieces[i].leftMouseClick();
 				return true;
 			}
 		}
@@ -382,8 +386,8 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
 	this.draw = function() {
 		drawUIPaneBackground(this);
-		for(var i = 0; i < this.sliders.length; i++){
-			this.sliders[i].draw();
+		for(var i = 0; i < this.pieces.length; i++){
+			this.pieces[i].draw();
 		}
 
 	}
@@ -413,7 +417,6 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 			uiSelect.play();
 			return true;
 		}
-		return false;
 	}
 
 	this.draw = function() {
@@ -462,7 +465,6 @@ function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY)
 			toggleMute();
 			return true;
 		}
-		return false;
 	}
 
 	this.draw = function() {
@@ -495,7 +497,6 @@ function audioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRight
 	this.textLine2 = getCurrentTrackInfo();
 
 	this.leftMouseClick = function(x=mouseX, y=mouseY) {
-		return false;
 	}
 
 	this.draw = function() {
@@ -508,6 +509,46 @@ function audioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRight
 		colorText(this.textLine1, textX, textY, 'black');
 		colorText(this.textLine2, titleX, titleY, 'black');
 	}
+}
+
+function audioButtonUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.isVisible = true;
+
+    this.isPressed = false;
+    
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        if(isInPane(this, x, y)) {
+            this.isPressed = true;
+            this.action();
+        }
+    };
+
+    // This function will be called when button is triggered
+    this.action = function() {
+        // assign custom function to do something
+    };
+    
+    this.draw = function() {
+        if(this.isVisible) {
+            var drawColor;
+            drawColor = (this.isPressed) ? buttonColorPressed : buttonColor;
+            colorRect(this.x, this.y, this.width, this.height, drawColor);
+
+            var str = this.name;
+            var strWidth = canvasContext.measureText(this.name).width;
+            //center text
+            var textX = this.x + (this.width*0.5) - (strWidth*0.5);
+            //TODO magic numbers going here.
+            var textY = this.y + (this.height*0.5) + 4;
+            colorText(str, textX, textY, "black");
+            this.isPressed = false;
+        }
+    };
 }
 
 function getCurrentTrackInfo() {
