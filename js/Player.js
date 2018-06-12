@@ -355,6 +355,7 @@ function playerClass() {
                     for (var i = 0; i < plantTrackingArray.length; i++) {
                         if (plantTrackingArray[i].mapIndex == index) {
                             plantTrackingArray[i].is_watered = true;
+                            robotWateringSFX.play();
                         }
                     }
                 }
