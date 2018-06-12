@@ -35,15 +35,23 @@ function WeatherSystem() {
     this.handleRainWater = function (howRainy) {
         var wetcount = 0;
         for (var i = 0; i < roomGrid.length; i++) {
-
             if (Math.random() < PER_FRAME_CHANCE_RAIN_WATERS_A_TILE * howRainy) {
-                if (roomGrid[i] == TILE_TILLED) {
-                    wetcount++;
-                    roomGrid[i] = TILE_TILLED_WATERED;
-                }
-                if (roomGrid[i] == TILE_TILLED_SEEDS) {
-                    wetcount++;
-                    roomGrid[i] = TILE_TILLED_SEEDS_WATERED;
+                switch (roomGrid[i]) {
+                    case TILE_TILLED:
+                        wetcount++;
+                        roomGrid[i] = TILE_TILLED_WATERED;
+                        break;
+                    case TILE_CORN_SEED:
+                    case TILE_EGGPLANT_SEED:
+                    case TILE_TOMATO_SEED:
+                    case TILE_POTATO_SEED:
+                        wetcount++;
+                        for (var p = 0; p < plantTrackingArray.length; p++) {
+                            if (plantTrackingArray[p].mapIndex == i) {
+                                plantTrackingArray[p].is_watered = true;
+                            }
+                        }
+                        break;
                 }
             }
         }
