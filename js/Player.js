@@ -218,6 +218,7 @@ function playerClass() {
             case TILE_STONE_SRC:
                 if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.pickaxe) {
                     if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
+                        playSFXForCollectingResource(TILE_STONE_SRC);
                         this.inventory.add(items.stone, 1);
                     }
                 }

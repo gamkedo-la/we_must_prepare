@@ -31,9 +31,18 @@ var robotIdleSFX = new sfxClipLoopingWTail("robot_idle", 20);
 var robotMovementDefault = new sfxClipLoopingWTail("Robot_Moving", 5);
 var robotWateringSFX = new sfxClipSingle("robot_green_thumb_halfsec");
 var robotTillingLandSFX = new sfxClipSingle("tilling_land_version2");
+var robotHarvestingCropsSFX = new sfxContainer([metal = new sfxContainerRandom([harvest1 = new sfxClipSingle("harvesting_crops"),
+																				harvest2 = new sfxClipSingle("harvesting_crops_version_2"),
+																				harvest3 = new sfxClipSingle("harvesting_crops_version_3")])
+												]);
+
 var robotCollectingResourcesSFX = new sfxContainer([metal = new sfxContainerRandom([metal1 = new sfxClipSingle("mining metal"),
-																					metal2 = new sfxClipSingle("mining metal version 2")])
+																					metal2 = new sfxClipSingle("mining metal version 2")]),
+													stone = new sfxContainerRandom([stone1 = new sfxClipSingle("mining_stone"),
+																					stone2 = new sfxClipSingle("mining_stone_version_2"),
+																					stone3 = new sfxClipSingle("mining_stone_version_3")])																				
 													]);
+
 var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
 																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
 																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
@@ -49,6 +58,7 @@ robotMovementDefault.setMixVolume(0.7);
 robotWateringSFX.setMixVolume(0.9);
 robotTillingLandSFX.setMixVolume(0.9);
 robotCollectingResourcesSFX.setVolume(0.7);
+robotHarvestingCropsSFX.setVolume(0.7);
 
 SFXVolumeManager.setVolume(0.7);
 
@@ -598,9 +608,19 @@ function playSFXForCollectingResource(tileType) {
 		case TILE_METAL_SRC:
 			robotCollectingResourcesSFX.setCurrentClip(0);
 			break;
+		case TILE_STONE_SRC:
+			robotCollectingResourcesSFX.setCurrentClip(1);
+			break;
 	}
 
 	robotCollectingResourcesSFX.play();
+}
+
+function playSFXForHarvestingCrops()
+{
+	robotHarvestingCropsSFX.setCurrentClip((Math.Random() * 3) + 1);
+
+	robotHarvestingCropsSFX.play();
 }
 
 var isRobotMovingSFXPlaying = false;
