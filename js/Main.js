@@ -49,7 +49,8 @@ function resetGame(loadSave) {
     
     if (loadSave) {
         if (autoSaveEnabled) {
-            autoLoad();
+            // autoLoad();
+            activateAutoSave();
         }
     }
     setupBuckets();

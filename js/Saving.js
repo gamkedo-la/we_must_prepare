@@ -1,25 +1,25 @@
 var autoSaveInterval = null;
 
 var autoSaveEnabled = persistence.getBoolean('autoSaveEnabled', false);
-if (autoSaveEnabled) {
-  HTMLLog("auto-save enabled!");
-  activateAutoSave();
-}
-else {
-  HTMLLog("Press `0` to enable auto-save");
-}
+// if (autoSaveEnabled) {
+//   HTMLLog("auto-save enabled!");
+//   activateAutoSave();
+// }
+// else {
+//   HTMLLog("Press `0` to enable auto-save");
+// }
 
 function keyPressForSaving() {
-    autoSaveEnabled = !autoSaveEnabled;
-    persistence.setBoolean('autoSaveEnabled', autoSaveEnabled);
-    if (autoSaveEnabled) {
-      HTMLLog("auto-save enabled!");
-      activateAutoSave();
-    }
-    else {
-      HTMLLog("auto-save disabled!");
-      deactivateAutoSave();
-    }
+    // autoSaveEnabled = !autoSaveEnabled;
+    // persistence.setBoolean('autoSaveEnabled', autoSaveEnabled);
+    // if (autoSaveEnabled) {
+    //   HTMLLog("auto-save enabled!");
+    //   activateAutoSave();
+    // }
+    // else {
+    //   HTMLLog("auto-save disabled!");
+    //   deactivateAutoSave();
+    // }
 }
 
 function activateAutoSave() {
@@ -31,7 +31,7 @@ function deactivateAutoSave() {
 }
 
 function autoSave() {
-  HTMLLog("saving...");
+  console.log("auto-saving...");
 
   var saveState = getSaveState();
   persistence.setObject('autosave', saveState);
@@ -56,7 +56,9 @@ function getSaveState() {
 }
 
 function autoLoad() {
-  var saveState = persistence.getObject('autosave', null);
+  var slotName = 'autosave';
+  console.log('loading from ' + slotName);
+  var saveState = persistence.getObject(slotName, null);
   loadSaveState(saveState);
 }
 
