@@ -23,6 +23,8 @@ wind_enviSFX.setMixVolume(0.8);
 var rain_enviSFX = new enviSFXClipLoopingWTail("rain_loop_45", 45);
 rain_enviSFX.setMixVolume(0.5);
 var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
+var water_enviSFX = new enviSFXClipLoopingWTail("water_loop_45", 45);
+water_enviSFX.setMixVolume(0.9);
 
 EnviSFXVolumeManager.setVolume(0.7);
 
@@ -328,40 +330,9 @@ function stopAudioEngine() {
 	wind_enviSFX.pause();
 	rain_enviSFX.pause();
 	sun_enviSFX.pause();
+	water_enviSFX.pause();
 	robotIdleSFX.pause();
 	robotMovementDefault.pause();
-}
-
-function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
-	//console.log("Updating weathar volumes. Sun: " + sun + " Cloud: " + cloud + " Fog: " + fog + " Wind: " + wind + " Rain: " + rain);
-	var sunLevel = Math.max(sun, 0);
-	var cloudLevel = Math.max(cloud, 0);
-	var fogLevel = Math.max(fog, 0);
-	var windLevel = Math.max(wind, 0);
-	var rainLevel = Math.max(rain, 0);
-
-	sunLevel -= Math.max((cloudLevel + windLevel), 0);
-	//Set birds to sun - the average of cloud and wind
-	if (sun_enviSFX.getPaused()) {
-		sun_enviSFX.resume();
-		sun_enviSFX.setVolume(sunLevel);
-	} else {
-		sun_enviSFX.setVolume(sunLevel);
-	}
-	//Set wind
-	if (wind_enviSFX.getPaused()) {
-		wind_enviSFX.resume();
-		wind_enviSFX.setVolume(windLevel);
-	} else {
-		wind_enviSFX.setVolume(windLevel);
-	}
-	//Set rain
-	if (rain_enviSFX.getPaused()) {
-		rain_enviSFX.resume();
-		rain_enviSFX.setVolume(rainLevel);
-	} else {
-		rain_enviSFX.setVolume(rainLevel);
-	}
 }
 
 function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
@@ -671,4 +642,53 @@ function playIdleSFX(player) {
 	{
 		robotIdleSFX.setTime(0);
 	}
+}
+
+function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
+	//console.log("Updating weathar volumes. Sun: " + sun + " Cloud: " + cloud + " Fog: " + fog + " Wind: " + wind + " Rain: " + rain);
+	var sunLevel = Math.max(sun, 0);
+	var cloudLevel = Math.max(cloud, 0);
+	var fogLevel = Math.max(fog, 0);
+	var windLevel = Math.max(wind, 0);
+	var rainLevel = Math.max(rain, 0);
+
+	sunLevel -= Math.max((cloudLevel + windLevel), 0);
+	//Set birds to sun - the average of cloud and wind
+	if (sun_enviSFX.getPaused()) {
+		sun_enviSFX.resume();
+		sun_enviSFX.setVolume(sunLevel);
+	} else {
+		sun_enviSFX.setVolume(sunLevel);
+	}
+	//Set wind
+	if (wind_enviSFX.getPaused()) {
+		wind_enviSFX.resume();
+		wind_enviSFX.setVolume(windLevel);
+	} else {
+		wind_enviSFX.setVolume(windLevel);
+	}
+	//Set rain
+	if (rain_enviSFX.getPaused()) {
+		rain_enviSFX.resume();
+		rain_enviSFX.setVolume(rainLevel);
+	} else {
+		rain_enviSFX.setVolume(rainLevel);
+	}
+}
+
+function playWaterAmbi() {
+	var a = player.x - 1800;
+	var b = player.y - 700;
+	var c = Math.sqrt(a*a + b*b);
+	if (c < 700) {
+		if (c < 300) {
+			water_enviSFX.setVolume(1);
+		} else {
+			water_enviSFX.setVolume(Math.abs(2 -c*2/700));
+		}
+		if (water_enviSFX.getPaused()) {
+			water_enviSFX.resume();
+		}
+	}
+
 }

@@ -251,6 +251,7 @@ function playerClass() {
 
         playIdleSFX(this);
         playMovingSFX(this);
+        playWaterAmbi();
 
         if (this.keyHeld_West) {
             movementX -= PLAYER_PIXELS_MOVE_RATE;
