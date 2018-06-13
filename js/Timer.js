@@ -62,6 +62,8 @@ function TimerClass() {
         console.log("The day has ended!");
         this.secondsInDay = 0;
 
+        weather.newDay(); // tell weather to decide if it will rain today
+
         // make plants grow and absorb water
         for (var i = 0; i < plantTrackingArray.length; i++) {
             plantTrackingArray[i].dayChanged();

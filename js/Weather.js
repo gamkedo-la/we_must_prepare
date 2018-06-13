@@ -24,12 +24,24 @@ function WeatherSystem() {
     var howWindy = 0;
     var howRainy = 0;
 
+    const PROBABILITY_OF_PRECIPITATION = 0.15; // each morning, we roll the dice to see if it will rain today
+    var canRainToday = true;
+
     // how many seconds to oscillate in and out (approx: random variance)
     const sunLength = 303;
     const cloudLength = 99;
     const fogLength = 189;
     const windLength = 50;
     const rainLength = 101;
+
+    this.newDay = function () {
+        console.log("weather.newDay()");
+        canRainToday = (Math.random() <= PROBABILITY_OF_PRECIPITATION);
+        if (canRainToday)
+            console.log("It is going to rain today!");
+        else
+            console.log("It is not going to rain today.");
+    }
 
     // rain occasionally waters tilled soil
     this.handleRainWater = function (howRainy) {
@@ -108,6 +120,10 @@ function WeatherSystem() {
         howFoggy = Math.sin(timer.secondsInDay / fogLength / 60);
         howWindy = Math.sin(timer.secondsInDay / windLength / 60);
         howRainy = Math.cos(timer.secondsInDay / rainLength / 60);
+
+        if (!canRainToday) {
+            howRainy = 0;
+        }
 
         if (howSunny > 0) {
             canvasContext.globalAlpha = howSunny;
