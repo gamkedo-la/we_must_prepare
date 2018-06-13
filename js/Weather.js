@@ -42,9 +42,29 @@ function WeatherSystem() {
                         roomGrid[i] = TILE_TILLED_WATERED;
                         break;
                     case TILE_CORN_SEED:
+                    case TILE_CORN_SEEDLING:
+                    case TILE_CORN_MEDIUM:
+                    case TILE_CORN_FULLY_GROWN:
+                    case TILE_CORN_RIPE:
+                    case TILE_CORN_HARVESTED:
                     case TILE_EGGPLANT_SEED:
-                    case TILE_TOMATO_SEED:
+                    case TILE_EGGPLANT_SEEDLING:
+                    case TILE_EGGPLANT_MEDIUM:
+                    case TILE_EGGPLANT_FULLY_GROWN:
+                    case TILE_EGGPLANT_RIPE:
+                    case TILE_EGGPLANT_HARVESTED:
                     case TILE_POTATO_SEED:
+                    case TILE_POTATO_SEEDLING:
+                    case TILE_POTATO_MEDIUM:
+                    case TILE_POTATO_FULLY_GROWN:
+                    case TILE_POTATO_RIPE:
+                    case TILE_POTATO_HARVESTED:
+                    case TILE_TOMATO_SEED:
+                    case TILE_TOMATO_SEEDLING:
+                    case TILE_TOMATO_MEDIUM:
+                    case TILE_TOMATO_FULLY_GROWN:
+                    case TILE_TOMATO_RIPE:
+                    case TILE_TOMATO_HARVESTED:
                         wetcount++;
                         for (var p = 0; p < plantTrackingArray.length; p++) {
                             if (plantTrackingArray[p].mapIndex == i) {
