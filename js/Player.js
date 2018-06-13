@@ -249,10 +249,6 @@ function playerClass() {
         var movementX = 0;
         var movementY = 0;
 
-        playIdleSFX(this);
-        playMovingSFX(this);
-        playWaterAmbi();
-
         if (this.keyHeld_West) {
             movementX -= PLAYER_PIXELS_MOVE_RATE;
         }
@@ -304,6 +300,7 @@ function playerClass() {
             }
         }//end if nextX & nextY
         boundPlayerInRadiation();
+        soundUpdateOnPlayer();
     }; // end move
 
     this.plantAtFeet = function () {

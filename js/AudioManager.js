@@ -33,7 +33,7 @@ var robotIdleSFX = new sfxClipLoopingWTail("robot_idle", 20);
 var robotMovementDefault = new sfxClipLoopingWTail("Robot_Moving", 5);
 var robotWateringSFX = new sfxClipSingle("robot_green_thumb_halfsec");
 var robotTillingLandSFX = new sfxClipSingle("tilling_land_version2");
-var robotHarvestingCropsSFX = new sfxContainer([metal = new sfxContainerRandom([harvest1 = new sfxClipSingle("harvesting_crops"),
+var robotHarvestingCropsSFX = new sfxContainerRandom([metal = new sfxContainerRandom([harvest1 = new sfxClipSingle("harvesting_crops"),
 																				harvest2 = new sfxClipSingle("harvesting_crops_version_2"),
 																				harvest3 = new sfxClipSingle("harvesting_crops_version_3")])
 												]);
@@ -335,6 +335,78 @@ function stopAudioEngine() {
 	robotMovementDefault.pause();
 }
 
+function soundUpdateOnPlayer() {
+	//playMovingSFX
+	if (!player.isPlayerIdle() && robotMovementDefault.getPaused()) {
+		robotMovementDefault.resume();
+		robotIdleSFX.pause();
+	} else if (player.isPlayerIdle() && robotIdleSFX.getPaused()) {
+		robotIdleSFX.resume();
+		robotMovementDefault.pause();
+	} else if (!player.isPlayerIdle() && !robotMovementDefault.getPaused()) {
+		robotIdleSFX.pause();
+	} else if (player.isPlayerIdle() && !robotIdleSFX.getPaused()) {
+		robotMovementDefault.pause();
+	}
+
+	//playWaterAmbi
+	var a = player.x - 1800;
+	var b = player.y - 700;
+	var c = Math.sqrt(a*a + b*b);
+	if (c < 700) {
+		if (c < 300) {
+			water_enviSFX.setVolume(1);
+		} else {
+			water_enviSFX.setVolume(Math.abs(2 -c*2/700));
+		}
+		if (water_enviSFX.getPaused()) {
+			water_enviSFX.resume();
+		}
+	}
+
+}
+
+function playMovingSFX(player) {
+}
+
+function playIdleSFX(player) {
+}
+
+function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
+	//console.log("Updating weathar volumes. Sun: " + sun + " Cloud: " + cloud + " Fog: " + fog + " Wind: " + wind + " Rain: " + rain);
+	var sunLevel = Math.max(sun, 0);
+	var cloudLevel = Math.max(cloud, 0);
+	var fogLevel = Math.max(fog, 0);
+	var windLevel = Math.max(wind, 0);
+	var rainLevel = Math.max(rain, 0);
+
+	sunLevel -= Math.max((cloudLevel + windLevel), 0);
+	//Set birds to sun - the average of cloud and wind
+	if (sun_enviSFX.getPaused()) {
+		sun_enviSFX.resume();
+		sun_enviSFX.setVolume(sunLevel);
+	} else {
+		sun_enviSFX.setVolume(sunLevel);
+	}
+	//Set wind
+	if (wind_enviSFX.getPaused()) {
+		wind_enviSFX.resume();
+		wind_enviSFX.setVolume(windLevel);
+	} else {
+		wind_enviSFX.setVolume(windLevel);
+	}
+	//Set rain
+	if (rain_enviSFX.getPaused()) {
+		rain_enviSFX.resume();
+		rain_enviSFX.setVolume(rainLevel);
+	} else {
+		rain_enviSFX.setVolume(rainLevel);
+	}
+}
+
+function playWaterAmbi() {
+}
+
 function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.x = topLeftX;
 	this.y = topLeftY;
@@ -587,108 +659,6 @@ function playSFXForCollectingResource(tileType) {
 	robotCollectingResourcesSFX.play();
 }
 
-function playSFXForHarvestingCrops()
-{
-	robotHarvestingCropsSFX.setCurrentClip((Math.Random() * 3) + 1);
-
+function playSFXForHarvestingCrops() {
 	robotHarvestingCropsSFX.play();
-}
-
-var isRobotMovingSFXPlaying = false;
-function playMovingSFX(player) {
-	if (!player.isPlayerIdle() && !isRobotMovingSFXPlaying) 
-	{
-		robotMovementDefault.play();
-		isRobotMovingSFXPlaying = true;
-	}
-	else
-	{
-		if (player.isPlayerIdle()) 
-		{
-			robotMovementDefault.pause();
-		}
-		else
-		{
-			robotMovementDefault.resume();
-		}
-	}
-
-	if (robotMovementDefault.getTime() >= robotMovementDefault.getDuration()) 
-	{
-		robotMovementDefault.setTime(0);
-	}
-}
-
-var isIdleSFXPlaying = false;
-function playIdleSFX(player) {
-	if (player.isPlayerIdle() && !isIdleSFXPlaying)
-	{
-		robotIdleSFX.play();
-		isIdleSFXPlaying = true;
-	}
-	else
-	{
-		if (!player.isPlayerIdle() && isIdleSFXPlaying)
-		{
-			robotIdleSFX.pause();
-		}
-		else if (player.isPlayerIdle() && isIdleSFXPlaying)
-		{
-			robotIdleSFX.resume();
-		}
-	}
-
-	if (robotIdleSFX.getTime() >= robotIdleSFX.getDuration())
-	{
-		robotIdleSFX.setTime(0);
-	}
-}
-
-function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
-	//console.log("Updating weathar volumes. Sun: " + sun + " Cloud: " + cloud + " Fog: " + fog + " Wind: " + wind + " Rain: " + rain);
-	var sunLevel = Math.max(sun, 0);
-	var cloudLevel = Math.max(cloud, 0);
-	var fogLevel = Math.max(fog, 0);
-	var windLevel = Math.max(wind, 0);
-	var rainLevel = Math.max(rain, 0);
-
-	sunLevel -= Math.max((cloudLevel + windLevel), 0);
-	//Set birds to sun - the average of cloud and wind
-	if (sun_enviSFX.getPaused()) {
-		sun_enviSFX.resume();
-		sun_enviSFX.setVolume(sunLevel);
-	} else {
-		sun_enviSFX.setVolume(sunLevel);
-	}
-	//Set wind
-	if (wind_enviSFX.getPaused()) {
-		wind_enviSFX.resume();
-		wind_enviSFX.setVolume(windLevel);
-	} else {
-		wind_enviSFX.setVolume(windLevel);
-	}
-	//Set rain
-	if (rain_enviSFX.getPaused()) {
-		rain_enviSFX.resume();
-		rain_enviSFX.setVolume(rainLevel);
-	} else {
-		rain_enviSFX.setVolume(rainLevel);
-	}
-}
-
-function playWaterAmbi() {
-	var a = player.x - 1800;
-	var b = player.y - 700;
-	var c = Math.sqrt(a*a + b*b);
-	if (c < 700) {
-		if (c < 300) {
-			water_enviSFX.setVolume(1);
-		} else {
-			water_enviSFX.setVolume(Math.abs(2 -c*2/700));
-		}
-		if (water_enviSFX.getPaused()) {
-			water_enviSFX.resume();
-		}
-	}
-
 }
