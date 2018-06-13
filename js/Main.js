@@ -34,19 +34,19 @@ function loadingDoneSoStartGame() {
     setupInput();
     setupUI(); //interface.js
     extendBuildingCollision();
-    
+
     timer.setupTimer();
 
     resetGame(true);  // has to be called after autoLoad or resources don't get setup correctly
-    
-    
+
+
     window.addEventListener('blur', windowOnBlur);
 }
 
 function resetGame(loadSave) {
     roomGrid = defaultRoomGrid.slice();
     player.reset();
-    
+
     if (loadSave) {
         if (autoSaveEnabled) {
             // autoLoad();
@@ -202,7 +202,8 @@ function drawEverything() {
     drawRadiation();
     endCameraPan();
     drawSkyGradient();
-    wildlife.draw(camPanX, camPanY);
+    birds.draw(camPanX, camPanY);
+    butterflies.draw(camPanX, camPanY);
     //console.log("DID WE GET HERE");
     if (weather)
         weather.draw(camPanX, camPanY);         /// FIXME this is never run... WHY?!

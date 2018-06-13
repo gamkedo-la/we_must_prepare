@@ -1,13 +1,14 @@
 // a simple "juice/polish" effect: little ai critters! =)
 // made for we must prepare by mcfunkypants
 
-function WildlifeSystem() {
+function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifier = 8) {
 
     var frameCount = 0;
     const SPRITE_SIZE = 16;
     const ANIM_FRAMES = 8;
-    const ANIM_SPEED = 8;
-    const NUM_BIRDS = 2; //100; lol SWARM!!!
+    const ANIM_SPEED = animSpeedmodifier;
+    const NUM_BIRDS = populationSize; //100; lol SWARM!!!
+    const SPRITE_YOFS = spriteSheetRow * SPRITE_SIZE;
 
     var birdx = [];
     var birdy = [];
@@ -42,7 +43,7 @@ function WildlifeSystem() {
             // draw bird
             canvasContext.drawImage(wildlifeSpritesheet, // see imgLoading.js
                 SPRITE_SIZE * (Math.round(frameCount / ANIM_SPEED + me) % ANIM_FRAMES), // sx
-                0, // sy
+                SPRITE_YOFS, // sy
                 SPRITE_SIZE, // sw
                 SPRITE_SIZE, // sh
                 birdx[me] - cameraOffsetX, // dx
@@ -57,6 +58,7 @@ function WildlifeSystem() {
 } // wildlife system
 
 // make one immediately
-window.wildlife = new WildlifeSystem();
+window.birds = new WildlifeSystem(2, 0, 8);
+window.butterflies = new WildlifeSystem(4, 1, 1);
 console.log("Wildlife system init complete.");
 
