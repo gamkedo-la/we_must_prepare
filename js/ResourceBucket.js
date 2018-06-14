@@ -8,7 +8,7 @@ function getResourceLookupTableSaveState() {
             resourceLookupTableSaveState[i] = null;
             continue;
         }
-        var tileLookupTableSaveState = [];
+        var tileLookupTableSaveState = {};
         Object.keys(Resources).forEach(function(resourceType) {
             var resourceBucket = tileLookupTable[resourceType];
             if (resourceBucket) {
@@ -24,11 +24,11 @@ function loadResourceLookupTableSaveState(saveState) {
     console.log("Loading state");
     for (var i = 0; i < resourceLookupTable.length; i++) {
         var tileLookupTableSaveState = saveState[i];
-        if (tileLookupTable) {
+        if (tileLookupTableSaveState) {
             var tileLookupTable = [];
             Object.keys(Resources).forEach(function(resourceType) {
                 var resourceBucketSaveState = tileLookupTableSaveState[resourceType];
-                if (resourceBucket) {
+                if (resourceBucketSaveState) {
                     tileLookupTable[resourceType] = new resourceClass(0, 0);
                     tileLookupTable[resourceType].loadSaveState(resourceBucketSaveState);
                 }
