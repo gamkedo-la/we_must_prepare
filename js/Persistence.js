@@ -46,6 +46,7 @@ function Persistence() {
       return storedValue;
     }
     catch(e) {
+      console.log('Warning: localStorage unavailable on this browser. Please run this game on a different browser to enable saving.');
       return fallback;
     }
   }
