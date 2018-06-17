@@ -40,9 +40,11 @@ var robotHarvestingCropsSFX = new sfxContainerRandom([metal = new sfxContainerRa
 
 var robotCollectingResourcesSFX = new sfxContainer([metal = new sfxContainerRandom([metal1 = new sfxClipSingle("mining metal"),
 																					metal2 = new sfxClipSingle("mining metal version 2")]),
-													stone = new sfxContainerRandom([stone1 = new sfxClipSingle("mining_stone"),
-																					stone2 = new sfxClipSingle("mining_stone_version_2"),
-																					stone3 = new sfxClipSingle("mining_stone_version_3")])																				
+													stone = new sfxContainerRandom([stone1 = new sfxClipSingle("mining_stone_version_4"),
+																					stone2 = new sfxClipSingle("mining_stone_version_5"),
+																					stone3 = new sfxClipSingle("mining_stone_version_6")]),
+													wood = new sfxContainerRandom([wood1 = new sfxClipSingle("chopping_wood_version_2"),
+																					wood2 = new sfxClipSingle("chopping_wood_version_3")])																				
 													]);
 
 var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
@@ -653,6 +655,9 @@ function playSFXForCollectingResource(tileType) {
 			break;
 		case TILE_STONE_SRC:
 			robotCollectingResourcesSFX.setCurrentClip(1);
+			break;
+		case TILE_WOOD_SRC:
+			robotCollectingResourcesSFX.setCurrentClip(2);
 			break;
 	}
 

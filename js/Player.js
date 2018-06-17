@@ -231,6 +231,7 @@ function playerClass() {
             case TILE_WOOD_SRC:
                 if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.axe) {
                     if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
+                        playSFXForCollectingResource(TILE_WOOD_SRC);
                         this.inventory.add(items.wood, 1);
                     }
                 }
