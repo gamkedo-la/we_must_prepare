@@ -20,6 +20,8 @@ function playerClass() {
     this.isPlayerFacingWest = false;
     this.isPlayerFacingEast = false;
 
+    this.playerLastFacingDirectionImage = playerIdleSouth;
+
     this.controlKeyLeft;
     this.controlKeyUp;
     this.controlKeyDown;
@@ -171,25 +173,29 @@ function playerClass() {
         if (this.keyHeld_North) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkNorth.update();
+            this.playerLastFacingDirectionImage = playerIdleNorth;
             playFootstep(playerWalkNorth);
             return;
         } else if (this.keyHeld_East) {
             playerWalkEast.draw(this.x, this.y - playerImage.height / 2);
             playerWalkEast.update();
+            this.playerLastFacingDirectionImage = playerIdleEast;
             playFootstep(playerWalkEast);
             return;
         } else if (this.keyHeld_South) {
             playerWalkSouth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkSouth.update();
+            this.playerLastFacingDirectionImage = playerIdleSouth;
             playFootstep(playerWalkSouth);
             return;
         } else if (this.keyHeld_West) {
             playerWalkWest.draw(this.x, this.y - playerImage.height / 2);
             playerWalkWest.update();
+            this.playerLastFacingDirectionImage = playerIdleWest;
             playFootstep(playerWalkWest);
             return;
-        } else {
-            canvasContext.drawImage(playerImage, this.x - playerImage.width / 2, this.y - playerImage.height); // coords at base of feet
+        } else {            
+            this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);            
         }
     };
 

@@ -24,6 +24,11 @@ var playerSpriteSheetWalkSouth = document.createElement("img");
 var playerSpriteSheetSideWalk = document.createElement("img");
 
 //function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
+var playerIdleNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 0, false);
+var playerIdleEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 0, false);
+var playerIdleSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 0, false);
+var playerIdleWest = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 0, false);
+
 var playerWalkNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 3, true);
 var playerWalkEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
 var playerWalkSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
