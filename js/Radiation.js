@@ -3,7 +3,7 @@ var radCenterY = 200;
 var radSize = 150;
 var radGrowthRate = 0.1;
 var radEnabled = false;
-//Practice test commit. Will be removed.
+
 function drawRadiation () {
 	if (radEnabled == false) {
 		return;
