@@ -258,7 +258,11 @@ function keyPress(evt) {
         case KEY_USE_TOOL:
             toolKeyPressedThisFrame = true;
             toolKeyHeld = true;
-            player.doActionOnLandTile(getTileIndexAtPixelCoord(player.x, player.y), true);
+            player.plantAtFeet();
+            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
+            if (player.hotbar.slots[player.hotbar.equippedItemIndex].item == items.pickaxe) {
+                pickaxeAnimation.reset();
+            }
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
@@ -321,6 +325,8 @@ function keyPress(evt) {
         case "KeyL":
             resetGame(false);
             break;
+        case "KeyM":
+            
         default:
             // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

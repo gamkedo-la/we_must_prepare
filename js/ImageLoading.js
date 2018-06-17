@@ -18,6 +18,7 @@ var siloImage = document.createElement("img");
 var barnImage = document.createElement("img");
 var farmhouseImage = document.createElement("img");
 var wildlifeSpritesheet = document.createElement("img");
+var pickaxeAnimationSpriteSheet = document.createElement("img");
 
 var playerSpriteSheetWalkNorth = document.createElement("img");
 var playerSpriteSheetWalkSouth = document.createElement("img");
@@ -33,6 +34,8 @@ var playerWalkNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 
 var playerWalkEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
 var playerWalkSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
 var playerWalkWest = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
+
+var pickaxeAnimation = new AnimationClass(pickaxeAnimationSpriteSheet, 48, 48, 7, 0, 2, false);
 
 var picsToLoad = 0;
 
@@ -75,7 +78,8 @@ function loadImages() {
     { varName: siloImage, theFile: "siloBuilding.png" },
     { varName: farmhouseImage, theFile: "farmhouse_large.png" },
     { varName: barnImage, theFile: "barn.png" },
-    { varName: wildlifeSpritesheet, theFile: "wildlife.png" }
+    { varName: wildlifeSpritesheet, theFile: "wildlife.png" },
+    { varName: pickaxeAnimationSpriteSheet, theFile: "pickaxe-animation.png" }
   ];
 
   picsToLoad = imageList.length;

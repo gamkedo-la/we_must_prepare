@@ -149,4 +149,16 @@ function AnimationClass(sheetIn, colWidth, rowHeight, sheetInFrames, animationIn
     this.getNumberOfFrames = function() {
         return numberOfFrames;
     };
+
+    this.isFinishedPlaying = function() {
+        return (loop == false && animationIndex >= numberOfFrames - 1)
+    };
+
+    this.reset = function() {
+        animationIndex = 0;
+    };
+
+    this.setFinished = function() {
+        animationIndex = numberOfFrames - 1;
+    };
 }

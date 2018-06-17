@@ -108,6 +108,8 @@ function playerClass() {
         this.inventory.removeAll = function (item) {
             return player.inventory.oldRemoveAll(item) + player.hotbar.removeAll(item);
         };
+
+        pickaxeAnimation.setFinished();
     };  // end reset
 
     this.getSaveState = function () {
@@ -197,6 +199,10 @@ function playerClass() {
             return;
         } else {            
             this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
+        }
+        if (pickaxeAnimation.isFinishedPlaying() == false) {
+            pickaxeAnimation.draw(this.x, this.y - playerImage.height / 2);
+            pickaxeAnimation.update();
         }
     };
 
