@@ -258,8 +258,7 @@ function keyPress(evt) {
         case KEY_USE_TOOL:
             toolKeyPressedThisFrame = true;
             toolKeyHeld = true;
-            player.plantAtFeet();
-            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
+            player.doActionOnLandTile(getTileIndexAtPixelCoord(player.x, player.y), true);
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab

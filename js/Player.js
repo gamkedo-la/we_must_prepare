@@ -310,73 +310,74 @@ function playerClass() {
         soundUpdateOnPlayer();
     }; // end move
 
-    this.plantAtFeet = function () {
-        var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
-
-        if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
-            if (roomGrid[plantAtIndex] == TILE_TILLED) {
-                //console.log("Going to plant at index " + plantAtIndex);
-                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
-                    new PlantClass(plantAtIndex, TILE_CORN_SEED);
-                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-                } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                    new PlantClass(plantAtIndex, TILE_TOMATO_SEED);
-                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-                }
-            } else if (roomGrid[plantAtIndex] == TILE_TILLED_WATERED) {
-                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedOne) {
-                    new PlantClass(plantAtIndex, TILE_CORN_SEED);
-                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-                } else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.wheatSeedTwo) {
-                    new PlantClass(plantAtIndex, TILE_TOMATO_SEED);
-                    this.hotbar.remove(this.hotbar.slots[this.hotbar.equippedItemIndex].item, 1);
-                }
-                for (var i = 0; i < plantTrackingArray.length; i++)
-                    if (plantTrackingArray[i].mapIndex == plantAtIndex) {
-                        plantTrackingArray[i].is_watered = true;
-                    }
-            }
-        }
-    }
-
-    this.workingLand = function (index, oncePerClick) {
+    this.doActionOnLandTile = function (index, oncePerClick) {
         if (oncePerClick) {
             if (toolKeyPressedThisFrame == false) {
                 return;
             }
         }
+        
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
-            if (roomGrid[index] == TILE_GROUND &&
-                this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
-                robotTillingLandSFX.play();
-                roomGrid[index] = TILE_TILLED;
-            } else if (roomGrid[index] == TILE_TILLED &&
-                this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
-                robotWateringSFX.play();
-                roomGrid[index] = TILE_TILLED_WATERED;
-            } else if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
-
-                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.watercan) {
+            var equippedItem = this.hotbar.slots[this.hotbar.equippedItemIndex].item;
+            switch(roomGrid[index]) {
+                case TILE_GROUND:
+                    if (equippedItem == items.hoe) {
+                        robotTillingLandSFX.play();
+                        roomGrid[index] = TILE_TILLED;
+                    }
+                    break;
+                case TILE_TILLED:
+                    if (equippedItem == items.watercan) {
+                        robotWateringSFX.play();
+                        roomGrid[index] = TILE_TILLED_WATERED;
+                    }
+                    else if (equippedItem == items.wheatSeedOne) {
+                        new PlantClass(index, TILE_CORN_SEED);
+                        this.hotbar.remove(equippedItem, 1);
+                    } 
+                    else if (equippedItem == items.wheatSeedTwo) {
+                        new PlantClass(index, TILE_TOMATO_SEED);
+                        this.hotbar.remove(equippedItem, 1);
+                    }
+                    break;
+                case TILE_TILLED_WATERED:
+                    if (equippedItem == items.wheatSeedOne) {
+                        new PlantClass(index, TILE_CORN_SEED);
+                        this.hotbar.remove(equippedItem, 1);
+                    } else if (equippedItem == items.wheatSeedTwo) {
+                        new PlantClass(index, TILE_TOMATO_SEED);
+                        this.hotbar.remove(equippedItem, 1);
+                    }
                     for (var i = 0; i < plantTrackingArray.length; i++) {
                         if (plantTrackingArray[i].mapIndex == index) {
                             plantTrackingArray[i].is_watered = true;
-                            robotWateringSFX.play();
                         }
                     }
-                }
-                else if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.hoe) {
-                    robotTillingLandSFX.play();
-
-                    var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
-
-                    for (var i = 0; i < plantTrackingArray.length; i++) {
-                        if (plantTrackingArray[i].mapIndex == plantAtIndex) {
-                            plantTrackingArray[i].plantRemoved();
+                    break;
+                default:
+                    if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
+                        if (equippedItem == items.watercan) {
+                            for (var i = 0; i < plantTrackingArray.length; i++) {
+                                if (plantTrackingArray[i].mapIndex == index) {
+                                    plantTrackingArray[i].is_watered = true;
+                                    robotWateringSFX.play();
+                                }
+                            }
+                        }
+                        else if (equippedItem == items.hoe) {
+                            robotTillingLandSFX.play();
+        
+                            var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
+        
+                            for (var i = 0; i < plantTrackingArray.length; i++) {
+                                if (plantTrackingArray[i].mapIndex == plantAtIndex) {
+                                    plantTrackingArray[i].plantRemoved();
+                                }
+                            }
                         }
                     }
-                }
-            }
+            }            
         }
     };
 
