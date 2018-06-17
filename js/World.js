@@ -158,7 +158,7 @@ function extendBuildingCollision() {
     }
 }
 
-function roomTileToIndex(tileCol, tileRow) {
+function getTileIndexAtTileCoord(tileCol, tileRow) {
     return (tileCol + ROOM_COLS * tileRow);
 }
 
@@ -177,7 +177,7 @@ function getTileIndexAtPixelCoord(pixelX, pixelY) {
         return undefined;
     }
 
-    var tileIndex = roomTileToIndex(tileCol, tileRow);
+    var tileIndex = getTileIndexAtTileCoord(tileCol, tileRow);
     return tileIndex;
 }
 
