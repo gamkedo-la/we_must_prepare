@@ -20,6 +20,7 @@ function playerClass() {
     this.isPlayerFacingWest = false;
     this.isPlayerFacingEast = false;
 
+    this.playerLastFacingDirection = DIRECTION_SOUTH;
     this.playerLastFacingDirectionImage = playerIdleSouth;
 
     this.controlKeyLeft;
@@ -195,7 +196,7 @@ function playerClass() {
             playFootstep(playerWalkWest);
             return;
         } else {            
-            this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);            
+            this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
         }
     };
 
@@ -258,15 +259,19 @@ function playerClass() {
 
         if (this.keyHeld_West) {
             movementX -= PLAYER_PIXELS_MOVE_RATE;
+            this.playerLastFacingDirection = DIRECTION_WEST;
         }
         if (this.keyHeld_East) {
             movementX += PLAYER_PIXELS_MOVE_RATE;
+            this.playerLastFacingDirection = DIRECTION_EAST;
         }
         if (this.keyHeld_North) {
             movementY -= PLAYER_PIXELS_MOVE_RATE;
+            this.playerLastFacingDirection = DIRECTION_NORTH;
         }
         if (this.keyHeld_South) {
             movementY += PLAYER_PIXELS_MOVE_RATE;
+            this.playerLastFacingDirection = DIRECTION_SOUTH;
         }
 
         this.getDirectionPlayerIsCurrentlyFacing();
@@ -317,6 +322,8 @@ function playerClass() {
             }
         }
         
+        index = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);        
+
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
             var equippedItem = this.hotbar.slots[this.hotbar.equippedItemIndex].item;
@@ -369,6 +376,7 @@ function playerClass() {
                             robotTillingLandSFX.play();
         
                             var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
+                            plantAtIndex = getTileIndexFromAdjacentTileIndex(plantAtIndex, this.playerLastFacingDirection);
         
                             for (var i = 0; i < plantTrackingArray.length; i++) {
                                 if (plantTrackingArray[i].mapIndex == plantAtIndex) {

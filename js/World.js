@@ -123,6 +123,11 @@ const TILE_TOMATO_HARVESTED = 73;
 const START_TILE_WALKABLE_GROWTH_RANGE = TILE_CORN_SEED;  // make sure to keeps plants at the end of this list or there will be weird issues with walking through items
 const LAST_TILE_ENUM = TILE_TOMATO_HARVESTED;
 
+const DIRECTION_NORTH = 0;
+const DIRECTION_EAST = 1;
+const DIRECTION_SOUTH = 2;
+const DIRECTION_WEST = 3;
+
 var objectsWithDepth = [];
 
 var tileTestColors = [
@@ -160,6 +165,70 @@ function extendBuildingCollision() {
 
 function getTileIndexAtTileCoord(tileCol, tileRow) {
     return (tileCol + ROOM_COLS * tileRow);
+}
+
+function getTileIndexFromAdjacentTileIndex(index, direction) {
+    if (index > 0 && index < ROOM_COLS * ROOM_ROWS) {
+        switch(direction) {
+            case DIRECTION_NORTH:
+                index -= ROOM_COLS;            
+                if (index < ROOM_COLS) {
+                    index = -1;
+                }
+                break;
+            case DIRECTION_EAST:
+                if (index % ROOM_COLS != 0 && (index % ROOM_COLS + 1 != 1) ) {
+                    index += 1;
+                }
+                else {
+                    index = -1;
+                }
+                break;
+            case DIRECTION_SOUTH:
+                index += ROOM_COLS;
+                break;
+            case DIRECTION_WEST:
+                if (index % ROOM_COLS != 0 && (index % ROOM_COLS + 1 != 1) ) {
+                    index -= 1;
+                } 
+                else {
+                    index = -1;
+                }
+                break;
+            default:
+        }
+    }
+    else {
+        index = -1;
+    }
+
+    return index;
+}   
+
+function getTileIndexFromAdjacentTileCoord(pixelX, pixelY, direction, coordThreshold = 15) {    
+    var index;
+
+    switch (direction) {
+        case DIRECTION_NORTH:
+            pixelY += coordThreshold;
+            break;
+        case DIRECTION_EAST:
+            pixelX -= coordThreshold;
+            break;
+        case DIRECTION_SOUTH:
+            pixelY -= coordThreshold;
+            break;
+        case DIRECTION_WEST:
+            pixelX += coordThreshold;
+            break;
+        default:            
+    }
+    
+    index = getTileIndexAtPixelCoord(pixelX, pixelY);
+
+    index = getTileIndexFromAdjacentTileIndex(index, direction);
+
+    return index;
 }
 
 function getTileIndexAtPixelCoord(pixelX, pixelY) {
