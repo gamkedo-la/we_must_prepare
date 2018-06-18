@@ -3,6 +3,9 @@ const MS_PER_TIMETICK = 12; // how often the timer ticks in milliseconds
 const DAY_SECONDS_PER_TIMETICK = 1; // how many seconds to simulate each tick
 const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debugging (or sleep?)
 
+// GAME OVER is triggered when we hit the "arrival date"
+const DAY_OF_ARRIVAL = 365;
+
 function TimerClass() {
     this.dayNumber = 1; // how many days has the player experienced?
     this.secondsInDay = 0; // how many seconds have elapsed today?
@@ -68,8 +71,18 @@ function TimerClass() {
 
     this.endOfDay = function () {
         console.log("Day number " + this.dayNumber + " has ended!");
+        console.log("The humans will arrive in " + (DAY_OF_ARRIVAL - this.dayNumber) + " days.");
         this.dayNumber++;
         this.secondsInDay = 0;
+
+        // check for "game over" cutscene 
+        // FIXME do we have a bounds "+/-1" bug here? one too many or one too few days?
+        if (this.dayNumber > DAY_OF_ARRIVAL) {
+            console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
+            alert("GAME OVER! The humans have arrived.");
+            // FIXME TODO implement endgame
+        }
+
 
         weather.newDay(); // tell weather to decide if it will rain today
         butterflies.newDay();
