@@ -57,9 +57,12 @@ function TimerClass() {
         }
 
         // draw a shadow for readability on top of any shade of sky
-        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 20 + 1, 22 + 1, 'rgba(0,0,0,1.0)');
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 21 + 1, 22 + 1, 'rgba(0,0,0,1.0)');
         // draw the time
-        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 20, 22, 'rgba(230,255,255,1.0)');
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 21, 22, 'rgba(230,255,255,1.0)');
+
+        // day number GUI
+        colorText('Day ' + timer.dayNumber, Math.round(canvas.width / 2) - 14, 13, 'rgba(0,0,0,1.0)');
 
     }
 

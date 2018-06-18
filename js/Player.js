@@ -139,6 +139,10 @@ function playerClass() {
         result.storageList = storageList;
 
         result.inventory = this.inventory.getSaveState();
+
+        // remember how many days have elapsed
+        result.dayNumber = timer.dayNumber;
+
         return result;
     };
 
@@ -159,6 +163,16 @@ function playerClass() {
         }
 
         this.inventory.loadSaveState(saveState.inventory);
+
+        // remember how many days have elapsed
+        if (saveState.dayNumber) // allow malformed data
+            timer.dayNumber = saveState.dayNumber - 1;
+        else
+            timer.dayNumber = 0;
+
+        // start the day fresh, reset the time too
+        timer.endOfDay(); // this +1's the dayNumber!
+
     };
 
     this.drawPlayerHUD = function () {
@@ -202,7 +216,7 @@ function playerClass() {
             this.playerLastFacingDirectionImage = playerIdleWest;
             playFootstep(playerWalkWest);
             return;
-        } else {            
+        } else {
             this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
         }
         if (pickaxeAnimationEast.isFinishedPlaying() == false) {
@@ -211,7 +225,7 @@ function playerClass() {
         } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
             pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
             pickaxeAnimationWest.update();
-        } 
+        }
     };
 
     this.distFrom = function (otherX, otherY) {
@@ -335,13 +349,13 @@ function playerClass() {
                 return;
             }
         }
-        
-        index = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);        
+
+        index = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
 
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
             var equippedItem = this.hotbar.slots[this.hotbar.equippedItemIndex].item;
-            switch(roomGrid[index]) {
+            switch (roomGrid[index]) {
                 case TILE_GROUND:
                     if (equippedItem == items.hoe) {
                         robotTillingLandSFX.play();
@@ -356,7 +370,7 @@ function playerClass() {
                     else if (equippedItem == items.wheatSeedOne) {
                         new PlantClass(index, TILE_CORN_SEED);
                         this.hotbar.remove(equippedItem, 1);
-                    } 
+                    }
                     else if (equippedItem == items.wheatSeedTwo) {
                         new PlantClass(index, TILE_TOMATO_SEED);
                         this.hotbar.remove(equippedItem, 1);
@@ -388,10 +402,10 @@ function playerClass() {
                         }
                         else if (equippedItem == items.hoe) {
                             robotTillingLandSFX.play();
-        
+
                             var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
                             plantAtIndex = getTileIndexFromAdjacentTileIndex(plantAtIndex, this.playerLastFacingDirection);
-        
+
                             for (var i = 0; i < plantTrackingArray.length; i++) {
                                 if (plantTrackingArray[i].mapIndex == plantAtIndex) {
                                     plantTrackingArray[i].plantRemoved();
@@ -399,7 +413,7 @@ function playerClass() {
                             }
                         }
                     }
-            }            
+            }
         }
     };
 
