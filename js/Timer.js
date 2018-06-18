@@ -4,7 +4,8 @@ const DAY_SECONDS_PER_TIMETICK = 1; // how many seconds to simulate each tick
 const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debugging (or sleep?)
 
 function TimerClass() {
-    this.secondsInDay = 0;
+    this.dayNumber = 1; // how many days has the player experienced?
+    this.secondsInDay = 0; // how many seconds have elapsed today?
     this.isTimeFrozen = false;
     this.fastForward = false;
     this.timeTick = function () {
@@ -59,7 +60,8 @@ function TimerClass() {
     }
 
     this.endOfDay = function () {
-        console.log("The day has ended!");
+        console.log("Day number " + this.dayNumber + " has ended!");
+        this.dayNumber++;
         this.secondsInDay = 0;
 
         weather.newDay(); // tell weather to decide if it will rain today
