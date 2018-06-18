@@ -33,7 +33,7 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
                 birdy[me] = Math.random() * canvas.height + cameraOffsetY;
                 birdSpeedX[me] = 0.5;
                 birdSpeedY[me] = Math.random() - 0.5;
-                console.log("Respawning bird " + me + " at " + birdx[me] + "," + birdy[me]);
+                //console.log("Respawning bird " + me + " at " + birdx[me] + "," + birdy[me]);
             }
 
             // fly forward

@@ -56,7 +56,11 @@ function TimerClass() {
             secondsRemainder = '0' + secondsRemainder;
         }
 
-        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 20, 22, 'rgba(255,255,255,0.6)');
+        // draw a shadow for readability on top of any shade of sky
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 20 + 1, 22 + 1, 'rgba(0,0,0,1.0)');
+        // draw the time
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 20, 22, 'rgba(230,255,255,1.0)');
+
     }
 
     this.endOfDay = function () {
