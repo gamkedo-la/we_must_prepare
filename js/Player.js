@@ -137,6 +137,8 @@ function playerClass() {
             };
         }
         result.storageList = storageList;
+
+        result.inventory = this.inventory.getSaveState();
         return result;
     };
 
@@ -155,6 +157,8 @@ function playerClass() {
             this.storageList[resourceType].max = bucket.max;
             this.storageList[resourceType].carried = bucket.carried;
         }
+
+        this.inventory.loadSaveState(saveState.inventory);
     };
 
     this.drawPlayerHUD = function () {

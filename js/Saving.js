@@ -50,7 +50,8 @@ function save(slotIndex) {
 function getSaveState() {
   var saveState = {
     player: player.getSaveState(),
-    resourceLookupTable: getResourceLookupTableSaveState()
+    resourceLookupTable: getResourceLookupTableSaveState(),
+    secondInventory: secondInventory.getSaveState()
   };
   return saveState;
 }
@@ -78,4 +79,5 @@ function loadSaveState(saveState) {
 
   player.loadSaveState(saveState.player);
   loadResourceLookupTableSaveState(saveState.resourceLookupTable);
+  secondInventory.loadSaveState(saveState.secondInventory);
 }

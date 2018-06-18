@@ -34,6 +34,18 @@ function InventoryClass(size){
 	for(var i = this.slotCount - 1; i >= 0; i--){
 		this.slots[i] = new emptyInventorySlot();
 	}
+
+	this.getSaveState = function() {
+		return {
+			slotCount: this.slotCount,
+			slots: this.slots
+		};
+	};
+
+	this.loadSaveState = function(saveState) {
+		this.slotCount = saveState.slotCount;
+		this.slots = this.slots;
+	}
 	
 	//Add count no. of item to inventory, filling stacks first, then empty slots
 	//Returns leftover item count
