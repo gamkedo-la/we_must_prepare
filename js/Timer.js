@@ -72,6 +72,8 @@ function TimerClass() {
         this.secondsInDay = 0;
 
         weather.newDay(); // tell weather to decide if it will rain today
+        butterflies.newDay();
+        birds.newDay();
 
         // make plants grow and absorb water
         for (var i = 0; i < plantTrackingArray.length; i++) {

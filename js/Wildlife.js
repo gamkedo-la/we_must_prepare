@@ -17,6 +17,14 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
     const RESPAWN_DISTANCE_OFFSCREEN = 2000; // extra so the bird isn't always on screen    
     var altitudeVariance = 20;
 
+    this.newDay = function () { // when the day suddenly changes, don't leave wildlife where it was
+        for (var me = 0; me < NUM_BIRDS; me++) {
+            // force a respawn
+            birdx[me] = 999999999999;
+            birdy[me] = 999999999999;
+        }
+    }
+
     this.draw = function (cameraOffsetX, cameraOffsetY) {
 
         frameCount++;
