@@ -1,7 +1,5 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
 const FRAMES_PER_SECOND = 30;
-const PLAYER_START_UNITS = 1;
-const ENEMY_START_UNITS = 20;
 const CAM_PAN_SPEED = 5;
 var camPanX = 0;
 var camPanY = 0;

@@ -109,7 +109,8 @@ function playerClass() {
             return player.inventory.oldRemoveAll(item) + player.hotbar.removeAll(item);
         };
 
-        pickaxeAnimation.setFinished();
+        pickaxeAnimationEast.setFinished();
+        pickaxeAnimationWest.setFinished();
     };  // end reset
 
     this.getSaveState = function () {
@@ -200,10 +201,13 @@ function playerClass() {
         } else {            
             this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
         }
-        if (pickaxeAnimation.isFinishedPlaying() == false) {
-            pickaxeAnimation.draw(this.x, this.y - playerImage.height / 2);
-            pickaxeAnimation.update();
-        }
+        if (pickaxeAnimationEast.isFinishedPlaying() == false) {
+            pickaxeAnimationEast.draw(this.x, this.y - playerImage.height / 2);
+            pickaxeAnimationEast.update();
+        } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
+            pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
+            pickaxeAnimationWest.update();
+        } 
     };
 
     this.distFrom = function (otherX, otherY) {

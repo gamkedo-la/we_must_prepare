@@ -260,7 +260,12 @@ function keyPress(evt) {
             toolKeyHeld = true;
             player.doActionOnLandTile(getTileIndexAtPixelCoord(player.x, player.y), true);
             if (player.hotbar.slots[player.hotbar.equippedItemIndex].item == items.pickaxe) {
-                pickaxeAnimation.reset();
+                if (player.isPlayerFacingEast) {
+                    pickaxeAnimationEast.reset();
+                } else if (player.isPlayerFacingWest) {
+                    console.log("I should be animating the west one");
+                    pickaxeAnimationWest.reset();
+                }
             }
             break;
         case KEY_INVENTORY:
