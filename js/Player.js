@@ -143,6 +143,8 @@ function playerClass() {
 
         result.inventory = this.inventory.getSaveState();
 
+        result.hotbar = this.hotbar.getSaveState();
+
         // remember how many days have elapsed
         result.dayNumber = timer.dayNumber;
 
@@ -166,6 +168,8 @@ function playerClass() {
         }
 
         this.inventory.loadSaveState(saveState.inventory);
+
+        this.hotbar.loadSaveState(saveState.hotbar);
 
         // remember how many days have elapsed
         if (saveState.dayNumber) // allow malformed data

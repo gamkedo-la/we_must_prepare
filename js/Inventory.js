@@ -37,12 +37,16 @@ function InventoryClass(size){
 
 	this.getSaveState = function() {
 		return {
+			selectedSlotIndex: this.selectedSlotIndex,
+			equippedItemIndex: this.equippedItemIndex,
 			slotCount: this.slotCount,
 			slots: this.slots
 		};
 	};
 
 	this.loadSaveState = function(saveState) {
+		this.selectedSlotIndex = saveState.selectedSlotIndex;
+		this.equippedItemIndex = saveState.equippedItemIndex;
 		this.slotCount = saveState.slotCount;
 		this.slots = saveState.slots;
 	}
