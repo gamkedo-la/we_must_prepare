@@ -111,6 +111,7 @@ function playerClass() {
 
         pickaxeAnimationEast.setFinished();
         pickaxeAnimationWest.setFinished();
+        pickaxeAnimationNorth.setFinished();
     };  // end reset
 
     this.getSaveState = function () {
@@ -225,6 +226,9 @@ function playerClass() {
         } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
             pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
             pickaxeAnimationWest.update();
+        } else if (pickaxeAnimationNorth.isFinishedPlaying() == false) {
+            pickaxeAnimationNorth.draw(this.x, this.y - playerImage.height / 1);
+            pickaxeAnimationNorth.update();
         }
     };
 

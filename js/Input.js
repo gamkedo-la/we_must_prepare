@@ -263,8 +263,9 @@ function keyPress(evt) {
                 if (player.isPlayerFacingEast) {
                     pickaxeAnimationEast.reset();
                 } else if (player.isPlayerFacingWest) {
-                    console.log("I should be animating the west one");
                     pickaxeAnimationWest.reset();
+                } else if (player.isPlayerFacingNorth) {
+                    pickaxeAnimationNorth.reset();
                 }
             }
             break;

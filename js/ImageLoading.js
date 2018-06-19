@@ -18,6 +18,8 @@ var siloImage = document.createElement("img");
 var barnImage = document.createElement("img");
 var farmhouseImage = document.createElement("img");
 var wildlifeSpritesheet = document.createElement("img");
+
+var pickaxeAnimationSpriteSheetNorth = document.createElement("img");
 var pickaxeAnimationSpriteSheetEast = document.createElement("img");
 var pickaxeAnimationSpriteSheetWest = document.createElement("img");
 
@@ -36,6 +38,7 @@ var playerWalkEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0,
 var playerWalkSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
 var playerWalkWest = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
 
+var pickaxeAnimationNorth = new AnimationClass(pickaxeAnimationSpriteSheetNorth, 48, 48, 6, 0, 2, false);
 var pickaxeAnimationEast = new AnimationClass(pickaxeAnimationSpriteSheetEast, 48, 48, 7, 0, 2, false);
 var pickaxeAnimationWest = new AnimationClass(pickaxeAnimationSpriteSheetWest, 48, 48, 7, 0, 2, false);
 
@@ -82,6 +85,7 @@ function loadImages() {
     { varName: farmhouseImage, theFile: "farmhouse_large.png" },
     { varName: barnImage, theFile: "barn.png" },
     { varName: wildlifeSpritesheet, theFile: "wildlife.png" },
+    { varName: pickaxeAnimationSpriteSheetNorth, theFile: "pickaxe-animation-north.png" },
     { varName: pickaxeAnimationSpriteSheetEast, theFile: "pickaxe-animation-east.png" },
     { varName: pickaxeAnimationSpriteSheetWest, theFile: "pickaxe-animation-west.png" }
   ];
