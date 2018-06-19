@@ -29,8 +29,8 @@ function TimerClass() {
     }
 
     this.resetDay = function () {
-        //this.secondsInDay = SECONDS_PER_DAY; // BUGFIX: start at 88 thousand?
-        this.secondsInDay = 0;
+        //this.secondsInDay = SECONDS_PER_DAY; // BUGFIX: start at 88 thousand? 
+        this.secondsInDay = 0; // days start at 0 and count up
     }
 
     this.pauseTime = function (freezeNow) {
@@ -72,12 +72,21 @@ function TimerClass() {
         // announce the day number and countdown at dawn every day
         if (this.secondsInDay < DATE_DISPLAY_LENGTH_IN_GAME_SECONDS) {
             var percent = this.secondsInDay / DATE_DISPLAY_LENGTH_IN_GAME_SECONDS;
+
+            // background rays
+            canvasContext.globalAlpha = 1 - percent;
+            drawBitmapCenteredAtLocationWithRotation(sunshine, Math.round(canvas.width / 2), Math.round(canvas.height / 2) - 88, performance.now() / 1400);
+            drawBitmapCenteredAtLocationWithRotation(sunshine, Math.round(canvas.width / 2), Math.round(canvas.height / 2) - 88, -performance.now() / 1271);
+            drawBitmapCenteredAtLocationWithRotation(sunshine, Math.round(canvas.width / 2), Math.round(canvas.height / 2) - 88, performance.now() / 3333);
+            canvasContext.globalAlpha = 1;
+
             colorText('Day ' + timer.dayNumber + ' of ' + DAY_OF_ARRIVAL,
                 Math.round(canvas.width / 2) - 172,
                 Math.round(canvas.height / 2) - 64,
                 'rgba(0,0,0,' + (1 - percent) + ')',
                 '64px Arial' // huge
             );
+
 
         }
 
