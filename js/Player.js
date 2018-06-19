@@ -109,9 +109,11 @@ function playerClass() {
             return player.inventory.oldRemoveAll(item) + player.hotbar.removeAll(item);
         };
 
-        pickaxeAnimationEast.setFinished();
-        pickaxeAnimationWest.setFinished();
         pickaxeAnimationNorth.setFinished();
+        pickaxeAnimationEast.setFinished();
+        pickaxeAnimationSouth.setFinished();
+        pickaxeAnimationWest.setFinished();
+
     };  // end reset
 
     this.getSaveState = function () {
@@ -229,6 +231,9 @@ function playerClass() {
         } else if (pickaxeAnimationNorth.isFinishedPlaying() == false) {
             pickaxeAnimationNorth.draw(this.x, this.y - playerImage.height / 1);
             pickaxeAnimationNorth.update();
+        } else if (pickaxeAnimationSouth.isFinishedPlaying() == false) {
+            pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
+            pickaxeAnimationSouth.update();
         }
     };
 

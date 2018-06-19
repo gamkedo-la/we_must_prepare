@@ -266,6 +266,8 @@ function keyPress(evt) {
                     pickaxeAnimationWest.reset();
                 } else if (player.isPlayerFacingNorth) {
                     pickaxeAnimationNorth.reset();
+                } else if (player.isPlayerFacingSouth) {
+                    pickaxeAnimationSouth.reset();
                 }
             }
             break;
