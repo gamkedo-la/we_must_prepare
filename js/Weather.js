@@ -34,6 +34,10 @@ function WeatherSystem() {
     const windLength = 50;
     const rainLength = 101;
 
+    this.isRaining = function () { // used by wildlife
+        return (canRainToday && (howRainy > 0.1)); // true if rainy
+    }
+
     this.newDay = function () {
         console.log("weather.newDay()");
         canRainToday = (Math.random() <= PROBABILITY_OF_PRECIPITATION);

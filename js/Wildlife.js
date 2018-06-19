@@ -29,24 +29,36 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
 
         frameCount++;
 
+        var currentlyGettingWet = false;
+
+        if (window.weather) // does the global exist?
+            currentlyGettingWet = weather.isRaining(); // are we getting wet?
+
         // loop through all birds
         for (var me = 0; me < NUM_BIRDS; me++) {
 
             // wrap around and respawn
-            if (!birdx[me] ||
-                !birdy[me] ||
-                (birdx[me] > canvas.width + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN) ||
-                (birdy[me] > canvas.height + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN)) { // far enough offscreen?
-                birdx[me] = -SPRITE_SIZE + cameraOffsetX - Math.random() * 500;
-                birdy[me] = Math.random() * canvas.height + cameraOffsetY;
-                birdSpeedX[me] = 0.5;
-                birdSpeedY[me] = Math.random() - 0.5;
-                //console.log("Respawning bird " + me + " at " + birdx[me] + "," + birdy[me]);
+            if (!currentlyGettingWet) { // only respawn once the weather looks nice
+                if (!birdx[me] || !birdy[me] || // first time?
+                    (birdx[me] > canvas.width + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN) || // off screen?
+                    (birdy[me] > canvas.height + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN)) {
+                    birdx[me] = -SPRITE_SIZE + cameraOffsetX - Math.random() * 500;
+                    birdy[me] = Math.random() * canvas.height + cameraOffsetY;
+                    birdSpeedX[me] = 0.5 + (Math.random() * 0.25);
+                    birdSpeedY[me] = Math.random() - 0.5;
+                    //console.log("Respawning bird " + me + " at " + birdx[me] + "," + birdy[me]);
+                }
             }
 
             // fly forward
             birdx[me] += birdSpeedX[me];
             birdy[me] += birdSpeedY[me];
+
+            // fly away faster in the rain
+            if (currentlyGettingWet) {
+                birdx[me] += birdSpeedX[me] * 3; // 4x horizontal speed total!!
+                //console.log("Squawk! I'm getting wet!");
+            }
 
             // draw bird
             canvasContext.drawImage(wildlifeSpritesheet, // see imgLoading.js
@@ -60,7 +72,7 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
                 SPRITE_SIZE); // dh        
 
         } // loop through all birds
-    };
+    }; // draw funtion
 
 
 } // wildlife system
