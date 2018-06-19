@@ -5,6 +5,7 @@ const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debuggi
 
 // GAME OVER is triggered when we hit the "arrival date"
 const DAY_OF_ARRIVAL = 365;
+const DATE_DISPLAY_LENGTH_IN_GAME_SECONDS = 240;
 
 function TimerClass() {
     this.dayNumber = 1; // how many days has the player experienced?
@@ -28,7 +29,8 @@ function TimerClass() {
     }
 
     this.resetDay = function () {
-        this.secondsInDay = SECONDS_PER_DAY;
+        //this.secondsInDay = SECONDS_PER_DAY; // BUGFIX: start at 88 thousand?
+        this.secondsInDay = 0;
     }
 
     this.pauseTime = function (freezeNow) {
@@ -67,6 +69,18 @@ function TimerClass() {
         // day number GUI
         colorText('Day ' + timer.dayNumber, Math.round(canvas.width / 2) - 14, 13, 'rgba(0,0,0,1.0)');
 
+        // announce the day number and countdown at dawn every day
+        if (this.secondsInDay < DATE_DISPLAY_LENGTH_IN_GAME_SECONDS) {
+            var percent = this.secondsInDay / DATE_DISPLAY_LENGTH_IN_GAME_SECONDS;
+            colorText('Day ' + timer.dayNumber + ' of ' + DAY_OF_ARRIVAL,
+                Math.round(canvas.width / 2) - 172,
+                Math.round(canvas.height / 2) - 64,
+                'rgba(0,0,0,' + (1 - percent) + ')',
+                '64px Arial' // huge
+            );
+
+        }
+
     }
 
     this.endOfDay = function () {
@@ -82,7 +96,6 @@ function TimerClass() {
             alert("GAME OVER! The humans have arrived.");
             // FIXME TODO implement endgame
         }
-
 
         weather.newDay(); // tell weather to decide if it will rain today
         butterflies.newDay();

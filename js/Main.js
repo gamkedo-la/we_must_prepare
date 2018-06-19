@@ -202,12 +202,7 @@ function drawEverything() {
     drawSkyGradient();
     birds.draw(camPanX, camPanY);
     butterflies.draw(camPanX, camPanY);
-    //console.log("DID WE GET HERE");
-    if (weather)
-        weather.draw(camPanX, camPanY);         /// FIXME this is never run... WHY?!
-    else
-        console.log("No weather system found!");
-    //console.log("YES WE DID");
+    weather.draw(camPanX, camPanY);
     player.drawPlayerHUD();
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
