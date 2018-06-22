@@ -4,6 +4,24 @@ var radSize = 150;
 var radGrowthRate = 0.1;
 var radEnabled = false;
 
+function getRadiationSaveState() {
+	return {
+		radCenterX: radCenterX,
+		radCenterY: radCenterY,
+		radSize: radSize,
+		radGrowthRate: radGrowthRate,
+		radEnabled: radEnabled
+	};
+}
+
+function loadRadiationSaveState(saveState) {
+	radCenterX = saveState.radCenterX;
+	radCenterY = saveState.radCenterY;
+	radSize = saveState.radSize;
+	radGrowthRate = saveState.radGrowthRate;
+	radEnabled = saveState.radEnabled;
+}
+
 function drawRadiation () {
 	if (radEnabled == false) {
 		return;

@@ -49,6 +49,7 @@ function save(slotIndex) {
 
 function getSaveState() {
   var saveState = {
+    radiation: getRadiationSaveState(),
     player: player.getSaveState(),
     resourceLookupTable: getResourceLookupTableSaveState(),
     secondInventory: secondInventory.getSaveState()
@@ -77,6 +78,7 @@ function loadSaveState(saveState) {
     return;
   }
 
+  loadRadiationSaveState(saveState.radiation);
   player.loadSaveState(saveState.player);
   loadResourceLookupTableSaveState(saveState.resourceLookupTable);
   secondInventory.loadSaveState(saveState.secondInventory);
