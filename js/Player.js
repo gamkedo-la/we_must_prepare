@@ -383,7 +383,7 @@ function playerClass() {
         soundUpdateOnPlayer();
     }; // end move
 
-    this.doActionOnLandTile = function (index, oncePerClick) {
+    this.doActionOnTile = function (index, oncePerClick) {
         if (oncePerClick) {
             if (toolKeyPressedThisFrame == false) {
                 return;
@@ -395,6 +395,7 @@ function playerClass() {
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
             var equippedItem = this.hotbar.slots[this.hotbar.equippedItemIndex].item;
+            
             switch (roomGrid[index]) {
                 case TILE_GROUND:
                     if (equippedItem == items.hoe) {
@@ -430,6 +431,19 @@ function playerClass() {
                         }
                     }
                     break;
+                case TILE_METAL_SRC:
+                    if (equippedItem == items.pickaxe) {
+                        if (this.isPlayerFacingEast) {
+                            pickaxeAnimationEast.reset();
+                        } else if (this.isPlayerFacingWest) {
+                            pickaxeAnimationWest.reset();
+                        } else if (this.isPlayerFacingNorth) {
+                            pickaxeAnimationNorth.reset();
+                        } else if (this.isPlayerFacingSouth) {
+                            pickaxeAnimationSouth.reset();
+                        }
+                    }
+                    break;
                 default:
                     if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
                         if (equippedItem == items.watercan) {
@@ -451,7 +465,7 @@ function playerClass() {
                                     plantTrackingArray[i].plantRemoved();
                                 }
                             }
-                        }
+                        }                        
                     }
             }
         }

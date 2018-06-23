@@ -258,18 +258,7 @@ function keyPress(evt) {
         case KEY_USE_TOOL:
             toolKeyPressedThisFrame = true;
             toolKeyHeld = true;
-            player.doActionOnLandTile(getTileIndexAtPixelCoord(player.x, player.y), true);
-            if (player.hotbar.slots[player.hotbar.equippedItemIndex].item == items.pickaxe) {
-                if (player.isPlayerFacingEast) {
-                    pickaxeAnimationEast.reset();
-                } else if (player.isPlayerFacingWest) {
-                    pickaxeAnimationWest.reset();
-                } else if (player.isPlayerFacingNorth) {
-                    pickaxeAnimationNorth.reset();
-                } else if (player.isPlayerFacingSouth) {
-                    pickaxeAnimationSouth.reset();
-                }
-            }
+            player.doActionOnTile(getTileIndexAtPixelCoord(player.x, player.y), true);
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
