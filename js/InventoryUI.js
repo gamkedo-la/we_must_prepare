@@ -156,7 +156,7 @@ var inventoryUIHelper = {
 	uiMouseX: mouseX,
 	uiMouseY: mouseY,
 	itemSpriteSheet: new SpriteSheetClass(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
-	selectedSlotSprite: new SpriteClass(selectedItemSlot, 50, 50),
+	selectedSlotSprite: new SpriteClass(targetTilePic, 64, 64),
 
 	drawSlot:	function (itemX, itemY, slot){
 		if(slot.count > 0){
@@ -169,7 +169,8 @@ var inventoryUIHelper = {
 	},
   
 	drawSlockBackground: function(inventory, itemX, itemY, i) {
-		if(inventory.selectedSlotIndex === i) {			
+		if(inventory.selectedSlotIndex === i) {						
+			this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
 			this.selectedSlotSprite.draw(itemX, itemY);
 		} else {
 			this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
