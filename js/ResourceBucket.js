@@ -128,7 +128,7 @@ function setupBuckets() {
       } // end of for
 }
 
-// this function is called from Player.js collectResourcesIfAbleTo.
+// this function is called from Player.js doActionOnTile().
 // returns true if resources are available and adds to inventory, destroys the resource when empty
 function getResourceFromIndex(index, oncePerClick, playerBucket) {
     if (oncePerClick) {

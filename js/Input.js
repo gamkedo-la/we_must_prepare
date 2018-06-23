@@ -157,9 +157,6 @@ function inputUpdate() {
                 }
             }
         }
-        if (toolKeyPressedThisFrame) {
-            player.collectResourcesIfAble();
-        }
     }
     if (rightMouseClickedThisFrame) {
         inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || HotbarPane.rightMouseClick(mouseX, mouseY);

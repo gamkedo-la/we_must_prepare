@@ -274,53 +274,6 @@ function playerClass() {
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     };
 
-    this.collectResourcesIfAble = function () {
-        switch (walkIntoTileType) {
-            case TILE_WALL:
-                distToGo = 0;
-                break;
-            case TILE_FOOD_SRC:
-                distToGo = 0;
-                break;
-            case TILE_METAL_SRC:
-                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.pickaxe) {
-                    if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                        playSFXForCollectingResource(TILE_METAL_SRC);
-                        this.inventory.add(items.metal, 1);
-                    }
-                }
-                break;
-            case TILE_STONE_SRC:
-                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.pickaxe) {
-                    if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                        playSFXForCollectingResource(TILE_STONE_SRC);
-                        this.inventory.add(items.stone, 1);
-                    }
-                }
-                break;
-            case TILE_STONE_DEST:
-                var temp = { carried: this.inventory.countItems(items.stone), makeEmpty: function () { } };
-                this.inventory.remove(items.stone, this.inventory.countItems(items.stone));
-                depositResources(temp, this.storageList[Resources.Stone]);
-                break;
-            case TILE_WOOD_SRC:
-                if (this.hotbar.slots[this.hotbar.equippedItemIndex].item == items.axe) {
-                    if (getResourceFromIndex(walkIntoTileIndex, true, this.bucketList) == true) {
-                        playSFXForCollectingResource(TILE_WOOD_SRC);
-                        this.inventory.add(items.wood, 1);
-                    }
-                }
-                break;
-            case TILE_WOOD_DEST:
-                var temp = { carried: this.inventory.countItems(items.wood), makeEmpty: function () { } };
-                this.inventory.remove(items.wood, this.inventory.countItems(items.wood));
-                depositResources(temp, this.storageList[Resources.Wood]);
-                break;
-            default:
-                break;
-        }
-    };
-
     this.move = function () {
         var movementX = 0;
         var movementY = 0;
@@ -353,7 +306,7 @@ function playerClass() {
 
             var nextX = Math.round(this.x + movementX);
             var nextY = Math.round(this.y + movementY);
-
+            
             walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY);
             walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
             if (walkIntoTileType === undefined) {
@@ -394,9 +347,11 @@ function playerClass() {
 
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
+            // the currently equipped item
             var equippedItem = this.hotbar.slots[this.hotbar.equippedItemIndex].item;
-            
-            switch (roomGrid[index]) {
+                        
+            switch (roomGrid[index]) { // check currently selected tile
+                // ------ farming cases START ------
                 case TILE_GROUND:
                     if (equippedItem == items.hoe) {
                         robotTillingLandSFX.play();
@@ -431,19 +386,59 @@ function playerClass() {
                         }
                     }
                     break;
-                case TILE_METAL_SRC:
+                // ------ farming cases END ------
+                
+                // ------ resource gathering cases START ------            
+                case TILE_METAL_SRC:                    
+                    if (equippedItem == items.pickaxe) {                       
+                        if (getResourceFromIndex(index, true, this.bucketList) == true) {
+                            playSFXForCollectingResource(TILE_METAL_SRC);
+                            this.inventory.add(items.metal, 1);
+                        }
+                    }
+                    this.resetEquippedAnimations(equippedItem);
+                    break;
+                case TILE_STONE_SRC:                    
                     if (equippedItem == items.pickaxe) {
-                        if (this.isPlayerFacingEast) {
-                            pickaxeAnimationEast.reset();
-                        } else if (this.isPlayerFacingWest) {
-                            pickaxeAnimationWest.reset();
-                        } else if (this.isPlayerFacingNorth) {
-                            pickaxeAnimationNorth.reset();
-                        } else if (this.isPlayerFacingSouth) {
-                            pickaxeAnimationSouth.reset();
+                        if (getResourceFromIndex(index, true, this.bucketList) == true) {
+                            playSFXForCollectingResource(TILE_STONE_SRC);
+                            this.inventory.add(items.stone, 1);
+                        }                
+                    }
+                    this.resetEquippedAnimations(equippedItem);
+                    break;
+                case TILE_WOOD_SRC:
+                    if (equippedItem == items.axe) {
+                        if (getResourceFromIndex(index, true, this.bucketList) == true) {
+                            playSFXForCollectingResource(TILE_WOOD_SRC);
+                            this.inventory.add(items.wood, 1);
                         }
                     }
                     break;
+                // ------ resource gathering cases END ------
+                
+                // ------ resource depositing cases START ------
+                case TILE_STONE_DEST:
+                    var temp = { carried: this.inventory.countItems(items.stone), makeEmpty: function () { } };
+                    this.inventory.remove(items.stone, this.inventory.countItems(items.stone));
+                    depositResources(temp, this.storageList[Resources.Stone]);
+                    break;
+                case TILE_WOOD_DEST:
+                    var temp = { carried: this.inventory.countItems(items.wood), makeEmpty: function () { } };
+                    this.inventory.remove(items.wood, this.inventory.countItems(items.wood));
+                    depositResources(temp, this.storageList[Resources.Wood]);
+                    break;
+                // ------ resource depositing cases END ------
+
+                // ------ other cases START ------
+                case TILE_WALL:
+                    distToGo = 0;
+                    break;
+                case TILE_FOOD_SRC:
+                    distToGo = 0;
+                    break;
+                // ------ other cases END ------
+
                 default:
                     if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
                         if (equippedItem == items.watercan) {
@@ -553,6 +548,22 @@ function playerClass() {
 
             this.isPlayerFacingEast = false;
             this.isPlayerFacingNorth = false;
+        }
+    };
+
+    this.resetEquippedAnimations = function (itemType) {
+        switch (itemType) {
+            case items.pickaxe:
+                if (this.isPlayerFacingEast) {
+                    pickaxeAnimationEast.reset();
+                } else if (this.isPlayerFacingWest) {
+                    pickaxeAnimationWest.reset();
+                } else if (this.isPlayerFacingNorth) {
+                    pickaxeAnimationNorth.reset();
+                } else if (this.isPlayerFacingSouth) {
+                    pickaxeAnimationSouth.reset();
+                }
+            break;        
         }
     };
 
