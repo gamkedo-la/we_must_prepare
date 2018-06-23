@@ -205,11 +205,9 @@ function getTileIndexFromAdjacentTileIndex(index, direction) {
     return index;
 }
 
-function getAdjacentTileCoord(pixelX, pixelY, direction) {
+function getAdjacentTileCoord(pixelX, pixelY, direction, coordThreshold = 15) {
 
-    pixelX = Math.floor(pixelX / TILE_W) * TILE_W;
-    pixelY = Math.floor(pixelY / TILE_H) * TILE_H;
-
+    // force the next tile over
     switch (direction) {
         case DIRECTION_NORTH:
             pixelY -= TILE_H;
@@ -225,6 +223,28 @@ function getAdjacentTileCoord(pixelX, pixelY, direction) {
             break;
         default:
     }
+
+    // fudge to match code below
+    switch (direction) {
+        case DIRECTION_NORTH:
+            pixelY -= coordThreshold;
+            break;
+        case DIRECTION_EAST:
+            pixelX += coordThreshold;
+            break;
+        case DIRECTION_SOUTH:
+            pixelY += coordThreshold;
+            break;
+        case DIRECTION_WEST:
+            pixelX -= coordThreshold;
+            break;
+        default:
+    }
+
+    // snap to grid
+    pixelX = Math.floor(pixelX / TILE_W) * TILE_W;
+    pixelY = Math.floor(pixelY / TILE_H) * TILE_H;
+
     return { x: pixelX, y: pixelY };
 
 }
