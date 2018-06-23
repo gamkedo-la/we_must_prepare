@@ -202,7 +202,10 @@ function playerClass() {
     this.draw = function () {
 
         if (this.outlineTargetTile) {
-            // idea: different colour depending on walkIntoTileType
+            // idea: different colour depending on focused/selected/activated/highlighted tile's index
+            // where index = getTileIndexFromAdjacentTileCoord(player.x, player.y, player.playerLastFacingDirection);
+            // index is passed into player.doActionOnTile()
+
             //var targetIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
             var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
 
@@ -307,6 +310,11 @@ function playerClass() {
             var nextX = Math.round(this.x + movementX);
             var nextY = Math.round(this.y + movementY);
             
+            // actually walked into tile type and index
+            // for currently focused/selected/activated/highlighted tile, use:
+            // index = getTileIndexFromAdjacentTileCoord(player.x, player.y, player.playerLastFacingDirection);
+            // index is passed into player.doActionOnTile()
+
             walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY);
             walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
             if (walkIntoTileType === undefined) {
@@ -336,7 +344,7 @@ function playerClass() {
         soundUpdateOnPlayer();
     }; // end move
 
-    this.doActionOnTile = function (index, oncePerClick) {
+    this.doActionOnTile = function (index, oncePerClick = true) {
         if (oncePerClick) {
             if (toolKeyPressedThisFrame == false) {
                 return;

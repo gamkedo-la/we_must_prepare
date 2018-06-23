@@ -255,7 +255,7 @@ function keyPress(evt) {
         case KEY_USE_TOOL:
             toolKeyPressedThisFrame = true;
             toolKeyHeld = true;
-            player.doActionOnTile(getTileIndexAtPixelCoord(player.x, player.y), true);
+            player.doActionOnTile(getTileIndexAtPixelCoord(player.x, player.y));
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
