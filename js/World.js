@@ -3,7 +3,7 @@ const ROOM_COLS = 40;
 const ROOM_ROWS = 32;
 
 var roomGrid =
-       [00, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05,
+    [00, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05,
         05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
         05, 00, 05, 05, 05, 05, 07, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
         05, 00, 05, 00, 00, 00, 00, 05, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 05,
@@ -169,15 +169,15 @@ function getTileIndexAtTileCoord(tileCol, tileRow) {
 
 function getTileIndexFromAdjacentTileIndex(index, direction) {
     if (index > 0 && index < ROOM_COLS * ROOM_ROWS) {
-        switch(direction) {
+        switch (direction) {
             case DIRECTION_NORTH:
-                index -= ROOM_COLS;            
+                index -= ROOM_COLS;
                 if (index < ROOM_COLS) {
                     index = -1;
                 }
                 break;
             case DIRECTION_EAST:
-                if (index % ROOM_COLS != 0 && (index % ROOM_COLS + 1 != 1) ) {
+                if (index % ROOM_COLS != 0 && (index % ROOM_COLS + 1 != 1)) {
                     index += 1;
                 }
                 else {
@@ -188,9 +188,9 @@ function getTileIndexFromAdjacentTileIndex(index, direction) {
                 index += ROOM_COLS;
                 break;
             case DIRECTION_WEST:
-                if (index % ROOM_COLS != 0 && (index % ROOM_COLS + 1 != 1) ) {
+                if (index % ROOM_COLS != 0 && (index % ROOM_COLS + 1 != 1)) {
                     index -= 1;
-                } 
+                }
                 else {
                     index = -1;
                 }
@@ -203,27 +203,51 @@ function getTileIndexFromAdjacentTileIndex(index, direction) {
     }
 
     return index;
-}   
+}
 
-function getTileIndexFromAdjacentTileCoord(pixelX, pixelY, direction, coordThreshold = 15) {    
+function getAdjacentTileCoord(pixelX, pixelY, direction) {
+
+    pixelX = Math.floor(pixelX / TILE_W) * TILE_W;
+    pixelY = Math.floor(pixelY / TILE_H) * TILE_H;
+
+    switch (direction) {
+        case DIRECTION_NORTH:
+            pixelY -= TILE_H;
+            break;
+        case DIRECTION_EAST:
+            pixelX += TILE_W;
+            break;
+        case DIRECTION_SOUTH:
+            pixelY += TILE_H;
+            break;
+        case DIRECTION_WEST:
+            pixelX -= TILE_W;
+            break;
+        default:
+    }
+    return { x: pixelX, y: pixelY };
+
+}
+
+function getTileIndexFromAdjacentTileCoord(pixelX, pixelY, direction, coordThreshold = 15) {
     var index;
 
     switch (direction) {
         case DIRECTION_NORTH:
-            pixelY += coordThreshold;
-            break;
-        case DIRECTION_EAST:
-            pixelX -= coordThreshold;
-            break;
-        case DIRECTION_SOUTH:
             pixelY -= coordThreshold;
             break;
-        case DIRECTION_WEST:
+        case DIRECTION_EAST:
             pixelX += coordThreshold;
             break;
-        default:            
+        case DIRECTION_SOUTH:
+            pixelY += coordThreshold;
+            break;
+        case DIRECTION_WEST:
+            pixelX -= coordThreshold;
+            break;
+        default:
     }
-    
+
     index = getTileIndexAtPixelCoord(pixelX, pixelY);
 
     index = getTileIndexFromAdjacentTileIndex(index, direction);

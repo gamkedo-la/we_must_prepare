@@ -36,6 +36,8 @@ function playerClass() {
     var walkIntoTileIndex = -1;
     var walkIntoTileType = TILE_WALL;
 
+    this.outlineTargetTile = true; // draw a square around the tile we are aiming at
+
     this.setupInput = function (leftKey, upKey, downKey, rightKey, leftKey2, upKey2, downKey2, rightKey2) {
         //next four lines set a,w,s,d
         this.controlKeyLeft = leftKey;
@@ -198,6 +200,18 @@ function playerClass() {
     };
 
     this.draw = function () {
+
+        if (this.outlineTargetTile) {
+            // idea: different colour depending on walkIntoTileType
+            //var targetIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+            var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+            canvasContext.beginPath();
+            canvasContext.lineWidth = "1";
+            canvasContext.strokeStyle = "rgba(255,255,0,0.5)";
+            canvasContext.rect(target.x, target.y, TILE_W, TILE_H);
+            canvasContext.stroke();
+        }
+
         // colorCircle(this.homeX, this.homeY, 25, 'yellow');
         if (this.keyHeld_North) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
@@ -239,6 +253,7 @@ function playerClass() {
             pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
             pickaxeAnimationSouth.update();
         }
+
     };
 
     this.distFrom = function (otherX, otherY) {
