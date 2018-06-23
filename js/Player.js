@@ -336,7 +336,7 @@ function playerClass() {
             }
         }//end if nextX & nextY
         
-        this.helperDoAction(this.currentlyFocusedTileIndex, false);
+        this._helperTileAction(this.currentlyFocusedTileIndex, false);
 
         boundPlayerInRadiation();
         soundUpdateOnPlayer();
@@ -349,10 +349,10 @@ function playerClass() {
             }
         }        
 
-        this.helperDoAction(index);
+        this._helperTileAction(index);
     };
 
-    this.helperDoAction = function(index, isAction = true) {
+    this._helperTileAction = function(index, isAction = true) {
         // if (proper tool is equipped / something else?) {
             if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
                 // don't show outline on unactionable tile by default
@@ -373,46 +373,73 @@ function playerClass() {
                         }
                         break;
                     case TILE_TILLED:
-                        if (equippedItem == items.watercan) {
+                        if (equippedItem == items.hoe) {
+                            if (isAction) {
+                                robotTillingLandSFX.play();
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true;
+                        }
+                        else if (equippedItem == items.watercan) {
                             if (isAction) {
                                 robotWateringSFX.play();
                                 roomGrid[index] = TILE_TILLED_WATERED;
-                            }                            
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true; 
                         }
                         else if (equippedItem == items.wheatSeedOne) {
                             if (isAction) {
                                 new PlantClass(index, TILE_CORN_SEED);
                                 this.hotbar.remove(equippedItem, 1);
-                            }                            
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true;
                         }
                         else if (equippedItem == items.wheatSeedTwo) {
                             if (isAction) {
                                 new PlantClass(index, TILE_TOMATO_SEED);
                                 this.hotbar.remove(equippedItem, 1);
-                            }                            
-                        }
-                        // tilled tile ALWAYS shows outline
-                        this.outlineTargetTile = true;
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true;
+                        }                        
                         break;
                     case TILE_TILLED_WATERED:
-                        if (equippedItem == items.wheatSeedOne) {
+                        if (equippedItem == items.hoe) {
+                            if (isAction) {
+                                robotTillingLandSFX.play();
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true;
+                        }
+                        else if (equippedItem == items.watercan) {
+                            if (isAction) {
+                                robotWateringSFX.play();                             
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true; 
+                        }
+                        else if (equippedItem == items.wheatSeedOne) {
                             if (isAction) {
                                 new PlantClass(index, TILE_CORN_SEED);
                                 this.hotbar.remove(equippedItem, 1);
-                            }                            
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true;
                         } else if (equippedItem == items.wheatSeedTwo) {
                             if (isAction) {
                                 new PlantClass(index, TILE_TOMATO_SEED);
                                 this.hotbar.remove(equippedItem, 1);
-                            }                            
+                            }
+                            // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                            this.outlineTargetTile = true;
                         }
                         for (var i = 0; i < plantTrackingArray.length; i++) {
                             if (plantTrackingArray[i].mapIndex == index) {
                                 plantTrackingArray[i].is_watered = true;
                             }
                         }
-                        // tilled tile ALWAYS shows outline
-                        this.outlineTargetTile = true;
                         break;
                     // ------ farming cases END ------
                     
