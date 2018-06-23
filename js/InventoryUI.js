@@ -127,8 +127,8 @@ function hotbarPaneUI() {
 			// Draw equipped slot differently
 			if(i === player.hotbar.equippedItemIndex) {
 				if(i === player.hotbar.selectedSlotIndex) {
-					colorRect(itemX - 25, itemY - 25, 50, 50, 'lightgreen');
-					canvasContext.fillStyle = 'white';
+					inventoryUIHelper.drawSlockBackground(player.hotbar, itemX, itemY, i);					
+					colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
 				} else {
 					colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
 					canvasContext.fillStyle = 'white';
