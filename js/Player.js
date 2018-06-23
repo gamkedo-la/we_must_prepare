@@ -200,11 +200,10 @@ function playerClass() {
     };
 
     this.draw = function () {
+        this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
 
         if (this.outlineTargetTile) {
-            // idea: different colour depending on focused/selected/activated/highlighted tile's index
-            // where index = getTileIndexFromAdjacentTileCoord(player.x, player.y, player.playerLastFacingDirection);
-            // index is passed into player.doActionOnTile()
+            // idea: different colour depending on player.currentlyFocusedTileIndex
 
             //var targetIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
             var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
@@ -268,7 +267,6 @@ function playerClass() {
             pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
             pickaxeAnimationSouth.update();
         }
-
     };
 
     this.distFrom = function (otherX, otherY) {
@@ -311,10 +309,7 @@ function playerClass() {
             var nextY = Math.round(this.y + movementY);
             
             // actually walked into tile type and index
-            // for currently focused/selected/activated/highlighted tile, use:
-            // index = getTileIndexFromAdjacentTileCoord(player.x, player.y, player.playerLastFacingDirection);
-            // index is passed into player.doActionOnTile()
-
+            // for currently focused/selected/activated/highlighted tile, use currentlyFocusedTileIndex
             walkIntoTileType = getTileTypeAtPixelCoord(nextX, nextY);
             walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
             if (walkIntoTileType === undefined) {
@@ -344,14 +339,12 @@ function playerClass() {
         soundUpdateOnPlayer();
     }; // end move
 
-    this.doActionOnTile = function (index, oncePerClick = true) {
+    this.doActionOnTile = function (index = this.currentlyFocusedTileIndex, oncePerClick = true) {
         if (oncePerClick) {
             if (toolKeyPressedThisFrame == false) {
                 return;
             }
-        }
-
-        index = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+        }        
 
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
