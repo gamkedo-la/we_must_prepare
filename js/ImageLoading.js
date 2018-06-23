@@ -28,6 +28,8 @@ var playerSpriteSheetWalkNorth = document.createElement("img");
 var playerSpriteSheetWalkSouth = document.createElement("img");
 var playerSpriteSheetSideWalk = document.createElement("img");
 
+var targetTilePic = document.createElement("img");
+
 //function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
 var playerIdleNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 0, false);
 var playerIdleEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 0, false);
@@ -90,7 +92,8 @@ function loadImages() {
     { varName: pickaxeAnimationSpriteSheetNorth, theFile: "pickaxe-animation-north.png" },
     { varName: pickaxeAnimationSpriteSheetEast, theFile: "pickaxe-animation-east.png" },
     { varName: pickaxeAnimationSpriteSheetSouth, theFile: "pickaxe-animation-south.png" },
-    { varName: pickaxeAnimationSpriteSheetWest, theFile: "pickaxe-animation-west.png" }
+    { varName: pickaxeAnimationSpriteSheetWest, theFile: "pickaxe-animation-west.png" },
+    { varName: targetTilePic, theFile: "targetTile.png" }
   ];
 
   picsToLoad = imageList.length;

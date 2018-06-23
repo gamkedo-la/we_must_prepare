@@ -205,11 +205,23 @@ function playerClass() {
             // idea: different colour depending on walkIntoTileType
             //var targetIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
             var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+
+            // yellow square done in code - works
+            /*
             canvasContext.beginPath();
             canvasContext.lineWidth = "1";
             canvasContext.strokeStyle = "rgba(255,255,0,0.5)";
             canvasContext.rect(target.x, target.y, TILE_W, TILE_H);
             canvasContext.stroke();
+            */
+            var strobe = Math.sin(performance.now() / 150) * 0.5 + 0.5; // 0..1..0
+            strobe *= 0.2; // never fullbright, 
+            strobe += 0.1; // never completely invisible
+            //console.log('strobe:' + strobe);
+            canvasContext.globalAlpha = strobe;
+            canvasContext.drawImage(targetTilePic, target.x - 7, target.y - 7);
+            canvasContext.globalAlpha = 1;
+
         }
 
         // colorCircle(this.homeX, this.homeY, 25, 'yellow');
