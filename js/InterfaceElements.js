@@ -1,6 +1,8 @@
 var buttonColor = "lightgray";
 var buttonColorPressed = "gray"
 
+// Just a clickable button.
+// parentInterface is the Pane instance this button is created on
 function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
@@ -11,7 +13,9 @@ function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomR
     this.parentInterface = parentInterface;
     this.isPressed = false;
 
-    this.parentInterface.push(this); // button is pushed into parentInterface's array at init
+    if (this.parentInterface.push) {
+        this.parentInterface.push(this); // this button is pushed into parentInterface's array when instanced
+    }
 
     //TODO I think this is ok in javascript with varable scope
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
@@ -54,6 +58,7 @@ function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomR
     };
 }
 
+// An item picked up from the Inventory or Hotbar pane, and attached to the mouse cursor.
 function InventoryItemHeldAtMouseCursor() {
     this.draw = function () {
         if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere

@@ -1,12 +1,13 @@
 //TODO these colors match the weather UI image
-//var BackgroundUIColor = "#fefcc9";
-//var BorderUIColor = "#c69c6d";
+//var backgroundUIColor = "#fefcc9";
+//var borderUIColor = "#c69c6d";
 
 var backgroundInterfaceColor = "beige";
 var borderInterfaceColor = "#c69c6d";
 var borderInterfaceWidth = 3;
 var tabInterfaceBackgroundDark = "#eaeaae";
 
+// Text for in-game menu pane, Controls Info tab
 var ControlsText = ['------Keyboard Controls------',
                     'Menu - ESC',
                     'Movement - WASD, Arrow Keys',
@@ -27,10 +28,12 @@ var ControlsText = ['------Keyboard Controls------',
                     'End Day - P',
                     'Pause Time - O'];
 
+// Only one Interface (instanced in Main.js) in the game, with many Panes on it.
 function Interface() {
+    // Main Menu Pane instance
     this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);    
 
-    // put a test button on the main menu pane
+    // put a test button on the Main Menu Pane instance
     this.testButton = new Button(this.mainMenu, "Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
     this.testButton.action = function () {
         this.isVisible = false;
@@ -40,26 +43,34 @@ function Interface() {
         musicPastMainMenu = true;
     };
 
+    // In-game Menu pane instance
     this.tabMenu = new TabMenuPane(this.inventoryPane, canvas.width * .25, canvas.height * .25 - 30);
 
+    // Controls Info pane instance as a tab in the in-game Menu pane instance
     this.controlsInfoPane = new ControlsInfoPane('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.controlsInfoPane);
 
+    // Inventory pane instance as a tab in the in-game Menu pane instance
     this.inventoryPane = new InventoryPane('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     this.tabMenu.push(this.inventoryPane);
 
+    // Audio Settings pane instance as a tab in the in-game Menu pane instance
     this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.audioPane);
 
-    this.tabMenu.switchTabIndex(0);
-    //this.tabMenu.switchTabName('Controls');
+    // Tab-switching code for the in-game Menu pane instance
+    this.tabMenu.switchTabIndex(0);    
     const SCROLL_TO_THE_LEFT = true;
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
+    // In-game Hotbar pane instance
     this.hotbarPane = new HotbarPane();
+
+    // In-game instance of item picked up from the Inventory or Hotbar pane, attached to the mouse cursor.
     this.holdingSlot = new InventoryItemHeldAtMouseCursor();
 
+    // Draw everything on the Interface (called from drawEverything() in Main.js)
     this.draw = function () {
         this.hotbarPane.draw();
         this.tabMenu.draw();
