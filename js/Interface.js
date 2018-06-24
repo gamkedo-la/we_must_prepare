@@ -99,12 +99,12 @@ function InventorySlotInterfaceHelper() {
         }       
 
         switch (slot.item) {
-            case items.WATERCAN.type:
+            case items.watercan.type:
                 const WATERCAN_BAR_W = 32;
                 const WATERCAN_BAR_H = 4;
 
-                var waterLeftIndicator = (items.WATERCAN.watercan.waterLeft / items.WATERCAN.watercan.waterCapcity) * WATERCAN_BAR_W;
-                var waterCapacityIndicator = (WATERCAN_BAR_W * items.WATERCAN.watercan.waterCapcity) / items.WATERCAN.watercan.waterCapcity;
+                var waterLeftIndicator = (items.watercan.thing.waterLeft / items.watercan.thing.waterCapcity) * WATERCAN_BAR_W;
+                var waterCapacityIndicator = (WATERCAN_BAR_W * items.watercan.thing.waterCapcity) / items.watercan.thing.waterCapcity;
 
                 colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
                 colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");

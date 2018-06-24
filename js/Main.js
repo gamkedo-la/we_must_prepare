@@ -108,12 +108,12 @@ function setupItems() {
 function setupInventory() {
     // player.inventory.clear();    
 
-    player.inventory.add(items.HOE.type, 1);
-    player.inventory.add(items.PICKAXE.type, 1);
-    player.inventory.add(items.WATERCAN.type, 1);
-    player.inventory.add(items.WHEAT_SEED_ONE.type, 3);
-    player.inventory.add(items.AXE.type, 1);
-    player.inventory.add(items.WHEAT_SEED_TWO.type, 3);
+    player.inventory.add(items.hoe.type, 1);
+    player.inventory.add(items.pickaxe.type, 1);
+    player.inventory.add(items.watercan.type, 1);
+    player.inventory.add(items.wheatSeedOne.type, 3);
+    player.inventory.add(items.axe.type, 1);
+    player.inventory.add(items.wheatSeedTwo.type, 3);
 }
 
 function moveEverything() {

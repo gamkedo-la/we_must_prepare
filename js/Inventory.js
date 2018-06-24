@@ -61,7 +61,7 @@ function Inventory(size){
 		//Then fill empty slots after all stacks are at max size
 		for(var i = 0; i < this.numberOfSlots; i++){
 			if(count <= 0) break;
-			if(this.slots[i].item === items.NOTHING.type){
+			if(this.slots[i].item === items.nothing.type){
 				this.slots[i].item = item;
 				
 				if(count > this.slots[i].item.maxStackSize){
