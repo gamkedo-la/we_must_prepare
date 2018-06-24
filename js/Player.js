@@ -57,7 +57,7 @@ function playerClass() {
         this.secondInventory = new InventoryClass(30);        
         this.hotbar = new InventoryClass(5);
         this.hotbar.equippedItemIndex = 0;
-    }
+    };
 
     this.reset = function () {
         for (var i = 0; i < roomGrid.length; i++) {
@@ -550,7 +550,7 @@ function playerClass() {
             !this.keyHeld_South &&
             !this.keyHeld_West &&
             !this.keyHeld_East);
-    }
+    };
 
     this.getDirectionPlayerIsCurrentlyFacing = function () {
         //next four if/else if statements set direction only for horizontal and vertical movement
