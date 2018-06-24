@@ -106,6 +106,7 @@ function Inventory(size){
         // unequip selected item in hotbar if it is equipped
         if (this.selectedSlotIndex == this.equippedSlotIndex) {
             this.equippedSlotIndex = -1;
+            player.outlineTargetTile = false;
         }
 	};
 	
@@ -143,6 +144,7 @@ function Inventory(size){
         // unequip selected item in hotbar if it is equipped
         if (this.selectedSlotIndex == this.equippedSlotIndex) {
             this.equippedSlotIndex = -1;
+            player.outlineTargetTile = false;
         }
 	};
 	
