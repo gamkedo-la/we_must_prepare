@@ -517,7 +517,7 @@ function Player() {
                     case TILE_LAKE_WATER:                        
                         if (equippedItem == items.watercan.type) {
                             if (isAction) {
-                                if(items.watercan.thing.refill(WATERCAN_FILL_RATE) > WATERCAN_CAPACITY) {
+                                if(items.watercan.thing.refill(WATERCAN_FILL_RATE) >= WATERCAN_CAPACITY) {
                                     return;
                                 }
                                 robotWateringSFX.play();
