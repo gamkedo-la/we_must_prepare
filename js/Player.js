@@ -1,6 +1,6 @@
 const PLAYER_PIXELS_MOVE_RATE = 6;
 
-function playerClass() {
+function PlayerClass() {
     this.x = 0;
     this.y = 0;
     this.isWalking = false;

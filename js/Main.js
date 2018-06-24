@@ -7,7 +7,7 @@ var camPanY = 0;
 var masterFrameDelayTick = 0;
 
 var canvas, canvasContext;
-var player = new playerClass();
+var player = new PlayerClass();
 var timer = new TimerClass();
 
 var hasGameStartedByClick = false;
