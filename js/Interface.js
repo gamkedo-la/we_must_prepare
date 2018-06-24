@@ -96,21 +96,20 @@ function InventorySlotInterfaceHelper() {
         // draw item graphic
         if (slot.count > 0) {
             this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
+
+            switch (slot.item) {
+                case items.watercan.type:
+                    const WATERCAN_BAR_W = 32;
+                    const WATERCAN_BAR_H = 4;
+
+                    var waterLeftIndicator = (items.watercan.thing.waterLeft / items.watercan.thing.waterCapcity) * WATERCAN_BAR_W;
+                    var waterCapacityIndicator = (WATERCAN_BAR_W * items.watercan.thing.waterCapcity) / items.watercan.thing.waterCapcity;
+
+                    colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
+                    colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
+                    break;
+            }
         }       
-
-        switch (slot.item) {
-            case items.watercan.type:
-                const WATERCAN_BAR_W = 32;
-                const WATERCAN_BAR_H = 4;
-
-                var waterLeftIndicator = (items.watercan.thing.waterLeft / items.watercan.thing.waterCapcity) * WATERCAN_BAR_W;
-                var waterCapacityIndicator = (WATERCAN_BAR_W * items.watercan.thing.waterCapcity) / items.watercan.thing.waterCapcity;
-
-                colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
-                colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
-                break;
-        }
-
         // draw stackable item count
         if (slot.count > 1) {
             colorText(slot.count, itemX - 3, itemY - 15, 'white');
@@ -125,6 +124,54 @@ function InventorySlotInterfaceHelper() {
             this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
         }
     };
+
+    this.drawToolTips = function (inventory, itemX, itemY, i) {
+        if (inventory.selectedSlotIndex === i) {
+            var toolTipX = itemX - 16;
+            var toolTipY = itemY + 42;
+            var toolTipW = 64;
+            var toolTipH = 16;
+
+            switch (inventory.slots[i].item) {
+                case items.hoe.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 24, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.hoe.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.pickaxe.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 10, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.pickaxe.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.watercan.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 2, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.watercan.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.axe.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 24, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.axe.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.metal.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.metal.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.stone.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.stone.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.wood.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.wood.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.wheatSeedOne.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.wheatSeedOne.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.wheatSeedTwo.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.wheatSeedTwo.name, toolTipX, toolTipY, 'black');
+                    break;
+            }
+        }
+    }
 
     this.mouseHoverInventorySlotToSelect = function (inventory, itemX, itemY, i) {
         if (mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
