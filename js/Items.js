@@ -16,8 +16,11 @@ var ItemCode = Object.freeze({
     WHEAT_SEED_TWO: 9,
 });
 
-function Item(itemType) {
+// Item class
+function Item(itemName, itemType) {
+    this.name = itemName;
     this.type = itemType;
+    this.thing = ItemCode.NOTHING;
 
     switch (itemType) {
         case ItemCode.WATERCAN:
@@ -28,17 +31,18 @@ function Item(itemType) {
     return this;
 }
 
+// Create item instances here, instanced in Main.js
 function Items() {
-    this.nothing = new Item(ItemCode.NOTHING);
-    this.metal = new Item(ItemCode.METAL);
-    this.stone = new Item(ItemCode.STONE);
-    this.wood = new Item(ItemCode.WOOD);
-    this.axe = new Item(ItemCode.AXE);
-    this.watercan = new Item(ItemCode.WATERCAN);
-    this.hoe = new Item(ItemCode.HOE);
-    this.pickaxe = new Item(ItemCode.PICKAXE);
-    this.wheatSeedOne = new Item(ItemCode.WHEAT_SEED_ONE);
-    this.wheatSeedTwo = new Item(ItemCode.WHEAT_SEED_TWO);
+    this.nothing = new Item("Nothing", ItemCode.NOTHING);
+    this.metal = new Item("Metal", ItemCode.METAL);
+    this.stone = new Item("Stone", ItemCode.STONE);
+    this.wood = new Item("Wood", ItemCode.WOOD);
+    this.axe = new Item("Axe", ItemCode.AXE);
+    this.watercan = new Item("Watercan", ItemCode.WATERCAN);
+    this.hoe = new Item("Hoe", ItemCode.HOE);
+    this.pickaxe = new Item("Pickaxe", ItemCode.PICKAXE);
+    this.wheatSeedOne = new Item("Wheat Seed One", ItemCode.WHEAT_SEED_ONE);
+    this.wheatSeedTwo = new Item("Wheat Seed Two", ItemCode.WHEAT_SEED_TWO);
 }
 
 function Watercan(waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY) {
