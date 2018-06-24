@@ -53,3 +53,11 @@ function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomR
         }
     };
 }
+
+function InventoryItemHeldAtMouseCursor() {
+    this.draw = function () {
+        if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
+            inventoryInterfaceHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
+        }
+    };
+}

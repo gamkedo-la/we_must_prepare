@@ -409,46 +409,7 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 function PlayWaterAmbi() {
 }
 
-function AudioPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-	this.x = topLeftX;
-	this.y = topLeftY;
-	this.width = bottomRightX - topLeftX;
-	this.height = bottomRightY - topLeftY;
-	this.name = name;
-	this.isVisible = true;
-
-	this.pieces = [mSlider = new AudioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, musicVolumeManager),
-					eSlider = new AudioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, enviSFXVolumeManager),
-					sfxSlider = new AudioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, sFXVolumeManager),
-					uiSlider = new AudioSliderUI('UI Volume', this.x+20, this.y+110, this.x + this.width-20, this.y+130, interfaceSFXVolumeManager),
-					muteToggle = new AudioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x+40, this.y+160),
-					skipButton = new AudioButtonUI('Skip Track', this.x + this.width/4, this.y+140, this.x + this.width/4 + 60, this.y+160),
-					currentSong = new AudioCurrentTrackUI('Now playing:', this.x+20, this.y+190, this.x + this.width-20, this.y+210)];
-	skipButton.action = function() {
-		inGame_music_master.jump();
-	};
-    
-	this.leftMouseClick = function(x=mouseX, y=mouseY) {
-		for(var i = 0; i < this.pieces.length; i++){
-			if(y >= this.pieces[i].y && y <= this.pieces[i].y+this.pieces[i].height &&
-			   x >= this.pieces[i].x && x <= this.pieces[i].x+this.pieces[i].width){
-				this.pieces[i].leftMouseClick();
-				return true;
-			}
-		}
-		return false;
-	}
-
-	this.draw = function() {
-		drawInterfacePaneBackground(this);
-		for(var i = 0; i < this.pieces.length; i++){
-			this.pieces[i].draw();
-		}
-
-	}
-}
-
-function AudioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
+function AudioSliderInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
@@ -499,7 +460,7 @@ function AudioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 	}
 }
 
-function AudioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioMuteToggleInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
@@ -539,7 +500,7 @@ function AudioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY)
 	}
 }
 
-function AudioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioCurrentTrackInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
@@ -566,7 +527,7 @@ function AudioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRight
 	}
 }
 
-function AudioButtonUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioButtonInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;

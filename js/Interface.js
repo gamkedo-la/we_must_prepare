@@ -45,10 +45,10 @@ function Interface() {
     this.controlsInfoPane = new ControlsInfoPane('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.controlsInfoPane);
 
-    this.inventoryPane = new InventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
+    this.inventoryPane = new InventoryPane('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     this.tabMenu.push(this.inventoryPane);
 
-    this.audioPane = new AudioPaneInterface('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.audioPane);
 
     this.tabMenu.switchTabIndex(0);
@@ -57,8 +57,8 @@ function Interface() {
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
-    this.hotbarPane = new HotbarPaneInterface();
-    this.holdingSlot = new HoldingSlotInterface();
+    this.hotbarPane = new HotbarPane();
+    this.holdingSlot = new InventoryItemHeldAtMouseCursor();
 
     this.draw = function () {
         this.hotbarPane.draw();
@@ -71,286 +71,7 @@ function Interface() {
     };    
 }
 
-function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {    
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;
-    this.isVisible = visible;
-
-    this.buttons = [];
-
-    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        if (this.isVisible && isInPane(this, x, y)) {
-            //checks for *first* button in array that mouse can click
-            for (var i = 0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                return button.leftMouseClick(x, y);
-            }
-        }
-        return false;
-    };
-
-    this.draw = function () {
-        if (this.isVisible) {
-            drawInterfacePaneBackground(this);
-
-            //draw buttons
-            for (var i = 0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                button.draw();
-            }
-        }
-    };
-
-    // this menu needs to be updated every frame 
-    this.update = function (x = mouseX, y = mouseY) {
-        for (var i = 0; i < this.buttons.length; i++) {
-            var button = this.buttons[i];
-            button.mouseOver(x, y);
-        }
-    };
-
-    this.push = function (button) {
-        this.buttons.push(button);
-    };
-}
-
-function TabMenuPane(inventoryPane, X=0, Y=0, tabHeight=30) {
-    this.x = X;
-    this.y = Y;
-    this.tabHeight = tabHeight;
-    this.tabTextPadding = 15;
-    this.panes = [];
-    this.activePane = null;
-    this.activeIndex = -1;
-    
-    this.isVisible = false;
-    
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        if (this.isVisible && isInPane(this.activePane, x, y)) {
-            this.activePane.leftMouseClick(x, y);
-            return true;
-        } else if (this.isVisible) {
-            var clickedPane = this.getTabPaneAt(x, y);
-            if ( clickedPane !== null ) {
-                this.switchTabName(clickedPane.name);
-                uiSelect.play();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false; //Input was not handled by this
-        }
-    };
-    
-    this.rightMouseClick = function(x=mouseX, y=mouseY) {
-        if (inventoryPane.isVisible) {
-            return inventoryPane.rightMouseClick(x, y);
-        }
-        return false;
-    };
-    
-    this.getTabPaneAt = function(x=mouseX, y=mouseY) {
-        var clickedPane = null;
-        var tabX = this.x;
-        var tabY = this.y; //bottom of tab
-        var i;
-        for(i=0; i < this.panes.length; i++) {
-            var pane = this.panes[i];
-            //draw tab
-            str = pane.name;
-            var textWidth = canvasContext.measureText(str).width;
-            var tabWidth = (this.tabTextPadding*2)+textWidth;
-            //check if inside current tab
-            if ( x >= tabX && x <= tabX+tabWidth && 
-                 y >= tabY && y <= tabY+this.tabHeight )
-            {
-                clickedPane = pane;
-                break;
-                //Terminate loop early, no need to check further tabs
-            }
-            tabX += tabWidth;
-        }
-        return clickedPane; //returns null if no pane clicked
-    };
-    
-    this.draw = function() {
-        if (this.isVisible) {
-            var length = this.panes.length;
-            var i;
-            var tabX = this.x;
-            var tabY = this.y
-            var activeTabX=0;
-            var activeTabY=0;
-            var activeTabWidth=0;
-            var activeTabStr="";
-            var str;
-            
-            // draw inactive tabs
-            for(i=0; i < length; i++) {
-                var pane = this.panes[i];
-                //draw tab
-                str = pane.name;
-                var textWidth = canvasContext.measureText(str).width;
-                var tabWidth = (this.tabTextPadding*2)+textWidth;
-                var textColor;
-                if  (i == this.activeIndex) {
-                    //active tab, skip drawing (will draw at end over other elements)
-                    activeTabX = tabX;
-                    activeTabY = tabY;
-                    activeTabWidth = tabWidth;
-                    activeTabStr = str;
-                } else {
-                    //inactive tab
-                    canvasContext.fillStyle = tabInterfaceBackgroundDark;
-                    canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
-                    textColor = 'LightSlateGray';
-                }
-                colorText(str, tabX+this.tabTextPadding, tabY+this.tabTextPadding, textColor);
-                tabX += tabWidth;
-                //draw only panes set as visible
-                if(pane.isVisible) {
-                    pane.draw();
-                }
-            }
-            // draw active pane
-            var pane = this.activePane;
-            if(pane.isVisible) {
-                pane.draw();
-            }
-            //draw active tab on top
-            canvasContext.fillStyle = backgroundInterfaceColor;
-            canvasContext.fillRect(activeTabX, activeTabY, activeTabWidth, this.tabHeight);
-            var textColor = 'black';
-            colorText(activeTabStr, activeTabX+this.tabTextPadding, activeTabY+this.tabTextPadding, textColor);
-        }
-    };
-    
-    this.push = function(pane, isVisible=false) {
-        this.panes.push(pane);
-        pane.isVisible = isVisible;
-    };
-    
-    this.switchTabIndex = function(index) {
-        var i;
-        var pane=null;
-        for(i=0; i < this.panes.length; i++) {
-            pane = this.panes[i];
-            if( i == index) {
-                this.activePane = pane;
-                this.activeIndex = index;
-                pane.isVisible = true;
-            } else {
-                pane.isVisible = false;
-            }
-        }
-    };
-    this.switchTabName = function(name) {
-        //search panes to find next one that matches name
-        var i;
-        var pane;
-        for(i=0; i < this.panes.length; i++) {
-            pane = this.panes[i];
-            if (pane.name == name) {
-                this.switchTabIndex(i);
-            }
-        }
-    };
-    this.switchTab = function(scrollLeftIfTrue = false, doWrap=true) {
-        var i;
-        if (scrollLeftIfTrue) {
-            i = this.activeIndex-1;
-            if (doWrap) { 
-                if (i < 0) {
-                    i = this.panes.length-1;
-                }
-            }                        
-        }
-        else {
-            i = this.activeIndex+1;
-            if (doWrap) {
-                i = Math.abs(i%this.panes.length); //wrap index
-            } else if (i >= this.panes.length-1) {
-                i = this.panes.length-1;
-            }
-        }
-        this.switchTabIndex(i);
-    };
-}
-
-function ControlsInfoPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;    
-    this.isVisible = true;
-
-    this.buttons = [];
-
-    this.padding = 20;
-    this.columnPadding = 40;
-    this.lineHeight = 15;
-    this.textColor = 'black';
-    this.textLine = ControlsText;
-    
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        return false;
-    };
-
-    this.draw = function() {
-        drawInterfacePaneBackground(this);
-
-        var lines = this.textLine.length;
-        var columnWidth = 0;
-        var textX = this.x+this.padding;
-        var startTextY = this.y+this.padding;
-        var textY = startTextY;
-        var i;
-        for(i=0; i < lines; i++) {
-            // check if at bottom of pane; If so start new column
-            if (textY > this.y+this.height-this.padding)
-            {
-                textX += columnWidth+this.columnPadding;
-                columnWidth = 0;
-                textY = startTextY;
-            }
-            var line = this.textLine[i];
-            colorText(line, textX, textY, this.textColor);
-            var textWidth = canvasContext.measureText(line).width;
-            if (textWidth > columnWidth) {
-                columnWidth = textWidth;
-            }
-            textY += this.lineHeight;
-        }
-    };
-
-    this.push = function (button) {
-        this.buttons.push(button);
-    };
-}
-
-function Pane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;
-    this.isVisible = true;
-    
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        return false;
-    };
-    
-    this.draw = function() {
-        drawInterfacePaneBackground(this);
-    };
-}
-
-//utility functions for panes
+// utility and helper Interface functions
 function isInPane (pane, x, y) {
     if ( pane === null ) {
         return false; //no pane referenced
@@ -362,6 +83,52 @@ function isInPane (pane, x, y) {
     var boolResult = (x >= topLeftX && x <= bottomRightX &&
                       y >= topLeftY && y <= bottomRightY);
     return boolResult;
+};
+
+var inventoryInterfaceHelper = {
+    isAudioInterfaceInventorySelectPlaying: false,
+    uiMouseX: mouseX,
+    uiMouseY: mouseY,
+    itemSpriteSheet: new SpriteSheet(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
+    selectedSlotSprite: new Sprite(targetTilePic, 64, 64),
+
+    drawSlot: function (itemX, itemY, slot) {
+        if (slot.count > 0) {
+            this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
+        }
+
+        if (slot.count > 1) {
+            colorText(slot.count, itemX - 3, itemY - 15, 'white');
+        }
+    },
+
+    drawSlockBackground: function (inventory, itemX, itemY, i) {
+        if (inventory.selectedSlotIndex === i) {
+            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+            this.selectedSlotSprite.draw(itemX, itemY);
+        } else {
+            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+        }
+    },
+
+    testMouse: function (inventory, itemX, itemY, i) {
+        if (mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
+            inventory.selectedSlotIndex = i;
+
+            if (this.uiMouseX != mouseX || this.uiMouseY != mouseY) {
+                if (this.uiMouseX > itemX - 25 && this.uiMouseX < itemX + 25 && this.uiMouseY > itemY - 25 && this.uiMouseY < itemY + 25) {
+                    this.isAudioInterfaceInventorySelectPlaying = false;
+                }
+                else if (!this.isAudioInterfaceInventorySelectPlaying) {
+                    uiInventorySelect.play();
+                    this.isAudioInterfaceInventorySelectPlaying = true;
+                }
+            }
+
+            this.uiMouseX = mouseX;
+            this.uiMouseY = mouseY;
+        }
+    }
 };
 
 function drawInterfacePaneBackground(pane, backgroundColor = backgroundInterfaceColor, borderColor = borderInterfaceColor) {
