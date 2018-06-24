@@ -47,7 +47,6 @@ function resetGame(loadSave) {
         }
     }
     setupBuckets();
-    setupItems();
     setupInventory();
     timer.resetDay();
 }
@@ -100,10 +99,6 @@ window.onload = function () {
     loadImages();
 
 }  // end onload
-
-function setupItems() {
-
-}
 
 function setupInventory() {
     // player.inventory.clear();    
