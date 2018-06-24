@@ -93,10 +93,25 @@ function InventorySlotInterfaceHelper() {
     this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);
 
     this.drawInventorySlot = function (itemX, itemY, slot) {
+        // draw item graphic
         if (slot.count > 0) {
             this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
+        }       
+
+        switch (slot.item) {
+            case items.WATERCAN.type:
+                const WATERCAN_BAR_W = 32;
+                const WATERCAN_BAR_H = 4;
+
+                var waterLeftIndicator = (items.WATERCAN.watercan.waterLeft / items.WATERCAN.watercan.waterCapcity) * WATERCAN_BAR_W;
+                var waterCapacityIndicator = (WATERCAN_BAR_W * items.WATERCAN.watercan.waterCapcity) / items.WATERCAN.watercan.waterCapcity;
+
+                colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
+                colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
+                break;
         }
 
+        // draw stackable item count
         if (slot.count > 1) {
             colorText(slot.count, itemX - 3, itemY - 15, 'white');
         }

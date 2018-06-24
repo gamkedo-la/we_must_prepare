@@ -1,16 +1,3 @@
-var items = Object.freeze({
-	nothing    		:   0,
-	metal      		:   1,
-	stone      		:   2,
-	wood       		:   3,
-	axe	       		:   4,
-	watercan   		:   5,
-	hoe        		:   6,
-	pickaxe    		:   7,
-	wheatSeedOne  :   8,
-	wheatSeedTwo  :   9,
-});
-
 // when pressing number key in Input.js, we assign numbers to slots
 const SLOT_1 = 0;
 const SLOT_2 = 1;
@@ -18,8 +5,8 @@ const SLOT_3 = 2;
 const SLOT_4 = 3;
 const SLOT_5 = 4;
 
-function EmptyInventorySlot(){
-	this.item = items.nothing;
+function EmptyInventorySlot() {
+    this.item = ItemCode.NOTHING;
 	this.count = 0;
 }
 
@@ -74,7 +61,7 @@ function Inventory(size){
 		//Then fill empty slots after all stacks are at max size
 		for(var i = 0; i < this.numberOfSlots; i++){
 			if(count <= 0) break;
-			if(this.slots[i].item === items.nothing){
+			if(this.slots[i].item === items.NOTHING.type){
 				this.slots[i].item = item;
 				
 				if(count > this.slots[i].item.maxStackSize){

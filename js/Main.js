@@ -9,6 +9,7 @@ var masterFrameDelayTick = 0;
 var canvas, canvasContext;
 var player = new Player();
 var timer = new Timer();
+var items;
 var interface;
 
 var hasGameStartedByClick = false;
@@ -20,6 +21,7 @@ var blurInterval;
 var isMainMenuOpen = true;
 
 function loadingDoneSoStartGame() {
+    items = new Items();
     interface = new Interface();
     hasGameStartedByClick = true;
     startGameLoop();
@@ -45,6 +47,7 @@ function resetGame(loadSave) {
         }
     }
     setupBuckets();
+    setupItems();
     setupInventory();
     timer.resetDay();
 }
@@ -98,14 +101,19 @@ window.onload = function () {
 
 }  // end onload
 
+function setupItems() {
+
+}
+
 function setupInventory() {
-    // player.inventory.clear();
-    player.inventory.add(items.hoe, 1);
-    player.inventory.add(items.pickaxe, 1);
-    player.inventory.add(items.watercan, 1);
-    player.inventory.add(items.wheatSeedOne, 3);
-    player.inventory.add(items.axe, 1);
-    player.inventory.add(items.wheatSeedTwo, 3);
+    // player.inventory.clear();    
+
+    player.inventory.add(items.HOE.type, 1);
+    player.inventory.add(items.PICKAXE.type, 1);
+    player.inventory.add(items.WATERCAN.type, 1);
+    player.inventory.add(items.WHEAT_SEED_ONE.type, 3);
+    player.inventory.add(items.AXE.type, 1);
+    player.inventory.add(items.WHEAT_SEED_TWO.type, 3);
 }
 
 function moveEverything() {
