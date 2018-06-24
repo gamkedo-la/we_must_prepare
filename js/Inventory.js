@@ -208,12 +208,12 @@ function Inventory(size){
         this.equipSlot(this.equippedSlotIndex + scrollDir);
 
         if (scrollLeftIfTrue) {
-            while (this.equippedSlotIndex >= 0 && this.equippedSlotIndex < this.numberOfSlots && this.slots[this.equippedSlotIndex].item == 0) {
+            while (this.equippedSlotIndex >= 0 && this.equippedSlotIndex < this.numberOfSlots && this.slots[this.equippedSlotIndex].count <= 0) {
                 this.equippedSlotIndex--;
             }
 		}
 		else {            
-            while (this.equippedSlotIndex >= 0 && this.equippedSlotIndex < this.numberOfSlots && this.slots[this.equippedSlotIndex].item == 0) {
+            while (this.equippedSlotIndex >= 0 && this.equippedSlotIndex < this.numberOfSlots && this.slots[this.equippedSlotIndex].count <= 0) {
                 this.equippedSlotIndex++;
             }
         }
