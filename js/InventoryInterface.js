@@ -28,8 +28,8 @@ function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRi
         if(player.inventory.selectedSlotIndex >= 0){
             player.inventory.grabSlot();
             return true;
-        } else if(secondInventory.active && secondInventory.selectedSlotIndex >= 0) {
-            secondInventory.grabSlot();
+        } else if(player.secondInventory.active && player.secondInventory.selectedSlotIndex >= 0) {
+            player.secondInventory.grabSlot();
             return true;
         }
         return false;
@@ -39,8 +39,8 @@ function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRi
         if(player.inventory.selectedSlotIndex >= 0){
             player.inventory.altGrabSlot();
             return true;
-        } else if(secondInventory.active && secondInventory.selectedSlotIndex >= 0) {
-            secondInventory.altGrabSlot();
+        } else if(player.secondInventory.active && player.secondInventory.selectedSlotIndex >= 0) {
+            player.secondInventory.altGrabSlot();
             return true;
         }
         return false;
@@ -50,14 +50,14 @@ function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRi
 		drawUIPaneBackground(this);
 		
 		var itemX, itemY;
-		if(secondInventory.active) {
+		if(player.secondInventory.active) {
 			var inventoryX = this.firstInventoryX;
 			var inventoryY = this.firstInventoryY;
 		} else {
 			var inventoryX = this.inventoryX;
 			var inventoryY = this.inventoryY;
 		}
-		secondInventory.selectedSlotIndex = -1;
+		player.secondInventory.selectedSlotIndex = -1;
 		player.inventory.selectedSlotIndex = -1;
 		
 		//draw regular slots
@@ -65,20 +65,20 @@ function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRi
             itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
             itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
 
-			inventoryUIHelper.testMouse(player.inventory, itemX, itemY, i);
-			inventoryUIHelper.drawSlockBackground(player.inventory, itemX, itemY, i);
-			inventoryUIHelper.drawSlot(itemX, itemY, player.inventory.slots[i]);
+			inventoryInterfaceHelper.testMouse(player.inventory, itemX, itemY, i);
+			inventoryInterfaceHelper.drawSlockBackground(player.inventory, itemX, itemY, i);
+			inventoryInterfaceHelper.drawSlot(itemX, itemY, player.inventory.slots[i]);
 		}
 		
-		if(secondInventory.active) {
-			for(var i = 0; i < secondInventory.slotCount; i++) {
+		if(player.secondInventory.active) {
+			for(var i = 0; i < player.secondInventory.slotCount; i++) {
 				//draw as regular slot
                 itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
                 itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
 	
-				inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i);
-				inventoryUIHelper.drawSlockBackground(secondInventory, itemX, itemY, i);
-				inventoryUIHelper.drawSlot(itemX, itemY, secondInventory.slots[i]);
+				inventoryInterfaceHelper.testMouse(player.secondInventory, itemX, itemY, i);
+				inventoryInterfaceHelper.drawSlockBackground(player.secondInventory, itemX, itemY, i);
+				inventoryInterfaceHelper.drawSlot(itemX, itemY, player.secondInventory.slots[i]);
 			}
 		}
 	};
@@ -122,22 +122,22 @@ function hotbarPaneInterface() {
             itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
 			itemY = this.hotbarItemY;
 			var keyText = i + 1; // i + 1 to show the correct keybind
-			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i);
+			inventoryInterfaceHelper.testMouse(player.hotbar, itemX, itemY, i);
 
 			// Draw equipped slot differently
 			if(i === player.hotbar.equippedItemIndex) {
 				if(i === player.hotbar.selectedSlotIndex) {
-					inventoryUIHelper.drawSlockBackground(player.hotbar, itemX, itemY, i);					
+					inventoryInterfaceHelper.drawSlockBackground(player.hotbar, itemX, itemY, i);					
 					colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
 				} else {
 					colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
 					canvasContext.fillStyle = 'white';
 				}
 			} else { // Draw all other slots
-				inventoryUIHelper.drawSlockBackground(player.hotbar, itemX, itemY, i);
+				inventoryInterfaceHelper.drawSlockBackground(player.hotbar, itemX, itemY, i);
 			}
 			
-			inventoryUIHelper.drawSlot(itemX, itemY, player.hotbar.slots[i]);
+			inventoryInterfaceHelper.drawSlot(itemX, itemY, player.hotbar.slots[i]);
 			colorText(keyText, itemX + 17, itemY + 22, 'white'); // 17 and 22 are just values to put keybind text in corner
 		}
 	};
@@ -146,12 +146,12 @@ function hotbarPaneInterface() {
 function holdingSlotInterface() {
     this.draw = function () {
         if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
-            inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
+            inventoryInterfaceHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
         }
     };
 }
 
-var inventoryUIHelper = {	
+var inventoryInterfaceHelper = {	
 	isAudioUIInventorySelectPlaying : false,
 	uiMouseX: mouseX,
 	uiMouseY: mouseY,

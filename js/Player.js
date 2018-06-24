@@ -54,6 +54,8 @@ function playerClass() {
 
     this.setupInventory = function () {
         this.inventory = new InventoryClass(30);
+        this.secondInventory = new InventoryClass(30);
+        this.secondInventory.active = true;
         this.hotbar = new InventoryClass(5);
         this.hotbar.equippedItemIndex = 0;
     }
