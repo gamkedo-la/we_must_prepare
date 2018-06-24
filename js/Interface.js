@@ -2,10 +2,10 @@
 //var BackgroundUIColor = "#fefcc9";
 //var BorderUIColor = "#c69c6d";
 
-var BackgroundUIColor = "beige";
-var BorderUIColor = "#c69c6d";
-var BorderUIWidth = 3;
-var TabUIBackgroundDark = "#eaeaae";
+var backgroundInterfaceColor = "beige";
+var borderInterfaceColor = "#c69c6d";
+var borderInterfaceWidth = 3;
+var tabInterfaceBackgroundDark = "#eaeaae";
 
 var ControlsText = ['------Keyboard Controls------',
                     'Menu - ESC',
@@ -205,7 +205,7 @@ function TabMenuPane(inventoryPane, X=0, Y=0, tabHeight=30) {
                     activeTabStr = str;
                 } else {
                     //inactive tab
-                    canvasContext.fillStyle = TabUIBackgroundDark;
+                    canvasContext.fillStyle = tabInterfaceBackgroundDark;
                     canvasContext.fillRect(tabX, tabY, tabWidth, this.tabHeight);
                     textColor = 'LightSlateGray';
                 }
@@ -222,7 +222,7 @@ function TabMenuPane(inventoryPane, X=0, Y=0, tabHeight=30) {
                 pane.draw();
             }
             //draw active tab on top
-            canvasContext.fillStyle = BackgroundUIColor;
+            canvasContext.fillStyle = backgroundInterfaceColor;
             canvasContext.fillRect(activeTabX, activeTabY, activeTabWidth, this.tabHeight);
             var textColor = 'black';
             colorText(activeTabStr, activeTabX+this.tabTextPadding, activeTabY+this.tabTextPadding, textColor);
@@ -364,9 +364,9 @@ function isInPane (pane, x, y) {
     return boolResult;
 };
 
-function drawInterfacePaneBackground(pane, backgroundColor = BackgroundUIColor, borderColor = BorderUIColor) {
+function drawInterfacePaneBackground(pane, backgroundColor = backgroundInterfaceColor, borderColor = borderInterfaceColor) {
     colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
-    drawInterfacePaneBorder(pane, BorderUIWidth, borderColor);
+    drawInterfacePaneBorder(pane, borderInterfaceWidth, borderColor);
 }
 
 function drawInterfacePaneBorder(pane, borderWidth, color) {
