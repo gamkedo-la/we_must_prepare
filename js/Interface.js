@@ -30,14 +30,14 @@ var ControlsText = ['------Keyboard Controls------',
 
 // Only one Interface (instanced in Main.js) in the game, with many Panes on it.
 function Interface() {
-    // Main Menu Pane instance
+    // Main Menu pane instance
     this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);    
 
-    // put a test button on the Main Menu Pane instance
+    // put a test button on the Main Menu pane instance
     this.testButton = new Button(this.mainMenu, "Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
     this.testButton.action = function () {
-        this.isVisible = false;
-        this.parentInterface.isVisible = false;
+        this.isVisible = false; // make this test button invisible
+        this.parentInterface.isVisible = false; // make the pane this test button is on invisible
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
         inGame_music_master.play();
         musicPastMainMenu = true;
