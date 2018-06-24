@@ -5,7 +5,7 @@ function PlayerClass() {
     this.y = 0;
     this.isWalking = false;
 
-    this.holdingSlot = new emptyInventorySlot();
+    this.holdingSlot = new EmptyInventorySlot();
 
     this.bucketList = [];
     this.storageList = [];
