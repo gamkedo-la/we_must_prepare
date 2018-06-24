@@ -94,7 +94,7 @@ function isInPane (pane, x, y) {
     var boolResult = (x >= topLeftX && x <= bottomRightX &&
                       y >= topLeftY && y <= bottomRightY);
     return boolResult;
-};
+}
 
 var inventoryInterfaceHelper = {
     isAudioInterfaceInventorySelectPlaying: false,
