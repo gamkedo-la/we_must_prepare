@@ -440,7 +440,7 @@ function AudioPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY
 	}
 
 	this.draw = function() {
-		drawUIPaneBackground(this);
+		drawInterfacePaneBackground(this);
 		for(var i = 0; i < this.pieces.length; i++){
 			this.pieces[i].draw();
 		}

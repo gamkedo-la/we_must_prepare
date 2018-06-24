@@ -1,60 +1,14 @@
 var buttonColor = "lightgray";
 var buttonColorPressed = "gray"
 
-function ButtonMenuInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
     this.name = name;
     this.isVisible = true;
-
-    this.buttons = [];
-    
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        if(this.isVisible && isInPane(this, x, y)) {
-            //checks for *first* button in array that mouse can click
-            for(var i=0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                return button.leftMouseClick(x, y);
-            }
-        }
-        return false;
-    };
-    
-    this.draw = function() {
-        if(this.isVisible) {
-            drawUIPaneBackground(this);
-
-            //draw buttons
-            for(var i=0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                button.draw();
-            }
-        }
-    };
-    
-    // this menu needs to be updated every frame 
-    this.update = function(x=mouseX, y=mouseY) {
-        for(var i=0; i < this.buttons.length; i++) {
-            var button = this.buttons[i];
-            button.mouseOver(x, y);
-        }
-    };
-
-    this.push = function(button) {
-        this.buttons.push(button);
-    };
-}
-
-function ButtonInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;
-    this.isVisible = true;
-
+    this.parentInterface = parentInterface;
     this.isPressed = false;
     
     //TODO I think this is ok in javascript with varable scope

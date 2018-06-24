@@ -9,6 +9,7 @@ var masterFrameDelayTick = 0;
 var canvas, canvasContext;
 var player = new Player();
 var timer = new Timer();
+var interface;
 
 var hasGameStartedByClick = false;
 var isPaused = false;
@@ -19,11 +20,11 @@ var blurInterval;
 var isMainMenuOpen = true;
 
 function loadingDoneSoStartGame() {
+    interface = new Interface();
     hasGameStartedByClick = true;
     startGameLoop();
 
     setupInput();
-    setupAllInterfaces(); //interface.js
     extendBuildingCollision();
 
     timer.setupTimer();
@@ -65,8 +66,8 @@ function gameLoop() {
     mouseDblClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
     //TODO add update for menus which need it (e.g. buttonMenus like mainMenu)
-    if (MainMenu.isVisible) {
-        MainMenu.update(mouseX, mouseY);
+    if (interface.mainMenu.isVisible) {
+        interface.mainMenu.update(mouseX, mouseY);
     }
 }
 
@@ -165,7 +166,7 @@ function drawEverything() {
     // drawInterfaceForSelected();
     timer.drawTimer();
     // draw all the user interfaces
-    drawAllInterfaces();
+    interface.draw();
 }
 
 function drawSkyGradient() {

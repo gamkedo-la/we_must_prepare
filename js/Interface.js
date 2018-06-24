@@ -2,13 +2,6 @@
 //var BackgroundUIColor = "#fefcc9";
 //var BorderUIColor = "#c69c6d";
 
-//Central Menu
-var InventoryPane;
-var HotbarPane;
-var TabMenu;
-var MainMenu;
-var HoldingSlot;
-
 var BackgroundUIColor = "beige";
 var BorderUIColor = "#c69c6d";
 var BorderUIWidth = 3;
@@ -34,85 +27,98 @@ var ControlsText = ['------Keyboard Controls------',
                     'End Day - P',
                     'Pause Time - O'];
 
-function setupAllInterfaces() {
-    MainMenu = new ButtonMenuInterface("Main Menu", 0, 0, canvas.width, canvas.height);
-    var button = new ButtonInterface("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
-    button.action = function () {
-        MainMenu.isVisible = false;
+function Interface() {
+    this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);    
+
+    // put a test button on the main menu pane
+    this.testButton = new Button(this.mainMenu, "Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
+    this.testButton.action = function () {
+        this.isVisible = false;
+        this.parentInterface.isVisible = false;
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
         inGame_music_master.play();
         musicPastMainMenu = true;
     };
-    MainMenu.push(button);
+    this.mainMenu.push(this.testButton);
 
-    TabMenu = new TabMenuInterface(canvas.width * .25, canvas.height * .25 - 30);
-    //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    //TabMenu.push(pane);
-    var pane = new ControlsInfoPaneInterface('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    TabMenu.push(pane);
+    this.tabMenu = new TabMenuPane(this.inventoryPane, canvas.width * .25, canvas.height * .25 - 30);
 
-    pane = new InventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
-    InventoryPane = pane;
-    TabMenu.push(pane);
+    this.controlsInfoPane = new ControlsInfoPane('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.tabMenu.push(this.controlsInfoPane);
 
-    var pane = new AudioPaneInterface('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    TabMenu.push(pane);
+    this.inventoryPane = new InventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
+    this.tabMenu.push(this.inventoryPane);
 
-    TabMenu.switchTabIndex(0);
-    //TabMenu.switchTabName('Controls');
+    this.audioPane = new AudioPaneInterface('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.tabMenu.push(this.audioPane);
+
+    this.tabMenu.switchTabIndex(0);
+    //this.tabMenu.switchTabName('Controls');
     const SCROLL_TO_THE_LEFT = true;
-    TabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
-    TabMenu.switchTab(SCROLL_TO_THE_LEFT);
+    this.tabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
+    this.tabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
-    HotbarPane = new HotbarPaneInterface();
-    HoldingSlot = new HoldingSlotInterface();
+    this.hotbarPane = new HotbarPaneInterface();
+    this.holdingSlot = new HoldingSlotInterface();
+
+    this.draw = function () {
+        this.hotbarPane.draw();
+        this.tabMenu.draw();
+        this.mainMenu.draw();
+        this.holdingSlot.draw();
+
+        colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
+        colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
+    };    
 }
 
-function drawAllInterfaces() {
-    HotbarPane.draw();
-    TabMenu.draw();
-    MainMenu.draw();
-    HoldingSlot.draw();
+function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {    
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.isVisible = visible;
 
-    colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
-    colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
+    this.buttons = [];
+
+    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        if (this.isVisible && isInPane(this, x, y)) {
+            //checks for *first* button in array that mouse can click
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                return button.leftMouseClick(x, y);
+            }
+        }
+        return false;
+    };
+
+    this.draw = function () {
+        if (this.isVisible) {
+            drawInterfacePaneBackground(this);
+
+            //draw buttons
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                button.draw();
+            }
+        }
+    };
+
+    // this menu needs to be updated every frame 
+    this.update = function (x = mouseX, y = mouseY) {
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            button.mouseOver(x, y);
+        }
+    };
+
+    this.push = function (button) {
+        this.buttons.push(button);
+    };
 }
 
-function drawUIPaneBackground(pane, backgroundColor=BackgroundUIColor, borderColor=BorderUIColor) {
-    colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
-    drawUIPaneBorder(pane, BorderUIWidth, borderColor);
-}
-
-function drawUIPaneBorder(pane, borderWidth, color) {
-    //draw border lines - 
-    colorRect(pane.x,             pane.y-borderWidth,  pane.width,  borderWidth, color);
-    colorRect(pane.x+pane.width,  pane.y, borderWidth, pane.height, color);
-    colorRect(pane.x,             pane.y+pane.height,  pane.width,  borderWidth, color);
-    colorRect(pane.x-borderWidth, pane.y, borderWidth, pane.height, color);
-    //draw round corners
-    //color *should* be the same from previous calls
-    canvasContext.beginPath();
-    canvasContext.arc(pane.x+pane.width, pane.y, borderWidth, -0.5*Math.PI, 0);
-    canvasContext.lineTo(pane.x+pane.width, pane.y);
-    canvasContext.fill();
-
-    canvasContext.beginPath();
-    canvasContext.arc(pane.x+pane.width, pane.y+pane.height, borderWidth, 0, 0.5*Math.PI);
-    canvasContext.lineTo(pane.x+pane.width, pane.y+pane.height);
-    canvasContext.fill();
-
-    canvasContext.beginPath();
-    canvasContext.arc(pane.x, pane.y+pane.height, borderWidth, 0.5*Math.PI, Math.PI);
-    canvasContext.lineTo(pane.x, pane.y+pane.height);
-    canvasContext.fill();
-
-    canvasContext.beginPath();
-    canvasContext.arc(pane.x, pane.y, borderWidth, Math.PI, -0.5*Math.PI);
-    canvasContext.lineTo(pane.x, pane.y);
-    canvasContext.fill();
-}
-
-function TabMenuInterface(X=0, Y=0, tabHeight=30) {
+function TabMenuPane(inventoryPane, X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;
     this.tabHeight = tabHeight;
@@ -142,8 +148,8 @@ function TabMenuInterface(X=0, Y=0, tabHeight=30) {
     };
     
     this.rightMouseClick = function(x=mouseX, y=mouseY) {
-        if(InventoryPane.isVisible) {
-            return InventoryPane.rightMouseClick(x, y);
+        if (inventoryPane.isVisible) {
+            return inventoryPane.rightMouseClick(x, y);
         }
         return false;
     };
@@ -276,24 +282,7 @@ function TabMenuInterface(X=0, Y=0, tabHeight=30) {
     };
 }
 
-function PaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-    this.x = topLeftX;
-    this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
-    this.name = name;
-    this.isVisible = true;
-    
-    this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        return false;
-    };
-    
-    this.draw = function() {
-        drawUIPaneBackground(this);
-    };
-}
-
-function ControlsInfoPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function ControlsInfoPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     this.x = topLeftX;
     this.y = topLeftY;
@@ -314,7 +303,7 @@ function ControlsInfoPaneInterface(name, topLeftX, topLeftY, bottomRightX, botto
     };
 
     this.draw = function() {
-        drawUIPaneBackground(this);
+        drawInterfacePaneBackground(this);
 
         var lines = this.textLine.length;
         var columnWidth = 0;
@@ -341,8 +330,25 @@ function ControlsInfoPaneInterface(name, topLeftX, topLeftY, bottomRightX, botto
     };
 }
 
+function Pane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.isVisible = true;
+    
+    this.leftMouseClick = function(x=mouseX, y=mouseY) {
+        return false;
+    };
+    
+    this.draw = function() {
+        drawInterfacePaneBackground(this);
+    };
+}
+
 //utility functions for panes
-var isInPane = function(pane, x, y) {
+function isInPane (pane, x, y) {
     if ( pane === null ) {
         return false; //no pane referenced
     }
@@ -354,6 +360,40 @@ var isInPane = function(pane, x, y) {
                       y >= topLeftY && y <= bottomRightY);
     return boolResult;
 };
+
+function drawInterfacePaneBackground(pane, backgroundColor = BackgroundUIColor, borderColor = BorderUIColor) {
+    colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
+    drawInterfacePaneBorder(pane, BorderUIWidth, borderColor);
+}
+
+function drawInterfacePaneBorder(pane, borderWidth, color) {
+    //draw border lines - 
+    colorRect(pane.x, pane.y - borderWidth, pane.width, borderWidth, color);
+    colorRect(pane.x + pane.width, pane.y, borderWidth, pane.height, color);
+    colorRect(pane.x, pane.y + pane.height, pane.width, borderWidth, color);
+    colorRect(pane.x - borderWidth, pane.y, borderWidth, pane.height, color);
+    //draw round corners
+    //color *should* be the same from previous calls
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x + pane.width, pane.y, borderWidth, -0.5 * Math.PI, 0);
+    canvasContext.lineTo(pane.x + pane.width, pane.y);
+    canvasContext.fill();
+
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x + pane.width, pane.y + pane.height, borderWidth, 0, 0.5 * Math.PI);
+    canvasContext.lineTo(pane.x + pane.width, pane.y + pane.height);
+    canvasContext.fill();
+
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x, pane.y + pane.height, borderWidth, 0.5 * Math.PI, Math.PI);
+    canvasContext.lineTo(pane.x, pane.y + pane.height);
+    canvasContext.fill();
+
+    canvasContext.beginPath();
+    canvasContext.arc(pane.x, pane.y, borderWidth, Math.PI, -0.5 * Math.PI);
+    canvasContext.lineTo(pane.x, pane.y);
+    canvasContext.fill();
+}
 
 const INTERFACE_Y = 500; // hacky please change
 var mouseOverBuildingInterfaceIndex = -1;

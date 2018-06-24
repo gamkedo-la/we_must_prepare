@@ -47,7 +47,7 @@ function InventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRi
     };
 
 	this.draw = function() {
-		drawUIPaneBackground(this);
+		drawInterfacePaneBackground(this);
 		
 		var itemX, itemY;
 		if(player.secondInventory.active) {

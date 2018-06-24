@@ -91,7 +91,7 @@ function mouseupHandler(evt) {
 } // end mouse up handler
 
 function mousewheelHandler(evt) {
-    if (!TabMenu.isVisible) {
+    if (!interface.tabMenu.isVisible) {
         player.hotbar.scrollThrough(evt.deltaY < 0);
     }
     evt.preventDefault();
@@ -105,17 +105,17 @@ function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
 
-    var centralMenuOpen = TabMenu.isVisible;
+    var centralMenuOpen = interface.tabMenu.isVisible;
     var inputHandled = false;
     if (mouseClickedThisFrame) {
-        inputHandled = MainMenu.leftMouseClick(mouseX, mouseY);
+        inputHandled = interface.mainMenu.leftMouseClick(mouseX, mouseY);
         // Central Menu //
         if (!inputHandled) {
-            inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || HotbarPane.leftMouseClick(mouseX, mouseY);
+            inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
         }
     }
     if (mouseDblClickedThisFrame) {
-        inputHandled = HotbarPane.leftMouseDblClick(mouseX, mouseY);
+        inputHandled = interface.hotbarPane.leftMouseDblClick(mouseX, mouseY);
     }
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
@@ -159,7 +159,7 @@ function inputUpdate() {
         }
     }
     if (rightMouseClickedThisFrame) {
-        inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || HotbarPane.rightMouseClick(mouseX, mouseY);
+        inputHandled = interface.tabMenu.rightMouseClick(mouseX, mouseY) || interface.hotbarPane.rightMouseClick(mouseX, mouseY);
         rightMouseClickedThisFrame = false;
     }
     if (!centralMenuOpen) {
@@ -199,13 +199,13 @@ function keyPress(evt) {
 
     // console.log("evt keycode " + evt.keyCode);
     // Menu Context Controls - if the menu is open, menu keys take priorty
-    var centralMenuOpen = TabMenu.isVisible;
+    var centralMenuOpen = interface.tabMenu.isVisible;
     const SCROLL_TO_THE_LEFT = true;
 
     if (centralMenuOpen) {
         switch (evt.code) {
             case "Tab":
-                TabMenu.switchTab(shiftKeyHeld);
+                interface.tabMenu.switchTab(shiftKeyHeld);
                 break;
             default:
                 keyUsedByGame = false;
@@ -219,7 +219,7 @@ function keyPress(evt) {
             shiftKeyHeld = true;
             break;
         case "Tab":
-            if (!TabMenu.isVisible) {
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.scrollThrough(shiftKeyHeld);
             }
             break;
@@ -234,8 +234,8 @@ function keyPress(evt) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             } else {
                 //toggle main menu
-                MainMenu.isVisible = !MainMenu.isVisible;
-                if (MainMenu.isVisible) {
+                interface.mainMenu.isVisible = !interface.mainMenu.isVisible;
+                if (interface.mainMenu.isVisible) {
                     uiSelect.play();
                 } else {
                     uiCancel.play();
@@ -243,9 +243,9 @@ function keyPress(evt) {
 
                 //TODO remove old mapping
                 //toggle tab menu
-                //TabMenu.switchTabName("Audio");
-                //TabMenu.isVisible = !TabMenu.isVisible;
-                //if(TabMenu.isVisible) {
+                //interface.tabMenu.switchTabName("Audio");
+                //interface.tabMenu.isVisible = !interface.tabMenu.isVisible;
+                //if(interface.tabMenu.isVisible) {
                 //    uiSelect.play();
                 //} else {
                 //    uiCancel.play();
@@ -259,13 +259,13 @@ function keyPress(evt) {
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab
-            if (TabMenu.activePane.name != "Inventory") {
-                TabMenu.switchTabName("Inventory");
-                TabMenu.isVisible = true;
+            if (interface.tabMenu.activePane.name != "Inventory") {
+                interface.tabMenu.switchTabName("Inventory");
+                interface.tabMenu.isVisible = true;
             } else {
-                TabMenu.isVisible = !TabMenu.isVisible;
+                interface.tabMenu.isVisible = !interface.tabMenu.isVisible;
             }
-            if (TabMenu.isVisible) {
+            if (interface.tabMenu.isVisible) {
                 uiSelect.play();
             } else {
                 uiCancel.play();
@@ -291,27 +291,27 @@ function keyPress(evt) {
             console.log("Fast Forward: " + timer.fastForward);
             break;
         case "Digit1":
-            if (!TabMenu.isVisible) {
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.equipSlot(SLOT_1);
             }
             break;
         case "Digit2":
-            if (!TabMenu.isVisible) {
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.equipSlot(SLOT_2);
             }
             break;
         case "Digit3":
-            if (!TabMenu.isVisible) {
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.equipSlot(SLOT_3);
             }
             break;
         case "Digit4":
-            if (!TabMenu.isVisible) {
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.equipSlot(SLOT_4);
             }
             break;
         case "Digit5":
-            if (!TabMenu.isVisible) {
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.equipSlot(SLOT_5);
             }
             break;
