@@ -78,15 +78,15 @@ function PlayerClass() {
         centerRadiation(this.x, this.y);
 
         this.bucketList = [];
-        this.bucketList[Resources.Metal] = new resourceClass(1000, 0);
-        this.bucketList[Resources.Stone] = new resourceClass(1000, 0);
-        this.bucketList[Resources.Wood] = new resourceClass(1000, 0);
+        this.bucketList[Resources.Metal] = new ResourceClass(1000, 0);
+        this.bucketList[Resources.Stone] = new ResourceClass(1000, 0);
+        this.bucketList[Resources.Wood] = new ResourceClass(1000, 0);
 
         this.storageList = [];
-        this.storageList[Resources.Metal] = new resourceClass(2550, 0);
-        this.storageList[Resources.Stone] = new resourceClass(2550, 0);
-        this.storageList[Resources.Wood] = new resourceClass(1550, 0);
-        this.storageList[Resources.Food] = new resourceClass(1550, 0);
+        this.storageList[Resources.Metal] = new ResourceClass(2550, 0);
+        this.storageList[Resources.Stone] = new ResourceClass(2550, 0);
+        this.storageList[Resources.Wood] = new ResourceClass(1550, 0);
+        this.storageList[Resources.Food] = new ResourceClass(1550, 0);
 
         this.inventory.oldAdd = this.inventory.add;
         this.inventory.add = function (item, count) {

@@ -29,7 +29,7 @@ function loadResourceLookupTableSaveState(saveState) {
             Object.keys(Resources).forEach(function(resourceType) {
                 var resourceBucketSaveState = tileLookupTableSaveState[resourceType];
                 if (resourceBucketSaveState) {
-                    tileLookupTable[resourceType] = new resourceClass(0, 0);
+                    tileLookupTable[resourceType] = new ResourceClass(0, 0);
                     tileLookupTable[resourceType].loadSaveState(resourceBucketSaveState);
                 }
             });
@@ -48,7 +48,7 @@ const Resources = {
     Food:"Food" 
 };
 
-function resourceClass(max, carried) {
+function ResourceClass(max, carried) {
     this.max = max;
     this.carried = carried;
 
@@ -121,7 +121,7 @@ function setupBuckets() {
         }
         if (resourceType != '') {
             resourceLookupTable[i] = [];
-            resourceLookupTable[i][resourceType] = new resourceClass(resourceQuantity, resourceQuantity);
+            resourceLookupTable[i][resourceType] = new ResourceClass(resourceQuantity, resourceQuantity);
             // console.log("Added in " + resourceType + " to roomGrid index " + i);
         }
 
