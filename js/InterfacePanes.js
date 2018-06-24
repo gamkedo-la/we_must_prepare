@@ -401,7 +401,7 @@ function HotbarPane() {
     };
 
     this.leftMouseDblClick = function (x = mouseX, y = mouseY) {
-        if (player.hotbar.selectedSlotIndex >= 0) {
+        if (player.hotbar.selectedSlotIndex >= 0 && player.hotbar.slots[player.hotbar.selectedSlotIndex].count > 0) {
             player.hotbar.equippedSlotIndex = player.hotbar.selectedSlotIndex;
             return true;
         }
