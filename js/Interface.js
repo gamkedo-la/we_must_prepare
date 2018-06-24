@@ -35,8 +35,8 @@ var ControlsText = ['------Keyboard Controls------',
                     'Pause Time - O'];
 
 function setupAllInterfaces() {
-    MainMenu = new buttonMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
-    var button = new buttonUI("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
+    MainMenu = new ButtonMenuInterface("Main Menu", 0, 0, canvas.width, canvas.height);
+    var button = new ButtonInterface("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
     button.action = function () {
         MainMenu.isVisible = false;
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
@@ -45,17 +45,17 @@ function setupAllInterfaces() {
     };
     MainMenu.push(button);
 
-    TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
+    TabMenu = new TabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
     //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     //TabMenu.push(pane);
-    var pane = new controlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    var pane = new ControlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
 
-    pane = new inventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
+    pane = new InventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     InventoryPane = pane;
     TabMenu.push(pane);
 
-    var pane = new audioPaneUI('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    var pane = new AudioPaneUI('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
 
     TabMenu.switchTabIndex(0);
@@ -64,8 +64,8 @@ function setupAllInterfaces() {
     TabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
     TabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
-    HotbarPane = new hotbarPaneInterface();
-    HoldingSlot = new holdingSlotInterface();
+    HotbarPane = new HotbarPaneInterface();
+    HoldingSlot = new HoldingSlotInterface();
 }
 
 function drawAllInterfaces() {
@@ -112,7 +112,7 @@ function drawUIPaneBorder(pane, borderWidth, color) {
     canvasContext.fill();
 }
 
-function tabMenuUI(X=0, Y=0, tabHeight=30) {
+function TabMenuUI(X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;
     this.tabHeight = tabHeight;
@@ -276,7 +276,7 @@ function tabMenuUI(X=0, Y=0, tabHeight=30) {
     };
 }
 
-function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function PaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
@@ -293,7 +293,7 @@ function paneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     };
 }
 
-function controlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function ControlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     this.x = topLeftX;
     this.y = topLeftY;

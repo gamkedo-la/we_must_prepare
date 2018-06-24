@@ -1,6 +1,6 @@
-//var inventory = new inventoryClass(30);
+//var inventory = new InventoryClass(30);
 
-function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function InventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
@@ -84,7 +84,7 @@ function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRi
 	};
 }
 
-function hotbarPaneInterface() {
+function HotbarPaneInterface() {
 	this.hotbarItemX = canvas.width * 0.5 - 115;
 	this.hotbarItemXSpacing = 55;
 	this.hotbarItemY = canvas.height - 50;
@@ -143,7 +143,7 @@ function hotbarPaneInterface() {
 	};
 }
 
-function holdingSlotInterface() {
+function HoldingSlotInterface() {
     this.draw = function () {
         if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
             inventoryInterfaceHelper.drawSlot(mouseX, mouseY, player.holdingSlot);

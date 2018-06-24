@@ -18,7 +18,7 @@ const SLOT_3 = 2;
 const SLOT_4 = 3;
 const SLOT_5 = 4;
 
-function emptyInventorySlot(){
+function EmptyInventorySlot(){
 	this.item = items.nothing;
 	this.count = 0;
 }
@@ -33,7 +33,7 @@ function InventoryClass(size){
 	
 	//Working backwards decreases array allocation time
 	for(var i = this.slotCount - 1; i >= 0; i--){
-		this.slots[i] = new emptyInventorySlot();
+		this.slots[i] = new EmptyInventorySlot();
 	}
 
 	this.getSaveState = function() {
@@ -98,7 +98,7 @@ function InventoryClass(size){
 		} else {
 			// TODO account for stack limits
 			this.slots[this.selectedSlotIndex].count += player.holdingSlot.count;
-			player.holdingSlot = new emptyInventorySlot();
+			player.holdingSlot = new EmptyInventorySlot();
         }
 
         if (this.selectedSlotIndex == this.equippedItemIndex) {
@@ -123,7 +123,7 @@ function InventoryClass(size){
 			
 			player.holdingSlot.count--;
 			if(player.holdingSlot.count === 0) {
-				player.holdingSlot = new emptyInventorySlot();
+				player.holdingSlot = new EmptyInventorySlot();
 			}
         }
 
@@ -141,7 +141,7 @@ function InventoryClass(size){
 		for(var i = this.slotCount - 1; i >= 0; i--){
 			if(this.slots[i].item == item){
 				if(count == this.slots[i].count){
-                    this.slots[i] = new emptyInventorySlot();
+                    this.slots[i] = new EmptyInventorySlot();
                     this.equippedItemIndex = -1;
 					removeItems = true;
 				}else if(count < this.slots[i].count){
@@ -159,7 +159,7 @@ function InventoryClass(size){
 		if(removeItems && itemsToRemove.length > 0){
 			for(var i = 0; i < itemsToRemove.length; i++){
 				if(itemsToRemove[i] > 0){
-					this.slots[i] = new emptyInventorySlot();
+					this.slots[i] = new EmptyInventorySlot();
 				}
 			}
 		}
@@ -175,7 +175,7 @@ function InventoryClass(size){
 		for(var i = 0; i < slotCount; i++){
 			if(this.slots[i].item === item){
 				count += this.slots[i].count;
-				this.slots[i] = new emptyInventorySlot();
+				this.slots[i] = new EmptyInventorySlot();
 			}
 		}
 		
@@ -184,7 +184,7 @@ function InventoryClass(size){
 	
 	this.clear = function(){
 		for(var i = this.slotCount - 1; i >= 0; i--){
-			this.slots[i] = new emptyInventorySlot();
+			this.slots[i] = new EmptyInventorySlot();
 		}
 	};
 	

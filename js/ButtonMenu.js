@@ -1,7 +1,7 @@
 var buttonColor = "lightgray";
 var buttonColorPressed = "gray"
 
-function buttonMenuUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function ButtonMenuInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
@@ -47,7 +47,7 @@ function buttonMenuUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     };
 }
 
-function buttonUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function ButtonInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
