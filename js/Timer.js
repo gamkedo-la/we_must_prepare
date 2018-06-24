@@ -7,7 +7,7 @@ const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debuggi
 const DAY_OF_ARRIVAL = 365;
 const DATE_DISPLAY_LENGTH_IN_GAME_SECONDS = 240;
 
-function TimerClass() {
+function Timer() {
     this.dayNumber = 1; // how many days has the player experienced?
     this.secondsInDay = 0; // how many seconds have elapsed today?
     this.isTimeFrozen = false;

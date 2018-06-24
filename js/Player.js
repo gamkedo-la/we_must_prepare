@@ -1,6 +1,6 @@
 const PLAYER_PIXELS_MOVE_RATE = 6;
 
-function PlayerClass() {
+function Player() {
     this.x = 0;
     this.y = 0;
     this.isWalking = false;
@@ -53,9 +53,9 @@ function PlayerClass() {
     };
 
     this.setupInventory = function () {
-        this.inventory = new InventoryClass(30);
-        this.secondInventory = new InventoryClass(30);        
-        this.hotbar = new InventoryClass(5);
+        this.inventory = new Inventory(30);
+        this.secondInventory = new Inventory(30);        
+        this.hotbar = new Inventory(5);
         this.hotbar.equippedItemIndex = 0;
     };
 
@@ -78,15 +78,15 @@ function PlayerClass() {
         centerRadiation(this.x, this.y);
 
         this.bucketList = [];
-        this.bucketList[Resources.Metal] = new ResourceClass(1000, 0);
-        this.bucketList[Resources.Stone] = new ResourceClass(1000, 0);
-        this.bucketList[Resources.Wood] = new ResourceClass(1000, 0);
+        this.bucketList[Resources.Metal] = new Resource(1000, 0);
+        this.bucketList[Resources.Stone] = new Resource(1000, 0);
+        this.bucketList[Resources.Wood] = new Resource(1000, 0);
 
         this.storageList = [];
-        this.storageList[Resources.Metal] = new ResourceClass(2550, 0);
-        this.storageList[Resources.Stone] = new ResourceClass(2550, 0);
-        this.storageList[Resources.Wood] = new ResourceClass(1550, 0);
-        this.storageList[Resources.Food] = new ResourceClass(1550, 0);
+        this.storageList[Resources.Metal] = new Resource(2550, 0);
+        this.storageList[Resources.Stone] = new Resource(2550, 0);
+        this.storageList[Resources.Wood] = new Resource(1550, 0);
+        this.storageList[Resources.Food] = new Resource(1550, 0);
 
         this.inventory.oldAdd = this.inventory.add;
         this.inventory.add = function (item, count) {
@@ -391,7 +391,7 @@ function PlayerClass() {
                         }
                         else if (equippedItem == items.wheatSeedOne) {
                             if (isAction) {
-                                new PlantClass(index, TILE_CORN_SEED);
+                                new Plant(index, TILE_CORN_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
@@ -399,7 +399,7 @@ function PlayerClass() {
                         }
                         else if (equippedItem == items.wheatSeedTwo) {
                             if (isAction) {
-                                new PlantClass(index, TILE_TOMATO_SEED);
+                                new Plant(index, TILE_TOMATO_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
@@ -423,14 +423,14 @@ function PlayerClass() {
                         }
                         else if (equippedItem == items.wheatSeedOne) {
                             if (isAction) {
-                                new PlantClass(index, TILE_CORN_SEED);
+                                new Plant(index, TILE_CORN_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         } else if (equippedItem == items.wheatSeedTwo) {
                             if (isAction) {
-                                new PlantClass(index, TILE_TOMATO_SEED);
+                                new Plant(index, TILE_TOMATO_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped

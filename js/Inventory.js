@@ -23,7 +23,7 @@ function EmptyInventorySlot(){
 	this.count = 0;
 }
 
-function InventoryClass(size){
+function Inventory(size){
 	this.active = true;
     this.selectedSlotIndex = -1; //Index of slot the cursor is hovering over
     this.equippedItemIndex = -1;

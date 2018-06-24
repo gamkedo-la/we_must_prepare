@@ -40,7 +40,7 @@ function colorText(text, textLineX, textLineY, color, fontInfo) {
     canvasContext.fillText(text, textLineX, textLineY);
 }
 
-function SpriteClass(imageIn, widthIn, heightIn) {
+function Sprite(imageIn, widthIn, heightIn) {
     var image = imageIn;
     var width = widthIn;
     var height = heightIn;
@@ -71,7 +71,7 @@ function SpriteClass(imageIn, widthIn, heightIn) {
     };
 }
 
-function SpriteSheetClass(sheetIn, colWidth, rowHeight) {
+function SpriteSheet(sheetIn, colWidth, rowHeight) {
     var sheet = sheetIn;
     var width = colWidth;
     var height = rowHeight;
@@ -110,8 +110,8 @@ function SpriteSheetClass(sheetIn, colWidth, rowHeight) {
     };
 }
 
-function AnimationClass(sheetIn, colWidth, rowHeight, sheetInFrames, animationInRowIndex, frameTickRate, looping) {
-    var spriteSheet = new SpriteSheetClass(sheetIn, colWidth, rowHeight);
+function Animation(sheetIn, colWidth, rowHeight, sheetInFrames, animationInRowIndex, frameTickRate, looping) {
+    var spriteSheet = new SpriteSheet(sheetIn, colWidth, rowHeight);
     var numberOfFrames = sheetInFrames;
     var animationIndex = 0;
     var tickCount = 0;

@@ -494,7 +494,7 @@ function draw3DTiles() {
                     break;
             }
             if (useImage != null) {
-                var newDepthObject = new DepthObjectClass(tileLeftEdgeX + TILE_W / 2, tileTopEdgeY + TILE_H - depthGap,
+                var newDepthObject = new DepthObject(tileLeftEdgeX + TILE_W / 2, tileTopEdgeY + TILE_H - depthGap,
                     tileLeftEdgeX - useImage.width / 2 + TILE_W / 2,
                     tileTopEdgeY - useImage.height + TILE_H,
                     useImage);

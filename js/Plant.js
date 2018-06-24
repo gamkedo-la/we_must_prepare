@@ -7,7 +7,6 @@ const PLANT_STAGE_FULLY_GROWN = 3;
 
 var plantTrackingArray = [];
 
-//Plant Class
 var Plants = [
     {
         tileTypeSeed: TILE_CORN_SEED,
@@ -35,8 +34,8 @@ var Plants = [
     },
 ];
 
-
-function PlantClass(mapIndex, plantTypeSeed) {
+// Plant class constructor
+function Plant(mapIndex, plantTypeSeed) {
     this.mapIndex = mapIndex;    
     this.plantTypeSeed = plantTypeSeed;
     this.plantFacts;
@@ -118,4 +117,4 @@ function PlantClass(mapIndex, plantTypeSeed) {
         }
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
     }
-}  // end PlantClass
+}  // end Plant class constructor

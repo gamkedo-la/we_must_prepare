@@ -1,4 +1,4 @@
-//var inventory = new InventoryClass(30);
+//var inventory = new Inventory(30);
 
 function InventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
@@ -155,8 +155,8 @@ var inventoryInterfaceHelper = {
 	isAudioUIInventorySelectPlaying : false,
 	uiMouseX: mouseX,
 	uiMouseY: mouseY,
-	itemSpriteSheet: new SpriteSheetClass(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
-	selectedSlotSprite: new SpriteClass(targetTilePic, 64, 64),
+	itemSpriteSheet: new SpriteSheet(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
+	selectedSlotSprite: new Sprite(targetTilePic, 64, 64),
 
 	drawSlot:	function (itemX, itemY, slot){
 		if(slot.count > 0){

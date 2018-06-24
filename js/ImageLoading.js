@@ -30,21 +30,21 @@ var playerSpriteSheetSideWalk = document.createElement("img");
 
 var targetTilePic = document.createElement("img");
 
-//function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
-var playerIdleNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 0, false);
-var playerIdleEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 0, false);
-var playerIdleSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 0, false);
-var playerIdleWest = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 0, false);
+//function SpriteSheet(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
+var playerIdleNorth = new Animation(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 0, false);
+var playerIdleEast = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 0, 0, false);
+var playerIdleSouth = new Animation(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 0, false);
+var playerIdleWest = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 1, 0, false);
 
-var playerWalkNorth = new AnimationClass(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 3, true);
-var playerWalkEast = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
-var playerWalkSouth = new AnimationClass(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
-var playerWalkWest = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
+var playerWalkNorth = new Animation(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 3, true);
+var playerWalkEast = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
+var playerWalkSouth = new Animation(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
+var playerWalkWest = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
 
-var pickaxeAnimationNorth = new AnimationClass(pickaxeAnimationSpriteSheetNorth, 48, 48, 6, 0, 2, false);
-var pickaxeAnimationEast = new AnimationClass(pickaxeAnimationSpriteSheetEast, 48, 48, 7, 0, 2, false);
-var pickaxeAnimationSouth = new AnimationClass(pickaxeAnimationSpriteSheetSouth, 48, 48, 6, 0, 2, false);
-var pickaxeAnimationWest = new AnimationClass(pickaxeAnimationSpriteSheetWest, 48, 48, 7, 0, 2, false);
+var pickaxeAnimationNorth = new Animation(pickaxeAnimationSpriteSheetNorth, 48, 48, 6, 0, 2, false);
+var pickaxeAnimationEast = new Animation(pickaxeAnimationSpriteSheetEast, 48, 48, 7, 0, 2, false);
+var pickaxeAnimationSouth = new Animation(pickaxeAnimationSpriteSheetSouth, 48, 48, 6, 0, 2, false);
+var pickaxeAnimationWest = new Animation(pickaxeAnimationSpriteSheetWest, 48, 48, 7, 0, 2, false);
 
 
 var picsToLoad = 0;
