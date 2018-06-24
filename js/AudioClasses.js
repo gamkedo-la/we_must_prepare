@@ -19,8 +19,8 @@ var isMuted = false;
 
 //SFX Classes
 var sfxVolume = 1;
-SFXVolumeManager = new sfxVolumeManager();
-function sfxVolumeManager() {
+var sFXVolumeManager = new SfxVolumeManager();
+function SfxVolumeManager() {
 	var clipList = [];
 
 	this.setVolume = function(amount) {
@@ -58,7 +58,7 @@ function getRandomVolume(){
 	return randomVolume.toFixed(2);
 }
 
-function sfxClipSingle(filename) {
+function SfxClipSingle(filename) {
 	var soundFile = new Audio(audioPath+filename+audioFormat());
 	soundFile.onerror = function(){soundFile = new Audio(audioPath+filename+audioFormat(true))};
 	var clipVolume = 1;
@@ -68,7 +68,7 @@ function sfxClipSingle(filename) {
 	var mixVolume = 1;
 
 	soundFile.pause();
-	SFXVolumeManager.addToList(this);
+	sFXVolumeManager.addToList(this);
 
 
 	this.play = function() {
@@ -138,7 +138,7 @@ function sfxClipSingle(filename) {
 	}
 }
 
-function sfxClipOverlap(filename, voices = 2) {
+function SfxClipOverlap(filename, voices = 2) {
 	var soundFile = [];
 	var maxVoices = voices;
 
@@ -238,7 +238,7 @@ function sfxClipOverlap(filename, voices = 2) {
 	}
 }
 
-function sfxClipLoopingWTail(filename, playLength) {
+function SfxClipLoopingWTail(filename, playLength) {
 	var soundFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
 	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
 	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
@@ -252,13 +252,13 @@ function sfxClipLoopingWTail(filename, playLength) {
 	soundFile[1].pause();
 
 
-	SFXVolumeManager.addToList(this);
+	sFXVolumeManager.addToList(this);
 
 	this.play = function() {
 		soundFile[currentClip].currentTime = 0;
 		this.updateVolume();
 		soundFile[currentClip].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.stop = function() {
@@ -270,7 +270,7 @@ function sfxClipLoopingWTail(filename, playLength) {
 
 	this.resume = function() {
 		soundFile[currentClip].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.pause = function() {
@@ -310,7 +310,7 @@ function sfxClipLoopingWTail(filename, playLength) {
 		if(newTime < 0) {newTime = 0;}
 		while (newTime >= duration) {newTime -= duration;}
 		soundFile[currentClip].currentTime = newTime;
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.getTime = function() {
@@ -334,7 +334,7 @@ function sfxClipLoopingWTail(filename, playLength) {
 	}
 }
 
-function sfxContainer(clipList) {
+function SfxContainer(clipList) {
 	var soundFile = [];
 	currentClip = 0;
 
@@ -422,7 +422,7 @@ function sfxContainer(clipList) {
 	}
 }
 
-function sfxContainerRandom(clipList) {
+function SfxContainerRandom(clipList) {
 	var soundFile = [];
 	currentClip = 0;
 
@@ -514,8 +514,8 @@ function sfxContainerRandom(clipList) {
 
 //Environment SFX Classes
 var envisfxVolume = 1;
-EnviSFXVolumeManager = new enviSFXVolumeManager();
-function enviSFXVolumeManager() {
+var enviSFXVolumeManager = new EnviSFXVolumeManager();
+function EnviSFXVolumeManager() {
 	var clipList = [];
 
 	this.setVolume = function(amount) {
@@ -546,7 +546,7 @@ function enviSFXVolumeManager() {
 	}
 }
 
-function enviSFXClipLoopingWTail(filename, playLength) {
+function EnviSFXClipLoopingWTail(filename, playLength) {
 	var soundFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
 	soundFile[0].onerror = function(){soundFile[0] = new Audio(audioPath+filename+audioFormat(true))}
 	soundFile[1].onerror = function(){soundFile[1] = new Audio(audioPath+filename+audioFormat(true))}
@@ -558,13 +558,13 @@ function enviSFXClipLoopingWTail(filename, playLength) {
 
 	soundFile[0].pause();
 	soundFile[1].pause();
-	EnviSFXVolumeManager.addToList(this);
+	enviSFXVolumeManager.addToList(this);
 
 	this.play = function() {
 		soundFile[currentClip].currentTime = 0;
 		this.updateVolume();
 		soundFile[currentClip].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.stop = function() {
@@ -576,7 +576,7 @@ function enviSFXClipLoopingWTail(filename, playLength) {
 
 	this.resume = function() {
 		soundFile[currentClip].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.pause = function() {
@@ -616,7 +616,7 @@ function enviSFXClipLoopingWTail(filename, playLength) {
 		if(newTime < 0) {newTime = 0;}
 		while (newTime >= duration) {newTime -= duration;}
 		soundFile[currentClip].currentTime = newTime;
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.getTime = function() {
@@ -643,8 +643,8 @@ function enviSFXClipLoopingWTail(filename, playLength) {
 
 //Environment SFX Classes
 var uisfxVolume = 1;
-UISFXVolumeManager = new uiSFXVolumeManager();
-function uiSFXVolumeManager() {
+var interfaceSFXVolumeManager = new InterfaceSFXVolumeManager();
+function InterfaceSFXVolumeManager() {
 	var clipList = [];
 
 	this.setVolume = function(amount) {
@@ -675,7 +675,7 @@ function uiSFXVolumeManager() {
 	}
 }
 
-function uiSFXClipSingle(filename) {
+function InterfaceSFXClipSingle(filename) {
 	var soundFile = new Audio(audioPath+filename+audioFormat());
 	soundFile.onerror = function(){soundFile = new Audio(audioPath+filename+audioFormat(true))};
 	var clipVolume = 1;
@@ -686,7 +686,7 @@ function uiSFXClipSingle(filename) {
 
 
 	soundFile.pause();
-	UISFXVolumeManager.addToList(this);
+	interfaceSFXVolumeManager.addToList(this);
 
 	this.play = function() {
 		soundFile.currentTime = 0;
@@ -760,8 +760,8 @@ function uiSFXClipSingle(filename) {
 
 //Music Classes
 var musicVolume = 1;
-MusicVolumeManager = new musicVolumeManager();
-function musicVolumeManager() {
+var musicVolumeManager = new MusicVolumeManager();
+function MusicVolumeManager() {
 	var trackList = [];
 
 	this.setVolume = function(amount) {
@@ -792,7 +792,7 @@ function musicVolumeManager() {
 	}
 }
 
-function musicTrackNonLooping(filename, playLength) {
+function MusicTrackNonLooping(filename, playLength) {
 	var musicFile = new Audio(audioPath+filename+audioFormat());
 	musicFile.onerror = function(){musicFile = new Audio(audioPath+filename+audioFormat(true))};
 	var duration = musicFile.duration;
@@ -803,7 +803,7 @@ function musicTrackNonLooping(filename, playLength) {
 
 	musicFile.pause();
 	musicFile.loop = false;
-	MusicVolumeManager.addToList(this);
+	musicVolumeManager.addToList(this);
 
 	this.play = function() {
 		musicFile.currentTime = 0;
@@ -880,7 +880,7 @@ function musicTrackNonLooping(filename, playLength) {
 	return this;
 }
 
-function musicTrackLoopingWTail(filename, playLength) {
+function MusicTrackLoopingWTail(filename, playLength) {
 	var musicFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
 	musicFile[0].onerror = function(){musicFile[0] = new Audio(audioPath+filename+audioFormat(true))}
 	musicFile[1].onerror = function(){musicFile[1] = new Audio(audioPath+filename+audioFormat(true))}
@@ -892,13 +892,13 @@ function musicTrackLoopingWTail(filename, playLength) {
 
 	musicFile[0].pause();
 	musicFile[1].pause();
-	MusicVolumeManager.addToList(this);
+	musicVolumeManager.addToList(this);
 
 	this.play = function() {
 		musicFile[currentTrack].currentTime = 0;
 		this.updateVolume();
 		musicFile[currentTrack].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.stop = function() {
@@ -910,7 +910,7 @@ function musicTrackLoopingWTail(filename, playLength) {
 
 	this.resume = function() {
 		musicFile[currentTrack].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.pause = function() {
@@ -921,7 +921,7 @@ function musicTrackLoopingWTail(filename, playLength) {
 	this.playFrom = function(time) {
 		musicFile[currentTrack].currentTime = time;
 		musicFile[currentTrack].play();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.triggerTimerEnded = function(callSign) {
@@ -960,7 +960,7 @@ function musicTrackLoopingWTail(filename, playLength) {
 		if(newTime < 0) {newTime = 0;}
 		while (newTime >= duration) {newTime -= duration;}
 		musicFile[currentTrack].currentTime = newTime;
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "loop");
 	}
 
 	this.getTime = function() {
@@ -1090,7 +1090,7 @@ function musicContainer(trackList) {
 	}
 }
 
-function musicContainerRandom(trackList) {
+function MusicContainerRandom(trackList) {
 	var musicTrack = [];
 	var currentTrack = 0;
 	var lastTrack = 0;
@@ -1198,7 +1198,7 @@ function musicContainerRandom(trackList) {
 	}
 }
 
-function musicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, minDurationInSeconds = 60) {
+function MusicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, minDurationInSeconds = 60) {
 	var musicTrack = [];
 	var lastTrack = 0;
 	var playTime = 0;
@@ -1232,8 +1232,8 @@ function musicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, min
 		}
 		musicTrack[currentTrack].play();
 		//console.log("Playing " + musicTrack[currentTrack].getTrackName() + " at " + playTime + " current play time.");
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
-		AudioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
+		audioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
 		lastTrack = currentTrack;
 		playTime += musicTrack[currentTrack].getDuration();
 	}
@@ -1246,8 +1246,8 @@ function musicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, min
 
 	this.resume = function() {
 		musicTrack[currentTrack].resume();
-		AudioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
-		AudioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
+		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
+		audioEventManager.removeTimerEvent(musicTrack[currentTrack].getSourceTrack(), "loop");
 	}
 
 	this.pause = function() {

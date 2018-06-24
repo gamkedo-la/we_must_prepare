@@ -2,60 +2,60 @@ setFormat();
 setAudioPath("./audio/");
 
 //set music tracks here
-var menu_music_track = new musicTrackLoopingWTail("menu", 102.33);
-var win_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
-var loose_music_track = new musicTrackLoopingWTail("temp_placeholder", 3);
-var inGame_music_track1 = new musicTrackNonLooping("Peace", 90.5);  //By Vignesh
-var inGame_music_track2 = new musicContainerRandom([inGame_music_track2_1 = new musicTrackNonLooping("lazyGuitarVar1", 52.8), //By Misha
-													inGame_music_track2_2 = new musicTrackNonLooping("lazyGuitarVar2", 52.8),
-													inGame_music_track2_3 = new musicTrackNonLooping("lazyGuitarVar3", 52.8),
-													inGame_music_track2_4 = new musicTrackNonLooping("lazyGuitarVar4", 52.8)]);
-var inGame_music_track3 = new musicTrackNonLooping("morning", 18.4);  //By Kise
+var menu_music_track = new MusicTrackLoopingWTail("menu", 102.33);
+var win_music_track = new MusicTrackLoopingWTail("temp_placeholder", 3);
+var loose_music_track = new MusicTrackLoopingWTail("temp_placeholder", 3);
+var inGame_music_track1 = new MusicTrackNonLooping("Peace", 90.5);  //By Vignesh
+var inGame_music_track2 = new MusicContainerRandom([inGame_music_track2_1 = new MusicTrackNonLooping("lazyGuitarVar1", 52.8), //By Misha
+													inGame_music_track2_2 = new MusicTrackNonLooping("lazyGuitarVar2", 52.8),
+													inGame_music_track2_3 = new MusicTrackNonLooping("lazyGuitarVar3", 52.8),
+													inGame_music_track2_4 = new MusicTrackNonLooping("lazyGuitarVar4", 52.8)]);
+var inGame_music_track3 = new MusicTrackNonLooping("morning", 18.4);  //By Kise
 inGame_music_track3.setMixVolume(0.7);
-var inGame_music_track4 = new musicTrackNonLooping("ambientmenu", 41.42);  //By Btrumps
-var inGame_music_master = new musicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3,inGame_music_track4],240,90);
+var inGame_music_track4 = new MusicTrackNonLooping("ambientmenu", 41.42);  //By Btrumps
+var inGame_music_master = new MusicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3,inGame_music_track4],240,90);
 
-MusicVolumeManager.setVolume(0.7);
+musicVolumeManager.setVolume(0.7);
 
 //set environment sound here
-var wind_enviSFX = new enviSFXClipLoopingWTail("wind_loop_45", 45);
+var wind_enviSFX = new EnviSFXClipLoopingWTail("wind_loop_45", 45);
 wind_enviSFX.setMixVolume(0.8);
-var rain_enviSFX = new enviSFXClipLoopingWTail("rain_loop_45", 45);
+var rain_enviSFX = new EnviSFXClipLoopingWTail("rain_loop_45", 45);
 rain_enviSFX.setMixVolume(0.5);
-var sun_enviSFX = new enviSFXClipLoopingWTail("sun_loop_45", 45);
-var water_enviSFX = new enviSFXClipLoopingWTail("water_loop_45", 45);
+var sun_enviSFX = new EnviSFXClipLoopingWTail("sun_loop_45", 45);
+var water_enviSFX = new EnviSFXClipLoopingWTail("water_loop_45", 45);
 water_enviSFX.setMixVolume(0.9);
 
-EnviSFXVolumeManager.setVolume(0.7);
+enviSFXVolumeManager.setVolume(0.7);
 
 //set SFX here
-var robotIdleSFX = new sfxClipLoopingWTail("robot_idle", 20);
-var robotMovementDefault = new sfxClipLoopingWTail("Robot_Moving", 5);
-var robotWateringSFX = new sfxClipSingle("robot_green_thumb_halfsec");
-var robotTillingLandSFX = new sfxClipSingle("tilling_land_version2");
-var robotHarvestingCropsSFX = new sfxContainerRandom([metal = new sfxContainerRandom([harvest1 = new sfxClipSingle("harvesting_crops"),
-																				harvest2 = new sfxClipSingle("harvesting_crops_version_2"),
-																				harvest3 = new sfxClipSingle("harvesting_crops_version_3")])
+var robotIdleSFX = new SfxClipLoopingWTail("robot_idle", 20);
+var robotMovementDefault = new SfxClipLoopingWTail("Robot_Moving", 5);
+var robotWateringSFX = new SfxClipSingle("robot_green_thumb_halfsec");
+var robotTillingLandSFX = new SfxClipSingle("tilling_land_version2");
+var robotHarvestingCropsSFX = new SfxContainerRandom([metal = new SfxContainerRandom([harvest1 = new SfxClipSingle("harvesting_crops"),
+																				harvest2 = new SfxClipSingle("harvesting_crops_version_2"),
+																				harvest3 = new SfxClipSingle("harvesting_crops_version_3")])
 												]);
 
-var robotCollectingResourcesSFX = new sfxContainer([metal = new sfxContainerRandom([metal1 = new sfxClipSingle("mining metal"),
-																					metal2 = new sfxClipSingle("mining metal version 2")]),
-													stone = new sfxContainerRandom([stone1 = new sfxClipSingle("mining_stone_version_4"),
-																					stone2 = new sfxClipSingle("mining_stone_version_5"),
-																					stone3 = new sfxClipSingle("mining_stone_version_6")]),
-													wood = new sfxContainerRandom([wood1 = new sfxClipSingle("chopping_wood_version_2"),
-																					wood2 = new sfxClipSingle("chopping_wood_version_3")])																				
+var robotCollectingResourcesSFX = new SfxContainer([metal = new SfxContainerRandom([metal1 = new SfxClipSingle("mining metal"),
+																					metal2 = new SfxClipSingle("mining metal version 2")]),
+													stone = new SfxContainerRandom([stone1 = new SfxClipSingle("mining_stone_version_4"),
+																					stone2 = new SfxClipSingle("mining_stone_version_5"),
+																					stone3 = new SfxClipSingle("mining_stone_version_6")]),
+													wood = new SfxContainerRandom([wood1 = new SfxClipSingle("chopping_wood_version_2"),
+																					wood2 = new SfxClipSingle("chopping_wood_version_3")])																				
 													]);
 
-var robotFootstepGround = new sfxContainer([dirt = new sfxContainerRandom([ dirt1 = new sfxClipSingle("temp_footstep_dirt01"),
-																			dirt2 = new sfxClipSingle("temp_footstep_dirt02"),
-																			dirt3 = new sfxClipSingle("temp_footstep_dirt03")]),
-											soil = new sfxContainerRandom([ soil1 = new sfxClipSingle("temp_footstep_soil01"),
-																			soil2 = new sfxClipSingle("temp_footstep_soil02"),
-																			soil3 = new sfxClipSingle("temp_footstep_soil03")]),
-											grass = new sfxContainerRandom([grass1 = new sfxClipSingle("temp_footstep_grass01"),
-																			grass2 = new sfxClipSingle("temp_footstep_grass02"),
-																			grass3 = new sfxClipSingle("temp_footstep_grass03")])]);
+var robotFootstepGround = new SfxContainer([dirt = new SfxContainerRandom([ dirt1 = new SfxClipSingle("temp_footstep_dirt01"),
+																			dirt2 = new SfxClipSingle("temp_footstep_dirt02"),
+																			dirt3 = new SfxClipSingle("temp_footstep_dirt03")]),
+											soil = new SfxContainerRandom([ soil1 = new SfxClipSingle("temp_footstep_soil01"),
+																			soil2 = new SfxClipSingle("temp_footstep_soil02"),
+																			soil3 = new SfxClipSingle("temp_footstep_soil03")]),
+											grass = new SfxContainerRandom([grass1 = new SfxClipSingle("temp_footstep_grass01"),
+																			grass2 = new SfxClipSingle("temp_footstep_grass02"),
+																			grass3 = new SfxClipSingle("temp_footstep_grass03")])]);
 robotFootstepGround.setVolume(0.7);
 robotIdleSFX.setMixVolume(0.9);
 robotMovementDefault.setMixVolume(0.7);
@@ -64,15 +64,15 @@ robotTillingLandSFX.setMixVolume(0.9);
 robotCollectingResourcesSFX.setVolume(0.7);
 robotHarvestingCropsSFX.setVolume(0.7);
 
-SFXVolumeManager.setVolume(0.7);
+sFXVolumeManager.setVolume(0.7);
 
 //set UI sound here
-var uiSelect = new uiSFXClipSingle("uiSelect");
-var uiCancel = new uiSFXClipSingle("uiCancel");
-var uiChange = new uiSFXClipSingle("uiChange");
-var uiInventorySelect = new uiSFXClipSingle("uiInventorySelect");
+var uiSelect = new InterfaceSFXClipSingle("uiSelect");
+var uiCancel = new InterfaceSFXClipSingle("uiCancel");
+var uiChange = new InterfaceSFXClipSingle("uiChange");
+var uiInventorySelect = new InterfaceSFXClipSingle("uiInventorySelect");
 
-UISFXVolumeManager.setVolume(0.7);
+interfaceSFXVolumeManager.setVolume(0.7);
 
 function setFormat() {
 	var audio = new Audio();
@@ -97,18 +97,18 @@ function audioFormat(alt = false) {
 
 function toggleMute() {
 	isMuted = !isMuted;
-	MusicVolumeManager.updateVolume();
-	EnviSFXVolumeManager.updateVolume();
-	SFXVolumeManager.updateVolume();
-	UISFXVolumeManager.updateVolume();
+	musicVolumeManager.updateVolume();
+	enviSFXVolumeManager.updateVolume();
+	sFXVolumeManager.updateVolume();
+	interfaceSFXVolumeManager.updateVolume();
 }
 
 function setMute(TorF) {
 	isMuted = TorF;
-	MusicVolumeManager.updateVolume();
-	EnviSFXVolumeManager.updateVolume();
-	SFXVolumeManager.updateVolume();
-	UISFXVolumeManager.updateVolume();
+	musicVolumeManager.updateVolume();
+	enviSFXVolumeManager.updateVolume();
+	sFXVolumeManager.updateVolume();
+	interfaceSFXVolumeManager.updateVolume();
 }
 
 function getMute() {
@@ -122,9 +122,9 @@ const FADE = 1; // Arrayformat [FADE, track, startTime, endTime, startVolume, en
 const TIMER = 2; // Arrayformat [TIMER, track, endTime, callSign]
 const STOP = 3; // Arrayformat [STOP, track, endTime]
 
-var AudioEventManager = new audioEventManager();
+var audioEventManager = new AudioEventManager();
 
-function audioEventManager() {
+function AudioEventManager() {
 	var eventList = [];
 	var now = Date.now();
 
@@ -417,13 +417,13 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.name = name;
 	this.isVisible = true;
 
-	this.pieces = [mSlider = new audioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, MusicVolumeManager),
-					eSlider = new audioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, EnviSFXVolumeManager),
-					sfxSlider = new audioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, SFXVolumeManager),
-					uiSlider = new audioSliderUI('UI Volume', this.x+20, this.y+110, this.x + this.width-20, this.y+130, UISFXVolumeManager),
-					muteToggle = new audioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x+40, this.y+160),
-					skipButton = new audioButtonUI('Skip Track', this.x + this.width/4, this.y+140, this.x + this.width/4 + 60, this.y+160),
-					currentSong = new audioCurrentTrackUI('Now playing:', this.x+20, this.y+190, this.x + this.width-20, this.y+210)];
+	this.pieces = [mSlider = new AudioSliderUI('Music Volume', this.x+20, this.y+20, this.x + this.width-20, this.y+40, musicVolumeManager),
+					eSlider = new AudioSliderUI('Environment Volume', this.x+20, this.y+50, this.x + this.width-20, this.y+70, enviSFXVolumeManager),
+					sfxSlider = new AudioSliderUI('Sound Effects Volume', this.x+20, this.y+80, this.x + this.width-20, this.y+100, sFXVolumeManager),
+					uiSlider = new AudioSliderUI('UI Volume', this.x+20, this.y+110, this.x + this.width-20, this.y+130, interfaceSFXVolumeManager),
+					muteToggle = new AudioMuteToggleUI('Mute Audio', this.x+20, this.y+140, this.x+40, this.y+160),
+					skipButton = new AudioButtonUI('Skip Track', this.x + this.width/4, this.y+140, this.x + this.width/4 + 60, this.y+160),
+					currentSong = new AudioCurrentTrackUI('Now playing:', this.x+20, this.y+190, this.x + this.width-20, this.y+210)];
 	skipButton.action = function() {
 		inGame_music_master.jump();
 	};
@@ -448,7 +448,7 @@ function audioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	}
 }
 
-function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
+function AudioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
@@ -499,7 +499,7 @@ function audioSliderUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY, vol
 	}
 }
 
-function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
@@ -539,7 +539,7 @@ function audioMuteToggleUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY)
 	}
 }
 
-function audioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
@@ -566,7 +566,7 @@ function audioCurrentTrackUI(name, topLeftX, topLeftY, bottomRightX, bottomRight
 	}
 }
 
-function audioButtonUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioButtonUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;

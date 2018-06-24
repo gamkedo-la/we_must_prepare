@@ -60,7 +60,7 @@ function startGameLoop() {
 function gameLoop() {
     moveEverything();
     drawEverything();
-    AudioEventManager.updateEvents();
+    audioEventManager.updateEvents();
     mouseClickedThisFrame = false;
     mouseDblClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
