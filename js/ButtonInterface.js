@@ -10,7 +10,9 @@ function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomR
     this.isVisible = true;
     this.parentInterface = parentInterface;
     this.isPressed = false;
-    
+
+    this.parentInterface.push(this); // button is pushed into parentInterface's array at init
+
     //TODO I think this is ok in javascript with varable scope
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         if(isInPane(this, x, y)) {

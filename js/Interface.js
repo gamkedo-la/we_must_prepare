@@ -39,7 +39,6 @@ function Interface() {
         inGame_music_master.play();
         musicPastMainMenu = true;
     };
-    this.mainMenu.push(this.testButton);
 
     this.tabMenu = new TabMenuPane(this.inventoryPane, canvas.width * .25, canvas.height * .25 - 30);
 
@@ -283,15 +282,15 @@ function TabMenuPane(inventoryPane, X=0, Y=0, tabHeight=30) {
 }
 
 function ControlsInfoPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
-
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
-    this.name = name;
-    
+    this.name = name;    
     this.isVisible = true;
-    
+
+    this.buttons = [];
+
     this.padding = 20;
     this.columnPadding = 40;
     this.lineHeight = 15;
@@ -327,6 +326,10 @@ function ControlsInfoPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) 
             }
             textY += this.lineHeight;
         }
+    };
+
+    this.push = function (button) {
+        this.buttons.push(button);
     };
 }
 
