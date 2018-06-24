@@ -2,6 +2,13 @@
 //var BackgroundUIColor = "#fefcc9";
 //var BorderUIColor = "#c69c6d";
 
+//Central Menu
+var InventoryPane;
+var HotbarPane;
+var TabMenu;
+var MainMenu;
+var HoldingSlot;
+
 var BackgroundUIColor = "beige";
 var BorderUIColor = "#c69c6d";
 var BorderUIWidth = 3;
@@ -26,6 +33,50 @@ var ControlsText = ['------Keyboard Controls------',
                     '------Temporary Controls------',
                     'End Day - P',
                     'Pause Time - O'];
+
+function setupAllInterfaces() {
+    MainMenu = new buttonMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
+    var button = new buttonUI("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
+    button.action = function () {
+        MainMenu.isVisible = false;
+        AudioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
+        inGame_music_master.play();
+        musicPastMainMenu = true;
+    };
+    MainMenu.push(button);
+
+    TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
+    //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    //TabMenu.push(pane);
+    var pane = new controlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    TabMenu.push(pane);
+
+    pane = new inventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
+    InventoryPane = pane;
+    TabMenu.push(pane);
+
+    var pane = new audioPaneUI('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    TabMenu.push(pane);
+
+    TabMenu.switchTabIndex(0);
+    //TabMenu.switchTabName('Controls');
+    const SCROLL_TO_THE_LEFT = true;
+    TabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
+    TabMenu.switchTab(SCROLL_TO_THE_LEFT);
+
+    HotbarPane = new hotbarPaneInterface();
+    HoldingSlot = new holdingSlotInterface();
+}
+
+function drawAllInterfaces() {
+    HotbarPane.draw();
+    TabMenu.draw();
+    MainMenu.draw();
+    HoldingSlot.draw();
+
+    colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
+    colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
+}
 
 function drawUIPaneBackground(pane, backgroundColor=BackgroundUIColor, borderColor=BorderUIColor) {
     colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
@@ -308,11 +359,6 @@ const INTERFACE_Y = 500; // hacky please change
 var mouseOverBuildingInterfaceIndex = -1;
 var mouseOverButtonPerBuildingInterfaceIndex = -1;
 
-function interfaceUpdate() {
-    
-
-}
-
 function placeBuildingAtPixelCoord(building_type) {
     var indexToPlaceBuildingAt = getTileIndexAtPixelCoord(mouseX, mouseY);
     var indexForPlayer = getTileIndexAtPixelCoord(player.x, player.y);
@@ -334,7 +380,6 @@ function drawBuildingTileIndicator() {
 
     coloredOutlineRectCornerToCorner(topLeftX, topLeftY, topLeftX + TILE_W, topLeftY + TILE_H, 'yellow');
 }
-
 
 function drawBuildingChoiceMenu() {
 
@@ -428,6 +473,5 @@ function drawInterfaceForSelected() {
                 textLineX += canvasContext.measureText(costString).width;
             }
         } // end if selectedIndex != -1
-
     }
 }

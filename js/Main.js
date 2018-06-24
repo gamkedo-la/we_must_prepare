@@ -18,25 +18,17 @@ var blurInterval;
 //Change to false to disable main menu on open
 var isMainMenuOpen = true;
 
-//Central Menu
-var InventoryPane;
-var HotbarPane;
-var TabMenu;
-var MainMenu;
-var HoldingSlot;
-
 function loadingDoneSoStartGame() {
     hasGameStartedByClick = true;
     startGameLoop();
 
     setupInput();
-    setupUI(); //interface.js
+    setupAllInterfaces(); //interface.js
     extendBuildingCollision();
 
     timer.setupTimer();
 
     resetGame(true);  // has to be called after autoLoad or resources don't get setup correctly
-
 
     window.addEventListener('blur', windowOnBlur);
 }
@@ -105,40 +97,6 @@ window.onload = function () {
 
 }  // end onload
 
-function setupUI() {
-    MainMenu = new buttonMenuUI("Main Menu", 0, 0, canvas.width, canvas.height);
-    var button = new buttonUI("Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
-    button.action = function () {
-        MainMenu.isVisible = false;
-        AudioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
-        inGame_music_master.play();
-        musicPastMainMenu = true;
-    };
-    MainMenu.push(button);
-
-    TabMenu = new tabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
-    //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    //TabMenu.push(pane);
-    pane = new controlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    TabMenu.push(pane);
-
-    pane = new inventoryPaneUI('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
-    InventoryPane = pane;
-    TabMenu.push(pane);
-
-    var pane = new audioPaneUI('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    TabMenu.push(pane);
-
-    TabMenu.switchTabIndex(0);
-    //TabMenu.switchTabName('Controls');
-    const SCROLL_TO_THE_LEFT = true;
-    TabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
-    TabMenu.switchTab(SCROLL_TO_THE_LEFT);
-
-    HotbarPane = new hotbarPaneUI();
-    HoldingSlot = new holdingSlotUI();
-}
-
 function setupInventory() {
     // player.inventory.clear();
     player.inventory.add(items.hoe, 1);
@@ -150,8 +108,7 @@ function setupInventory() {
 }
 
 function moveEverything() {
-    inputUpdate();
-    interfaceUpdate();
+    inputUpdate();    
     handleRadiationGrowth();
 }
 var camDeltaX;
@@ -207,8 +164,8 @@ function drawEverything() {
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
     timer.drawTimer();
-    // main UI
-    drawUI(); //interface.js
+    // draw all the user interfaces
+    drawAllInterfaces();
 }
 
 function drawSkyGradient() {
@@ -227,15 +184,4 @@ function drawSkyGradient() {
         skyX, 0, 1, 100, // source x,y,w,d (scroll source x over time)
 
         0, 0, 800, 600); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
-}
-
-function drawUI() {
-    HotbarPane.draw();
-    TabMenu.draw();
-    MainMenu.draw();
-    HoldingSlot.draw();
-
-    //TODO placeholder - display instructions
-    colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
-    colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
 }

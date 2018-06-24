@@ -1,6 +1,6 @@
 //var inventory = new inventoryClass(30);
 
-function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function inventoryPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
@@ -65,7 +65,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
             itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
             itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
 
-			inventoryUIHelper.testMouse(player.inventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+			inventoryUIHelper.testMouse(player.inventory, itemX, itemY, i);
 			inventoryUIHelper.drawSlockBackground(player.inventory, itemX, itemY, i);
 			inventoryUIHelper.drawSlot(itemX, itemY, player.inventory.slots[i]);
 		}
@@ -76,7 +76,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
                 itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
                 itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
 	
-				inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+				inventoryUIHelper.testMouse(secondInventory, itemX, itemY, i);
 				inventoryUIHelper.drawSlockBackground(secondInventory, itemX, itemY, i);
 				inventoryUIHelper.drawSlot(itemX, itemY, secondInventory.slots[i]);
 			}
@@ -84,7 +84,7 @@ function inventoryPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	};
 }
 
-function hotbarPaneUI() {
+function hotbarPaneInterface() {
 	this.hotbarItemX = canvas.width * 0.5 - 115;
 	this.hotbarItemXSpacing = 55;
 	this.hotbarItemY = canvas.height - 50;
@@ -122,7 +122,7 @@ function hotbarPaneUI() {
             itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
 			itemY = this.hotbarItemY;
 			var keyText = i + 1; // i + 1 to show the correct keybind
-			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i); // TODO this should probably be in interfaceUpdate
+			inventoryUIHelper.testMouse(player.hotbar, itemX, itemY, i);
 
 			// Draw equipped slot differently
 			if(i === player.hotbar.equippedItemIndex) {
@@ -143,7 +143,7 @@ function hotbarPaneUI() {
 	};
 }
 
-function holdingSlotUI() {
+function holdingSlotInterface() {
     this.draw = function () {
         if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
             inventoryUIHelper.drawSlot(mouseX, mouseY, player.holdingSlot);
