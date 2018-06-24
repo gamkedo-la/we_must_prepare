@@ -210,7 +210,7 @@ function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
 }
 
 // In-game Menu Pane: Controls Info Tab
-function ControlsInfoPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function ControlsInfoPane(name, controlsInfoText, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = bottomRightX - topLeftX;
@@ -224,7 +224,7 @@ function ControlsInfoPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) 
     this.columnPadding = 40;
     this.lineHeight = 15;
     this.textColor = 'black';
-    this.textLine = ControlsText;
+    this.textLine = controlsInfoText;
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         return false;

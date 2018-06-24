@@ -8,7 +8,7 @@ var borderInterfaceWidth = 3;
 var tabInterfaceBackgroundDark = "#eaeaae";
 
 // Text for in-game menu pane, Controls Info tab
-var ControlsText = ['------Keyboard Controls------',
+const CONTROLS_INFO_TEXT = ['------Keyboard Controls------',
                     'Menu - ESC',
                     'Movement - WASD, Arrow Keys',
                     'Toggle Inventory - I',
@@ -47,7 +47,7 @@ function Interface() {
     this.tabMenu = new TabMenuPane(this.inventoryPane, canvas.width * .25, canvas.height * .25 - 30);
 
     // Controls Info pane instance as a tab in the in-game Menu pane instance
-    this.controlsInfoPane = new ControlsInfoPane('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.controlsInfoPane = new ControlsInfoPane('Controls', CONTROLS_INFO_TEXT, canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.controlsInfoPane);
 
     // Inventory pane instance as a tab in the in-game Menu pane instance
