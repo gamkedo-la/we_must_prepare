@@ -83,6 +83,54 @@ function Interface() {
 }
 
 // utility and helper Interface functions
+var inventorySlotInterfaceHelper = new InventorySlotInterfaceHelper();
+
+function InventorySlotInterfaceHelper() {
+    this.isAudioInterfaceInventorySelectPlaying = false;
+    this.mouseHoveredXInventorySlot = mouseX;
+    this.mouseHoveredYInventorySlot = mouseY;
+    this.itemSpriteSheet = new SpriteSheet(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
+    this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);
+
+    this.drawInventorySlot = function (itemX, itemY, slot) {
+        if (slot.count > 0) {
+            this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
+        }
+
+        if (slot.count > 1) {
+            colorText(slot.count, itemX - 3, itemY - 15, 'white');
+        }
+    };
+
+    this.drawInventorySlotBackground = function (inventory, itemX, itemY, i) {
+        if (inventory.selectedSlotIndex === i) {
+            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+            this.selectedSlotSprite.draw(itemX, itemY);
+        } else {
+            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+        }
+    };
+
+    this.mouseHoverInventorySlotToSelect = function (inventory, itemX, itemY, i) {
+        if (mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
+            inventory.selectedSlotIndex = i;
+
+            if (this.mouseHoveredXInventorySlot != mouseX || this.mouseHoveredYInventorySlot != mouseY) {
+                if (this.mouseHoveredXInventorySlot > itemX - 25 && this.mouseHoveredXInventorySlot < itemX + 25 && this.mouseHoveredYInventorySlot > itemY - 25 && this.mouseHoveredYInventorySlot < itemY + 25) {
+                    this.isAudioInterfaceInventorySelectPlaying = false;
+                }
+                else if (!this.isAudioInterfaceInventorySelectPlaying) {
+                    uiInventorySelect.play();
+                    this.isAudioInterfaceInventorySelectPlaying = true;
+                }
+            }
+
+            this.mouseHoveredXInventorySlot = mouseX;
+            this.mouseHoveredYInventorySlot = mouseY;
+        }
+    };
+}
+
 function isInPane (pane, x, y) {
     if ( pane === null ) {
         return false; //no pane referenced
@@ -95,52 +143,6 @@ function isInPane (pane, x, y) {
                       y >= topLeftY && y <= bottomRightY);
     return boolResult;
 }
-
-var inventoryInterfaceHelper = {
-    isAudioInterfaceInventorySelectPlaying: false,
-    uiMouseX: mouseX,
-    uiMouseY: mouseY,
-    itemSpriteSheet: new SpriteSheet(itemSheet, 50, 50),// TODO maybe put the image size somewhere else
-    selectedSlotSprite: new Sprite(targetTilePic, 64, 64),
-
-    drawSlot: function (itemX, itemY, slot) {
-        if (slot.count > 0) {
-            this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
-        }
-
-        if (slot.count > 1) {
-            colorText(slot.count, itemX - 3, itemY - 15, 'white');
-        }
-    },
-
-    drawSlockBackground: function (inventory, itemX, itemY, i) {
-        if (inventory.selectedSlotIndex === i) {
-            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
-            this.selectedSlotSprite.draw(itemX, itemY);
-        } else {
-            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
-        }
-    },
-
-    testMouse: function (inventory, itemX, itemY, i) {
-        if (mouseX > itemX - 25 && mouseX < itemX + 25 && mouseY > itemY - 25 && mouseY < itemY + 25) {
-            inventory.selectedSlotIndex = i;
-
-            if (this.uiMouseX != mouseX || this.uiMouseY != mouseY) {
-                if (this.uiMouseX > itemX - 25 && this.uiMouseX < itemX + 25 && this.uiMouseY > itemY - 25 && this.uiMouseY < itemY + 25) {
-                    this.isAudioInterfaceInventorySelectPlaying = false;
-                }
-                else if (!this.isAudioInterfaceInventorySelectPlaying) {
-                    uiInventorySelect.play();
-                    this.isAudioInterfaceInventorySelectPlaying = true;
-                }
-            }
-
-            this.uiMouseX = mouseX;
-            this.uiMouseY = mouseY;
-        }
-    }
-};
 
 function drawInterfacePaneBackground(pane, backgroundColor = backgroundInterfaceColor, borderColor = borderInterfaceColor) {
     colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
