@@ -26,29 +26,29 @@ function EmptyInventorySlot(){
 function Inventory(size){
 	this.active = true;
     this.selectedSlotIndex = -1; //Index of slot the cursor is hovering over
-    this.equippedItemIndex = -1;
-	this.slotCount = size;
+    this.equippedSlotIndex = -1;
+	this.numberOfSlots = size;
 	
 	this.slots = [];
 	
 	//Working backwards decreases array allocation time
-	for(var i = this.slotCount - 1; i >= 0; i--){
+	for(var i = this.numberOfSlots - 1; i >= 0; i--){
 		this.slots[i] = new EmptyInventorySlot();
 	}
 
 	this.getSaveState = function() {
 		return {
 			selectedSlotIndex: this.selectedSlotIndex,
-			equippedItemIndex: this.equippedItemIndex,
-			slotCount: this.slotCount,
+			equippedSlotIndex: this.equippedSlotIndex,
+			numberOfSlots: this.numberOfSlots,
 			slots: this.slots
 		};
 	};
 
 	this.loadSaveState = function(saveState) {
 		this.selectedSlotIndex = saveState.selectedSlotIndex;
-		this.equippedItemIndex = saveState.equippedItemIndex;
-		this.slotCount = saveState.slotCount;
+		this.equippedSlotIndex = saveState.equippedSlotIndex;
+		this.numberOfSlots = saveState.numberOfSlots;
 		this.slots = saveState.slots;
 	}
 	
@@ -58,7 +58,7 @@ function Inventory(size){
 		if(count <= 0) return;
 		
 		//Check for slots with the same item and fill those first
-		for(var i = 0; i < this.slotCount; i++){
+		for(var i = 0; i < this.numberOfSlots; i++){
 			if(this.slots[i].item === item){
 				if(this.slots[i].count + count > this.slots[i].item.maxStackSize){
 					count -= (this.slots[i].item.maxStackSize - this.slots[i].count);
@@ -72,7 +72,7 @@ function Inventory(size){
 		}
 		
 		//Then fill empty slots after all stacks are at max size
-		for(var i = 0; i < this.slotCount; i++){
+		for(var i = 0; i < this.numberOfSlots; i++){
 			if(count <= 0) break;
 			if(this.slots[i].item === items.nothing){
 				this.slots[i].item = item;
@@ -101,8 +101,8 @@ function Inventory(size){
 			player.holdingSlot = new EmptyInventorySlot();
         }
 
-        if (this.selectedSlotIndex == this.equippedItemIndex) {
-            this.equippedItemIndex = -1;
+        if (this.selectedSlotIndex == this.equippedSlotIndex) {
+            this.equippedSlotIndex = -1;
         }
 	};
 	
@@ -127,27 +127,30 @@ function Inventory(size){
 			}
         }
 
-        if (this.selectedSlotIndex == this.equippedItemIndex) {
-            this.equippedItemIndex = -1;
+        if (this.selectedSlotIndex == this.equippedSlotIndex) {
+            this.equippedSlotIndex = -1;
         }
 	};
 	
-	//Automatically remove count number of items from inventory iff they exist
+	// Automatically remove count number of items from inventory if they exist
 	this.remove = function(item, count, allowPartialRemoval){
 		var itemsToRemove = [];
-		var removeItems = false; // Do we have enough items to fill the request?
+		var canRemoveItems = false; // Do we have enough items to fill the request?
 		// TODO name this better so I don't need a comment
 		
-		for(var i = this.slotCount - 1; i >= 0; i--){
-			if(this.slots[i].item == item){
+        for (var i = this.numberOfSlots - 1; i >= 0; i--){
+            let isItemInSlot = this.slots[i].item == item;
+            let isItemEquipped = i == this.equippedSlotIndex;            
+
+            if (isItemInSlot && isItemEquipped) {
 				if(count == this.slots[i].count){
                     this.slots[i] = new EmptyInventorySlot();
-                    this.equippedItemIndex = -1;
-					removeItems = true;
+                    this.equippedSlotIndex = -1;
+					canRemoveItems = true;
 				}else if(count < this.slots[i].count){
 					this.slots[i].count -= count;
 					
-					removeItems = true;
+					canRemoveItems = true;
 				}else{ // Tally item slots smaller than count but do not remove yet
 					itemsToRemove[i] = this.slots[i].count;
 					count -= this.slots[i].count;
@@ -156,7 +159,7 @@ function Inventory(size){
 		}
 		
 		// Remove tallied items only if we have enough to fulfill the request
-		if(removeItems && itemsToRemove.length > 0){
+		if(canRemoveItems && itemsToRemove.length > 0){
 			for(var i = 0; i < itemsToRemove.length; i++){
 				if(itemsToRemove[i] > 0){
 					this.slots[i] = new EmptyInventorySlot();
@@ -164,7 +167,7 @@ function Inventory(size){
 			}
 		}
 		
-		return removeItems;
+		return canRemoveItems;
 	};
 	
 	this.removeAll = function(item){
@@ -172,7 +175,7 @@ function Inventory(size){
 		
 		var count = 0;
 		
-		for(var i = 0; i < slotCount; i++){
+		for(var i = 0; i < numberOfSlots; i++){
 			if(this.slots[i].item === item){
 				count += this.slots[i].count;
 				this.slots[i] = new EmptyInventorySlot();
@@ -183,7 +186,7 @@ function Inventory(size){
 	};
 	
 	this.clear = function(){
-		for(var i = this.slotCount - 1; i >= 0; i--){
+		for(var i = this.numberOfSlots - 1; i >= 0; i--){
 			this.slots[i] = new EmptyInventorySlot();
 		}
 	};
@@ -191,7 +194,7 @@ function Inventory(size){
 	this.countItems = function(item){
 		var count = 0;
 		
-		for(var i = 0; i < this.slotCount; i++){
+		for(var i = 0; i < this.numberOfSlots; i++){
 			if(this.slots[i].item == item){
 				count += this.slots[i].count;
 			}
@@ -202,27 +205,27 @@ function Inventory(size){
 
     this.scrollThrough = function (scrollLeftIfTrue = false) {
         var scrollDir = scrollLeftIfTrue ? -1 : 1;
-        this.equipSlot(this.equippedItemIndex + scrollDir);
+        this.equipSlot(this.equippedSlotIndex + scrollDir);
 
         if (scrollLeftIfTrue) {
-            while (this.equippedItemIndex >= 0 && this.equippedItemIndex < this.slotCount && this.slots[this.equippedItemIndex].item == 0) {
-                this.equippedItemIndex--;
+            while (this.equippedSlotIndex >= 0 && this.equippedSlotIndex < this.numberOfSlots && this.slots[this.equippedSlotIndex].item == 0) {
+                this.equippedSlotIndex--;
             }
 		}
 		else {            
-            while (this.equippedItemIndex >= 0 && this.equippedItemIndex < this.slotCount && this.slots[this.equippedItemIndex].item == 0) {
-                this.equippedItemIndex++;
+            while (this.equippedSlotIndex >= 0 && this.equippedSlotIndex < this.numberOfSlots && this.slots[this.equippedSlotIndex].item == 0) {
+                this.equippedSlotIndex++;
             }
         }
 	}
 
     this.equipSlot = function (whichSlot) {
-        this.equippedItemIndex = whichSlot;
+        this.equippedSlotIndex = whichSlot;
 
-        if (this.equippedItemIndex < -1) {
-            this.equipSlot(this.slotCount - 1);
+        if (this.equippedSlotIndex < -1) {
+            this.equipSlot(this.numberOfSlots - 1);
         }
-        else if (this.equippedItemIndex > this.slotCount) {
+        else if (this.equippedSlotIndex > this.numberOfSlots) {
             this.equipSlot(0);
         }
 	}

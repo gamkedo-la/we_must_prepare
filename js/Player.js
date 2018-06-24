@@ -56,7 +56,7 @@ function Player() {
         this.inventory = new Inventory(30);
         this.secondInventory = new Inventory(30);        
         this.hotbar = new Inventory(5);
-        this.hotbar.equippedItemIndex = 0;
+        this.hotbar.equippedSlotIndex = 0;
     };
 
     this.reset = function () {
@@ -355,12 +355,12 @@ function Player() {
 
     this._helperTileAction = function(index, isAction = true) {
         // if (proper tool is equipped / something else?) {
-            if (this.hotbar.equippedItemIndex >= 0 && this.hotbar.equippedItemIndex < this.hotbar.slotCount) {
+            if (this.hotbar.equippedSlotIndex >= 0 && this.hotbar.equippedSlotIndex < this.hotbar.numberOfSlots) {
                 // don't show outline on unactionable tile by default
                 this.outlineTargetTile = false;
                 
                 // the currently equipped item
-                var equippedItem = this.hotbar.slots[this.hotbar.equippedItemIndex].item;                
+                var equippedItem = this.hotbar.slots[this.hotbar.equippedSlotIndex].item;                
 
                 switch (roomGrid[index]) { // check currently selected tile
                     // ------ farming cases START ------

@@ -323,7 +323,7 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         player.inventory.selectedSlotIndex = -1;
 
         //draw regular slots
-        for (var i = 0; i < player.inventory.slotCount; i++) {
+        for (var i = 0; i < player.inventory.numberOfSlots; i++) {
             itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
             itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
 
@@ -333,7 +333,7 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         }
 
         if (player.secondInventory.active) {
-            for (var i = 0; i < player.secondInventory.slotCount; i++) {
+            for (var i = 0; i < player.secondInventory.numberOfSlots; i++) {
                 //draw as regular slot
                 itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
                 itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
@@ -402,7 +402,7 @@ function HotbarPane() {
 
     this.leftMouseDblClick = function (x = mouseX, y = mouseY) {
         if (player.hotbar.selectedSlotIndex >= 0) {
-            player.hotbar.equippedItemIndex = player.hotbar.selectedSlotIndex;
+            player.hotbar.equippedSlotIndex = player.hotbar.selectedSlotIndex;
             return true;
         }
         return false;
@@ -421,14 +421,14 @@ function HotbarPane() {
         player.hotbar.selectedSlotIndex = -1;
 
         // draw hotbar
-        for (var i = 0; i < player.hotbar.slotCount; i++) {
+        for (var i = 0; i < player.hotbar.numberOfSlots; i++) {
             itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
             itemY = this.hotbarItemY;
             var keyText = i + 1; // i + 1 to show the correct keybind
             inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(player.hotbar, itemX, itemY, i);
 
             // Draw equipped slot differently
-            if (i === player.hotbar.equippedItemIndex) {
+            if (i === player.hotbar.equippedSlotIndex) {
                 if (i === player.hotbar.selectedSlotIndex) {
                     inventorySlotInterfaceHelper.drawInventorySlotBackground(player.hotbar, itemX, itemY, i);
                     colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
