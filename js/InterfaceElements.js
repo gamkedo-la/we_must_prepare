@@ -59,10 +59,10 @@ function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomR
 }
 
 // An item picked up from the Inventory or Hotbar pane, and attached to the mouse cursor.
-function InventoryItemHeldAtMouseCursor() {
+function ItemsHeldAtMouse() {
     this.draw = function () {
-        if (player.holdingSlot.count > 0) { // TODO move this to inventory code somewhere
-            inventorySlotInterfaceHelper.drawInventorySlot(mouseX, mouseY, player.holdingSlot);
+        if (player.itemsHeldAtMouse.count > 0) { // TODO move this to inventory code somewhere
+            inventorySlotInterfaceHelper.drawInventorySlot(mouseX, mouseY, player.itemsHeldAtMouse);
         }
     };
 }

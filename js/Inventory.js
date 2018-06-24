@@ -90,43 +90,57 @@ function Inventory(size){
 		return count; //Tells calling function how many items are left
 	};
 	
-	this.grabSlot = function(){
-		if(player.holdingSlot.item != this.slots[this.selectedSlotIndex].item){
-			var tempSlot = player.holdingSlot;
-			player.holdingSlot = this.slots[this.selectedSlotIndex];
+    this.grabSlot = function () {         
+        if (player.itemsHeldAtMouse.item != this.slots[this.selectedSlotIndex].item) { // if item types don't match
+            // swap item at mouse with selected item in the hotbar
+			var tempSlot = player.itemsHeldAtMouse;
+			player.itemsHeldAtMouse = this.slots[this.selectedSlotIndex];
             this.slots[this.selectedSlotIndex] = tempSlot;
-		} else {
-			// TODO account for stack limits
-			this.slots[this.selectedSlotIndex].count += player.holdingSlot.count;
-			player.holdingSlot = new EmptyInventorySlot();
+        }
+        else {
+			// TODO account for stack limits            
+			this.slots[this.selectedSlotIndex].count += player.itemsHeldAtMouse.count;
+			player.itemsHeldAtMouse = new EmptyInventorySlot();
         }
 
+        // unequip selected item in hotbar if it is equipped
         if (this.selectedSlotIndex == this.equippedSlotIndex) {
             this.equippedSlotIndex = -1;
         }
 	};
 	
 	this.altGrabSlot = function() {
-		if(player.holdingSlot.count <= 0) {
-			player.holdingSlot.item = this.slots[this.selectedSlotIndex].item;
-			player.holdingSlot.count = Math.ceil(this.slots[this.selectedSlotIndex].count/2);
-			this.slots[this.selectedSlotIndex].count = Math.floor(this.slots[this.selectedSlotIndex].count/2);
-			return;
-		}
-		
-		if(this.slots[this.selectedSlotIndex].count <= 0) {
-			this.slots[this.selectedSlotIndex].item = player.holdingSlot.item;
-		}
-		
-		if(player.holdingSlot.item === this.slots[this.selectedSlotIndex].item) {
-			this.slots[this.selectedSlotIndex].count++;
-			
-			player.holdingSlot.count--;
-			if(player.holdingSlot.count === 0) {
-				player.holdingSlot = new EmptyInventorySlot();
-			}
+        if (player.itemsHeldAtMouse.count <= 0) {
+            player.itemsHeldAtMouse.item = this.slots[this.selectedSlotIndex].item;
+            player.itemsHeldAtMouse.count = Math.ceil(this.slots[this.selectedSlotIndex].count / 2);
+            this.slots[this.selectedSlotIndex].count = Math.floor(this.slots[this.selectedSlotIndex].count / 2);
+        }
+        else if (player.itemsHeldAtMouse.item != this.slots[this.selectedSlotIndex].item) {
+            // swap item at mouse with selected item in the hotbar
+            var tempSlot = player.itemsHeldAtMouse;
+            player.itemsHeldAtMouse = this.slots[this.selectedSlotIndex];
+            this.slots[this.selectedSlotIndex] = tempSlot;
+        }
+        else {
+            // TODO account for stack limits
+            this.slots[this.selectedSlotIndex].count += player.itemsHeldAtMouse.count;
+            player.itemsHeldAtMouse = new EmptyInventorySlot();
+
+            if (this.slots[this.selectedSlotIndex].count <= 0) {
+                this.slots[this.selectedSlotIndex].item = player.itemsHeldAtMouse.item;
+            }
+
+            if (player.itemsHeldAtMouse.item === this.slots[this.selectedSlotIndex].item) {
+                this.slots[this.selectedSlotIndex].count++;
+
+                player.itemsHeldAtMouse.count--;
+                if (player.itemsHeldAtMouse.count === 0) {
+                    player.itemsHeldAtMouse = new EmptyInventorySlot();
+                }
+            }
         }
 
+        // unequip selected item in hotbar if it is equipped
         if (this.selectedSlotIndex == this.equippedSlotIndex) {
             this.equippedSlotIndex = -1;
         }

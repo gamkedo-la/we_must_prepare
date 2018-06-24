@@ -5,7 +5,7 @@ function Player() {
     this.y = 0;
     this.isWalking = false;
 
-    this.holdingSlot = new EmptyInventorySlot();
+    this.itemsHeldAtMouse = new EmptyInventorySlot();
 
     this.bucketList = [];
     this.storageList = [];

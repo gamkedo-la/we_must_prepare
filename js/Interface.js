@@ -68,14 +68,14 @@ function Interface() {
     this.hotbarPane = new HotbarPane();
 
     // In-game instance of item picked up from the Inventory or Hotbar pane, attached to the mouse cursor.
-    this.holdingSlot = new InventoryItemHeldAtMouseCursor();
+    this.itemsHeldAtMouse = new ItemsHeldAtMouse();
 
     // Draw everything on the Interface (called from drawEverything() in Main.js)
     this.draw = function () {
         this.hotbarPane.draw();
         this.tabMenu.draw();
         this.mainMenu.draw();
-        this.holdingSlot.draw();
+        this.itemsHeldAtMouse.draw();
 
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
         colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
