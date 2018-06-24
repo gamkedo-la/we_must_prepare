@@ -45,17 +45,17 @@ function setupAllInterfaces() {
     };
     MainMenu.push(button);
 
-    TabMenu = new TabMenuUI(canvas.width * .25, canvas.height * .25 - 30);
+    TabMenu = new TabMenuInterface(canvas.width * .25, canvas.height * .25 - 30);
     //var pane = new paneUI('Test Pane', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     //TabMenu.push(pane);
-    var pane = new ControlsInfoPaneUI('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    var pane = new ControlsInfoPaneInterface('Controls', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
 
     pane = new InventoryPaneInterface('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     InventoryPane = pane;
     TabMenu.push(pane);
 
-    var pane = new AudioPaneUI('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    var pane = new AudioPaneInterface('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     TabMenu.push(pane);
 
     TabMenu.switchTabIndex(0);
@@ -112,7 +112,7 @@ function drawUIPaneBorder(pane, borderWidth, color) {
     canvasContext.fill();
 }
 
-function TabMenuUI(X=0, Y=0, tabHeight=30) {
+function TabMenuInterface(X=0, Y=0, tabHeight=30) {
     this.x = X;
     this.y = Y;
     this.tabHeight = tabHeight;
@@ -293,7 +293,7 @@ function PaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     };
 }
 
-function ControlsInfoPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function ControlsInfoPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     this.x = topLeftX;
     this.y = topLeftY;

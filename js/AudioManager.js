@@ -409,7 +409,7 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 function PlayWaterAmbi() {
 }
 
-function AudioPaneUI(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioPaneInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 	this.x = topLeftX;
 	this.y = topLeftY;
 	this.width = bottomRightX - topLeftX;
