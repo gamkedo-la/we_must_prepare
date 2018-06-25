@@ -195,7 +195,6 @@ function Player() {
                 this.playerEnergyLevel -= energyToCheck;
                 if (this.playerEnergyLevel < 0) {
                     timer.endOfDay();
-                    this.playerEnergyLevel = Math.floor(PLAYER_MAX_ENERGY * 0.66);
                 }
                 return this.playerEnergyLevel >= 0;
             }
@@ -344,6 +343,7 @@ function Player() {
                 }
 
                 timer.endOfDay();
+                player.playerEnergyLevel = PLAYER_MAX_ENERGY;
 
                 this.y = this.y + TILE_H;
             }
