@@ -17,10 +17,15 @@ var ItemCode = Object.freeze({
 });
 
 // Item class
-function Item(itemName, itemType) {
+function Item(itemName, itemType, energyCost) {
+    console.log("type of energyCost " + energyCost);
+    if (typeof energyCost === 'undefined') {
+        energyCost = 0;
+    }
     this.name = itemName;
     this.type = itemType;
     this.thing = ItemCode.NOTHING;
+    this.energyCost = energyCost;
 
     switch (itemType) {
         case ItemCode.WATERCAN:
@@ -37,10 +42,10 @@ function Items() {
     this.metal = new Item("Metal", ItemCode.METAL);
     this.stone = new Item("Stone", ItemCode.STONE);
     this.wood = new Item("Wood", ItemCode.WOOD);
-    this.axe = new Item("Axe", ItemCode.AXE);
-    this.watercan = new Item("Watercan", ItemCode.WATERCAN);
-    this.hoe = new Item("Hoe", ItemCode.HOE);
-    this.pickaxe = new Item("Pickaxe", ItemCode.PICKAXE);
+    this.axe = new Item("Axe", ItemCode.AXE, 5);
+    this.watercan = new Item("Watercan", ItemCode.WATERCAN, 5);
+    this.hoe = new Item("Hoe", ItemCode.HOE, 5);
+    this.pickaxe = new Item("Pickaxe", ItemCode.PICKAXE, 5);
     this.wheatSeedOne = new Item("Wheat Seed One", ItemCode.WHEAT_SEED_ONE);
     this.wheatSeedTwo = new Item("Wheat Seed Two", ItemCode.WHEAT_SEED_TWO);
 }

@@ -1,4 +1,5 @@
 const PLAYER_PIXELS_MOVE_RATE = 6;
+const PLAYER_MAX_ENERGY = 100;
 
 function Player() {
     this.x = 0;
@@ -35,6 +36,8 @@ function Player() {
 
     var walkIntoTileIndex = -1;
     var walkIntoTileType = TILE_WALL;
+
+    this.playerEnergyLevel = 0;
 
     this.outlineTargetTile = true; // draw a square around the tile we are aiming at
 
@@ -76,6 +79,7 @@ function Player() {
         this.x = this.homeX;
         this.y = this.homeY;
         centerRadiation(this.x, this.y);
+        this.playerEnergyLevel = PLAYER_MAX_ENERGY;
 
         this.bucketList = [];
         this.bucketList[Resources.Metal] = new Resource(1000, 0);
@@ -185,6 +189,18 @@ function Player() {
 
     };
 
+    this.checkIfEnoughEnergy = function (energyToCheck, shouldSpend) {
+        console.log("Player energy is " + this.playerEnergyLevel + " and checking " + energyToCheck);
+        if (this.playerEnergyLevel >= energyToCheck) {
+            if (shouldSpend) {
+                this.playerEnergyLevel -= energyToCheck;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     this.drawPlayerHUD = function () {
         canvasContext.fillStyle = 'white';
         var textLineY = 37, textLineSkip = 10, textLineX = Math.round(canvas.width / 2) - 32;
@@ -198,6 +214,9 @@ function Player() {
             textLineY += textLineSkip;
             i++;
         }
+        canvasContext.fillStyle = 'yellow';
+        var textLineY = 37, textLineX = Math.round(canvas.width / 3) - 32;
+        canvasContext.fillText(this.playerEnergyLevel, textLineX, textLineY)
     };
 
     this.draw = function () {
@@ -366,7 +385,7 @@ function Player() {
                     // ------ farming cases START ------
                     case TILE_GROUND:
                         if (equippedItem == items.hoe.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.hoe.energyCost, true)) {
                                 robotTillingLandSFX.play();
                                 roomGrid[index] = TILE_TILLED;
                             }
@@ -375,14 +394,14 @@ function Player() {
                         break;
                     case TILE_TILLED:
                         if (equippedItem == items.hoe.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.hoe.energyCost, true)) {
                                 robotTillingLandSFX.play();
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         }
                         else if (equippedItem == items.watercan.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.watercan.energyCost, true)) {
                                 if (items.watercan.thing.use(WATERCAN_USE_RATE) <= 0) {
                                     return;
                                 }                                
@@ -393,7 +412,7 @@ function Player() {
                             this.outlineTargetTile = true; 
                         }
                         else if (equippedItem == items.wheatSeedOne.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedOne.energyCost, true)) {
                                 new Plant(index, TILE_CORN_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
@@ -401,7 +420,7 @@ function Player() {
                             this.outlineTargetTile = true;
                         }
                         else if (equippedItem == items.wheatSeedTwo.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedTwo.energyCost, true)) {
                                 new Plant(index, TILE_TOMATO_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
@@ -411,7 +430,7 @@ function Player() {
                         break;
                     case TILE_TILLED_WATERED:
                         if (equippedItem == items.hoe.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.hoe.energyCost, true)) {
                                 robotTillingLandSFX.play();
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
@@ -428,14 +447,14 @@ function Player() {
                             this.outlineTargetTile = true; 
                         }
                         else if (equippedItem == items.wheatSeedOne.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedOne.energyCost, true)) {
                                 new Plant(index, TILE_CORN_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         } else if (equippedItem == items.wheatSeedTwo.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedTwo.energyCost, true)) {
                                 new Plant(index, TILE_TOMATO_SEED);
                                 this.hotbar.remove(equippedItem, 1);
                             }
@@ -453,7 +472,7 @@ function Player() {
                     // ------ resource gathering cases START ------            
                     case TILE_METAL_SRC:                    
                         if (equippedItem == items.pickaxe.type) {
-                            if (isAction) {  
+                            if (isAction && this.checkIfEnoughEnergy(items.pickaxe.energyCost, true)) {
                                 if (getResourceFromIndex(index, true, this.bucketList) == true) {
                                     playSFXForCollectingResource(TILE_METAL_SRC);
                                     this.inventory.add(items.metal.type, 1);
@@ -465,10 +484,10 @@ function Player() {
                         break;
                     case TILE_STONE_SRC:                    
                         if (equippedItem == items.pickaxe.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.pickaxe.energyCost, true)) {
                                 if (getResourceFromIndex(index, true, this.bucketList) == true) {
                                     playSFXForCollectingResource(TILE_STONE_SRC);
-                                    this.inventory.add(items.STONE.type, 1);
+                                    this.inventory.add(items.stone.type, 1);
                                 }              
                                 this.resetEquippedAnimations(equippedItem);
                             }
@@ -477,10 +496,10 @@ function Player() {
                         break;
                     case TILE_WOOD_SRC:
                         if (equippedItem == items.axe.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(items.axe.energyCost, true)) {
                                 if (getResourceFromIndex(index, true, this.bucketList) == true) {
                                     playSFXForCollectingResource(TILE_WOOD_SRC);
-                                    this.inventory.add(items.WOOD.type, 1);
+                                    this.inventory.add(items.wood.type, 1);
                                 }
                             }
                             this.outlineTargetTile = true;
@@ -516,7 +535,7 @@ function Player() {
                         break;
                     case TILE_LAKE_WATER:                        
                         if (equippedItem == items.watercan.type) {
-                            if (isAction) {
+                            if (isAction && this.checkIfEnoughEnergy(Math.floor(items.watercan.energyCost / 2), true)) {
                                 if(items.watercan.thing.refill(WATERCAN_FILL_RATE) >= WATERCAN_CAPACITY) {
                                     return;
                                 }
@@ -530,7 +549,7 @@ function Player() {
                     default:                        
                         if (roomGrid[index] >= START_TILE_WALKABLE_GROWTH_RANGE) {
                             if (equippedItem == items.watercan.type) {
-                                if (isAction) {
+                                if (isAction && this.checkIfEnoughEnergy(items.watercan.energyCost, true)) {
                                     if (items.watercan.thing.use(WATERCAN_USE_RATE) <= 0) {
                                         return;
                                     }                   
@@ -544,7 +563,7 @@ function Player() {
                                 this.outlineTargetTile = true;
                             }
                             else if (equippedItem == items.hoe.type) {
-                                if (isAction) {
+                                if (isAction && this.checkIfEnoughEnergy(items.hoe.energyCost, true)) {
                                     robotTillingLandSFX.play();
 
                                     var plantAtIndex = getTileIndexAtPixelCoord(this.x, this.y);
