@@ -191,14 +191,15 @@ function Player() {
 
     this.checkIfEnoughEnergy = function (energyToCheck, shouldSpend) {
         console.log("Player energy is " + this.playerEnergyLevel + " and checking " + energyToCheck);
-        if (this.playerEnergyLevel >= energyToCheck) {
-            if (shouldSpend) {
+        if (shouldSpend) {
                 this.playerEnergyLevel -= energyToCheck;
+                if (this.playerEnergyLevel < 0) {
+                    timer.endOfDay();
+                    this.playerEnergyLevel = Math.floor(PLAYER_MAX_ENERGY * 0.66);
+                }
+                return this.playerEnergyLevel >= 0;
             }
-            return true;
-        } else {
-            return false;
-        }
+        return this.playerEnergyLevel >= energyToCheck;
     };
 
     this.drawPlayerHUD = function () {

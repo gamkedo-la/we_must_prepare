@@ -129,5 +129,6 @@ function Timer() {
         }
         console.log(drycount + " patches of soil dried up.");
 
+        player.playerEnergyLevel = PLAYER_MAX_ENERGY;
     }
 }
