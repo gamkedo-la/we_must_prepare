@@ -260,5 +260,5 @@ function Seed(energyCost) {
     }
 }
 // Seed inheriting Tool class
-Seed.prototype = Object.create(Seed.prototype);
+Seed.prototype = Object.create(Tool.prototype);
 Seed.prototype.constructor = Seed;
