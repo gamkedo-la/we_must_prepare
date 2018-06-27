@@ -208,21 +208,20 @@ function Player() {
     };
 
     this.draw = function () {
-		
-		if (this.isMouseOverPlayerAdjacentTile()){
-			this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(mouseWorldX, mouseWorldY);
-		} else {
+
+        if (this.getMouseActionDirection() == DIRECTION_NONE) {
 			this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+		} else {
+			this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(mouseWorldX, mouseWorldY);
 		}
 
         if (this.outlineTargetTile) {
             // idea: different colour depending on player.currentlyFocusedTileIndex
-
-            //var targetIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
-			if(this.isMouseOverPlayerAdjacentTile()){
-				var target = getAdjacentTileCoord(mouseWorldX, mouseWorldY);
-			} else {
+                        
+            if (this.getMouseActionDirection() == DIRECTION_NONE) {
 				var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+			} else {
+				var target = getAdjacentTileCoord(mouseWorldX, mouseWorldY);
 			}
 			
             // yellow square done in code - works
@@ -246,31 +245,26 @@ function Player() {
         // colorCircle(this.homeX, this.homeY, 25, 'yellow');
         if (this.keyHeld_North) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
-            playerWalkNorth.update();
-            this.playerLastFacingDirectionImage = playerIdleNorth;
+            playerWalkNorth.update();            
             playFootstep(playerWalkNorth);
             return;
         } else if (this.keyHeld_East) {
             playerWalkEast.draw(this.x, this.y - playerImage.height / 2);
-            playerWalkEast.update();
-            this.playerLastFacingDirectionImage = playerIdleEast;
+            playerWalkEast.update();            
             playFootstep(playerWalkEast);
             return;
         } else if (this.keyHeld_South) {
             playerWalkSouth.draw(this.x, this.y - playerImage.height / 2);
-            playerWalkSouth.update();
-            this.playerLastFacingDirectionImage = playerIdleSouth;
+            playerWalkSouth.update();            
             playFootstep(playerWalkSouth);
             return;
         } else if (this.keyHeld_West) {
             playerWalkWest.draw(this.x, this.y - playerImage.height / 2);
-            playerWalkWest.update();
-            this.playerLastFacingDirectionImage = playerIdleWest;
+            playerWalkWest.update();            
             playFootstep(playerWalkWest);
             return;
-        } else {
-            this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
-        }
+        } 
+
         if (pickaxeAnimationEast.isFinishedPlaying() == false) {
             pickaxeAnimationEast.draw(this.x, this.y - playerImage.height / 2);
             pickaxeAnimationEast.update();
@@ -284,6 +278,23 @@ function Player() {
             pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
             pickaxeAnimationSouth.update();
         }
+
+        switch (this.playerLastFacingDirection) {
+            case DIRECTION_NORTH:
+                this.playerLastFacingDirectionImage = playerIdleNorth;
+                break;
+            case DIRECTION_EAST:
+                this.playerLastFacingDirectionImage = playerIdleEast;
+                break;
+            case DIRECTION_SOUTH:
+                this.playerLastFacingDirectionImage = playerIdleSouth;
+                break;
+            case DIRECTION_WEST:
+                this.playerLastFacingDirectionImage = playerIdleWest;
+                break;
+            
+        }
+        this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
     };
 
     this.distFrom = function (otherX, otherY) {
@@ -623,42 +634,47 @@ function Player() {
         }
     };
 
+    this.getMouseActionDirection = function () { //checks to see if the mouse is over either the player's current tile or one of the 8 surrounding tiles.
+        var mouseTileIndex = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
+        var playerTileIndex = getTileIndexAtPixelCoord(this.x, this.y);
+
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_NORTH) == mouseTileIndex) {
+            return DIRECTION_NORTH;
+        }
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_EAST) == mouseTileIndex) {
+            return DIRECTION_EAST;
+        }
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_SOUTH) == mouseTileIndex) {
+            return DIRECTION_SOUTH;
+        }
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_WEST) == mouseTileIndex) {
+            return DIRECTION_WEST;
+        }
+
+        return DIRECTION_NONE;
+
+
+        //getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_NORTH) == mouseTileIndex || //checks northeast tile
+        //getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_NORTH) == mouseTileIndex || //checks northwest tile
+        //getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southeast tile
+        //getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southwest tile
+
+        //mouseTileIndex == playerTileIndex			
+    }
+
     this.resetEquippedAnimations = function (itemType) {
         switch (itemType) {
             case items.pickaxe.type:
-                if (this.isPlayerFacingEast) {
+                if (this.playerLastFacingDirection == DIRECTION_EAST) {
                     pickaxeAnimationEast.reset();
-                } else if (this.isPlayerFacingWest) {
+                } else if (this.playerLastFacingDirection == DIRECTION_WEST) {
                     pickaxeAnimationWest.reset();
-                } else if (this.isPlayerFacingNorth) {
+                } else if (this.playerLastFacingDirection == DIRECTION_NORTH) {
                     pickaxeAnimationNorth.reset();
-                } else if (this.isPlayerFacingSouth) {
+                } else if (this.playerLastFacingDirection == DIRECTION_SOUTH) {
                     pickaxeAnimationSouth.reset();
                 }
             break;        
         }
     };
-	
-	this.isMouseOverPlayerAdjacentTile = function (){ //checks to see if the mouse is over either the player's current tile or one of the 8 surrounding tiles.
-		var mouseTileIndex = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
-		var playerTileIndex = getTileIndexAtPixelCoord(this.x, this.y);
-		
-		if 	(getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_NORTH) == mouseTileIndex ||
-			getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_EAST) == mouseTileIndex ||
-			getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_SOUTH) == mouseTileIndex ||
-			getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_WEST) == mouseTileIndex ||
-			
-			getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_NORTH) == mouseTileIndex || //checks northeast tile
-			getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_NORTH) == mouseTileIndex || //checks northwest tile
-			getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southeast tile
-			getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southwest tile
-
-			mouseTileIndex == playerTileIndex
-			){
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 } // end playerClass

@@ -157,6 +157,15 @@ function inputUpdate() {
                 }
             }
         }
+
+        if (indexUnderMouse != undefined) {
+            if (mouseClickedThisFrame) {
+                player.playerLastFacingDirection = player.getMouseActionDirection();
+                toolKeyPressedThisFrame = true;
+                toolKeyHeld = true;
+                player.doActionOnTile(); // gather resources, till tiles, etc
+            }
+        }
     }
     if (rightMouseClickedThisFrame) {
         inputHandled = interface.tabMenu.rightMouseClick(mouseX, mouseY) || interface.hotbarPane.rightMouseClick(mouseX, mouseY);

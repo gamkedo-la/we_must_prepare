@@ -123,6 +123,7 @@ const TILE_TOMATO_HARVESTED = 73;
 const START_TILE_WALKABLE_GROWTH_RANGE = TILE_CORN_SEED;  // make sure to keeps plants at the end of this list or there will be weird issues with walking through items
 const LAST_TILE_ENUM = TILE_TOMATO_HARVESTED;
 
+const DIRECTION_NONE = -1;
 const DIRECTION_NORTH = 0;
 const DIRECTION_EAST = 1;
 const DIRECTION_SOUTH = 2;
