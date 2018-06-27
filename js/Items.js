@@ -70,19 +70,20 @@ function Items() {
 // ----------------
 // Parent class for all items that consume energy
 function Tool (energyCost) {    
-    this.energyCost = energyCost;
-
-    this.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyCost = this.energyCost) {
-        console.log("Player energy is " + toolUser.playerEnergyLevel + " and checking " + energyCost);
-
-        toolUser.playerEnergyLevel -= energyCost;
-        if (toolUser.playerEnergyLevel < 0) {
-            timer.endOfDay();
-        }
-
-        return toolUser.playerEnergyLevel >= energyCost;
-    };
+    this.energyCost = energyCost;    
 }
+
+// Explicitly define function on parent class' prototype so that it can be called by children classes
+Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyCost = this.energyCost) {    
+    console.log("Player energy is " + toolUser.playerEnergyLevel + " and checking " + energyCost);
+
+    toolUser.playerEnergyLevel -= energyCost;
+    if (toolUser.playerEnergyLevel < 0) {
+        timer.endOfDay();
+    }
+
+    return toolUser.playerEnergyLevel >= energyCost;
+};
 
 // ----------------
 // Axe
@@ -92,8 +93,8 @@ function Axe(energyCost) {
 
     this.energyCost = energyCost;
 
-    this.use = function (toolUser, activeTileIndex) {
-        if (this.checkIfEnoughEnergy(toolUser)) {
+    this.use = function (toolUser, activeTileIndex) {        
+        if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Axe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList)) {
                 playSFXForCollectingResource(TILE_WOOD_SRC);
                 return toolUser.inventory.add(items.wood.type, 1);
@@ -119,7 +120,7 @@ function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity =
     this.waterCapcity = waterCapacity;
 
     this.use = function (toolUser, activeTileIndex, waterDepletionRate) {
-        if (this.checkIfEnoughEnergy(toolUser)) {
+        if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Watercan and pass argument(s)
             if (this.waterLeft > 0) {
                 this.waterLeft -= waterDepletionRate;
 
@@ -142,7 +143,7 @@ function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity =
     };
 
     this.refill = function (toolUser, fillRate) {
-        if (this.checkIfEnoughEnergy(toolUser, this.energyCost * 0.5)) {
+        if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser, this.energyCost * 0.5)) { // call parent class function in the context of Watercan and pass argument(s)
             if (this.waterLeft < this.waterCapcity) {
                 this.waterLeft += fillRate;
 
@@ -171,7 +172,7 @@ function Hoe(energyCost) {
     this.energyCost = energyCost;
 
     this.use = function (toolUser, activeTileIndex) {
-        if (this.checkIfEnoughEnergy(toolUser)) {
+        if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Hoe and pass argument(s)
             switch (roomGrid[activeTileIndex]) {
                 case TILE_GROUND:
                     robotTillingLandSFX.play();
@@ -210,7 +211,7 @@ function Pickaxe(energyCost) {
     this.energyCost = energyCost;
 
     this.use = function (toolUser, activeTileIndex) {
-        if (this.checkIfEnoughEnergy(toolUser)) {
+        if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Pickaxe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList) == true) {
                 switch (roomGrid[activeTileIndex]) {
                     case TILE_METAL_SRC:
@@ -242,7 +243,7 @@ function Seed(energyCost, whichSeed) {
     this.energyCost = energyCost;
 
     this.use = function (toolUser, activeTileIndex) {
-        if (this.checkIfEnoughEnergy(toolUser)) {
+        if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Seed and pass argument(s)
             let seedTypeTile = items.wheatSeedOne.type;
 
             switch (whichSeed) { 
