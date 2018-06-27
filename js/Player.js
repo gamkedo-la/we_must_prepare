@@ -278,12 +278,16 @@ function Player() {
                 this.playerLastFacingDirectionImage = playerIdleNorth;
                 break;
             case DIRECTION_EAST:
+            case DIRECTION_NORTHEAST:
+            case DIRECTION_SOUTHEAST:
                 this.playerLastFacingDirectionImage = playerIdleEast;
                 break;
             case DIRECTION_SOUTH:
                 this.playerLastFacingDirectionImage = playerIdleSouth;
                 break;
             case DIRECTION_WEST:
+            case DIRECTION_NORTHWEST:
+            case DIRECTION_SOUTHWEST:
                 this.playerLastFacingDirectionImage = playerIdleWest;
                 break;
             
@@ -622,9 +626,13 @@ function Player() {
     this.resetEquippedAnimations = function (itemType) {
         switch (itemType) {
             case items.pickaxe.type:
-                if (this.playerLastFacingDirection == DIRECTION_EAST) {
+                if (this.playerLastFacingDirection == DIRECTION_EAST ||
+                    this.playerLastFacingDirection == DIRECTION_NORTHEAST ||
+                    this.playerLastFacingDirection == DIRECTION_SOUTHEAST) {
                     pickaxeAnimationEast.reset();
-                } else if (this.playerLastFacingDirection == DIRECTION_WEST) {
+                } else if (this.playerLastFacingDirection == DIRECTION_WEST || 
+                           this.playerLastFacingDirection == DIRECTION_NORTHWEST ||
+                           this.playerLastFacingDirection == DIRECTION_SOUTHWEST) {
                     pickaxeAnimationWest.reset();
                 } else if (this.playerLastFacingDirection == DIRECTION_NORTH) {
                     pickaxeAnimationNorth.reset();
