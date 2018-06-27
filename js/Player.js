@@ -305,21 +305,17 @@ function Player() {
         var movementX = 0;
         var movementY = 0;
 
-        if (this.keyHeld_West) {
-            movementX -= PLAYER_PIXELS_MOVE_RATE;
-            this.playerLastFacingDirection = DIRECTION_WEST;
+        if (this.keyHeld_North) {
+            movementY -= PLAYER_PIXELS_MOVE_RATE;
         }
         if (this.keyHeld_East) {
             movementX += PLAYER_PIXELS_MOVE_RATE;
-            this.playerLastFacingDirection = DIRECTION_EAST;
-        }
-        if (this.keyHeld_North) {
-            movementY -= PLAYER_PIXELS_MOVE_RATE;
-            this.playerLastFacingDirection = DIRECTION_NORTH;
         }
         if (this.keyHeld_South) {
             movementY += PLAYER_PIXELS_MOVE_RATE;
-            this.playerLastFacingDirection = DIRECTION_SOUTH;
+        }
+        if (this.keyHeld_West) {
+            movementX -= PLAYER_PIXELS_MOVE_RATE;
         }
 
         this.getDirectionPlayerIsCurrentlyFacing();
