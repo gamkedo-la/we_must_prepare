@@ -51,7 +51,7 @@ function Item(itemName, itemType, energyCost) {
     return this;
 }
 
-// Create item instances here, instanced in Main.js
+// Create instances of items here, Items() itself is instanced in Main.js
 function Items() {
     this.nothing = new Item("Nothing", ItemCode.NOTHING);
     this.metal = new Item("Metal", ItemCode.METAL);
@@ -70,9 +70,8 @@ function Items() {
 // ----------------
 // Parent class for all items that consume energy
 function Tool (energyCost) {    
-    this.energyCost = energyCost;    
+    this.energyCost = energyCost;
 }
-
 // Explicitly define function on parent class' prototype so that it can be called by children classes
 Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyCost = this.energyCost) {    
     console.log("Player energy is " + toolUser.playerEnergyLevel + " and checking " + energyCost);
@@ -90,9 +89,7 @@ Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyC
 // ----------------
 function Axe(energyCost) {
     Tool.call(this, energyCost); // Axe inheriting Tool class
-
-    this.energyCost = energyCost;
-
+    
     this.use = function (toolUser, activeTileIndex) {        
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Axe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList)) {
@@ -113,9 +110,7 @@ Axe.prototype.constructor = Axe;
 // ----------------
 function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY) {
     Tool.call(this, energyCost); // Watercan inheriting Tool class
-
-    this.energyCost = energyCost;
-
+    
     this.waterLeft = waterLeft;
     this.waterCapcity = waterCapacity;
 
@@ -168,9 +163,7 @@ Watercan.prototype.constructor = Watercan;
 // ------------
 function Hoe(energyCost) {
     Tool.call(this, energyCost); // Hoe inheriting Tool class
-
-    this.energyCost = energyCost;
-
+    
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Hoe and pass argument(s)
             switch (roomGrid[activeTileIndex]) {
@@ -208,8 +201,6 @@ Hoe.prototype.constructor = Hoe;
 function Pickaxe(energyCost) {
     Tool.call(this, energyCost); // Pickaxe inheriting Tool class
 
-    this.energyCost = energyCost;
-
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Pickaxe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList) == true) {
@@ -239,9 +230,7 @@ Pickaxe.prototype.constructor = Pickaxe;
 // ----------------
 function Seed(energyCost, whichSeed) {
     Tool.call(this, energyCost); // Seed inheriting Tool class
-
-    this.energyCost = energyCost;
-
+    
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Seed and pass argument(s)
             let seedTypeTile = items.wheatSeedOne.type;
