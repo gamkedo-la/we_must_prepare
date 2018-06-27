@@ -16,11 +16,6 @@ function Player() {
     this.keyHeld_South = false;
     this.keyHeld_East = false;
 
-    this.isPlayerFacingNorth = false;
-    this.isPlayerFacingSouth = false;
-    this.isPlayerFacingWest = false;
-    this.isPlayerFacingEast = false;
-
     this.playerLastFacingDirection = DIRECTION_SOUTH;
     this.playerLastFacingDirectionImage = playerIdleSouth;
 
@@ -208,7 +203,6 @@ function Player() {
     };
 
     this.draw = function () {
-
         if (this.getMouseActionDirection() == DIRECTION_NONE) {
 			this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
 		} else {
@@ -559,78 +553,38 @@ function Player() {
     this.getDirectionPlayerIsCurrentlyFacing = function () {
         //next four if/else if statements set direction only for horizontal and vertical movement
         if (this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) {
-            this.isPlayerFacingWest = true;
-
+            this.playerLastFacingDirection = DIRECTION_WEST;
             //console.log("facing west");
-
-            this.isPlayerFacingEast = false;
-            this.isPlayerFacingSouth = false;
-            this.isPlayerFacingNorth = false;
         }
         else if (this.keyHeld_East && !this.keyHeld_North && !this.keyHeld_South) {
-            this.isPlayerFacingEast = true;
-
+            this.playerLastFacingDirection = DIRECTION_EAST;
             //console.log("facing east");
-
-            this.isPlayerFacingWest = false;
-            this.isPlayerFacingSouth = false;
-            this.isPlayerFacingNorth = false;
         }
         else if (this.keyHeld_North && !this.keyHeld_West && !this.keyHeld_East) {
-            this.isPlayerFacingNorth = true;
-
+            this.playerLastFacingDirection = DIRECTION_NORTH;
             //console.log("facing north");
-
-            this.isPlayerFacingWest = false;
-            this.isPlayerFacingEast = false;
-            this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_South && !this.keyHeld_West && !this.keyHeld_East) {
-            this.isPlayerFacingSouth = true;
-
+            this.playerLastFacingDirection = DIRECTION_SOUTH;
             //console.log("facing south");
-
-            this.isPlayerFacingWest = false;
-            this.isPlayerFacingEast = false;
-            this.isPlayerFacingNorth = false;
         }
 
         //these four else if statements set direction for diagonal movement rather than horizontal and vertical movement
         else if (this.keyHeld_North && this.keyHeld_East) {
-            this.isPlayerFacingNorth = true;
-            this.isPlayerFacingEast = true;
-
+            this.playerLastFacingDirection = DIRECTION_NORTHEAST;
             //console.log("facing northeast");
-
-            this.isPlayerFacingWest = false;
-            this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_North && this.keyHeld_West) {
-            this.isPlayerFacingNorth = true;
-            this.isPlayerFacingWest = true;
-
+            this.playerLastFacingDirection = DIRECTION_NORTHWEST;
             //console.log("facing northwest");
-
-            this.isPlayerFacingEast = false;
-            this.isPlayerFacingSouth = false;
         }
         else if (this.keyHeld_South && this.keyHeld_East) {
-            this.isPlayerFacingSouth = true;
-            this.isPlayerFacingEast = true;
-
+            this.playerLastFacingDirection = DIRECTION_SOUTHEAST;
             //console.log("facing southeast");
-
-            this.isPlayerFacingWest = false;
-            this.isPlayerFacingNorth = false;
         }
         else if (this.keyHeld_South && this.keyHeld_West) {
-            this.isPlayerFacingSouth = true;
-            this.isPlayerFacingWest = true;
-
+            this.playerLastFacingDirection = DIRECTION_SOUTHWEST;
             //console.log("facing southwest");
-
-            this.isPlayerFacingEast = false;
-            this.isPlayerFacingNorth = false;
         }
     };
 
@@ -650,16 +604,19 @@ function Player() {
         if (getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_WEST) == mouseTileIndex) {
             return DIRECTION_WEST;
         }
-
-        return DIRECTION_NONE;
-
-
-        //getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_NORTH) == mouseTileIndex || //checks northeast tile
-        //getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_NORTH) == mouseTileIndex || //checks northwest tile
-        //getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southeast tile
-        //getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southwest tile
-
-        //mouseTileIndex == playerTileIndex			
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_NORTH) == mouseTileIndex) {
+            return DIRECTION_NORTHEAST;
+        }
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_NORTH) == mouseTileIndex) {
+            return DIRECTION_NORTHWEST;
+        }
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_SOUTH) == mouseTileIndex) {
+            return DIRECTION_SOUTHEAST;
+        }
+        if (getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_SOUTH) == mouseTileIndex) {
+            return DIRECTION_SOUTHWEST;
+        }
+        return DIRECTION_NONE;        
     }
 
     this.resetEquippedAnimations = function (itemType) {

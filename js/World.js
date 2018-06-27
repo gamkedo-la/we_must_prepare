@@ -128,6 +128,10 @@ const DIRECTION_NORTH = 0;
 const DIRECTION_EAST = 1;
 const DIRECTION_SOUTH = 2;
 const DIRECTION_WEST = 3;
+const DIRECTION_NORTHEAST = 4;
+const DIRECTION_NORTHWEST = 5;
+const DIRECTION_SOUTHEAST = 6;
+const DIRECTION_SOUTHWEST = 7;
 
 var objectsWithDepth = [];
 
