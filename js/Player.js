@@ -220,14 +220,23 @@ function Player() {
     };
 
     this.draw = function () {
-        this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+		
+		if (this.isMouseOverPlayerAdjacentTile()){
+			this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(mouseWorldX, mouseWorldY);
+		} else {
+			this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+		}
 
         if (this.outlineTargetTile) {
             // idea: different colour depending on player.currentlyFocusedTileIndex
 
             //var targetIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
-            var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
-
+			if(this.isMouseOverPlayerAdjacentTile()){
+				var target = getAdjacentTileCoord(mouseWorldX, mouseWorldY);
+			} else {
+				var target = getAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
+			}
+			
             // yellow square done in code - works
             /*
             canvasContext.beginPath();
@@ -684,5 +693,27 @@ function Player() {
             break;        
         }
     };
+	
+	this.isMouseOverPlayerAdjacentTile = function (){ //checks to see if the mouse is over either the player's current tile or one of the 8 surrounding tiles.
+		var mouseTileIndex = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
+		var playerTileIndex = getTileIndexAtPixelCoord(this.x, this.y);
+		
+		if 	(getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_NORTH) == mouseTileIndex ||
+			getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_EAST) == mouseTileIndex ||
+			getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_SOUTH) == mouseTileIndex ||
+			getTileIndexFromAdjacentTileIndex(playerTileIndex, DIRECTION_WEST) == mouseTileIndex ||
+			
+			getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_NORTH) == mouseTileIndex || //checks northeast tile
+			getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_NORTH) == mouseTileIndex || //checks northwest tile
+			getTileIndexFromAdjacentTileIndex(playerTileIndex + 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southeast tile
+			getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_SOUTH) == mouseTileIndex || //checks southwest tile
+
+			mouseTileIndex == playerTileIndex
+			){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 } // end playerClass
