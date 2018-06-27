@@ -616,7 +616,10 @@ function Player() {
         if (getTileIndexFromAdjacentTileIndex(playerTileIndex - 1, DIRECTION_SOUTH) == mouseTileIndex) {
             return DIRECTION_SOUTHWEST;
         }
-        return DIRECTION_NONE;        
+        if (playerTileIndex == mouseTileIndex) {            
+            return playerTileIndex;
+        }
+        return DIRECTION_NONE;
     }
 
     this.resetEquippedAnimations = function (itemType) {
