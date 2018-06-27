@@ -41,8 +41,10 @@ function Item(itemName, itemType, energyCost) {
             this.thing = new Pickaxe(energyCost);
             break;
         case ItemCode.WHEAT_SEED_ONE:
+            this.thing = new Seed(energyCost, ItemCode.WHEAT_SEED_ONE);
+            break;
         case ItemCode.WHEAT_SEED_TWO:
-            this.thing = new Seed(energyCost);
+            this.thing = new Seed(energyCost, ItemCode.WHEAT_SEED_TWO);
             break;
     }
 
@@ -66,7 +68,7 @@ function Items() {
 // ----------------
 // Tool
 // ----------------
-// Parent class for all usables.
+// Parent class for all items that consume energy
 function Tool (energyCost) {    
     this.energyCost = energyCost;
 
@@ -234,12 +236,12 @@ Pickaxe.prototype.constructor = Pickaxe;
 // ----------------
 // Seed
 // ----------------
-function Seed(energyCost) {
+function Seed(energyCost, whichSeed) {
     Tool.call(this, energyCost); // Seed inheriting Tool class
 
     this.energyCost = energyCost;
 
-    this.use = function (toolUser, activeTileIndex, whichSeed) {
+    this.use = function (toolUser, activeTileIndex) {
         if (this.checkIfEnoughEnergy(toolUser)) {
             let seedTypeTile = items.wheatSeedOne.type;
 
@@ -254,8 +256,6 @@ function Seed(energyCost) {
             new Plant(activeTileIndex, seedTypeTile);
 
             toolUser.hotbar.remove(toolUser.hotbar.slots[toolUser.hotbar.equippedSlotIndex].item, 1);
-           
-           
         }        
     }
 }

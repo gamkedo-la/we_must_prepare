@@ -406,14 +406,14 @@ function Player() {
                         }
                         else if (equippedItem == items.wheatSeedOne.type) {
                             if (isAction) {
-                                items.wheatSeedOne.thing.use(this, tileIndex, equippedItem);
+                                items.wheatSeedOne.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         }
                         else if (equippedItem == items.wheatSeedTwo.type) {
                             if (isAction) {
-                                items.wheatSeedTwo.thing.use(this, tileIndex, equippedItem);
+                                items.wheatSeedTwo.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
@@ -436,13 +436,13 @@ function Player() {
                         }
                         else if (equippedItem == items.wheatSeedOne.type) {
                             if (isAction) {
-                                items.wheatSeedOne.thing.use(this, tileIndex, equippedItem);
+                                items.wheatSeedOne.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         } else if (equippedItem == items.wheatSeedTwo.type) {
                             if (isAction) {
-                                items.wheatSeedTwo.thing.use(this, tileIndex, equippedItem);
+                                items.wheatSeedTwo.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
