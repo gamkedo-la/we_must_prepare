@@ -59,8 +59,8 @@ function Items() {
     this.watercan = new Item("Watercan", ItemCode.WATERCAN, 5);
     this.hoe = new Item("Hoe", ItemCode.HOE, 5);
     this.pickaxe = new Item("Pickaxe", ItemCode.PICKAXE, 5);
-    this.wheatSeedOne = new Item("Wheat Seed One", ItemCode.WHEAT_SEED_ONE);
-    this.wheatSeedTwo = new Item("Wheat Seed Two", ItemCode.WHEAT_SEED_TWO);
+    this.wheatSeedOne = new Item("Wheat Seed One", ItemCode.WHEAT_SEED_ONE, 5);
+    this.wheatSeedTwo = new Item("Wheat Seed Two", ItemCode.WHEAT_SEED_TWO, 5);
 }
 
 // ----------------
