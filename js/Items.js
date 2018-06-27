@@ -32,7 +32,7 @@ function Item(itemName, itemType, energyCost) {
             this.thing = new Axe(energyCost);
             break;
         case ItemCode.WATERCAN:
-            this.thing = new Watercan(energyCost, WATERCAN_START_VOLUME, WATERCAN_CAPACITY);
+            this.thing = new Watercan(energyCost);
             break;
         case ItemCode.HOE:
             this.thing = new Hoe(energyCost);
@@ -108,13 +108,15 @@ Axe.prototype.constructor = Axe;
 // ----------------
 // Watercan
 // ----------------
-function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY) {
+function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY, waterDepletionRate = WATERCAN_USE_RATE, waterFillRate = WATERCAN_FILL_RATE) {
     Tool.call(this, energyCost); // Watercan inheriting Tool class
     
     this.waterLeft = waterLeft;
     this.waterCapcity = waterCapacity;
+    this.waterDepletionRate = waterDepletionRate;
+    this.waterFillRate = waterFillRate;
 
-    this.use = function (toolUser, activeTileIndex, waterDepletionRate) {
+    this.use = function (toolUser, activeTileIndex, waterDepletionRate = this.waterDepletionRate) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Watercan and pass argument(s)
             if (this.waterLeft > 0) {
                 this.waterLeft -= waterDepletionRate;
@@ -137,7 +139,7 @@ function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity =
         return this.waterLeft > 0;
     };
 
-    this.refill = function (toolUser, fillRate) {
+    this.fill = function (toolUser, fillRate = this.waterFillRate) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser, this.energyCost * 0.5)) { // call parent class function in the context of Watercan and pass argument(s)
             if (this.waterLeft < this.waterCapcity) {
                 this.waterLeft += fillRate;

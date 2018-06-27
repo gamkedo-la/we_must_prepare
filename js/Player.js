@@ -404,7 +404,7 @@ function Player() {
                         }
                         else if (equippedItem == items.watercan.type) {
                             if (isAction) {
-                                items.watercan.thing.use(this, tileIndex, WATERCAN_USE_RATE);
+                                items.watercan.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true; 
@@ -434,7 +434,7 @@ function Player() {
                         }
                         else if (equippedItem == items.watercan.type) {
                             if (isAction) {
-                                items.watercan.thing.use(this, tileIndex, WATERCAN_USE_RATE);
+                                items.watercan.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true; 
@@ -516,7 +516,7 @@ function Player() {
                     case TILE_LAKE_WATER:                        
                         if (equippedItem == items.watercan.type) {
                             if (isAction) {
-                                items.watercan.thing.refill(this, WATERCAN_FILL_RATE);                                
+                                items.watercan.thing.fill(this);                                
                             }
                             this.outlineTargetTile = true;
                         }
@@ -527,7 +527,7 @@ function Player() {
                         if (roomGrid[tileIndex] >= START_TILE_WALKABLE_GROWTH_RANGE) {
                             if (equippedItem == items.watercan.type) {
                                 if (isAction) {
-                                    items.watercan.thing.use(this, tileIndex, WATERCAN_USE_RATE);
+                                    items.watercan.thing.use(this, tileIndex);
                                 }
                                 this.outlineTargetTile = true;
                             }
