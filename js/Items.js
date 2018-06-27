@@ -259,6 +259,6 @@ function Seed(energyCost) {
         }        
     }
 }
-// Pickaxe inheriting Tool class
+// Seed inheriting Tool class
 Seed.prototype = Object.create(Seed.prototype);
 Seed.prototype.constructor = Seed;
