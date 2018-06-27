@@ -28,8 +28,17 @@ function Item(itemName, itemType, energyCost) {
     this.energyCost = energyCost;
 
     switch (itemType) {
+        case ItemCode.AXE:
+            this.thing = new Axe(energyCost);
+            break;
         case ItemCode.WATERCAN:
-            this.thing = new Watercan(WATERCAN_START_VOLUME, WATERCAN_CAPACITY);
+            this.thing = new Watercan(energyCost, WATERCAN_START_VOLUME, WATERCAN_CAPACITY);
+            break;
+        case ItemCode.HOE:
+            this.thing = new Hoe(energyCost);
+            break;
+        case ItemCode.PICKAXE:
+            this.thing = new Pickaxe(energyCost);
             break;
     }
 
@@ -50,23 +59,167 @@ function Items() {
     this.wheatSeedTwo = new Item("Wheat Seed Two", ItemCode.WHEAT_SEED_TWO);
 }
 
-function Watercan(waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY) {
+// ----------------
+// Tool
+// ----------------
+// Parent class for all usables.
+function Tool (energyCost) {    
+    this.energyCost = energyCost;
+
+    this.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyCost = this.energyCost) {
+        console.log("Player energy is " + toolUser.playerEnergyLevel + " and checking " + energyCost);
+
+        toolUser.playerEnergyLevel -= energyCost;
+        if (toolUser.playerEnergyLevel < 0) {
+            timer.endOfDay();
+        }
+
+        return toolUser.playerEnergyLevel >= energyCost;
+    };
+}
+
+// ----------------
+// Axe
+// ----------------
+function Axe(energyCost) {
+    Tool.call(this, energyCost); // Axe inheriting Tool class
+
+    this.energyCost = energyCost;
+
+    this.use = function (toolUser, activeTileIndex) {
+        if (this.checkIfEnoughEnergy(toolUser)) {
+            if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList)) {
+                playSFXForCollectingResource(TILE_WOOD_SRC);
+                return toolUser.inventory.add(items.wood.type, 1);
+            }
+        }
+
+        return -1;
+    }
+}
+// Axe inheriting Tool class
+Axe.prototype = Object.create(Tool.prototype);
+Axe.prototype.constructor = Axe;
+
+// ----------------
+// Watercan
+// ----------------
+function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY) {
+    Tool.call(this, energyCost); // Watercan inheriting Tool class
+
+    this.energyCost = energyCost;
+
     this.waterLeft = waterLeft;
     this.waterCapcity = waterCapacity;
 
-    this.use = function (useRate) {
-        if (this.waterLeft > 0) {
-            this.waterLeft -= useRate;
+    this.use = function (toolUser, activeTileIndex, waterDepletionRate) {
+        if (this.checkIfEnoughEnergy(toolUser)) {
+            if (this.waterLeft > 0) {
+                this.waterLeft -= waterDepletionRate;
+
+                robotWateringSFX.play();
+                roomGrid[activeTileIndex] = TILE_TILLED_WATERED;
+
+                for (var i = 0; i < plantTrackingArray.length; i++) {
+                    if (plantTrackingArray[i].mapIndex == activeTileIndex) {
+                        plantTrackingArray[i].is_watered = true;
+                    }
+                }
+            }
+            console.log("Watercan water left: " + this.waterLeft);
         }
-        console.log("Watercan water left: " + this.waterLeft);
-        return this.waterLeft;
+
+        return this.waterLeft > 0;
     };
 
-    this.refill = function (fillRate) {
-        if (this.waterLeft < this.waterCapcity) {
-            this.waterLeft += fillRate;
+    this.refill = function (toolUser, fillRate) {
+        if (this.checkIfEnoughEnergy(toolUser, this.energyCost * 0.5)) {
+            if (this.waterLeft < this.waterCapcity) {
+                this.waterLeft += fillRate;
+
+                robotWateringSFX.play();
+            }
+            console.log("Watercan water left: " + this.waterLeft);
         }
-        console.log("Watercan water left: " + this.waterLeft);
-        return this.waterLeft;
+
+        if (this.waterLeft > this.waterCapacity) {
+            this.waterLeft = this.waterCapacity;
+        }
+
+        return this.waterLeft < this.waterCapcity;
     };
 }
+// Watercan inheriting Tool class
+Watercan.prototype = Object.create(Tool.prototype);
+Watercan.prototype.constructor = Watercan;
+
+// ------------
+// Hoe
+// ------------
+function Hoe(energyCost) {
+    Tool.call(this, energyCost); // Hoe inheriting Tool class
+
+    this.energyCost = energyCost;
+
+    this.use = function (toolUser, activeTileIndex) {
+        if (this.checkIfEnoughEnergy(toolUser)) {
+            switch (roomGrid[activeTileIndex]) {
+                case TILE_GROUND:
+                    robotTillingLandSFX.play();
+                    roomGrid[activeTileIndex] = TILE_TILLED;
+                    break;
+
+                case TILE_TILLED:
+                case TILE_TILLED_WATERED:
+                    robotTillingLandSFX.play();
+                    break;
+
+                default:
+                    if (roomGrid[activeTileIndex] >= START_TILE_WALKABLE_GROWTH_RANGE) {
+                        robotTillingLandSFX.play();
+
+                        for (var i = 0; i < plantTrackingArray.length; i++) {
+                            if (plantTrackingArray[i].mapIndex == activeTileIndex) {
+                                plantTrackingArray[i].plantRemoved();
+                            }
+                        }
+                    }
+            }
+        }
+    };
+}
+// Hoe inheriting Tool class
+Hoe.prototype = Object.create(Tool.prototype);
+Hoe.prototype.constructor = Hoe;
+
+// ----------------
+// Pickaxe
+// ----------------
+function Pickaxe(energyCost) {
+    Tool.call(this, energyCost); // Pickaxe inheriting Tool class
+
+    this.energyCost = energyCost;
+
+    this.use = function (toolUser, activeTileIndex) {
+        if (this.checkIfEnoughEnergy(toolUser)) {
+            if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList) == true) {
+                switch (roomGrid[activeTileIndex]) {
+                    case TILE_METAL_SRC:
+                        playSFXForCollectingResource(TILE_METAL_SRC);
+                        toolUser.inventory.add(items.metal.type, 1);
+                        break;
+                    case TILE_STONE_SRC:
+                        playSFXForCollectingResource(TILE_STONE_SRC);
+                        toolUser.inventory.add(items.stone.type, 1);
+                        break;
+                }
+            }
+            toolUser.resetEquippedAnimations(toolUser.hotbar.slots[toolUser.hotbar.equippedSlotIndex].item);
+        }
+
+        return -1;
+    }
+}
+// Pickaxe inheriting Tool class
+Pickaxe.prototype = Object.create(Tool.prototype);
+Pickaxe.prototype.constructor = Pickaxe;
