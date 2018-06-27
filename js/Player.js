@@ -189,18 +189,6 @@ function Player() {
 
     };
 
-    this.checkIfEnoughEnergy = function (energyToCheck, shouldSpend) {
-        console.log("Player energy is " + this.playerEnergyLevel + " and checking " + energyToCheck);
-        if (shouldSpend) {
-                this.playerEnergyLevel -= energyToCheck;
-                if (this.playerEnergyLevel < 0) {
-                    timer.endOfDay();
-                }
-                return this.playerEnergyLevel >= 0;
-            }
-        return this.playerEnergyLevel >= energyToCheck;
-    };
-
     this.drawPlayerHUD = function () {
         canvasContext.fillStyle = 'white';
         var textLineY = 37, textLineSkip = 10, textLineX = Math.round(canvas.width / 2) - 32;
@@ -417,17 +405,15 @@ function Player() {
                             this.outlineTargetTile = true; 
                         }
                         else if (equippedItem == items.wheatSeedOne.type) {
-                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedOne.energyCost, true)) {
-                                new Plant(tileIndex, TILE_CORN_SEED);
-                                this.hotbar.remove(equippedItem, 1);
+                            if (isAction) {
+                                items.wheatSeedOne.thing.use(this, tileIndex, equippedItem);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         }
                         else if (equippedItem == items.wheatSeedTwo.type) {
-                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedTwo.energyCost, true)) {
-                                new Plant(tileIndex, TILE_TOMATO_SEED);
-                                this.hotbar.remove(equippedItem, 1);
+                            if (isAction) {
+                                items.wheatSeedTwo.thing.use(this, tileIndex, equippedItem);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
@@ -449,16 +435,14 @@ function Player() {
                             this.outlineTargetTile = true; 
                         }
                         else if (equippedItem == items.wheatSeedOne.type) {
-                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedOne.energyCost, true)) {
-                                new Plant(tileIndex, TILE_CORN_SEED);
-                                this.hotbar.remove(equippedItem, 1);
+                            if (isAction) {
+                                items.wheatSeedOne.thing.use(this, tileIndex, equippedItem);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         } else if (equippedItem == items.wheatSeedTwo.type) {
-                            if (isAction && this.checkIfEnoughEnergy(items.wheatSeedTwo.energyCost, true)) {
-                                new Plant(tileIndex, TILE_TOMATO_SEED);
-                                this.hotbar.remove(equippedItem, 1);
+                            if (isAction) {
+                                items.wheatSeedTwo.thing.use(this, tileIndex, equippedItem);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;

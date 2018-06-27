@@ -40,6 +40,10 @@ function Item(itemName, itemType, energyCost) {
         case ItemCode.PICKAXE:
             this.thing = new Pickaxe(energyCost);
             break;
+        case ItemCode.WHEAT_SEED_ONE:
+        case ItemCode.WHEAT_SEED_TWO:
+            this.thing = new Seed(energyCost);
+            break;
     }
 
     return this;
@@ -118,7 +122,10 @@ function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity =
                 this.waterLeft -= waterDepletionRate;
 
                 robotWateringSFX.play();
-                roomGrid[activeTileIndex] = TILE_TILLED_WATERED;
+
+                if (roomGrid[activeTileIndex] < START_TILE_WALKABLE_GROWTH_RANGE) {
+                    roomGrid[activeTileIndex] = TILE_TILLED_WATERED;
+                }
 
                 for (var i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == activeTileIndex) {
@@ -223,3 +230,35 @@ function Pickaxe(energyCost) {
 // Pickaxe inheriting Tool class
 Pickaxe.prototype = Object.create(Tool.prototype);
 Pickaxe.prototype.constructor = Pickaxe;
+
+// ----------------
+// Seed
+// ----------------
+function Seed(energyCost) {
+    Tool.call(this, energyCost); // Seed inheriting Tool class
+
+    this.energyCost = energyCost;
+
+    this.use = function (toolUser, activeTileIndex, whichSeed) {
+        if (this.checkIfEnoughEnergy(toolUser)) {
+            let seedTypeTile = items.wheatSeedOne.type;
+
+            switch (whichSeed) { 
+                case items.wheatSeedOne.type:
+                    seedTypeTile = TILE_CORN_SEED;
+                    break;
+                case items.wheatSeedTwo.type:
+                    seedTypeTile = TILE_TOMATO_SEED;
+                    break;
+            }
+            new Plant(activeTileIndex, seedTypeTile);
+
+            toolUser.hotbar.remove(toolUser.hotbar.slots[toolUser.hotbar.equippedSlotIndex].item, 1);
+           
+           
+        }        
+    }
+}
+// Pickaxe inheriting Tool class
+Seed.prototype = Object.create(Seed.prototype);
+Seed.prototype.constructor = Seed;
