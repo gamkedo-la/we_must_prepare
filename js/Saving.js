@@ -50,8 +50,9 @@ function save(slotIndex) {
 function getSaveState() {
   var saveState = {
     radiation: getRadiationSaveState(),
+    roomGrid: getRoomGridSaveState(),
     player: player.getSaveState(),
-    resourceLookupTable: getResourceLookupTableSaveState()    
+    resourceLookupTable: getResourceLookupTableSaveState()
   };
   return saveState;
 }
@@ -78,6 +79,7 @@ function loadSaveState(saveState) {
   }
 
   loadRadiationSaveState(saveState.radiation);
+  loadRoomGridSaveState(saveState.roomGrid);
   player.loadSaveState(saveState.player);
   loadResourceLookupTableSaveState(saveState.resourceLookupTable);  
 }

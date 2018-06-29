@@ -146,6 +146,18 @@ var tileTestColors = [
     'white', // TILE_BUILDING
 ];
 
+function getRoomGridSaveState() {
+    return roomGrid.slice();
+}
+
+function loadRoomGridSaveState(saveState) {
+    // Protect against older save states
+    if (!saveState || saveState.length === 0) {
+        return;
+    }
+    roomGrid = saveState;
+}
+
 function extendBuildingCollision() {
     var tileIndex = 0;
     for (var eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
