@@ -1,6 +1,7 @@
 // Player
 const KEY_USE_TOOL = "KeyC";
 const KEY_INVENTORY = "KeyE";
+const KEY_DO_ACTION = "KeyX";
 const KEY_FAST_FORWARD = "F1"; // press F1 to toggle timer.fastForward
 const MOUSE_LEFT_CLICK = 1;
 const MOUSE_RIGHT_CLICK = 3;
@@ -279,6 +280,9 @@ function keyPress(evt) {
             } else {
                 uiCancel.play();
             }
+            break;
+        case KEY_DO_ACTION:
+            player.doActionOnTile();
             break;
         case "Digit0":
             keyPressForSaving();

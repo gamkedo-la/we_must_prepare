@@ -428,7 +428,7 @@ function drawGroundTiles() {
                     TILE_W, TILE_H);
             }
             if (isTileTypeFood(tileTypeHere)) {
-                for (i = 0; i < plantTrackingArray.length; i++) {
+                for (var i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
                         if (plantTrackingArray[i].is_watered == true) {
                             canvasContext.drawImage(tileSheet,

@@ -368,6 +368,12 @@ function Player() {
     this.doActionOnTile = function (tileIndex = this.currentlyFocusedTileIndex, oncePerClick = true) {
         if (oncePerClick) {
             if (toolKeyPressedThisFrame == false) {
+
+                for (var i = 0; i < plantTrackingArray.length; i++) {
+                    if (plantTrackingArray[i].mapIndex == tileIndex) {
+                        plantTrackingArray[i].harvestPlant();
+                    }
+                }
                 return;
             }
         }        

@@ -1,9 +1,5 @@
-const DAYS_WITHOUT_WATER_BEFORE_PLANT_DIES = 3;
 const PLANT_STAGE_NULL = -1;
 const PLANT_STAGE_SEED = 0;
-const PLANT_STAGE_SEEDLING = 1;
-const PLANT_STAGE_MEDIUM = 2;
-const PLANT_STAGE_FULLY_GROWN = 3;
 
 var plantTrackingArray = [];
 
@@ -13,24 +9,36 @@ var Plants = [
         tileTypeStages: [TILE_CORN_SEEDLING, TILE_CORN_MEDIUM, TILE_CORN_FULLY_GROWN, TILE_CORN_RIPE, TILE_CORN_HARVESTED],
         daysPerStage: 2,
         daysCanLiveWithoutWater: 3,
+        ripeStage: 4,
+        regrows: true,
+        regrowStages: 6
     },
     {
         tileTypeSeed: TILE_EGGPLANT_SEED,
         tileTypeStages: [TILE_EGGPLANT_SEEDLING, TILE_EGGPLANT_MEDIUM, TILE_EGGPLANT_FULLY_GROWN, TILE_EGGPLANT_RIPE, TILE_EGGPLANT_HARVESTED],
         daysPerStage: 1,
         daysCanLiveWithoutWater: 3,
+        ripeStage: 4,
+        regrows: true,
+        regrowStages: 6
     },
     {
         tileTypeSeed: TILE_POTATO_SEED,
         tileTypeStages: [TILE_POTATO_SEEDLING, TILE_POTATO_MEDIUM, TILE_POTATO_FULLY_GROWN, TILE_POTATO_RIPE],
         daysPerStage: 1,
         daysCanLiveWithoutWater: 3,
+        ripeStage: 4,
+        regrows: false,
+        regrowStages: 1
     },
     {
         tileTypeSeed: TILE_TOMATO_SEED,
         tileTypeStages: [TILE_TOMATO_SEEDLING, TILE_TOMATO_MEDIUM, TILE_TOMATO_FULLY_GROWN, TILE_TOMATO_RIPE, TILE_TOMATO_HARVESTED],
         daysPerStage: 2,
         daysCanLiveWithoutWater: 3,
+        ripeStage: 4,
+        regrows: true,
+        regrowStages: 6
     },
 ];
 
@@ -43,6 +51,7 @@ function Plant(mapIndex, plantTypeSeed) {
     this.daysGrownPerStage = 0;
     this.currentPlantStage = PLANT_STAGE_NULL;
     this.is_watered = false;
+    this.is_harvested = false;
 
     plantTrackingArray.push(this);
 
@@ -71,10 +80,28 @@ function Plant(mapIndex, plantTypeSeed) {
         this.daysWithoutWater = 0;
     }
 
+    this.harvestPlant = function () {
+        if (this.currentPlantStage != this.plantFacts.ripeStage || this.is_harvested == true) {
+            console.log("can't harvest this plant, plant stage is " + this.currentPlantStage);
+            return;
+        }
+        console.log("harvesting plant");
+        // give fruit / seeds here
+
+        if (this.plantFacts.regrows == false) {
+            this.plantRemoved();
+        } else {
+            console.log("hiiiii plant stage is " + this.currentPlantStage);
+            this.is_harvested = true;
+            this.currentPlantStage++;
+        }
+    }
+
     this.dayChanged = function () {
         console.log("Day is changing!");
         console.log("length is " + this.plantFacts.tileTypeStages.length);
-        if (this.currentPlantStage >= this.plantFacts.tileTypeStages.length) {
+        if ((this.currentPlantStage >= this.plantFacts.tileTypeStages.length && this.is_harvested) ||
+            (this.currentPlantStage == this.plantFacts.ripeStage && this.is_harvested == false)) {
             console.log("Plant needs no more water at " + this.mapIndex);
             if (this.is_watered == true) {
                 this.is_watered = false;
@@ -90,10 +117,15 @@ function Plant(mapIndex, plantTypeSeed) {
 
         if (this.daysWithoutWater == 0) {
             this.daysGrownPerStage++;
-            if (this.daysGrownPerStage >= this.plantFacts.daysPerStage) {
+            if (this.daysGrownPerStage >= this.plantFacts.daysPerStage || this.daysGrownPerStage >= this.plantFacts.regrowStages) {
                 console.log("Plant is a big kid now at " + this.mapIndex);
                 roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
-                this.currentPlantStage++; // incrementing after assignment because seed is not in the array
+                if (this.is_harvested == false) {
+                    this.currentPlantStage++; // incrementing after assignment because seed is not in the array
+                } else {
+                    this.is_harvested = false;
+                    this.currentPlantStage--;
+                }
                 this.daysGrownPerStage = 0;
             }
         }
