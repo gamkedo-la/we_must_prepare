@@ -161,13 +161,13 @@ function InventorySlotInterfaceHelper() {
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.wood.name, toolTipX, toolTipY, 'black');
                     break;
-                case items.wheatSeedOne.type:
+                case items.seedCorn.type:
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.wheatSeedOne.name, toolTipX, toolTipY, 'black');
+                    colorText(items.seedCorn.name, toolTipX, toolTipY, 'black');
                     break;
-                case items.wheatSeedTwo.type:
+                case items.seedTomato.type:
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.wheatSeedTwo.name, toolTipX, toolTipY, 'black');
+                    colorText(items.seedTomato.name, toolTipX, toolTipY, 'black');
                     break;
             }
         }

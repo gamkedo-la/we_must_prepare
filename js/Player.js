@@ -415,16 +415,16 @@ function Player() {
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true; 
                         }
-                        else if (equippedItem == items.wheatSeedOne.type) {
+                        else if (equippedItem == items.seedCorn.type) {
                             if (isAction) {
-                                items.wheatSeedOne.thing.use(this, tileIndex);
+                                items.seedCorn.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
                         }
-                        else if (equippedItem == items.wheatSeedTwo.type) {
+                        else if (equippedItem == items.seedTomato.type) {
                             if (isAction) {
-                                items.wheatSeedTwo.thing.use(this, tileIndex);
+                                items.seedTomato.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
@@ -445,15 +445,15 @@ function Player() {
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true; 
                         }
-                        else if (equippedItem == items.wheatSeedOne.type) {
+                        else if (equippedItem == items.seedCorn.type) {
                             if (isAction) {
-                                items.wheatSeedOne.thing.use(this, tileIndex);
+                                items.seedCorn.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;
-                        } else if (equippedItem == items.wheatSeedTwo.type) {
+                        } else if (equippedItem == items.seedTomato.type) {
                             if (isAction) {
-                                items.wheatSeedTwo.thing.use(this, tileIndex);
+                                items.seedTomato.thing.use(this, tileIndex);
                             }
                             // tilled tile ALWAYS shows outline with a suitable equipment equipped
                             this.outlineTargetTile = true;

@@ -12,8 +12,8 @@ var ItemCode = Object.freeze({
     WATERCAN: 5,
     HOE: 6,
     PICKAXE: 7,
-    WHEAT_SEED_ONE: 8,
-    WHEAT_SEED_TWO: 9,
+    SEED_CORN: 8,
+    SEED_TOMATO: 9,
 });
 
 // Item class
@@ -40,11 +40,11 @@ function Item(itemName, itemType, energyCost) {
         case ItemCode.PICKAXE:
             this.thing = new Pickaxe(energyCost);
             break;
-        case ItemCode.WHEAT_SEED_ONE:
-            this.thing = new Seed(energyCost, ItemCode.WHEAT_SEED_ONE);
+        case ItemCode.SEED_CORN:
+            this.thing = new Seed(energyCost, ItemCode.SEED_CORN);
             break;
-        case ItemCode.WHEAT_SEED_TWO:
-            this.thing = new Seed(energyCost, ItemCode.WHEAT_SEED_TWO);
+        case ItemCode.SEED_TOMATO:
+            this.thing = new Seed(energyCost, ItemCode.SEED_TOMATO);
             break;
     }
 
@@ -61,8 +61,8 @@ function Items() {
     this.watercan = new Item("Watercan", ItemCode.WATERCAN, 5);
     this.hoe = new Item("Hoe", ItemCode.HOE, 5);
     this.pickaxe = new Item("Pickaxe", ItemCode.PICKAXE, 5);
-    this.wheatSeedOne = new Item("Wheat Seed One", ItemCode.WHEAT_SEED_ONE, 5);
-    this.wheatSeedTwo = new Item("Wheat Seed Two", ItemCode.WHEAT_SEED_TWO, 5);
+    this.seedCorn = new Item("Corn Seeds", ItemCode.SEED_CORN, 5);
+    this.seedTomato = new Item("Tomato Seeds", ItemCode.SEED_TOMATO, 5);
 }
 
 // ----------------
@@ -235,13 +235,13 @@ function Seed(energyCost, whichSeed) {
     
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Seed and pass argument(s)
-            let seedTypeTile = items.wheatSeedOne.type;
+            let seedTypeTile = items.seedCorn.type;
 
             switch (whichSeed) { 
-                case items.wheatSeedOne.type:
+                case items.seedCorn.type:
                     seedTypeTile = TILE_CORN_SEED;
                     break;
-                case items.wheatSeedTwo.type:
+                case items.seedTomato.type:
                     seedTypeTile = TILE_TOMATO_SEED;
                     break;
             }
