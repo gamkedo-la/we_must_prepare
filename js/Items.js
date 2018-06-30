@@ -129,7 +129,7 @@ function Watercan(energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity =
 
                 for (var i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == activeTileIndex) {
-                        plantTrackingArray[i].is_watered = true;
+                        plantTrackingArray[i].waterPlant();
                     }
                 }
             }
