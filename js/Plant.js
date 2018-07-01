@@ -87,6 +87,14 @@ function Plant(mapIndex, plantTypeSeed) {
         }
         console.log("harvesting plant");
         // give fruit / seeds here
+        switch (this.plantTypeSeed) {
+            case TILE_CORN_SEED:
+                player.inventory.add(items.cropCorn.type, 5);
+                break;
+            case TILE_TOMATO_SEED:
+                player.inventory.add(items.cropTomato.type, 5);
+                break;
+        }
 
         if (this.plantFacts.regrows == false) {
             this.plantRemoved();

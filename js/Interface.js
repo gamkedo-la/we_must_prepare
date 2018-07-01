@@ -90,12 +90,19 @@ function InventorySlotInterfaceHelper() {
     this.mouseHoveredXInventorySlot = mouseX;
     this.mouseHoveredYInventorySlot = mouseY;
     this.itemSpriteSheet = new SpriteSheet(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
-    this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);
+    this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);    
+    
+    this.drawInventorySlot = function (itemX, itemY, slot, spritesPerRow = 10) {
+        let row = 0;
+        let col = slot.item % spritesPerRow;        
 
-    this.drawInventorySlot = function (itemX, itemY, slot) {
+        if (slot.item >= spritesPerRow || slot.item % spritesPerRow == 0) {
+            row++;   // move one row down
+        }
+
         // draw item graphic
         if (slot.count > 0) {
-            this.itemSpriteSheet.draw(itemX, itemY, slot.item, 0);
+            this.itemSpriteSheet.draw(itemX, itemY, col, row);
 
             switch (slot.item) {
                 case items.watercan.type:
@@ -108,8 +115,9 @@ function InventorySlotInterfaceHelper() {
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
                     break;
-            }
-        }       
+            }          
+        }
+
         // draw stackable item count
         if (slot.count > 1) {
             colorText(slot.count, itemX - 3, itemY - 15, 'white');
@@ -168,6 +176,14 @@ function InventorySlotInterfaceHelper() {
                 case items.seedTomato.type:
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.seedTomato.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.cropCorn.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.cropCorn.name, toolTipX, toolTipY, 'black');
+                    break;
+                case items.cropTomato.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.cropTomato.name, toolTipX, toolTipY, 'black');
                     break;
             }
         }

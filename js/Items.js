@@ -14,6 +14,8 @@ var ItemCode = Object.freeze({
     PICKAXE: 7,
     SEED_CORN: 8,
     SEED_TOMATO: 9,
+    CROP_CORN: 10,
+    CROP_TOMATO: 11
 });
 
 // Item class
@@ -63,6 +65,8 @@ function Items() {
     this.pickaxe = new Item("Pickaxe", ItemCode.PICKAXE, 5);
     this.seedCorn = new Item("Corn Seeds", ItemCode.SEED_CORN, 5);
     this.seedTomato = new Item("Tomato Seeds", ItemCode.SEED_TOMATO, 5);
+    this.cropCorn = new Item("Corn", ItemCode.CROP_CORN);
+    this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO);
 }
 
 // ----------------
@@ -93,7 +97,7 @@ function Axe(energyCost) {
     this.use = function (toolUser, activeTileIndex) {        
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Axe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList)) {
-                playSFXForCollectingResource(TILE_WOOD_SRC);
+                playSFXForCollectingResource(TILE_WOOD_SRC);       
                 return toolUser.inventory.add(items.wood.type, 1);
             }
         }
