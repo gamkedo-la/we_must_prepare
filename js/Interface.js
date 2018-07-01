@@ -211,6 +211,7 @@ function InventorySlotInterfaceHelper() {
 
 function isInPane (pane, x, y) {
     if ( pane === null ) {
+        console.log("No pane detected");
         return false; //no pane referenced
     }
     var topLeftX = pane.x;
@@ -219,11 +220,12 @@ function isInPane (pane, x, y) {
     var bottomRightY = topLeftY + pane.height;
     var boolResult = (x >= topLeftX && x <= bottomRightX &&
                       y >= topLeftY && y <= bottomRightY);
+    // console.log("topLeftX: " + topLeftX + " TopeLeftY: " + topLeftY + " bottomRightX: " + bottomRightX + " bottomRightY: " + bottomRightY);
     return boolResult;
 }
 
 function drawInterfacePaneBackground(pane, backgroundColor = backgroundInterfaceColor, borderColor = borderInterfaceColor) {
-    colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor)
+    colorRect(pane.x, pane.y, pane.width, pane.height, backgroundColor);
     drawInterfacePaneBorder(pane, borderInterfaceWidth, borderColor);
 }
 

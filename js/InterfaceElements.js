@@ -19,7 +19,7 @@ function Button(parentInterface, name, topLeftX, topLeftY, bottomRightX, bottomR
 
     //TODO I think this is ok in javascript with varable scope
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
-        if(isInPane(this, x, y)) {
+        if(isInPane(this, x, y) && this.isVisible) {
             this.isPressed = true;
         }
     };

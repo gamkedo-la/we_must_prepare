@@ -168,6 +168,7 @@ function inputUpdate() {
             }
         }
     }
+
     if (rightMouseClickedThisFrame) {
         inputHandled = interface.tabMenu.rightMouseClick(mouseX, mouseY) || interface.hotbarPane.rightMouseClick(mouseX, mouseY);
         rightMouseClickedThisFrame = false;

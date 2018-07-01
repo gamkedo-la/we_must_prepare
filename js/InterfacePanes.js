@@ -10,12 +10,18 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
     this.buttons = [];
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
+
         if (this.isVisible && isInPane(this, x, y)) {
             //checks for *first* button in array that mouse can click
             for (var i = 0; i < this.buttons.length; i++) {
                 var button = this.buttons[i];
-                return button.leftMouseClick(x, y);
+                if (button.leftMouseClick(x, y)) {
+                    console.log("button name is : " + button.name);
+                }
             }
+            console.log("main menu is visible and mouse is in this pane");
+            return true;
         }
         return false;
     };
