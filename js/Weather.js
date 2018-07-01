@@ -287,6 +287,8 @@ function WeatherSystem() {
             canvasContext.drawImage(weatherGUI, // see imgLoading.js
                 Math.round(canvas.width / 2 - weatherGUI.width / 2), 0);
 
+            // Note: item quantities are drawn in Player.drawPlayerHUD()
+
         }
 
     }; // weather.draw()

@@ -61,13 +61,17 @@ function Timer() {
             secondsRemainder = '0' + secondsRemainder;
         }
 
+        var timerFont = '8px Arial';
+        var dayX = Math.round(canvas.width / 2) - 12;
+        var dayY = 11;
+        var clockX = Math.round(canvas.width / 2) - 17;
+        var clockY = 22;
         // draw a shadow for readability on top of any shade of sky
-        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 21 + 1, 22 + 1, 'rgba(0,0,0,1.0)');
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, clockX + 1, clockY + 1, 'rgba(0,0,0,1.0)', timerFont);
         // draw the time
-        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, Math.round(canvas.width / 2) - 21, 22, 'rgba(230,255,255,1.0)');
-
+        colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, clockX, clockY, 'rgba(230,255,255,1.0)', timerFont);
         // day number GUI
-        colorText('Day ' + timer.dayNumber, Math.round(canvas.width / 2) - 14, 13, 'rgba(0,0,0,1.0)');
+        colorText('Day ' + timer.dayNumber, dayX, dayY, 'rgba(0,0,0,1.0)', timerFont);
 
         // announce the day number and countdown at dawn every day
         if (this.secondsInDay < DATE_DISPLAY_LENGTH_IN_GAME_SECONDS) {
