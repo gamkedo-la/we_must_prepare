@@ -77,10 +77,65 @@ function Inventory(size){
 		return count; //Tells calling function how many items are left
 	};
 	
-    this.grabSlot = function () {         
+	this.moveSlotToAnotherInventory= function (fromInventory, fromIndex, toInventory, itemCode = ItemCode.NOTHING) {
+		let hasItemBeenMoved = false;
+
+		// If stackable items of the same type are present, add to them.
+		for (let i = 0; i < toInventory.numberOfSlots; i++) {
+            if (toInventory.slots[i].item == itemCode) {
+                toInventory.slots[i].item = fromInventory.slots[fromIndex].item;
+                toInventory.slots[i].count += fromInventory.slots[fromIndex].count;
+                hasItemBeenMoved = true;
+                break;
+            }
+		}
+		
+		// If no stackable items of the same type are present, find an empty slot.
+		if (!hasItemBeenMoved) {
+			for (let i = 0; i < toInventory.numberOfSlots; i++) {
+				if (toInventory.slots[i].item == ItemCode.NOTHING) {
+					toInventory.slots[i].item = fromInventory.slots[fromIndex].item;
+					toInventory.slots[i].count += fromInventory.slots[fromIndex].count;
+					hasItemBeenMoved = true;
+					break;
+				}
+			}
+		}
+		
+		// Empty the incoming inventory slot.
+		if (hasItemBeenMoved) {
+			fromInventory.slots[fromIndex] = new EmptyInventorySlot();
+		}
+
+		return fromInventory;
+	}
+
+    this.grabSlot = function (isSwappingInventorySlot = false) {         
         if (player.itemsHeldAtMouse.item != this.slots[this.selectedSlotIndex].item) { // if item types don't match
             // swap item at mouse with selected item in the hotbar
-			var tempSlot = player.itemsHeldAtMouse;
+			let tempSlot = player.itemsHeldAtMouse;
+			let itemTypeInThisSlot = this.slots[this.selectedSlotIndex].item;
+
+			if (isSwappingInventorySlot && interface.inventoryPane.isVisible) {
+				if (this == player.hotbar) {
+					let temp = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.inventory, itemTypeInThisSlot);
+					if (temp) {
+						player.hotbar = temp;
+					}
+					else {
+						player.hotbar = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.secondInventory, itemTypeInThisSlot);
+					}
+				}
+				else if (this == player.inventory || this == player.secondInventory) {
+					if (this == player.inventory) {
+						player.inventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
+					}
+					else if (this == player.secondInventory) {
+						player.secondInventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
+					}
+				}
+			}
+
 			player.itemsHeldAtMouse = this.slots[this.selectedSlotIndex];
             this.slots[this.selectedSlotIndex] = tempSlot;
         }

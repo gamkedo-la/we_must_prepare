@@ -288,10 +288,10 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.inventory.selectedSlotIndex >= 0) {
-            player.inventory.grabSlot();
+            player.inventory.grabSlot(shiftKeyHeld);
             return true;
         } else if (player.secondInventory.active && player.secondInventory.selectedSlotIndex >= 0) {
-            player.secondInventory.grabSlot();
+            player.secondInventory.grabSlot(shiftKeyHeld);
             return true;
         }
         return false;
@@ -412,7 +412,7 @@ function HotbarPane() {
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.hotbar.selectedSlotIndex >= 0) {
-            player.hotbar.grabSlot();
+            player.hotbar.grabSlot(shiftKeyHeld);
             return true;
         }
         return false;
