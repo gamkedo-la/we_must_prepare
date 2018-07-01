@@ -34,8 +34,19 @@ function Interface() {
     this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);    
 
     // put a test button on the Main Menu pane instance
-    this.testButton = new Button(this.mainMenu, "Test Button", (canvas.width * 0.5) - 50, (canvas.height * 0.5) - 20, (canvas.width * 0.5) + 50, (canvas.height * 0.5) + 20);
-    this.testButton.action = function () {
+    var topY = (canvas.height * 0.5) - 20;
+    var gapY = 10;
+    var buttonHeight = 40;
+    var buttonSkip = gapY + buttonHeight;
+    var buttonNum = 0;
+
+    this.newGame = new Button(this.mainMenu, "New Game", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+    buttonNum++;
+    this.loadGame = new Button(this.mainMenu, "Load Game", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+    buttonNum++;
+    this.credits = new Button(this.mainMenu, "Credits", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+
+    this.newGame.action = function () {
         this.isVisible = false; // make this test button invisible
         this.parentInterface.isVisible = false; // make the pane this test button is on invisible
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
