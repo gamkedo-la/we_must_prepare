@@ -93,7 +93,7 @@ function Plant(mapIndex, plantTypeSeed) {
         } else {
             console.log("hiiiii plant stage is " + this.currentPlantStage);
             this.is_harvested = true;
-            this.currentPlantStage++;
+            roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
         }
     }
 
