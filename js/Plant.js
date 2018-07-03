@@ -55,6 +55,40 @@ function Plant(mapIndex, plantTypeSeed) {
 
     plantTrackingArray.push(this);
 
+    this.getSaveState = function() {
+        return {
+            mapIndex: this.mapIndex,
+            plantTypeSeed: this.plantTypeSeed,
+            // Don't save plantFacts, reload from the Plants object
+            daysWithoutWater: this.daysWithoutWater,
+            daysGrownPerStage: this.daysGrownPerStage,
+            currentPlantStage: this.currentPlantStage,
+            is_watered: this.is_watered,
+            is_harvested: this.is_harvested,
+        }
+    }
+
+    this.loadSaveState = function (saveState) {
+        this.mapIndex = saveState.mapIndex;
+        this.plantTypeSeed = saveState.plantTypeSeed;
+        // this.plantFacts loaded below
+        this.daysWithoutWater = saveState.daysWithoutWater;
+        this.daysGrownPerStage = saveState.daysGrownPerStage;
+        this.currentPlantStage = saveState.currentPlantStage;
+        this.is_watered = saveState.is_watered;
+        this.is_harvested = saveState.is_harvested;
+
+        // reload plantFacts (modeled after cachePlantFacts function below)
+        for (var i = 0; i < Plants.length; i++) {
+            if (Plants[i].tileTypeSeed == this.plantTypeSeed) {
+                this.plantFacts = Plants[i];
+                break;
+            }
+        }
+        
+        // Don't edit roomGrid here (already loaded in another step)
+    }
+
     this.cachePlantFacts = function () {
         // NOTE: Gets called immediately as part of initialization (around line 38)
         this.plantFacts = null;
