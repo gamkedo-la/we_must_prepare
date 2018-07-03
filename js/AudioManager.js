@@ -13,7 +13,13 @@ var inGame_music_track2 = new MusicContainerRandom([inGame_music_track2_1 = new 
 var inGame_music_track3 = new MusicTrackNonLooping("morning", 18.4);  //By Kise
 inGame_music_track3.setMixVolume(0.7);
 var inGame_music_track4 = new MusicTrackNonLooping("ambientmenu", 41.42);  //By Btrumps
-var inGame_music_master = new MusicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3,inGame_music_track4],240,90);
+var inGame_music_track5 = new MusicContainerRandom([inGame_music_track2_1 = new MusicTrackNonLooping("MP Marimba", 64.0), //By Coy Compositions
+													inGame_music_track2_2 = new MusicTrackNonLooping("MP Marimba-Piano", 64.0),
+													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano high-high", 64.0),
+													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano high-low", 64.0),
+													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano low-high", 64.0),
+													inGame_music_track2_4 = new MusicTrackNonLooping("MP Piano low-low", 64.0)]);
+var inGame_music_master = new MusicContainerPlaylistRandom([inGame_music_track1,inGame_music_track2,inGame_music_track3,inGame_music_track4,inGame_music_track5],240,90);
 
 musicVolumeManager.setVolume(0.7);
 
@@ -584,6 +590,9 @@ function getCurrentTrackInfo() {
 			break;
 		case "amb":
 			details = "Ambient Menu by Btrumps"
+			break;
+		case "MP ":
+			details = "Marimba Piano by Coy Compositions"
 			break;
 	}
 
