@@ -51,6 +51,7 @@ function getSaveState() {
   var saveState = {
     radiation: getRadiationSaveState(),
     roomGrid: getRoomGridSaveState(),
+    plantTrackingArray: getPlantsSaveState(),
     player: player.getSaveState(),
     resourceLookupTable: getResourceLookupTableSaveState()
   };
@@ -80,6 +81,7 @@ function loadSaveState(saveState) {
 
   loadRadiationSaveState(saveState.radiation);
   loadRoomGridSaveState(saveState.roomGrid);
+  loadPlantsSaveState(saveState.plantTrackingArray);
   player.loadSaveState(saveState.player);
   loadResourceLookupTableSaveState(saveState.resourceLookupTable);  
 }

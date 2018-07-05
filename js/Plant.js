@@ -42,6 +42,26 @@ var Plants = [
     },
 ];
 
+function getPlantsSaveState() {
+    var plantsSaveState = [];
+    for (var i = 0; i < plantTrackingArray.length; i++) {
+        var plant = plantTrackingArray[i];
+        plantsSaveState.push(plant.getSaveState());
+    }
+    return plantsSaveState;
+}
+
+function loadPlantsSaveState(plantsSaveState) {
+    // calling new Plant automatically adds it to the plant tracking array
+    plantTrackingArray = [];
+
+    for (var i = 0; i < plantsSaveState.length; i++) {
+        var plantSaveState = plantsSaveState[i];
+        var plant = new Plant(plantSaveState.mapIndex, plantSaveState.plantTypeSeed);
+        plant.loadSaveState(plantSaveState);
+    }
+}
+
 // Plant class constructor
 function Plant(mapIndex, plantTypeSeed) {
     this.mapIndex = mapIndex;    
