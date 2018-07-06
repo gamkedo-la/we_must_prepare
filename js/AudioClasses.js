@@ -1198,6 +1198,121 @@ function MusicContainerRandom(trackList) {
 	}
 }
 
+function MusicContainerRandomLayers(trackList) {
+	var musicTrack = [];
+	var currentTrack1 = 0;
+	var currentTrack2 = 1;
+	var lastTrack = 0;
+
+	for (var i in trackList) {
+		musicTrack[i] = trackList[i];
+		musicTrack[i].pause();
+	}
+
+	var trackVolume = 1;
+
+	this.play = function() {
+		currentTrack1 = Math.floor(Math.random() * musicTrack.length);
+		currentTrack2 = Math.floor(Math.random() * musicTrack.length);
+		musicTrack[currentTrack1].play();
+		musicTrack[currentTrack2].play();
+	}
+
+	this.stop = function() {
+		for (var i in trackList) {
+			musicTrack[i].stop();
+		}
+	}
+
+	this.resume = function() {
+		musicTrack[currentTrack1].resume();
+		musicTrack[currentTrack2].resume();
+	}
+
+	this.pause = function() {
+		for (var i in trackList) {
+			musicTrack[i].pause();
+		}
+	}
+
+	this.playFrom = function(time) {
+		musicTrack[currentTrack1].playFrom(time);
+		musicTrack[currentTrack2].playFrom(time);
+	}
+
+	this.loadTrack = function(newTrack, slot) {
+		var timeNow = musicTrack[currentTrack1].getTime();
+		if(!musicTrack[slot].getPaused()) {
+			musicTrack[slot].pause();
+			musicTrack[slot].setTime(0);
+			musicTrack[slot] = newTrack;
+			musicTrack[slot].setVolume(trackVolume);
+			musicTrack[slot].playFrom(timeNow);
+		} else {
+			musicTrack[slot] = newTrack;
+			musicTrack[slot].setVolume(trackVolume);
+			musicTrack[slot].setTime(timeNow);
+		}
+	}
+
+	this.updateVolume = function() {
+		for (var i in trackList) {
+			musicTrack[i].updateVolume();
+		}
+	}
+
+	this.setVolume = function(newVolume) {
+		trackVolume = newVolume;
+		musicTrack[currentTrack1].setVolume(newVolume);
+		musicTrack[currentTrack2].setVolume(newVolume);
+	}
+
+	this.getVolume = function() {
+		return musicTrack[currentTrack1].getVolume();
+	}
+
+	this.setCurrentTrack = function(trackNumber) {
+		currentTrack1 = trackNumber;
+	}
+
+	this.getCurrentTrack = function() {
+		 return currentTrack1;
+	}
+
+	this.getListLength = function() {
+		 return musicTrack.length;
+	}
+
+	this.getSourceTrack = function() {
+		return musicTrack[currentTrack1].getSourceTrack();
+	}
+
+	this.setTime = function(time) {
+		musicTrack[currentTrack1].setTime(time);
+		musicTrack[currentTrack2].setTime(time);
+	}
+
+	this.getTime = function() {
+		return musicTrack[currentTrack1].getTime();
+	}
+	
+	this.setTrackName = function(name) {
+		musicTrack[currentTrack1].setTrackName(name);
+	}
+
+	this.getTrackName = function() {
+		return musicTrack[currentTrack1].getTrackName();
+	}
+	
+	this.getDuration = function() {
+		return musicTrack[currentTrack1].getDuration();
+	}
+
+	this.getPaused = function() {
+		return musicTrack[currentTrack1].getPaused();
+	}
+}
+
 function MusicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, minDurationInSeconds = 60) {
 	var musicTrack = [];
 	var lastTrack = 0;

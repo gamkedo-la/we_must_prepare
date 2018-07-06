@@ -13,7 +13,7 @@ var inGame_music_track2 = new MusicContainerRandom([inGame_music_track2_1 = new 
 var inGame_music_track3 = new MusicTrackNonLooping("morning", 18.4);  //By Kise
 inGame_music_track3.setMixVolume(0.7);
 var inGame_music_track4 = new MusicTrackNonLooping("ambientmenu", 41.42);  //By Btrumps
-var inGame_music_track5 = new MusicContainerRandom([inGame_music_track2_1 = new MusicTrackNonLooping("MP Marimba", 64.0), //By Coy Compositions
+var inGame_music_track5 = new MusicContainerRandomLayers([inGame_music_track2_1 = new MusicTrackNonLooping("MP Marimba", 64.0), //By Coy Compositions
 													inGame_music_track2_2 = new MusicTrackNonLooping("MP Marimba-Piano", 64.0),
 													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano high-high", 64.0),
 													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano high-low", 64.0),
