@@ -55,16 +55,19 @@ var robotCollectingResourcesSFX = new SfxContainer([metal = new SfxContainerRand
 																					wood2 = new SfxClipSingle("chopping_wood_version_3")])																				
 													]);
 
-var robotFootstepGround = new SfxContainer([dirt = new SfxContainerRandom([ dirt1 = new SfxClipSingle("temp_footstep_dirt01"),
-																			dirt2 = new SfxClipSingle("temp_footstep_dirt02"),
-																			dirt3 = new SfxClipSingle("temp_footstep_dirt03")]),
-											soil = new SfxContainerRandom([ soil1 = new SfxClipSingle("temp_footstep_soil01"),
-																			soil2 = new SfxClipSingle("temp_footstep_soil02"),
-																			soil3 = new SfxClipSingle("temp_footstep_soil03")]),
-											grass = new SfxContainerRandom([grass1 = new SfxClipSingle("temp_footstep_grass01"),
-																			grass2 = new SfxClipSingle("temp_footstep_grass02"),
-																			grass3 = new SfxClipSingle("temp_footstep_grass03")])]);
+var robotFootstepGround = new SfxContainer([sfx_step_dirt = new SfxContainerRandom([ sfx_step_dirt1 = new SfxClipSingle("temp_footstep_dirt01"),
+																			sfx_step_dirt2 = new SfxClipSingle("temp_footstep_dirt02"),
+																			sfx_step_dirt3 = new SfxClipSingle("temp_footstep_dirt03")]),
+											sfx_step_soil = new SfxContainerRandom([ sfx_step_soil1 = new SfxClipSingle("temp_footstep_soil01"),
+																			sfx_step_soil2 = new SfxClipSingle("temp_footstep_soil02"),
+																			sfx_step_soil3 = new SfxClipSingle("temp_footstep_soil03")]),
+											sfx_step_grass = new SfxContainerRandom([sfx_step_grass1 = new SfxClipSingle("temp_footstep_grass01"),
+																			sfx_step_grass2 = new SfxClipSingle("temp_footstep_grass02"),
+																			sfx_step_grass3 = new SfxClipSingle("temp_footstep_grass03")])]);
 robotFootstepGround.setVolume(0.7);
+sfx_step_dirt1.setMixVolume(0.8);
+sfx_step_dirt2.setMixVolume(0.8);
+sfx_step_dirt3.setMixVolume(0.8);
 robotIdleSFX.setMixVolume(0.9);
 robotMovementDefault.setMixVolume(0.7);
 robotWateringSFX.setMixVolume(0.9);
