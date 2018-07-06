@@ -52,6 +52,7 @@ function getSaveState() {
     radiation: getRadiationSaveState(),
     roomGrid: getRoomGridSaveState(),
     plantTrackingArray: getPlantsSaveState(),
+    weather: weather.getSaveState(),
     player: player.getSaveState(),
     resourceLookupTable: getResourceLookupTableSaveState()
   };
@@ -82,6 +83,7 @@ function loadSaveState(saveState) {
   loadRadiationSaveState(saveState.radiation);
   loadRoomGridSaveState(saveState.roomGrid);
   loadPlantsSaveState(saveState.plantTrackingArray);
+  weather.loadSaveState(saveState.weather);
   player.loadSaveState(saveState.player);
   loadResourceLookupTableSaveState(saveState.resourceLookupTable);  
 }

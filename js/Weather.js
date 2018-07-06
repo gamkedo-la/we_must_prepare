@@ -34,6 +34,38 @@ function WeatherSystem() {
     const windLength = 50;
     const rainLength = 101;
 
+    this.getSaveState = function() {
+        var result = {
+            // Don't save rainDrops - looks like it's auto-generated
+            // Don't save clouds - looks like it's auto-generated
+            howSunny: howSunny,
+            howCloudy: howCloudy,
+            howFoggy: howFoggy,
+            howWindy: howWindy,
+            howRainy: howRainy,
+            canRainToday: canRainToday,
+        };
+        return result;
+    }
+
+    this.loadSaveState = function(saveState) {
+        howSunny = saveState.howSunny;
+        howCloudy = saveState.howCloudy;
+        howFoggy = saveState.howFoggy;
+        howWindy = saveState.howWindy;
+        howRainy = saveState.howRainy;
+        canRainToday = saveState.canRainToday;
+    }
+
+    this.debugPrint = function() {
+        console.log("howSunny = " + howSunny);
+        console.log("howCloudy = " + howCloudy);
+        console.log("howFoggy = " + howFoggy);
+        console.log("howWindy = " + howWindy);
+        console.log("howRainy = " + howRainy);
+        console.log("canRainToday = " + canRainToday);
+    }
+
     this.isRaining = function () { // used by wildlife
         return (canRainToday && (howRainy > 0.1)); // true if rainy
     }
