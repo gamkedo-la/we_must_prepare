@@ -2,7 +2,8 @@ setFormat();
 setAudioPath("./audio/");
 
 //set music tracks here
-var menu_music_track = new MusicTrackNonLoopingDoubleBuffer("menu", 102.33);
+var menu_music_track = new musicContainerWStinger([menu_music_track_1 = new MusicTrackNonLoopingDoubleBuffer("menu", 102.33), //By Stebs
+													menu_music_track_2 = new MusicTrackNonLooping("menustinger", 2.0)]);
 var win_music_track = new MusicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new MusicTrackLoopingWTail("temp_placeholder", 3);
 var inGame_music_track1 = new MusicTrackNonLoopingDoubleBuffer("Peace", 90.5);  //By Vignesh
@@ -328,8 +329,10 @@ var musicPastMainMenu = false;
 function startAudioEngine() {
 	if(inGame_music_master.getPaused() && musicPastMainMenu) {
 		inGame_music_master.resume();
-	} else if (!musicPastMainMenu) {
+	} else if (!musicPastMainMenu && menu_music_track.getTime() > 0) {
 		menu_music_track.resume();
+	} else if (!musicPastMainMenu) {
+		menu_music_track.play();
 	}
 }
 
@@ -345,6 +348,7 @@ function stopAudioEngine() {
 }
 
 function soundUpdateOnPlayer() {
+	if (!musicPastMainMenu) {return;}
 	//playMovingSFX
 	if (!player.isPlayerIdle() && robotMovementDefault.getPaused()) {
 		robotMovementDefault.resume();
@@ -375,13 +379,8 @@ function soundUpdateOnPlayer() {
 
 }
 
-function playMovingSFX(player) {
-}
-
-function playIdleSFX(player) {
-}
-
 function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
+	if (!musicPastMainMenu) {return;}
 	//console.log("Updating weathar volumes. Sun: " + sun + " Cloud: " + cloud + " Fog: " + fog + " Wind: " + wind + " Rain: " + rain);
 	var sunLevel = Math.max(sun, 0);
 	var cloudLevel = Math.max(cloud, 0);
@@ -411,9 +410,6 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
 	} else {
 		rain_enviSFX.setVolume(rainLevel);
 	}
-}
-
-function PlayWaterAmbi() {
 }
 
 function AudioSliderInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
