@@ -2,18 +2,18 @@ setFormat();
 setAudioPath("./audio/");
 
 //set music tracks here
-var menu_music_track = new MusicTrackLoopingWTail("menu", 102.33);
+var menu_music_track = new MusicTrackNonLoopingDoubleBuffer("menu", 102.33);
 var win_music_track = new MusicTrackLoopingWTail("temp_placeholder", 3);
 var loose_music_track = new MusicTrackLoopingWTail("temp_placeholder", 3);
-var inGame_music_track1 = new MusicTrackNonLooping("Peace", 90.5);  //By Vignesh
+var inGame_music_track1 = new MusicTrackNonLoopingDoubleBuffer("Peace", 90.5);  //By Vignesh
 var inGame_music_track2 = new MusicContainerRandom([inGame_music_track2_1 = new MusicTrackNonLooping("lazyGuitarVar1", 52.8), //By Misha
 													inGame_music_track2_2 = new MusicTrackNonLooping("lazyGuitarVar2", 52.8),
 													inGame_music_track2_3 = new MusicTrackNonLooping("lazyGuitarVar3", 52.8),
 													inGame_music_track2_4 = new MusicTrackNonLooping("lazyGuitarVar4", 52.8)]);
-var inGame_music_track3 = new MusicTrackNonLooping("morning", 18.4);  //By Kise
+var inGame_music_track3 = new MusicTrackNonLoopingDoubleBuffer("morning", 18.4);  //By Kise
 inGame_music_track3.setMixVolume(0.7);
-var inGame_music_track4 = new musicContainerWStinger([inGame_music_track4_1 = new MusicTrackNonLooping("ambientmenu", 41.42), //By Btrumps
-													inGame_music_track4_2 = new MusicTrackNonLooping("ambientmusicstinger", 41.42)]);
+var inGame_music_track4 = new musicContainerWStinger([inGame_music_track4_1 = new MusicTrackNonLoopingDoubleBuffer("ambientmenu", 41.42), //By Btrumps
+													inGame_music_track4_2 = new MusicTrackNonLooping("ambientmusicstinger", 6.0)]);
 var inGame_music_track5 = new MusicContainerRandomLayers([inGame_music_track2_1 = new MusicTrackNonLooping("MP Marimba", 64.0), //By Coy Compositions
 													inGame_music_track2_2 = new MusicTrackNonLooping("MP Marimba-Piano", 64.0),
 													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano high-high", 64.0),
