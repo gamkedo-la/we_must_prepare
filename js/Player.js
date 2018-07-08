@@ -388,22 +388,10 @@ function Player() {
 
     this.doActionOnTile = function (tileIndex = this.currentlyFocusedTileIndex, oncePerClick = true) {
         if (oncePerClick) {
-            if (toolKeyPressedThisFrame == false) {
-
-                for (var i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        plantTrackingArray[i].harvestPlant();
-                    }
-                }
-                return;
+            let toolToUseOnTile = this.getTileTypeAction(tileIndex);
+            if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
+                toolToUseOnTile.use(this, tileIndex);
             }
-        }
-
-        let toolToUseOnTile = this.getTileTypeAction(tileIndex);
-        if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
-            console.log('I pushed a button to do the thing!');
-            toolAnimList.push(new toolAnimatorAtAngle(player.x, player.y, toolToUseOnTile.type, 10));
-            toolToUseOnTile.thing.use(this, tileIndex);
         }
     };
 
@@ -417,8 +405,6 @@ function Player() {
             let equippedItemType = this.hotbar.slots[this.hotbar.equippedSlotIndex].item;
             let equippedItem = items.nothing;
             let currentTile = roomGrid[tileIndex];
-
-
 
             switch (equippedItemType) {
                 case items.hoe.type:
@@ -450,7 +436,7 @@ function Player() {
                     }
                     else if (currentTile == TILE_LAKE_WATER) {
                         if (isAction) {
-                            items.watercan.thing.fill(this);
+                            items.watercan.fill(this);
                         }
                         this.outlineTargetTile = true;
                     }
@@ -476,6 +462,22 @@ function Player() {
             }
 
             switch (roomGrid[tileIndex]) { // check currently selected tile
+                // ------ harvesting cases START ------
+                case TILE_CORN_RIPE:
+                case TILE_TOMATO_RIPE:
+                case TILE_EGGPLANT_RIPE:
+                    if (isAction) {
+                        for (var i = 0; i < plantTrackingArray.length; i++) {
+                            if (plantTrackingArray[i].mapIndex == tileIndex) {
+                                plantTrackingArray[i].harvestPlant();
+                            }
+                        }
+                        equippedItem = items.nothing;
+                    }
+                    this.outlineTargetTile = true;
+                    break;
+                // ------ harvesting cases END ------
+
                 // ------ resource depositing cases START ------
                 case TILE_STONE_DEST:
                     if (isAction) {
