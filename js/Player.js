@@ -485,11 +485,6 @@ function Player() {
                         // tilled tile ALWAYS shows outline with a suitable equipment equipped
                         this.outlineTargetTile = true;
                     }
-                    for (var i = 0; i < plantTrackingArray.length; i++) {
-                        if (plantTrackingArray[i].mapIndex == tileIndex) {
-                            plantTrackingArray[i].is_watered = true;
-                        }
-                    }
                     break;
                 // ------ farming cases END ------
 
