@@ -391,6 +391,8 @@ function Player() {
             let toolToUseOnTile = this.getTileTypeAction(tileIndex);
             if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
                 toolToUseOnTile.use(this, tileIndex);
+                console.log('I pushed a button to do the thing!');
+                toolAnimList.push(new toolAnimatorAtAngle(player.x, player.y, toolToUseOnTile.type, 10));
             }
         }
     };
