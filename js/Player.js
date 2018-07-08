@@ -495,13 +495,6 @@ function Player() {
 
                 // ------ resource gathering cases START ------            
                 case TILE_METAL_SRC:
-                    if (equippedItem == items.pickaxe.type) {
-                        if (isAction) {
-                            items.pickaxe.thing.use(this, tileIndex);
-                        }
-                        this.outlineTargetTile = true;
-                    }
-                    break;
                 case TILE_STONE_SRC:
                     if (equippedItem == items.pickaxe.type) {
                         if (isAction) {
@@ -541,8 +534,6 @@ function Player() {
 
                 // ------ other cases START ------
                 case TILE_WALL:
-                    distToGo = 0;
-                    break;
                 case TILE_FOOD_SRC:
                     distToGo = 0;
                     break;
