@@ -74,7 +74,7 @@ function Plant(mapIndex, plantTypeSeed) {
     // Let the plant be watered if current tile is already watered.
     this.isWatered = roomGrid[mapIndex] == TILE_TILLED_WATERED ? true : false;
 
-    this.is_harvested = false;
+    this.isHarvested = false;
 
     plantTrackingArray.push(this);
 
@@ -87,7 +87,7 @@ function Plant(mapIndex, plantTypeSeed) {
             daysGrownPerStage: this.daysGrownPerStage,
             currentPlantStage: this.currentPlantStage,
             isWatered: this.isWatered,
-            is_harvested: this.is_harvested,
+            isHarvested: this.isHarvested,
         }
     }
 
@@ -99,7 +99,7 @@ function Plant(mapIndex, plantTypeSeed) {
         this.daysGrownPerStage = saveState.daysGrownPerStage;
         this.currentPlantStage = saveState.currentPlantStage;
         this.isWatered = saveState.isWatered;
-        this.is_harvested = saveState.is_harvested;
+        this.isHarvested = saveState.isHarvested;
 
         // reload plantFacts (modeled after cachePlantFacts function below)
         for (var i = 0; i < Plants.length; i++) {
@@ -138,7 +138,7 @@ function Plant(mapIndex, plantTypeSeed) {
     }
 
     this.harvestPlant = function () {
-        if (this.currentPlantStage != this.plantFacts.ripeStage || this.is_harvested == true) {
+        if (this.currentPlantStage != this.plantFacts.ripeStage || this.isHarvested == true) {
             console.log("can't harvest this plant, plant stage is " + this.currentPlantStage);
             return;
         }
@@ -160,7 +160,7 @@ function Plant(mapIndex, plantTypeSeed) {
             this.plantRemoved();
         } else {
             console.log("hiiiii plant stage is " + this.currentPlantStage);
-            this.is_harvested = true;
+            this.isHarvested = true;
             roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
         }
     }
@@ -168,8 +168,8 @@ function Plant(mapIndex, plantTypeSeed) {
     this.dayChanged = function () {
         console.log("Day is changing!");
         console.log("length is " + this.plantFacts.tileTypeStages.length);
-        if ((this.currentPlantStage >= this.plantFacts.tileTypeStages.length && this.is_harvested) ||
-            (this.currentPlantStage == this.plantFacts.ripeStage && this.is_harvested == false)) {
+        if ((this.currentPlantStage >= this.plantFacts.tileTypeStages.length && this.isHarvested) ||
+            (this.currentPlantStage == this.plantFacts.ripeStage && this.isHarvested == false)) {
             console.log("Plant needs no more water at " + this.mapIndex);
             if (this.isWatered == true) {
                 this.isWatered = false;
@@ -188,10 +188,10 @@ function Plant(mapIndex, plantTypeSeed) {
             if (this.daysGrownPerStage >= this.plantFacts.daysPerStage || this.daysGrownPerStage >= this.plantFacts.regrowStages) {
                 console.log("Plant is a big kid now at " + this.mapIndex);
                 roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
-                if (this.is_harvested == false) {
+                if (this.isHarvested == false) {
                     this.currentPlantStage++; // incrementing after assignment because seed is not in the array
                 } else {
-                    this.is_harvested = false;
+                    this.isHarvested = false;
                     this.currentPlantStage--;
                 }
                 this.daysGrownPerStage = 0;
