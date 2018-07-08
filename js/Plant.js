@@ -70,7 +70,10 @@ function Plant(mapIndex, plantTypeSeed) {
     this.daysWithoutWater = 0;
     this.daysGrownPerStage = 0;
     this.currentPlantStage = PLANT_STAGE_NULL;
-    this.is_watered = false;
+
+    // Let the plant be watered if current tile is already watered.
+    this.is_watered = roomGrid[mapIndex] == TILE_TILLED_WATERED ? true : false;
+
     this.is_harvested = false;
 
     plantTrackingArray.push(this);
