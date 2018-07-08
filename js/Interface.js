@@ -54,6 +54,13 @@ function Interface() {
         musicPastMainMenu = true;
     };
 
+    // this.credits.action = function () {
+    //
+    // };
+
+    // Credits menu
+    // this.creditsMenu = new CreditPane("Credits Menu", 0, 0, canvas.width, canvas.height, false);
+
     // In-game Menu pane instance
     this.tabMenu = new TabMenuPane(this.inventoryPane, canvas.width * .25, canvas.height * .25 - 30);
 
@@ -87,11 +94,34 @@ function Interface() {
         this.tabMenu.draw();
         this.mainMenu.draw();
         this.itemsHeldAtMouse.draw();
-
+        // this.creditsMenu.draw();
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
         colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
-    };    
+    };
 }
+
+// Tool animation function
+var toolAnimList = [];
+
+var toolAnimatorAtAngle = function (itemX, itemY, itemKind, spritesPerRow) {
+    this.framesLeft = 30;
+    this.animAng = 0;
+    if (typeof spritesPerRow === "undefined") {
+        spritesPerRow = 10;
+    }
+    this.draw = function () {
+        this.framesLeft --;
+        let row = 0;
+        let col = itemKind % spritesPerRow;
+
+        if (itemKind >= spritesPerRow || itemKind % spritesPerRow == 0) {
+            row++;   // move one row down
+        }
+        // this.animAng += 0.02;
+        inventorySlotInterfaceHelper.itemSpriteSheet.drawExtended(itemX, itemY, col, row, 0, false, 0.5, 0.5);
+        // inventorySlotInterfaceHelper.itemSpriteSheet.draw(itemX, itemY, col, row);
+    }
+};
 
 // utility and helper Interface functions
 var inventorySlotInterfaceHelper = new InventorySlotInterfaceHelper();
@@ -103,7 +133,10 @@ function InventorySlotInterfaceHelper() {
     this.itemSpriteSheet = new SpriteSheet(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
     this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);    
     
-    this.drawInventorySlot = function (itemX, itemY, slot, spritesPerRow = 10) {
+    this.drawInventorySlot = function (itemX, itemY, slot, spritesPerRow) {
+        if (typeof spritesPerRow === "undefined") {
+        spritesPerRow = 10;
+        };
         let row = 0;
         let col = slot.item % spritesPerRow;        
 

@@ -480,6 +480,23 @@ function HotbarPane() {
     };
 }
 
+// function CreditPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
+//    this.x = topLeftX;
+//    this.y = topLeftY;
+//    this.width = bottomRightX - topLeftX;
+//    this.height = bottomRightY - topLeftY;
+//    this.name = name;
+//    this.isVisible = visible;
+//
+//    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+//        return false;
+//    };
+//
+//    this.draw = function () {
+//        drawInterfacePaneBackground(this);
+//    };
+// }
+
 // Pane Example??
 //function Pane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 //    this.x = topLeftX;

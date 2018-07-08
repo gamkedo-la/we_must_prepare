@@ -284,6 +284,15 @@ function Player() {
             pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
             pickaxeAnimationSouth.update();
         }
+        console.log()
+        for (var i = toolAnimList.length - 1; i >= 0; i--) {
+            if (toolAnimList[i].framesLeft > 0) {
+                toolAnimList[i].draw();
+            } else {
+                toolAnimList.splice(i);
+            }
+        }
+
 
         switch (this.playerLastFacingDirection) {
             case DIRECTION_NORTH:
@@ -392,6 +401,8 @@ function Player() {
 
         let toolToUseOnTile = this.getTileTypeAction(tileIndex);
         if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
+            console.log('I pushed a button to do the thing!');
+            toolAnimList.push(new toolAnimatorAtAngle(player.x, player.y, toolToUseOnTile.type, 10));
             toolToUseOnTile.thing.use(this, tileIndex);
         }
     };
@@ -406,6 +417,8 @@ function Player() {
             let equippedItemType = this.hotbar.slots[this.hotbar.equippedSlotIndex].item;
             let equippedItem = items.nothing;
             let currentTile = roomGrid[tileIndex];
+
+
 
             switch (equippedItemType) {
                 case items.hoe.type:
