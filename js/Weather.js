@@ -116,7 +116,7 @@ function WeatherSystem() {
                         wetcount++;
                         for (var p = 0; p < plantTrackingArray.length; p++) {
                             if (plantTrackingArray[p].mapIndex == i) {
-                                plantTrackingArray[p].is_watered = true;
+                                plantTrackingArray[p].isWatered = true;
                             }
                         }
                         break;

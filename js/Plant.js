@@ -72,7 +72,7 @@ function Plant(mapIndex, plantTypeSeed) {
     this.currentPlantStage = PLANT_STAGE_NULL;
 
     // Let the plant be watered if current tile is already watered.
-    this.is_watered = roomGrid[mapIndex] == TILE_TILLED_WATERED ? true : false;
+    this.isWatered = roomGrid[mapIndex] == TILE_TILLED_WATERED ? true : false;
 
     this.is_harvested = false;
 
@@ -86,7 +86,7 @@ function Plant(mapIndex, plantTypeSeed) {
             daysWithoutWater: this.daysWithoutWater,
             daysGrownPerStage: this.daysGrownPerStage,
             currentPlantStage: this.currentPlantStage,
-            is_watered: this.is_watered,
+            isWatered: this.isWatered,
             is_harvested: this.is_harvested,
         }
     }
@@ -98,7 +98,7 @@ function Plant(mapIndex, plantTypeSeed) {
         this.daysWithoutWater = saveState.daysWithoutWater;
         this.daysGrownPerStage = saveState.daysGrownPerStage;
         this.currentPlantStage = saveState.currentPlantStage;
-        this.is_watered = saveState.is_watered;
+        this.isWatered = saveState.isWatered;
         this.is_harvested = saveState.is_harvested;
 
         // reload plantFacts (modeled after cachePlantFacts function below)
@@ -133,7 +133,7 @@ function Plant(mapIndex, plantTypeSeed) {
 
     this.waterPlant = function () {
         console.log("Plant has been watered!");
-        this.is_watered = true;
+        this.isWatered = true;
         this.daysWithoutWater = 0;
     }
 
@@ -171,17 +171,17 @@ function Plant(mapIndex, plantTypeSeed) {
         if ((this.currentPlantStage >= this.plantFacts.tileTypeStages.length && this.is_harvested) ||
             (this.currentPlantStage == this.plantFacts.ripeStage && this.is_harvested == false)) {
             console.log("Plant needs no more water at " + this.mapIndex);
-            if (this.is_watered == true) {
-                this.is_watered = false;
+            if (this.isWatered == true) {
+                this.isWatered = false;
             }
             return;
         }
 
-        if (this.is_watered == false) {
+        if (this.isWatered == false) {
             this.daysWithoutWater += 1;
         }
 
-        this.is_watered = false; // resetting for the next day
+        this.isWatered = false; // resetting for the next day
 
         if (this.daysWithoutWater == 0) {
             this.daysGrownPerStage++;
@@ -212,7 +212,7 @@ function Plant(mapIndex, plantTypeSeed) {
     this.plantRemoved = function () {
         console.log("Plant removed at index " + this.mapIndex + "!");
         roomGrid[this.mapIndex] = TILE_TILLED;
-        if (this.is_watered) {
+        if (this.isWatered) {
             roomGrid[this.mapIndex] = TILE_TILLED_WATERED;
         }
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
