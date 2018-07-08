@@ -40,15 +40,6 @@ var Plants = [
         regrows: true,
         regrowStages: 6
     },
-    {
-        tileTypeSeed: TILE_EGGPLANT_SEED,
-        tileTypeStages: [TILE_EGGPLANT_SEEDLING, TILE_EGGPLANT_MEDIUM, TILE_EGGPLANT_FULLY_GROWN, TILE_EGGPLANT_RIPE, TILE_EGGPLANT_HARVESTED],
-        daysPerStage: 2,
-        daysCanLiveWithoutWater: 3,
-        ripeStage: 4,
-        regrows: true,
-        regrowStages: 6
-    },
 ];
 
 function getPlantsSaveState() {

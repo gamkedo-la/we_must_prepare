@@ -108,9 +108,9 @@ function setupInventory() {
     player.inventory.add(items.watercan.type, 1);
     player.inventory.add(items.seedCorn.type, 3);
     player.inventory.add(items.axe.type, 1);
+    player.inventory.add(items.seedEggplant.type, 3);
     player.inventory.add(items.seedTomato.type, 3);
-    player.inventory.add(items.cropCorn.type, 3);
-    player.inventory.add(items.cropTomato.type, 3);
+    player.inventory.add(items.cropEggplant.type, 2);
 }
 
 function moveEverything() {

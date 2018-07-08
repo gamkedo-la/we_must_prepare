@@ -188,6 +188,10 @@ function InventorySlotInterfaceHelper() {
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.seedTomato.name, toolTipX, toolTipY, 'black');
                     break;
+                case items.seedEggplant.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.seedEggplant.name, toolTipX, toolTipY, 'black');
+                    break;
                 case items.cropCorn.type:
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.cropCorn.name, toolTipX, toolTipY, 'black');
@@ -195,6 +199,10 @@ function InventorySlotInterfaceHelper() {
                 case items.cropTomato.type:
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.cropTomato.name, toolTipX, toolTipY, 'black');
+                    break;
+                 case items.cropEggplant.type:
+                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
+                    colorText(items.cropEggplant.name, toolTipX, toolTipY, 'black');
                     break;
             }
         }
