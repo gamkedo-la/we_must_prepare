@@ -103,14 +103,14 @@ window.onload = function () {
 function setupInventory() {
     // player.inventory.clear();    
 
-    player.inventory.add(items.hoe.type, 1);
-    player.inventory.add(items.pickaxe.type, 1);
-    player.inventory.add(items.watercan.type, 1);
-    player.inventory.add(items.seedCorn.type, 3);
-    player.inventory.add(items.axe.type, 1);
-    player.inventory.add(items.seedEggplant.type, 3);
-    player.inventory.add(items.seedTomato.type, 3);
-    player.inventory.add(items.cropEggplant.type, 2);
+    player.inventory.add(items.hoe.type, items.hoe.count);
+    player.inventory.add(items.pickaxe.type, items.pickaxe.count);
+    player.inventory.add(items.watercan.type, items.watercan.count);
+    player.inventory.add(items.seedCorn.type, items.seedCorn.count);
+    player.inventory.add(items.axe.type, items.axe.count);
+    player.inventory.add(items.seedEggplant.type, items.seedEggplant.count);
+    player.inventory.add(items.seedTomato.type, items.seedTomato.count);
+    player.inventory.add(items.cropEggplant.type, items.cropEggplant.count);
 }
 
 function moveEverything() {

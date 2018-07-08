@@ -120,8 +120,8 @@ function InventorySlotInterfaceHelper() {
                     const WATERCAN_BAR_W = 32;
                     const WATERCAN_BAR_H = 4;
 
-                    var waterLeftIndicator = (items.watercan.thing.waterLeft / items.watercan.thing.waterCapcity) * WATERCAN_BAR_W;
-                    var waterCapacityIndicator = (WATERCAN_BAR_W * items.watercan.thing.waterCapcity) / items.watercan.thing.waterCapcity;
+                    var waterLeftIndicator = (items.watercan.waterLeft / items.watercan.waterCapcity) * WATERCAN_BAR_W;
+                    var waterCapacityIndicator = (WATERCAN_BAR_W * items.watercan.waterCapcity) / items.watercan.waterCapcity;
 
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");

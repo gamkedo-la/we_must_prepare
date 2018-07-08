@@ -392,7 +392,7 @@ function Player() {
 
         let toolToUseOnTile = this.getTileTypeAction(tileIndex);
         if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
-            toolToUseOnTile.thing.use(this, tileIndex);
+            toolToUseOnTile.use(this, tileIndex);
         }
     };
 
@@ -437,7 +437,7 @@ function Player() {
                     }
                     else if (currentTile == TILE_LAKE_WATER) {
                         if (isAction) {
-                            items.watercan.thing.fill(this);
+                            items.watercan.fill(this);
                         }
                         this.outlineTargetTile = true;
                     }
