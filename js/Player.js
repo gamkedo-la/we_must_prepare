@@ -378,21 +378,18 @@ function Player() {
     }; // end move
 
     this.doActionOnTile = function (tileIndex = this.currentlyFocusedTileIndex, oncePerClick = true) {
-        if (oncePerClick) {
-            if (toolKeyPressedThisFrame == false) {
-
+        if (oncePerClick) {            
+            let toolToUseOnTile = this.getTileTypeAction(tileIndex);
+            if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
+                toolToUseOnTile.use(this, tileIndex);
+            }
+            else if (toolKeyPressedThisFrame == false) {
                 for (var i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        plantTrackingArray[i].harvestPlant();
+                        plantTrackingArray[i].harvestPlant();                        
                     }
-                }
-                return;
+                }                
             }
-        }
-
-        let toolToUseOnTile = this.getTileTypeAction(tileIndex);
-        if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
-            toolToUseOnTile.use(this, tileIndex);
         }
     };
 
@@ -463,6 +460,14 @@ function Player() {
             }
 
             switch (roomGrid[tileIndex]) { // check currently selected tile
+                // ------ harvesting cases START ------
+                case TILE_CORN_RIPE:
+                case TILE_TOMATO_RIPE:
+                case TILE_EGGPLANT_RIPE:
+                    this.outlineTargetTile = true;
+                    break;
+                // ------ harvesting cases END ------
+
                 // ------ resource depositing cases START ------
                 case TILE_STONE_DEST:
                     if (isAction) {

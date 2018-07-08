@@ -161,8 +161,7 @@ function inputUpdate() {
 
         if (indexUnderMouse != undefined) {
             if (mouseClickedThisFrame && player.currentlyFocusedTileIndex == getTileIndexFromAdjacentTileCoord(mouseWorldX, mouseWorldY)) {
-                player.playerLastFacingDirection = player.getMouseActionDirection();
-                toolKeyPressedThisFrame = true;
+                player.playerLastFacingDirection = player.getMouseActionDirection();                
                 toolKeyHeld = true;
                 player.doActionOnTile(); // gather resources, till tiles, etc
             }
