@@ -441,6 +441,13 @@ function Player() {
                         // tilled tile ALWAYS shows outline with a suitable equipment equipped
                         this.outlineTargetTile = true;
                     }
+                    else if (equippedItem == items.seedEggplant.type) {
+                        if (isAction) {
+                            items.seedEggplant.thing.use(this, tileIndex);
+                        }
+                        // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                        this.outlineTargetTile = true;
+                    }
                     break;
                 case TILE_TILLED_WATERED:
                     if (equippedItem == items.hoe.type) {
@@ -463,9 +470,17 @@ function Player() {
                         }
                         // tilled tile ALWAYS shows outline with a suitable equipment equipped
                         this.outlineTargetTile = true;
-                    } else if (equippedItem == items.seedTomato.type) {
+                    } 
+                    else if (equippedItem == items.seedTomato.type) {
                         if (isAction) {
                             items.seedTomato.thing.use(this, tileIndex);
+                        }
+                        // tilled tile ALWAYS shows outline with a suitable equipment equipped
+                        this.outlineTargetTile = true;
+                    }
+                    else if (equippedItem == items.seedEggplant.type) {
+                        if (isAction) {
+                            items.seedEggplant.thing.use(this, tileIndex);
                         }
                         // tilled tile ALWAYS shows outline with a suitable equipment equipped
                         this.outlineTargetTile = true;

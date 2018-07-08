@@ -51,7 +51,7 @@ function Item(itemName, itemType, energyCost) {
             this.thing = new Seed(energyCost, ItemCode.SEED_TOMATO);
             break;
         case ItemCode.SEED_EGGPLANT:
-            this.thing = new Seed(energyCost, ItemCode.SEED_TOMATO);
+            this.thing = new Seed(energyCost, ItemCode.SEED_EGGPLANT);
             break;
     }
 
