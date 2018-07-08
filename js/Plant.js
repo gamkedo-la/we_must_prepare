@@ -40,6 +40,15 @@ var Plants = [
         regrows: true,
         regrowStages: 6
     },
+    {
+        tileTypeSeed: TILE_EGGPLANT_SEED,
+        tileTypeStages: [TILE_EGGPLANT_SEEDLING, TILE_EGGPLANT_MEDIUM, TILE_EGGPLANT_FULLY_GROWN, TILE_EGGPLANT_RIPE, TILE_EGGPLANT_HARVESTED],
+        daysPerStage: 2,
+        daysCanLiveWithoutWater: 3,
+        ripeStage: 4,
+        regrows: true,
+        regrowStages: 6
+    },
 ];
 
 function getPlantsSaveState() {
@@ -147,6 +156,9 @@ function Plant(mapIndex, plantTypeSeed) {
                 break;
             case TILE_TOMATO_SEED:
                 player.inventory.add(items.cropTomato.type, 5);
+                break;
+            case TILE_EGGPLANT_SEED:
+                player.inventory.add(items.cropEggplant.type, 4);
                 break;
         }
 

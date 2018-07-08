@@ -15,7 +15,8 @@ var ItemCode = Object.freeze({
     SEED_CORN: 8,
     SEED_TOMATO: 9,
     CROP_CORN: 10,
-    CROP_TOMATO: 11
+    CROP_TOMATO: 11,
+    CROP_EGGPLANT: 12,
 });
 
 // Item class
@@ -48,6 +49,9 @@ function Item(itemName, itemType, energyCost) {
         case ItemCode.SEED_TOMATO:
             this.thing = new Seed(energyCost, ItemCode.SEED_TOMATO);
             break;
+        case ItemCode.SEED_EGGPLANT:
+            this.thing = new Seed(energyCost, ItemCode.SEED_TOMATO);
+            break;
     }
 
     return this;
@@ -67,6 +71,7 @@ function Items() {
     this.seedTomato = new Item("Tomato Seeds", ItemCode.SEED_TOMATO, 5);
     this.cropCorn = new Item("Corn", ItemCode.CROP_CORN);
     this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO);
+    this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT);
 }
 
 // ----------------
