@@ -383,13 +383,6 @@ function Player() {
             if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
                 toolToUseOnTile.use(this, tileIndex);
             }
-            else if (toolKeyPressedThisFrame == false) {
-                for (var i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        plantTrackingArray[i].harvestPlant();                        
-                    }
-                }                
-            }
         }
     };
 
@@ -464,6 +457,14 @@ function Player() {
                 case TILE_CORN_RIPE:
                 case TILE_TOMATO_RIPE:
                 case TILE_EGGPLANT_RIPE:
+                    if (isAction) {
+                        for (var i = 0; i < plantTrackingArray.length; i++) {
+                            if (plantTrackingArray[i].mapIndex == tileIndex) {
+                                plantTrackingArray[i].harvestPlant();
+                            }
+                        }
+                        equippedItem = items.nothing;
+                    }
                     this.outlineTargetTile = true;
                     break;
                 // ------ harvesting cases END ------
