@@ -64,6 +64,14 @@ var robotFootstepGround = new SfxContainer([sfx_step_dirt = new SfxContainerRand
 											sfx_step_grass = new SfxContainerRandom([sfx_step_grass1 = new SfxClipSingle("temp_footstep_grass01"),
 																			sfx_step_grass2 = new SfxClipSingle("temp_footstep_grass02"),
 																			sfx_step_grass3 = new SfxClipSingle("temp_footstep_grass03")])]);
+
+var robotStoringItemsSFX = new SfxContainer([stone = new SfxContainerRandom([stone1 = new SfxClipSingle("stone_deposit"),
+											 								 stone2 = new SfxClipSingle("stone_deposit_ver2"),
+											 								 stone3 = new SfxClipSingle("stone_deposit_ver3")]),
+											 wood = new SfxContainerRandom([wood1 = new SfxClipSingle("wood_deposit"),
+											 								wood2 = new SfxClipSingle("wood_deposit_ver2")])
+											]);
+
 robotFootstepGround.setVolume(0.7);
 sfx_step_dirt1.setMixVolume(0.8);
 sfx_step_dirt2.setMixVolume(0.8);
@@ -74,6 +82,7 @@ robotWateringSFX.setMixVolume(0.9);
 robotTillingLandSFX.setMixVolume(0.9);
 robotCollectingResourcesSFX.setVolume(0.7);
 robotHarvestingCropsSFX.setVolume(0.7);
+robotStoringItemsSFX.setVolume(0.6);
 
 sFXVolumeManager.setVolume(0.7);
 
@@ -632,6 +641,24 @@ function playSFXForCollectingResource(tileType) {
 	}
 
 	robotCollectingResourcesSFX.play();
+}
+
+function playSFXForStoringItems(tileType)
+{
+	switch(tileType)
+	{
+		case TILE_STONE_DEST:
+			robotStoringItemsSFX.setCurrentClip(0);
+			break;
+		case TILE_WOOD_DEST:
+			robotStoringItemsSFX.setCurrentClip(1);
+			break;
+		/*case TILE_METAL_DEST:
+			robotStoringItemsSFX.setCurrentClip(2);
+			break;*/
+	}
+
+	robotStoringItemsSFX.play();
 }
 
 function playSFXForHarvestingCrops() {
