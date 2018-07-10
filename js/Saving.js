@@ -49,12 +49,13 @@ function save(slotIndex) {
 
 function getSaveState() {
   var saveState = {
+    resourceLookupTable: getResourceLookupTableSaveState(),
     radiation: getRadiationSaveState(),
     roomGrid: getRoomGridSaveState(),
     plantTrackingArray: getPlantsSaveState(),
     weather: weather.getSaveState(),
     player: player.getSaveState(),
-    resourceLookupTable: getResourceLookupTableSaveState()
+    timer: timer.getSaveState()
   };
   return saveState;
 }
@@ -80,10 +81,11 @@ function loadSaveState(saveState) {
     return;
   }
 
+  loadResourceLookupTableSaveState(saveState.resourceLookupTable);  
   loadRadiationSaveState(saveState.radiation);
   loadRoomGridSaveState(saveState.roomGrid);
   loadPlantsSaveState(saveState.plantTrackingArray);
   weather.loadSaveState(saveState.weather);
   player.loadSaveState(saveState.player);
-  loadResourceLookupTableSaveState(saveState.resourceLookupTable);  
+  timer.loadSaveState(saveState.timer);
 }

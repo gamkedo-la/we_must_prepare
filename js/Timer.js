@@ -12,6 +12,19 @@ function Timer() {
     this.secondsInDay = 0; // how many seconds have elapsed today?
     this.isTimeFrozen = false;
     this.fastForward = false;
+
+    this.getSaveState = function() {
+        return {
+            dayNumber: this.dayNumber,
+            secondsInDay: this.secondsInDay
+        };
+    }
+
+    this.loadSaveState = function(saveState) {
+        this.dayNumber = saveState.dayNumber;
+        this.secondsInDay = saveState.secondsInDay;
+    }
+
     this.timeTick = function () {
         if (this.isTimeFrozen == false) {
             if (!this.fastForward) {
