@@ -13,12 +13,11 @@ function Introduction() { // a class constructor
         "The remaining people of the planet put together\n" +
         "a desperate plan to save the human race.",
 
-        "Knowing that the planet wouldn’t be survivable\n" +
-        "for a few hundred years, they put themselves in\n" +
-        "cryogenic hibernation and created a group of special robots",
+        "Knowing that the planet wouldn’t be survivable for a few\n" +
+        "hundred years, they put themselves in cryogenic hibernation and",
 
-        "that would be activated in a few hundred years\n" +
-        "to help make the resources that they would need to keep going.",
+        "created a group of special robots that would be activated\n" +
+        "in a few hundred years to help make the resources they need.",
 
         "This is where we come in. You are one of those robots\n" +
         "who will help save the human race.",
@@ -47,7 +46,7 @@ function Introduction() { // a class constructor
         var elapsedTime = timeStamp - timeStarted;
         var slideNum = Math.floor(elapsedTime / timePerSlide);
 
-        console.log("intro slide " + slideNum + " after " + (elapsedTime / 1000).toFixed(1) + " sec");
+        //console.log("intro slide " + slideNum + " after " + (elapsedTime / 1000).toFixed(1) + " sec");
 
         // are we done?
         if (slideNum >= introText.length) {
