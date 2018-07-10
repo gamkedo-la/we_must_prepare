@@ -40,6 +40,17 @@ function colorText(text, textLineX, textLineY, color, fontInfo) {
     canvasContext.fillText(text, textLineX, textLineY);
 }
 
+function colorTextCentered(text, textLineX, textLineY, color, fontInfo) {
+    if (!fontInfo) fontInfo = "11px Arial"; // default
+    canvasContext.save();
+    canvasContext.font = fontInfo;
+    canvasContext.fillStyle = color;
+    canvasContext.textAlign = 'center';
+    canvasContext.textBaseline = 'middle';
+    canvasContext.fillText(text, textLineX, textLineY);
+    canvasContext.restore();
+}
+
 function Sprite(imageIn, widthIn, heightIn) {
     var image = imageIn;
     var width = widthIn;

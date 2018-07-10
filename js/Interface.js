@@ -9,29 +9,29 @@ var tabInterfaceBackgroundDark = "#eaeaae";
 
 // Text for in-game menu pane, Controls Info tab
 const CONTROLS_INFO_TEXT = ['------Keyboard Controls------',
-                    'Menu - ESC',
-                    'Movement - WASD, Arrow Keys',
-                    'Toggle Inventory - I',
-                    'Use Tool - C',
-                    'Plant Seeds - O',
-                    'Open Inventory - E',
-                    'Cycle Hotbar Forward - TAB',
-                    'Cycle Hotbar Back - SHIFT+TAB',
-                    'Build? - B',
-                    '',
-                    '------Mouse Controls------',
-                    'Select - Mouse Left-Click',
-                    'Move Inventory Item - Mouse Left-Click Drag',
-                    'Cycle Hotbar - Mouse Scroll',
-                    '',
-                    '------Temporary Controls------',
-                    'End Day - P',
-                    'Pause Time - O'];
+    'Menu - ESC',
+    'Movement - WASD, Arrow Keys',
+    'Toggle Inventory - I',
+    'Use Tool - C',
+    'Plant Seeds - O',
+    'Open Inventory - E',
+    'Cycle Hotbar Forward - TAB',
+    'Cycle Hotbar Back - SHIFT+TAB',
+    'Build? - B',
+    '',
+    '------Mouse Controls------',
+    'Select - Mouse Left-Click',
+    'Move Inventory Item - Mouse Left-Click Drag',
+    'Cycle Hotbar - Mouse Scroll',
+    '',
+    '------Temporary Controls------',
+    'End Day - P',
+    'Pause Time - O'];
 
 // Only one Interface (instanced in Main.js) in the game, with many Panes on it.
 function Interface() {
     // Main Menu pane instance
-    this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);    
+    this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);
 
     // put a test button on the Main Menu pane instance
     var topY = (canvas.height * 0.5) - 20;
@@ -52,6 +52,10 @@ function Interface() {
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
         inGame_music_master.play();
         musicPastMainMenu = true;
+
+        // queue up an intro
+        intro = new Introduction();
+
     };
 
     // this.credits.action = function () {
@@ -77,7 +81,7 @@ function Interface() {
     this.tabMenu.push(this.audioPane);
 
     // Tab-switching code for the in-game Menu pane instance
-    this.tabMenu.switchTabIndex(0);    
+    this.tabMenu.switchTabIndex(0);
     const SCROLL_TO_THE_LEFT = true;
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT, false);
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT);
@@ -110,7 +114,7 @@ var toolAnimatorAtAngle = function (itemX, itemY, itemKind, spritesPerRow) {
         spritesPerRow = 10;
     }
     this.draw = function () {
-        this.framesLeft --;
+        this.framesLeft--;
         let row = 0;
         let col = itemKind % spritesPerRow;
 
@@ -131,14 +135,14 @@ function InventorySlotInterfaceHelper() {
     this.mouseHoveredXInventorySlot = mouseX;
     this.mouseHoveredYInventorySlot = mouseY;
     this.itemSpriteSheet = new SpriteSheet(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
-    this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);    
-    
+    this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);
+
     this.drawInventorySlot = function (itemX, itemY, slot, spritesPerRow) {
         if (typeof spritesPerRow === "undefined") {
-        spritesPerRow = 10;
+            spritesPerRow = 10;
         };
         let row = 0;
-        let col = slot.item % spritesPerRow;        
+        let col = slot.item % spritesPerRow;
 
         if (slot.item >= spritesPerRow || slot.item % spritesPerRow == 0) {
             row++;   // move one row down
@@ -159,7 +163,7 @@ function InventorySlotInterfaceHelper() {
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
                     break;
-            }          
+            }
         }
 
         // draw stackable item count
@@ -233,7 +237,7 @@ function InventorySlotInterfaceHelper() {
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.cropTomato.name, toolTipX, toolTipY, 'black');
                     break;
-                 case items.cropEggplant.type:
+                case items.cropEggplant.type:
                     colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
                     colorText(items.cropEggplant.name, toolTipX, toolTipY, 'black');
                     break;
@@ -261,8 +265,8 @@ function InventorySlotInterfaceHelper() {
     };
 }
 
-function isInPane (pane, x, y) {
-    if ( pane === null ) {
+function isInPane(pane, x, y) {
+    if (pane === null) {
         console.log("No pane detected");
         return false; //no pane referenced
     }
@@ -271,7 +275,7 @@ function isInPane (pane, x, y) {
     var bottomRightX = topLeftX + pane.width;
     var bottomRightY = topLeftY + pane.height;
     var boolResult = (x >= topLeftX && x <= bottomRightX &&
-                      y >= topLeftY && y <= bottomRightY);
+        y >= topLeftY && y <= bottomRightY);
     // console.log("topLeftX: " + topLeftX + " TopeLeftY: " + topLeftY + " bottomRightX: " + bottomRightX + " bottomRightY: " + bottomRightY);
     return boolResult;
 }
@@ -322,7 +326,7 @@ function placeBuildingAtPixelCoord(building_type) {
         badBuildingPlacement = true;
         return;
     } else {
-    roomGrid[indexToPlaceBuildingAt] = building_type;
+        roomGrid[indexToPlaceBuildingAt] = building_type;
     }
 }
 
@@ -349,7 +353,7 @@ function drawBuildingChoiceMenu() {
         var buttonDrawDim = BUTTON_DIM - BUTTON_MARGIN * 2;
         var buttonBRX = buttonTLX + buttonDrawDim;
         var buttonBRY = buttonTLY + buttonDrawDim;
-        
+
         if (resourcesAvailableToBuild(i)) {
             buttonColor = 'pink';
         } else {
@@ -405,7 +409,7 @@ function drawInterfaceForSelected() {
                 colorRect(buttonTLX, buttonTLY, buttonDrawDim, buttonDrawDim, 'gray');
                 colorText(perBuildingButtonDefs[i].name, buttonTLX, buttonTLY + 10, 'black');
                 if (perBuildingButtonDefs[i].label == 'sell') {
-                    
+
                     colorText('M: ' + Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND), buttonTLX, buttonTLY + 20, 'black');
                     colorText('W: ' + Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND), buttonTLX, buttonTLY + 30, 'black');
                     colorText('S: ' + Math.ceil(buildingDefsAtTile.Stone * PERCENTAGE_REFUND), buttonTLX, buttonTLY + 40, 'black');

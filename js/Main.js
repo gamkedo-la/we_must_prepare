@@ -9,6 +9,8 @@ var masterFrameDelayTick = 0;
 var canvas, canvasContext;
 var player = new Player();
 var timer = new Timer();
+var intro;
+
 var items;
 var interface;
 
@@ -52,25 +54,37 @@ function resetGame(loadSave) {
 }
 
 function startGameLoop() {
+
     uiSelect.play();
     isPaused = false;
     startAudioEngine();
-    gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
     timer.pauseTime(false);
     console.log("Game unpaused");
+
+    // start the game engine's main render loop
+    gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
+
 }
 
 function gameLoop() {
+
     moveEverything();
     drawEverything();
+
     audioEventManager.updateEvents();
     mouseClickedThisFrame = false;
     mouseDblClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
+
     //TODO add update for menus which need it (e.g. buttonMenus like mainMenu)
     if (interface.mainMenu.isVisible) {
         interface.mainMenu.update(mouseX, mouseY);
     }
+
+    if (intro && intro.currentlyPlaying) {
+        intro.draw();
+    }
+
 }
 
 function windowOnBlur() {
@@ -114,7 +128,7 @@ function setupInventory() {
 }
 
 function moveEverything() {
-    inputUpdate();    
+    inputUpdate();
     handleRadiationGrowth();
 }
 var camDeltaX;
