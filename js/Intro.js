@@ -31,7 +31,8 @@ function Introduction() { // a class constructor
         "You can harvest food and seeds using a scythe.",
         "Store your harvest in the silo to prepare for the humans!"
     ];
-    var introFont = '24px Arial';
+    //var introFont = '24px Arial';
+    var introFont = '24px Lobster';
     var textLineHeight = 32;
     var timeStarted = -9999; // a timestamp in ms
     var timePerSlide = 4000; // in ms
