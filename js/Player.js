@@ -147,6 +147,8 @@ function Player() {
 
         result.hotbar = this.hotbar.getSaveState();
 
+        result.playerEnergyLevel = this.playerEnergyLevel;
+
         // remember how many days have elapsed
         result.dayNumber = timer.dayNumber;
 
@@ -182,6 +184,7 @@ function Player() {
         // start the day fresh, reset the time too
         timer.endOfDay(); // this +1's the dayNumber!
 
+        this.playerEnergyLevel = saveState.playerEnergyLevel;
     };
 
     this.drawPlayerHUD = function () {
