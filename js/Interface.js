@@ -58,6 +58,16 @@ function Interface() {
 
     };
 
+    this.loadGame.action = function() {
+        this.isVisible = false; // make this test button invisible
+        this.parentInterface.isVisible = false; // make the pane this test button is on invisible
+        audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
+        inGame_music_master.play();
+        musicPastMainMenu = true;
+
+        autoLoad();
+    }
+
     // this.credits.action = function () {
     //
     // };
