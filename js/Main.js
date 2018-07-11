@@ -42,12 +42,6 @@ function resetGame(loadSave) {
     roomGrid = defaultRoomGrid.slice();
     player.reset();
 
-    if (loadSave) {
-        if (autoSaveEnabled) {
-            // autoLoad();
-            activateAutoSave();
-        }
-    }
     setupBuckets();
     setupInventory();
     timer.resetDay();

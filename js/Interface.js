@@ -56,6 +56,8 @@ function Interface() {
         // queue up an intro
         intro = new Introduction();
 
+        // Don't enable auto-save until you exit the menu
+        activateAutoSave();
     };
 
     this.loadGame.action = function() {
@@ -66,6 +68,9 @@ function Interface() {
         musicPastMainMenu = true;
 
         autoLoad();
+        
+        // Don't enable auto-save until you exit the menu
+        activateAutoSave();
     }
 
     // this.credits.action = function () {

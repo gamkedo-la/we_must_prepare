@@ -1,27 +1,5 @@
 var autoSaveInterval = null;
 
-var autoSaveEnabled = persistence.getBoolean('autoSaveEnabled', false);
-// if (autoSaveEnabled) {
-//   HTMLLog("auto-save enabled!");
-//   activateAutoSave();
-// }
-// else {
-//   HTMLLog("Press `0` to enable auto-save");
-// }
-
-function keyPressForSaving() {
-    // autoSaveEnabled = !autoSaveEnabled;
-    // persistence.setBoolean('autoSaveEnabled', autoSaveEnabled);
-    // if (autoSaveEnabled) {
-    //   HTMLLog("auto-save enabled!");
-    //   activateAutoSave();
-    // }
-    // else {
-    //   HTMLLog("auto-save disabled!");
-    //   deactivateAutoSave();
-    // }
-}
-
 function activateAutoSave() {
   autoSaveInterval = setInterval(autoSave, 10 * 1000);
 }
