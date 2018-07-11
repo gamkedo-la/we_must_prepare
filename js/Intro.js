@@ -32,7 +32,13 @@ function Introduction() { // a class constructor
         "Store your harvest in the silo to prepare for the humans!"
     ];
     //var introFont = '24px Arial';
-    var introFont = '24px Lobster';
+    var introFont = '20px Kelly Slab';
+    // other nice "title" fonts
+    // Bungee
+    // Concert+One
+    // Titan+One
+    // Squada+One
+    // Kelly+Slab
     var textLineHeight = 32;
     var timeStarted = -9999; // a timestamp in ms
     var timePerSlide = 4000; // in ms
@@ -65,9 +71,10 @@ function Introduction() { // a class constructor
         var textAlpha = Math.min(slidePercentDone * 2, 1.0); // fade in for the first half
         //console.log('slidePercentDone ' + slidePercentDone.toFixed(1));
 
-        // bg
-        //colorRect(0, 0, canvas.width, canvas.height, "rgba(80,180,255,1.0)");
-        colorRect(0, canvas.height - textLineHeight * 5, canvas.width, textLineHeight * 5, "rgba(80,180,255,1.0)");
+        // bg - solid blue
+        //colorRect(0, canvas.height - textLineHeight * 5, canvas.width, textLineHeight * 5, "rgba(80,180,255,1.0)");
+
+        canvasContext.drawImage(introBackground, 0, canvas.height - introBackground.height);
 
         // the text
         var textLines = introText[slideNum].split("\n");
