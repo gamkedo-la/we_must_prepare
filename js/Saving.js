@@ -38,6 +38,16 @@ function getSaveState() {
   return saveState;
 }
 
+function hasAutoSaveState() {
+  var saveState = persistence.getObject('autosave', null);
+  if (saveState) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 function autoLoad() {
   var slotName = 'autosave';
   console.log('loading from ' + slotName);

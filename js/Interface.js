@@ -42,8 +42,10 @@ function Interface() {
 
     this.newGame = new Button(this.mainMenu, "New Game", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
     buttonNum++;
-    this.loadGame = new Button(this.mainMenu, "Load Game", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-    buttonNum++;
+    if (hasAutoSaveState()) {
+        this.loadGame = new Button(this.mainMenu, "Load Auto-Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        buttonNum++;
+    }
     this.credits = new Button(this.mainMenu, "Credits", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
 
     this.newGame.action = function () {
@@ -60,17 +62,19 @@ function Interface() {
         activateAutoSave();
     };
 
-    this.loadGame.action = function() {
-        this.isVisible = false; // make this test button invisible
-        this.parentInterface.isVisible = false; // make the pane this test button is on invisible
-        audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
-        inGame_music_master.play();
-        musicPastMainMenu = true;
-
-        autoLoad();
-        
-        // Don't enable auto-save until you exit the menu
-        activateAutoSave();
+    if (this.loadGame) {
+        this.loadGame.action = function() {
+            this.isVisible = false; // make this test button invisible
+            this.parentInterface.isVisible = false; // make the pane this test button is on invisible
+            audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
+            inGame_music_master.play();
+            musicPastMainMenu = true;
+    
+            autoLoad();
+            
+            // Don't enable auto-save until you exit the menu
+            activateAutoSave();
+        }
     }
 
     // this.credits.action = function () {
