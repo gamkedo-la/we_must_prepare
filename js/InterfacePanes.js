@@ -35,6 +35,8 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
                 var button = this.buttons[i];
                 button.draw();
             }
+
+            this.loadGamePane && this.loadGamePane.draw();
         }
     };
 
@@ -48,6 +50,58 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
 
     this.push = function (button) {
         this.buttons.push(button);
+    };
+}
+
+function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
+    this.parentPane = parentPane;
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.isVisible = visible;
+
+    this.generateButtons = function() {
+        // TODO: implement
+    };
+
+    this.buttons = this.generateButtons();
+
+    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
+
+        if (this.isVisible && isInPane(this, x, y)) {
+            //checks for *first* button in array that mouse can click
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                if (button.leftMouseClick(x, y)) {
+                    console.log("button name is : " + button.name);
+                }
+            }
+            console.log("main menu is visible and mouse is in this pane");
+            return true;
+        }
+        return false;
+    };
+
+    this.draw = function() {
+        if (this.isVisible) {
+            drawInterfacePaneBackground(this);
+
+            // TODO: find out why this crashes
+            //draw buttons
+            // for (var i = 0; i < this.buttons.length; i++) {
+            //     var button = this.buttons[i];
+            //     button.draw();
+            // }
+        }
+    };
+
+    this.update = function (x = mouseX, y = mouseY) {
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            button.mouseOver(x, y);
+        }
     };
 }
 
