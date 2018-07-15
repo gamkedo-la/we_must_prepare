@@ -452,7 +452,7 @@ function drawGroundTiles() {
                 var sheetType = Math.floor(sheetIndex / 6);
 
                 var plantAtX = tileLeftEdgeX + TILE_W / 2;
-                var plantAtY = tileTopEdgeY + TILE_H / 5;
+                var plantAtY = tileTopEdgeY + TILE_H / 2;
 
                 var windDirection = -1;
                 var windMagnitude = 10;
@@ -463,6 +463,8 @@ function drawGroundTiles() {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {                        
                         if (plantTrackingArray[i].currentPlantStage > 0) {
                             rotateDegrees += toRotate;
+                            plantAtY = tileTopEdgeY + TILE_H / 10;
+                            break;
                         }                        
                     }
                 }
