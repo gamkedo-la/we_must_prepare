@@ -455,24 +455,28 @@ function drawGroundTiles() {
                 var plantAtY = tileTopEdgeY + TILE_H / 2;
 
                 var windDirection = -1;
-                var windMagnitude = 10;
+                var windMagnitude = 12;
                 var toRotate = windMagnitude * (Math.sin(performance.now() * 0.001) + windDirection) ;
                 var rotateDegrees = 0;
-                
+
+                canvasContext.save();                
+
+                var moveRootToPosY = 0;
+                var plantOffsetY = 6;
                 for (let i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == tileIndex) {                        
+                    if (plantTrackingArray[i].mapIndex == tileIndex) {
                         if (plantTrackingArray[i].currentPlantStage > 0) {
                             rotateDegrees += toRotate;
-                            plantAtY = tileTopEdgeY + TILE_H / 10;
+                            plantAtY = tileTopEdgeY + TILE_H * 0.5 + plantOffsetY;
+                            moveRootToPosY = -plantOffsetY * 4;
                             break;
-                        }                        
+                        }
                     }
                 }
 
-                canvasContext.save();
-
                 canvasContext.translate(plantAtX, plantAtY);
-                canvasContext.rotate(rotateDegrees * Math.PI / 180);                
+                canvasContext.rotate(rotateDegrees * Math.PI / 180);
+                canvasContext.translate(0, moveRootToPosY);
 
                 canvasContext.drawImage(plantSpritesheet,
                     sheetStage * TILE_W, sheetType * TILE_H, // top-left corner of tile art, multiple of tile width
