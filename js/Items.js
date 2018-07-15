@@ -91,16 +91,16 @@ Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyC
 function Axe(name, energyCost) {
     Tool.call(this, name, ItemCode.AXE, energyCost, 1); // Axe inheriting Tool class
     
-    this.use = function (toolUser, activeTileIndex) {        
+    this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Axe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList)) {
-                playSFXForCollectingResource(TILE_WOOD_SRC);       
+                playSFXForCollectingResource(TILE_WOOD_SRC);
                 return toolUser.inventory.add(items.wood.type, items.wood.count);
             }
         }
 
         return -1;
-    }
+    };
 }
 // Axe inheriting Tool class
 Axe.prototype = Object.create(Tool.prototype);
@@ -222,7 +222,7 @@ function Pickaxe(name, energyCost) {
         }
 
         return -1;
-    }
+    };
 }
 // Pickaxe inheriting Tool class
 Pickaxe.prototype = Object.create(Tool.prototype);
@@ -238,7 +238,7 @@ function Seed(name, energyCost, whichSeed, count) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Seed and pass argument(s)
             let seedTypeTile = items.seedCorn.type;
 
-            switch (whichSeed) { 
+            switch (whichSeed) {
                 case items.seedCorn.type:
                     seedTypeTile = TILE_CORN_SEED;
                     break;
@@ -255,8 +255,8 @@ function Seed(name, energyCost, whichSeed, count) {
             new Plant(activeTileIndex, seedTypeTile);
 
             toolUser.hotbar.remove(toolUser.hotbar.slots[toolUser.hotbar.equippedSlotIndex].item, 1);
-        }        
-    }
+        }
+    };
 }
 // Seed inheriting Tool class
 Seed.prototype = Object.create(Tool.prototype);

@@ -78,7 +78,7 @@ function Plant(mapIndex, plantTypeSeed) {
 
     plantTrackingArray.push(this);
 
-    this.getSaveState = function() {
+    this.getSaveState = function () {
         return {
             mapIndex: this.mapIndex,
             plantTypeSeed: this.plantTypeSeed,
@@ -89,7 +89,7 @@ function Plant(mapIndex, plantTypeSeed) {
             isWatered: this.isWatered,
             isHarvested: this.isHarvested,
         }
-    }
+    };
 
     this.loadSaveState = function (saveState) {
         this.mapIndex = saveState.mapIndex;
@@ -108,9 +108,9 @@ function Plant(mapIndex, plantTypeSeed) {
                 break;
             }
         }
-        
+
         // Don't edit roomGrid here (already loaded in another step)
-    }
+    };
 
     this.cachePlantFacts = function () {
         // NOTE: Gets called immediately as part of initialization (around line 38)
@@ -127,7 +127,7 @@ function Plant(mapIndex, plantTypeSeed) {
             this.currentPlantStage = PLANT_STAGE_SEED;
             roomGrid[this.mapIndex] = this.plantTypeSeed;
         }
-    }
+    };
 
     this.cachePlantFacts();
 
@@ -135,7 +135,7 @@ function Plant(mapIndex, plantTypeSeed) {
         console.log("Plant has been watered!");
         this.isWatered = true;
         this.daysWithoutWater = 0;
-    }
+    };
 
     this.harvestPlant = function () {
         if (this.currentPlantStage != this.plantFacts.ripeStage || this.isHarvested == true) {
@@ -166,7 +166,7 @@ function Plant(mapIndex, plantTypeSeed) {
             this.isHarvested = true;
             roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
         }
-    }
+    };
 
     this.dayChanged = function () {
         console.log("Day is changing!");
@@ -204,13 +204,13 @@ function Plant(mapIndex, plantTypeSeed) {
         if (this.daysWithoutWater > this.plantFacts.daysCanLiveWithoutWater) {
             this.plantDied();
         }
-    } // end dayChanged
+    }; // end dayChanged
 
     this.plantDied = function () {
         console.log("Plant died at index " + this.mapIndex + "! So... err... booooo?");
         roomGrid[this.mapIndex] = TILE_GROUND;
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
-    }
+    };
 
     this.plantRemoved = function () {
         console.log("Plant removed at index " + this.mapIndex + "!");
@@ -219,5 +219,5 @@ function Plant(mapIndex, plantTypeSeed) {
             roomGrid[this.mapIndex] = TILE_TILLED_WATERED;
         }
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
-    }
+    };
 }  // end Plant class constructor
