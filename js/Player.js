@@ -450,6 +450,7 @@ function Player() {
                 case items.seedCorn.type:
                 case items.seedTomato.type:
                 case items.seedEggplant.type:
+                case items.seedPotato.type:
                     if (currentTile == TILE_TILLED || currentTile == TILE_TILLED_WATERED) {
                         if (equippedItemType == items.seedCorn.type) {
                             equippedItem = isAction ? items.seedCorn : equippedItem;                                                        
@@ -459,6 +460,9 @@ function Player() {
                         }
                         else if (equippedItemType == items.seedEggplant.type) {
                             equippedItem = isAction ? items.seedEggplant : equippedItem;
+                        }
+                        else if (equippedItemType == items.seedPotato.type) {
+                            equippedItem = isAction ? items.seedPotato : equippedItem;
                         }
                         // tilled tile ALWAYS shows outline with a suitable equipment equipped
                         this.outlineTargetTile = true;
@@ -471,6 +475,7 @@ function Player() {
                 case TILE_CORN_RIPE:
                 case TILE_TOMATO_RIPE:
                 case TILE_EGGPLANT_RIPE:
+                case TILE_POTATO_RIPE:
                     if (isAction) {
                         for (var i = 0; i < plantTrackingArray.length; i++) {
                             if (plantTrackingArray[i].mapIndex == tileIndex) {

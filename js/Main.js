@@ -119,7 +119,7 @@ function setupInventory() {
     player.inventory.add(items.axe.type, items.axe.count);
     player.inventory.add(items.seedEggplant.type, items.seedEggplant.count);
     player.inventory.add(items.seedTomato.type, items.seedTomato.count);
-    player.inventory.add(items.cropEggplant.type, items.cropEggplant.count);
+    player.inventory.add(items.seedPotato.type, items.seedPotato.count);
 }
 
 function moveEverything() {

@@ -154,6 +154,9 @@ function Plant(mapIndex, plantTypeSeed) {
             case TILE_EGGPLANT_SEED:
                 player.inventory.add(items.cropEggplant.type, 4);
                 break;
+            case TILE_POTATO_SEED:
+                player.inventory.add(items.cropPotato.type, 4);
+                break;
         }
 
         if (this.plantFacts.regrows == false) {

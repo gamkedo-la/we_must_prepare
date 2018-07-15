@@ -18,6 +18,8 @@ var ItemCode = Object.freeze({
     CROP_TOMATO: 11,
     CROP_EGGPLANT: 12,
     SEED_EGGPLANT: 13,
+    CROP_POTATO: 14,
+    SEED_POTATO: 15,
 });
 
 // Create instances of items here, Items() itself is instanced in Main.js
@@ -36,10 +38,13 @@ function Items() {
     this.seedCorn = new Seed("Corn Seeds", 0, ItemCode.SEED_CORN, 5);
     this.seedTomato = new Seed("Tomato Seeds", 0, ItemCode.SEED_TOMATO, 5);
     this.seedEggplant = new Seed("Eggplant Seeds", 0, ItemCode.SEED_EGGPLANT, 5);
+    this.seedPotato = new Seed("Potato Seeds", 0, ItemCode.SEED_POTATO, 5);
 
     this.cropCorn = new Item("Corn", ItemCode.CROP_CORN, 3);
     this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO, 3);
     this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3);
+    this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4);
+    
 }
 
 // ----------------
@@ -242,6 +247,9 @@ function Seed(name, energyCost, whichSeed, count) {
                     break;
                 case items.seedEggplant.type:
                     seedTypeTile = TILE_EGGPLANT_SEED;
+                    break;
+                case items.seedPotato.type:
+                    seedTypeTile = TILE_POTATO_SEED;
                     break;
             }
             new Plant(activeTileIndex, seedTypeTile);
