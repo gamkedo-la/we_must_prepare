@@ -450,11 +450,24 @@ function drawGroundTiles() {
                 var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
                 var sheetStage = sheetIndex % 6;
                 var sheetType = Math.floor(sheetIndex / 6);
+
+                var plantAtX = tileLeftEdgeX + TILE_W / 2;
+                var plantAtY = tileTopEdgeY + TILE_H / 2;
+                var rotateDegrees = 0;
+
+                canvasContext.save();
+
+                canvasContext.translate(plantAtX, plantAtY);
+                canvasContext.rotate(rotateDegrees * Math.PI / 180);                
+
                 canvasContext.drawImage(plantSpritesheet,
                     sheetStage * TILE_W, sheetType * TILE_H, // top-left corner of tile art, multiple of tile width
                     TILE_W, TILE_H, // get full tile size from source
-                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
-                    TILE_W, TILE_H); // draw full full tile size for destination
+                    -TILE_W / 2, -TILE_H / 2, // x,y top-left corner for image destination
+                    TILE_W, TILE_H); // draw full full tile size for destination                    
+
+                canvasContext.restore();
+
             } else if ((tileTypeHere != TILE_WOOD_SRC && isTileTypeBuilding(tileTypeHere) == false) || debug3DTiles) {
                 canvasContext.drawImage(tileSheet,
                     tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
