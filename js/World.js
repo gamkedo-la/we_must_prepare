@@ -452,8 +452,20 @@ function drawGroundTiles() {
                 var sheetType = Math.floor(sheetIndex / 6);
 
                 var plantAtX = tileLeftEdgeX + TILE_W / 2;
-                var plantAtY = tileTopEdgeY + TILE_H / 2;
+                var plantAtY = tileTopEdgeY + TILE_H / 5;
+
+                var windDirection = -1;
+                var windMagnitude = 10;
+                var toRotate = windMagnitude * (Math.sin(performance.now() * 0.001) + windDirection) ;
                 var rotateDegrees = 0;
+                
+                for (let i = 0; i < plantTrackingArray.length; i++) {
+                    if (plantTrackingArray[i].mapIndex == tileIndex) {                        
+                        if (plantTrackingArray[i].currentPlantStage > 0) {
+                            rotateDegrees += toRotate;
+                        }                        
+                    }
+                }
 
                 canvasContext.save();
 
