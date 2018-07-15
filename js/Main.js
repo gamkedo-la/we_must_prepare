@@ -41,6 +41,7 @@ function loadingDoneSoStartGame() {
 function resetGame(loadSave) {
     roomGrid = defaultRoomGrid.slice();
     player.reset();
+    extendBuildingCollision();
 
     setupBuckets();
     setupInventory();
