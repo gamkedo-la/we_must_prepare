@@ -67,7 +67,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     };
 
     this.generateButtons = function() {
-        var topY = (canvas.height * 0.5) - 20;
+        var topY = (canvas.height * 0.5) - 70;
         var gapY = 10;
         var buttonHeight = 40;
         var buttonSkip = gapY + buttonHeight;
@@ -78,8 +78,67 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
             interface.loadGameMenu.isVisible = false;
             interface.mainMenu.isVisible = true;
         };
+        buttonNum++;
+
+        if (hasAutoSaveState()) {
+            var autoLoadButton = new Button(this, "Load Auto-Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            autoLoadButton.action = function() {
+            
+                // This is different for each slot
+                autoLoad();
+                    
+                this.parentInterface.startTheGame();
+            };
+        }
+        buttonNum++;
+
+        if (hasManualSaveState(1)) {
+            var loadButton = new Button(this, "Load Slot 1", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            loadButton.action = function() {
+                // This is different for each slot
+                load(1);
+                    
+                this.parentInterface.startTheGame();
+            };
+        }
+        buttonNum++;
+
+        if (hasManualSaveState(2)) {
+            var loadButton = new Button(this, "Load Slot 2", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            loadButton.action = function() {
+                // This is different for each slot
+                load(2);
+                    
+                this.parentInterface.startTheGame();
+            };
+        }
+        buttonNum++;
+
+        if (hasManualSaveState(3)) {
+            var loadButton = new Button(this, "Load Slot 3", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            loadButton.action = function() {
+                // This is different for each slot
+                load(3);
+
+                this.parentInterface.startTheGame();
+            };
+        }
+        buttonNum++;
     };
     this.generateButtons();
+
+    this.startTheGame = function() {
+        interface.loadGameMenu.isVisible = false;
+        // HACK: Not sure why the main menu is shown here
+        interface.mainMenu.isVisible = false;
+                
+        audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
+        inGame_music_master.play();
+        musicPastMainMenu = true;
+
+        // Don't enable auto-save until you exit the menu
+        activateAutoSave();
+    };
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));

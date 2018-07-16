@@ -64,23 +64,8 @@ function Interface() {
 
     if (this.loadGame) {
         this.loadGame.action = function() {
-            var useOldFunctionality = true;
-            if (useOldFunctionality) {
-                this.isVisible = false; // make this test button invisible
-                this.parentInterface.isVisible = false; // make the pane this test button is on invisible
-                audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
-                inGame_music_master.play();
-                musicPastMainMenu = true;
-        
-                autoLoad();
-                
-                // Don't enable auto-save until you exit the menu
-                activateAutoSave();
-            }
-            else {
-                this.parentInterface.isVisible = false;
-                interface.loadGameMenu.isVisible = true;
-            }
+            this.parentInterface.isVisible = false;
+            interface.loadGameMenu.isVisible = true;
         }
     }
 
