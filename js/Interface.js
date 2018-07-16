@@ -119,6 +119,7 @@ function Interface() {
 
     // Draw everything on the Interface (called from drawEverything() in Main.js)
     this.draw = function () {
+        player.drawPlayerHUD();
         this.hotbarPane.draw();
         this.tabMenu.draw();
         this.mainMenu.draw();

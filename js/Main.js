@@ -174,8 +174,7 @@ function drawEverything() {
     drawSkyGradient();
     birds.draw(camPanX, camPanY);
     butterflies.draw(camPanX, camPanY);
-    weather.draw(camPanX, camPanY);
-    player.drawPlayerHUD();
+    weather.draw(camPanX, camPanY);    
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
     timer.drawTimer();
