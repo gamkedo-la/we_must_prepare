@@ -25,12 +25,14 @@ function Introduction() { // a class constructor
         "They will need food and housing. They will need resources\n" +
         "to rebuild civilization.  We must prepare, for they are coming."
     ];
+
     var introHints = [
         "You need to till the soil before you can plant.",
         "Remember to plant seeds and water them!",
         "You can harvest food and seeds using a scythe.",
         "Store your harvest in the silo to prepare for the humans!"
     ];
+
     //var introFont = '24px Arial';
     var introFont = '20px Kelly Slab';
     // other nice "title" fonts
@@ -39,27 +41,46 @@ function Introduction() { // a class constructor
     // Titan+One
     // Squada+One
     // Kelly+Slab
+
     var textLineHeight = 32;
     var timeStarted = -9999; // a timestamp in ms
     var timePerSlide = 4000; // in ms
+    var introSlideRemainingTime = timePerSlide;
+    var timeStampPrev = timeStarted;
+    var timeStamp = timeStarted;
+    var elapsedTime = 0;
+    var slideNum = 0;
 
     this.draw = function () {
 
         if (!this.currentlyPlaying) return;
+        if (isPaused) {
+            timeStamp = performance.now(); // so pause time doesn't advance tons when unpaused
+            return;
+        }
 
         if (timeStarted == -9999) {
             timeStarted = performance.now();
             console.log("Starting the intro at " + (timeStarted / 1000).toFixed(1) + "sec");
         }
-        var timeStamp = performance.now();
-        var elapsedTime = timeStamp - timeStarted;
-        var slideNum = Math.floor(elapsedTime / timePerSlide);
+
+        timeStampPrev = timeStamp;
+        timeStamp = performance.now();
+
+        introSlideRemainingTime -= (timeStamp - timeStampPrev);
+        if (introSlideRemainingTime <= 0) {
+            slideNum++;
+            introSlideRemainingTime = timePerSlide;
+            console.log("Starting intro slide " + slideNum);
+        }
+
+        elapsedTime = timeStamp - timeStarted; // total, including time spent in pause!
 
         //console.log("intro slide " + slideNum + " after " + (elapsedTime / 1000).toFixed(1) + " sec");
 
         // are we done?
         if (slideNum >= introText.length) {
-            console.log("Intro completed after " + (elapsedTime / 1000).toFixed(1) + " sec");
+            console.log("Intro completed after " + (elapsedTime / 1000).toFixed(1) + " seconds total");
             this.currentlyPlaying = false;
             return;
         }
@@ -75,7 +96,8 @@ function Introduction() { // a class constructor
         //var textY = Math.round(canvas.height / 2);
         var textY = canvas.height - textLineHeight * 4;
 
-        var slidePercentDone = (elapsedTime - (slideNum * timePerSlide)) / timePerSlide;
+        //var slidePercentDone = (elapsedTime - (slideNum * timePerSlide)) / timePerSlide;
+        var slidePercentDone = introSlideRemainingTime / timePerSlide;
         var textAlpha = Math.min(slidePercentDone * 2, 1.0); // fade in for the first half
         //console.log('slidePercentDone ' + slidePercentDone.toFixed(1));
 
