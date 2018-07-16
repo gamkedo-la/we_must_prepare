@@ -42,7 +42,7 @@ function Interface() {
 
     this.newGame = new Button(this.mainMenu, "New Game", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
     buttonNum++;
-    if (hasAutoSaveState()) {
+    if (hasAnySaveState()) {
         this.loadGame = new Button(this.mainMenu, "Continue", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
         buttonNum++;
     }
@@ -78,10 +78,13 @@ function Interface() {
                 activateAutoSave();
             }
             else {
-                this.parentInterface.loadGamePane = new LoadGamePane(this, 0, 0, canvas.width, canvas.height, true);
+                this.parentInterface.isVisible = false;
+                interface.loadGameMenu.isVisible = true;
             }
         }
     }
+
+    this.loadGameMenu = new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false);
 
     // this.credits.action = function () {
     //
@@ -122,6 +125,7 @@ function Interface() {
         this.hotbarPane.draw();
         this.tabMenu.draw();
         this.mainMenu.draw();
+        this.loadGameMenu.draw();
         this.itemsHeldAtMouse.draw();
         // this.creditsMenu.draw();
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');

@@ -61,11 +61,26 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     this.height = bottomRightY - topLeftY;
     this.isVisible = visible;
 
-    this.generateButtons = function() {
-        // TODO: implement
+    this.buttons = [];
+    this.push = function (button) {
+        this.buttons.push(button);
     };
 
-    this.buttons = this.generateButtons();
+    this.generateButtons = function() {
+        var topY = (canvas.height * 0.5) - 20;
+        var gapY = 10;
+        var buttonHeight = 40;
+        var buttonSkip = gapY + buttonHeight;
+        var buttonNum = 0;
+
+        var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        backButton.action = function() {
+            // why doesn't this get called?
+            interface.loadGameMenu.isVisible = false;
+            interface.mainMenu.isVisible = ture;
+        };
+    };
+    this.generateButtons();
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
@@ -78,7 +93,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
                     console.log("button name is : " + button.name);
                 }
             }
-            console.log("main menu is visible and mouse is in this pane");
+            console.log("load game menu is visible and mouse is in this pane");
             return true;
         }
         return false;
@@ -88,12 +103,11 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         if (this.isVisible) {
             drawInterfacePaneBackground(this);
 
-            // TODO: find out why this crashes
-            //draw buttons
-            // for (var i = 0; i < this.buttons.length; i++) {
-            //     var button = this.buttons[i];
-            //     button.draw();
-            // }
+            // draw buttons
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                button.draw();
+            }
         }
     };
 

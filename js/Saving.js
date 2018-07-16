@@ -38,14 +38,40 @@ function getSaveState() {
   return saveState;
 }
 
-function hasAutoSaveState() {
-  var saveState = persistence.getObject('autosave', null);
+function hasSaveState(slot) {
+  var saveState = persistence.getObject(slot, null);
   if (saveState) {
     return true;
   }
   else {
     return false;
   }
+}
+
+function hasAutoSaveState() {
+  return hasSaveState('autosave');
+}
+
+function hasManualSaveState(slotIndex) {
+  var slotName = 'save_' + slotIndex;
+  return hasSaveState(slotName); 
+}
+
+function hasAnySaveState() {
+  if (hasAutoSaveState()) {
+    return true;
+  }
+  else if (hasManualSaveState(1)) {
+    return true;
+  }
+  else if (hasManualSaveState(2)) {
+    return true;
+  }
+  else if (hasManualSaveState(3)) {
+    return true;
+  }
+
+  return false;
 }
 
 function autoLoad() {

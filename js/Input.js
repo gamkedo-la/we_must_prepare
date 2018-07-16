@@ -110,6 +110,10 @@ function inputUpdate() {
     var inputHandled = false;
     if (mouseClickedThisFrame) {
         inputHandled = interface.mainMenu.leftMouseClick(mouseX, mouseY);
+        // Still at the menu/title screen
+        if (!inputHandled) {
+            inputHandled = interface.loadGameMenu.leftMouseClick(mouseX, mouseY);
+        }
         // Central Menu //
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
