@@ -75,9 +75,8 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 
         var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
         backButton.action = function() {
-            // why doesn't this get called?
             interface.loadGameMenu.isVisible = false;
-            interface.mainMenu.isVisible = ture;
+            interface.mainMenu.isVisible = true;
         };
     };
     this.generateButtons();
