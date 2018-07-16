@@ -45,6 +45,8 @@ function Introduction() { // a class constructor
 
     this.draw = function () {
 
+        if (!this.currentlyPlaying) return;
+
         if (timeStarted == -9999) {
             timeStarted = performance.now();
             console.log("Starting the intro at " + (timeStarted / 1000).toFixed(1) + "sec");
@@ -60,6 +62,12 @@ function Introduction() { // a class constructor
             console.log("Intro completed after " + (elapsedTime / 1000).toFixed(1) + " sec");
             this.currentlyPlaying = false;
             return;
+        }
+
+        // skip if player presses a button
+        if (mouseClickedThisFrame) { // FIXME: this is never true, and clicks interfere with inventory clicks underneath
+            console.log("Intro window clicked at " + mouseY + ": going to next slide.");
+            timeStarted = timeStamp - (slideNum * timePerSlide);
         }
 
         // otherwise: draw it

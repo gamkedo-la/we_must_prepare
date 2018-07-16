@@ -244,6 +244,14 @@ function keyPress(evt) {
             break;
         case "Escape":
         case "Esc":
+
+            // skip the intro if it is playing
+            if (window.intro && intro.currentlyPlaying) {
+                console.log("Skipping intro: ESC pressed.");
+                intro.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+
             // console.log("Escape pressed");
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
