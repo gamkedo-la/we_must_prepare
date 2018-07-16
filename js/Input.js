@@ -114,6 +114,9 @@ function inputUpdate() {
         if (!inputHandled) {
             inputHandled = interface.loadGameMenu.leftMouseClick(mouseX, mouseY);
         }
+        if (!inputHandled) {
+            inputHandled = interface.saveGameMenu.leftMouseClick(mouseX, mouseY);
+        }
         // Central Menu //
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
@@ -256,6 +259,16 @@ function keyPress(evt) {
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
             } else {
+                if (interface.loadGameMenu.isVisible) {
+                    interface.loadGameMenu.isVisible = false;
+                    interface.mainMenu.isVisible = true;
+                    return;
+                }
+                else if (interface.saveGameMenu.isVisible) {
+                    interface.saveGameMenu.isVisible = false;
+                    interface.mainMenu.isVisible = true;
+                    return;
+                }
                 //toggle main menu
                 interface.mainMenu.isVisible = !interface.mainMenu.isVisible;
                 if (interface.mainMenu.isVisible) {

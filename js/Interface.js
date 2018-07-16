@@ -72,6 +72,7 @@ function Interface() {
     }
 
     this.loadGameMenu = new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false);
+    this.saveGameMenu = new SaveGamePane(this, 0, 0, canvas.width, canvas.height, false);
 
     // Get the save button to appear
     this.allowPlayerToSave = function() {
@@ -79,7 +80,8 @@ function Interface() {
 
         this.saveGame = new Button(this.mainMenu, "Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
         this.saveGame.action = function() {
-            // TODO: bring up save menu
+            interface.saveGameMenu.isVisible = true;
+            interface.mainMenu.isVisible = false;
         };
         
         if (!hasAnySaveState()) {
@@ -136,6 +138,7 @@ function Interface() {
         this.tabMenu.draw();
         this.mainMenu.draw();
         this.loadGameMenu.draw();
+        this.saveGameMenu.draw();
         this.itemsHeldAtMouse.draw();
         // this.creditsMenu.draw();
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');

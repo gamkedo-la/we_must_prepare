@@ -78,6 +78,9 @@ function gameLoop() {
     if (interface.loadGameMenu.isVisible) {
         interface.loadGameMenu.update(mouseX, mouseY);
     }
+    if (interface.saveGameMenu.isVisible) {
+        interface.saveGameMenu.update(mouseX, mouseY);
+    }
 
     if (intro && intro.currentlyPlaying) {
         intro.draw();

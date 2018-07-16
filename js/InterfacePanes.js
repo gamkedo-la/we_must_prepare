@@ -179,6 +179,93 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     };
 }
 
+function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
+    this.parentPane = parentPane;
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.isVisible = visible;
+
+    this.buttons = [];
+    this.push = function (button) {
+        this.buttons.push(button);
+    };
+
+    this.generateButtons = function() {
+        var topY = (canvas.height * 0.5) - 70;
+        var gapY = 10;
+        var buttonHeight = 40;
+        var buttonSkip = gapY + buttonHeight;
+        var buttonNum = 0;
+
+        var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        backButton.action = function() {
+            interface.saveGameMenu.isVisible = false;
+            interface.mainMenu.isVisible = true;
+        };
+        buttonNum++;
+
+        var saveButton1 = new Button(this, "Save Slot 1", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        saveButton1.action = function() {
+            // This is different for each slot
+            save(1);
+        };
+        buttonNum++;
+
+        var saveButton2 = new Button(this, "Save Slot 2", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        saveButton2.action = function() {
+            // This is different for each slot
+            save(2);
+        };
+        buttonNum++;
+
+        var saveButton3 = new Button(this, "Save Slot 3", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        saveButton3.action = function() {
+            // This is different for each slot
+            save(3);
+        };
+        buttonNum++;
+    };
+    this.generateButtons();
+
+    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
+
+        if (this.isVisible && isInPane(this, x, y)) {
+            //checks for *first* button in array that mouse can click
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                if (button.leftMouseClick(x, y)) {
+                    console.log("button name is : " + button.name);
+                }
+            }
+            console.log("save game menu is visible and mouse is in this pane");
+            return true;
+        }
+        return false;
+    };
+
+    this.draw = function() {
+        if (this.isVisible) {
+            drawInterfacePaneBackground(this);
+
+            // draw buttons
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                button.draw();
+            }
+        }
+    };
+
+    this.update = function (x = mouseX, y = mouseY) {
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            button.mouseOver(x, y);
+        }
+    };
+}
+
 // In-game Menu Pane
 function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
     this.x = X;
