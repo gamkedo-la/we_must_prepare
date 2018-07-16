@@ -251,72 +251,84 @@ function Player() {
 
         }
 
+        var drewAnimationAlready = false; // did we draw a walking frame?
+
         // colorCircle(this.homeX, this.homeY, 25, 'yellow');
         if (this.keyHeld_North) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkNorth.update();
             playFootstep(playerWalkNorth);
-            return;
+            drewAnimationAlready = true;
+            //return;
         } else if (this.keyHeld_East) {
             playerWalkEast.draw(this.x, this.y - playerImage.height / 2);
             playerWalkEast.update();
             playFootstep(playerWalkEast);
-            return;
+            drewAnimationAlready = true;
+            //return;
         } else if (this.keyHeld_South) {
             playerWalkSouth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkSouth.update();
             playFootstep(playerWalkSouth);
-            return;
+            drewAnimationAlready = true;
+            //return;
         } else if (this.keyHeld_West) {
             playerWalkWest.draw(this.x, this.y - playerImage.height / 2);
             playerWalkWest.update();
             playFootstep(playerWalkWest);
-            return;
+            drewAnimationAlready = true;
+            //return;
         }
 
-        if (pickaxeAnimationEast.isFinishedPlaying() == false) {
-            pickaxeAnimationEast.draw(this.x, this.y - playerImage.height / 2);
-            pickaxeAnimationEast.update();
-        } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
-            pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
-            pickaxeAnimationWest.update();
-        } else if (pickaxeAnimationNorth.isFinishedPlaying() == false) {
-            pickaxeAnimationNorth.draw(this.x, this.y - playerImage.height / 1);
-            pickaxeAnimationNorth.update();
-        } else if (pickaxeAnimationSouth.isFinishedPlaying() == false) {
-            pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
-            pickaxeAnimationSouth.update();
-        }
-        console.log()
-        for (var i = toolAnimList.length - 1; i >= 0; i--) {
-            if (toolAnimList[i].framesLeft > 0) {
-                toolAnimList[i].draw();
-            } else {
-                toolAnimList.splice(i);
+        if (!drewAnimationAlready) // only draw these if idle:
+        {
+            if (pickaxeAnimationEast.isFinishedPlaying() == false) {
+                pickaxeAnimationEast.draw(this.x, this.y - playerImage.height / 2);
+                pickaxeAnimationEast.update();
+            } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
+                pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
+                pickaxeAnimationWest.update();
+            } else if (pickaxeAnimationNorth.isFinishedPlaying() == false) {
+                pickaxeAnimationNorth.draw(this.x, this.y - playerImage.height / 1);
+                pickaxeAnimationNorth.update();
+            } else if (pickaxeAnimationSouth.isFinishedPlaying() == false) {
+                pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
+                pickaxeAnimationSouth.update();
             }
-        }
 
+            for (var i = toolAnimList.length - 1; i >= 0; i--) {
+                if (toolAnimList[i].framesLeft > 0) {
+                    toolAnimList[i].draw();
+                } else {
+                    toolAnimList.splice(i);
+                }
+            }
 
-        switch (this.playerLastFacingDirection) {
-            case DIRECTION_NORTH:
-                this.playerLastFacingDirectionImage = playerIdleNorth;
-                break;
-            case DIRECTION_EAST:
-            case DIRECTION_NORTHEAST:
-            case DIRECTION_SOUTHEAST:
-                this.playerLastFacingDirectionImage = playerIdleEast;
-                break;
-            case DIRECTION_SOUTH:
-                this.playerLastFacingDirectionImage = playerIdleSouth;
-                break;
-            case DIRECTION_WEST:
-            case DIRECTION_NORTHWEST:
-            case DIRECTION_SOUTHWEST:
-                this.playerLastFacingDirectionImage = playerIdleWest;
-                break;
+            switch (this.playerLastFacingDirection) {
+                case DIRECTION_NORTH:
+                    this.playerLastFacingDirectionImage = playerIdleNorth;
+                    break;
+                case DIRECTION_EAST:
+                case DIRECTION_NORTHEAST:
+                case DIRECTION_SOUTHEAST:
+                    this.playerLastFacingDirectionImage = playerIdleEast;
+                    break;
+                case DIRECTION_SOUTH:
+                    this.playerLastFacingDirectionImage = playerIdleSouth;
+                    break;
+                case DIRECTION_WEST:
+                case DIRECTION_NORTHWEST:
+                case DIRECTION_SOUTHWEST:
+                    this.playerLastFacingDirectionImage = playerIdleWest;
+                    break;
 
-        }
-        this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
+            }
+            this.playerLastFacingDirectionImage.draw(this.x, this.y - playerImage.height / 2);
+
+        } // if idle
+
+        // draw the currently held tool from inventory in our hands
+        this.drawEquippedItem();
     };
 
     this.distFrom = function (otherX, otherY) {
@@ -400,6 +412,85 @@ function Player() {
         }
     };
 
+    this.drawEquippedItem = function () { // used in draw() function to show items in our hands
+
+        //console.log("drawEquippedItem from hotbar slot " + this.hotbar.equippedSlotIndex);
+
+        // if (proper tool is equipped / something else?) 
+        if (this.hotbar.equippedSlotIndex >= 0 && this.hotbar.equippedSlotIndex < this.hotbar.numberOfSlots) {
+            let equippedItemType = this.hotbar.slots[this.hotbar.equippedSlotIndex].item;
+
+            // items spritesheet
+            var sx = sy = 0; // where on spritesheet
+            var sw = sh = 50; // size of item sprite
+            var dw = dh = 25; // size of tool in hand
+            var dx = this.x; // where in world
+            var dy = this.y - 24;
+            var flippedX = false;
+            var flippedY = false;
+
+            switch (equippedItemType) {
+                case items.hoe.type:
+                    sx = 6 * sw;
+                    flippedY = true;
+                    dy += 20;
+                    break;
+                case items.pickaxe.type:
+                    sx = 7 * sw;
+                    break;
+                case items.axe.type:
+                    sx = 4 * sw;
+                    break;
+                case items.watercan.type:
+                    sx = 5 * sw;
+                    break;
+                case items.seedCorn.type:
+                    sx = 8 * sw;
+                    break;
+                case items.seedTomato.type:
+                    sx = 9 * sw;
+                    break;
+                case items.seedEggplant.type:
+                    sx = 3 * sw;
+                    sy = 1 * sh;
+                    break;
+                case items.seedPotato.type:
+                    sx = 5 * sw;
+                    sy = 1 * sh;
+                    break;
+            }
+
+            switch (this.playerLastFacingDirection) {
+                case DIRECTION_NORTH:
+                    dx += 12;
+                    dy -= 4;
+                case DIRECTION_EAST:
+                case DIRECTION_NORTHEAST:
+                case DIRECTION_SOUTHEAST:
+                    flippedX = true;
+                    dx += 22;
+                    break;
+                case DIRECTION_SOUTH:
+                    dx -= 12;
+                    dy -= 4;
+                case DIRECTION_WEST:
+                case DIRECTION_NORTHWEST:
+                case DIRECTION_SOUTHWEST:
+                    dx -= 22;
+                    flipped = false;
+                    break;
+
+            }
+
+            canvasContext.save();
+            canvasContext.translate(dx, dy);
+            canvasContext.scale(flippedX ? -1 : 1, flippedY ? -1 : 1);
+            canvasContext.drawImage(itemSheet, sx, sy, sw, sh, 0, 0, dw, dh);
+            canvasContext.restore();
+        }
+
+    }
+
     this.getTileTypeAction = function (tileIndex, isAction = true) {
         // if (proper tool is equipped / something else?) {
         if (this.hotbar.equippedSlotIndex >= 0 && this.hotbar.equippedSlotIndex < this.hotbar.numberOfSlots) {
@@ -453,10 +544,10 @@ function Player() {
                 case items.seedPotato.type:
                     if (currentTile == TILE_TILLED || currentTile == TILE_TILLED_WATERED) {
                         if (equippedItemType == items.seedCorn.type) {
-                            equippedItem = isAction ? items.seedCorn : equippedItem;                                                        
+                            equippedItem = isAction ? items.seedCorn : equippedItem;
                         }
                         else if (equippedItemType == items.seedTomato.type) {
-                            equippedItem = isAction ? items.seedTomato : equippedItem;                            
+                            equippedItem = isAction ? items.seedTomato : equippedItem;
                         }
                         else if (equippedItemType == items.seedEggplant.type) {
                             equippedItem = isAction ? items.seedEggplant : equippedItem;
