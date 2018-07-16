@@ -438,8 +438,11 @@ function Player() {
             switch (equippedItemType) {
                 case items.hoe.type:
                     sx = 6 * sw;
-                    flippedY = true;
-                    dy += 20;
+                    dy += 10;
+                    // the hoe seems a bit low when facing this way; 
+                    // could render it flipped but then it looks like we'll take a blade to the face!
+                    // flippedY = true;
+                    // dy += 20;
                     break;
                 case items.pickaxe.type:
                     sx = 7 * sw;
