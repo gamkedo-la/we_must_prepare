@@ -208,72 +208,16 @@ function InventorySlotInterfaceHelper() {
 
     this.drawToolTips = function (inventory, itemX, itemY, i) {
         if (inventory.selectedSlotIndex === i) {
-            var toolTipX = itemX - 16;
-            var toolTipY = itemY + 42;
-            var toolTipW = 64;
-            var toolTipH = 16;
+            let toolTipX = itemX - 22;
+            let toolTipY = itemY + 40;
+            
+            let itemTypeAtThisIndex = inventory.slots[i].item;
 
-            switch (inventory.slots[i].item) {
-                case items.hoe.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 24, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.hoe.name, toolTipX, toolTipY, 'black');
+            for (let j = 0; j < itemTrackingArray.length; j++) {
+                if (itemTypeAtThisIndex == itemTrackingArray[j].type && itemTypeAtThisIndex != items.nothing.type) {
+                    itemTrackingArray[j].drawToolTip(toolTipX, toolTipY);
                     break;
-                case items.pickaxe.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 10, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.pickaxe.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.watercan.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 2, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.watercan.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.axe.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW - 24, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.axe.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.metal.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.metal.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.stone.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.stone.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.wood.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.wood.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.seedCorn.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.seedCorn.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.seedTomato.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.seedTomato.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.seedEggplant.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.seedEggplant.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.seedPotato.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW + 40, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.seedPotato.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.cropCorn.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.cropCorn.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.cropTomato.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.cropTomato.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.cropEggplant.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.cropEggplant.name, toolTipX, toolTipY, 'black');
-                    break;
-                case items.cropPotato.type:
-                    colorRect(toolTipX - 8, toolTipY - 12, toolTipW, toolTipH, "rgba(255,255,255,1.0)");
-                    colorText(items.cropPotato.name, toolTipX, toolTipY, 'black');
-                    break;
+                }
             }
         }
     }

@@ -3,7 +3,9 @@ const WATERCAN_CAPACITY = 100;
 const WATERCAN_USE_RATE = 5;
 const WATERCAN_FILL_RATE = 20;
 
-var ItemCode = Object.freeze({
+let itemTrackingArray = [];
+
+let ItemCode = Object.freeze({
     NOTHING: 0,
     METAL: 1,
     STONE: 2,
@@ -52,10 +54,24 @@ function Items() {
 // ----------------
 // For creating instances of items
 // Parent class of Tool
-function Item(itemName, itemType, itemCount = 1) {
+function Item(itemName, itemType, itemCount = 1, toolTipWidth = 128, toolTipHeight = 16) {
     this.name = itemName;
     this.type = itemType;
     this.count = itemCount;
+
+    this.toolTipWidth = toolTipWidth;
+    this.toolTipHeight = toolTipHeight;
+
+    this.drawToolTip = function (toolTipX, toolTipY, toolTipWidth = this.toolTipWidth, toolTipHeight = this.toolTipHeight) {
+        let x = toolTipX - 4;
+        let y = toolTipY - 12;        
+
+        colorRect(x, y, toolTipWidth, toolTipHeight, "rgba(255,255,255,1.0)");
+        coloredOutlineRectCornerToCorner(x, y, x + toolTipWidth, y + toolTipHeight, "rgba(0,0,0,1.0)");
+        colorText(this.name, toolTipX, toolTipY, 'black');
+    };
+
+    itemTrackingArray.push(this);
 
     return this;
 }
@@ -64,8 +80,8 @@ function Item(itemName, itemType, itemCount = 1) {
 // Tool
 // ----------------
 // Parent class for all items that consume energy
-function Tool(toolName, toolType, energyCost, count) {    
-    Item.call(this, toolName, toolType, count);
+function Tool(toolName, toolType, energyCost, count, toolTipWidth = 128, toolTipHeight = 16) {
+    Item.call(this, toolName, toolType, count, toolTipWidth, toolTipHeight);
 
     this.energyCost = energyCost;
 }
@@ -89,7 +105,7 @@ Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyC
 // Axe
 // ----------------
 function Axe(name, energyCost) {
-    Tool.call(this, name, ItemCode.AXE, energyCost, 1); // Axe inheriting Tool class
+    Tool.call(this, name, ItemCode.AXE, energyCost, 1, 30); // Axe inheriting Tool class
     
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Axe and pass argument(s)
@@ -110,7 +126,7 @@ Axe.prototype.constructor = Axe;
 // Watercan
 // ----------------
 function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapacity = WATERCAN_CAPACITY, waterDepletionRate = WATERCAN_USE_RATE, waterFillRate = WATERCAN_FILL_RATE) {
-    Tool.call(this, name, ItemCode.WATERCAN, energyCost, 1); // Watercan inheriting Tool class
+    Tool.call(this, name, ItemCode.WATERCAN, energyCost, 1, 56); // Watercan inheriting Tool class
     
     this.waterLeft = waterLeft;
     this.waterCapcity = waterCapacity;
@@ -165,7 +181,7 @@ Watercan.prototype.constructor = Watercan;
 // Hoe
 // ------------
 function Hoe(name, energyCost) {
-    Tool.call(this, name, ItemCode.HOE, energyCost, 1); // Hoe inheriting Tool class
+    Tool.call(this, name, ItemCode.HOE, energyCost, 1, 30); // Hoe inheriting Tool class
     
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Hoe and pass argument(s)
@@ -202,7 +218,7 @@ Hoe.prototype.constructor = Hoe;
 // Pickaxe
 // ----------------
 function Pickaxe(name, energyCost) {
-    Tool.call(this, name, ItemCode.PICKAXE, energyCost, 1); // Pickaxe inheriting Tool class
+    Tool.call(this, name, ItemCode.PICKAXE, energyCost, 1, 48); // Pickaxe inheriting Tool class
 
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Pickaxe and pass argument(s)
@@ -231,8 +247,8 @@ Pickaxe.prototype.constructor = Pickaxe;
 // ----------------
 // Seed
 // ----------------
-function Seed(name, energyCost, whichSeed, count) {
-    Tool.call(this, name, whichSeed, energyCost, count); // Seed inheriting Tool class
+function Seed(name, energyCost, whichSeed, count) {    
+    Tool.call(this, name, whichSeed, energyCost, count, name.length * 11.0 * 0.58); // Seed inheriting Tool class
     
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Seed and pass argument(s)
