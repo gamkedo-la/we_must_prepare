@@ -24,7 +24,7 @@ let ItemCode = Object.freeze({
     SEED_POTATO: 15,
 });
 
-// Create instances of items here, Items() itself is instanced in Main.js
+// Create instances of item types here, Items() itself is instanced in Main.js
 function Items() {
     this.nothing = new Item("Nothing", ItemCode.NOTHING);
 
@@ -42,11 +42,10 @@ function Items() {
     this.seedEggplant = new Seed("Eggplant Seeds", 0, ItemCode.SEED_EGGPLANT, 5);
     this.seedPotato = new Seed("Potato Seeds", 0, ItemCode.SEED_POTATO, 5);
 
-    this.cropCorn = new Item("Corn", ItemCode.CROP_CORN, 3);
-    this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO, 3);
-    this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3);
-    this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4);
-    
+    this.cropCorn = new Item("Corn", ItemCode.CROP_CORN, 3, 30);
+    this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO, 3, 44);
+    this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3, 52);
+    this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4, 38);    
 }
 
 // ----------------
