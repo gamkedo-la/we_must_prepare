@@ -131,6 +131,7 @@ function Interface() {
 }
 
 // Tool animation function
+
 var toolAnimList = [];
 
 var toolAnimatorAtAngle = function (itemX, itemY, itemKind, spritesPerRow) {
@@ -176,7 +177,18 @@ function InventorySlotInterfaceHelper() {
 
         // draw item graphic
         if (slot.count > 0) {
-            this.itemSpriteSheet.draw(itemX, itemY, col, row);
+            let offsetY = itemY;            
+
+            switch (slot.item) {
+                case items.seedCorn.type:
+                case items.seedTomato.type:
+                case items.seedEggplant.type:
+                case items.seedPotato.type:
+                    offsetY = itemY - 10;
+                    break;
+            }
+
+            this.itemSpriteSheet.draw(itemX, offsetY, col, row);
 
             switch (slot.item) {
                 case items.watercan.type:
@@ -189,12 +201,14 @@ function InventorySlotInterfaceHelper() {
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
                     break;
-            }
+            }            
         }
 
         // draw stackable item count
         if (slot.count > 1) {
-            colorText(slot.count, itemX - 3, itemY - 15, 'white');
+            colorCircle(itemX + 13, itemY + 12, 10, 'black');
+            outlineCircle(itemX + 13, itemY + 12, 10, 'white');
+            colorText("x" + slot.count, itemX + 8, itemY + 16, 'white');
         }
     };
 
