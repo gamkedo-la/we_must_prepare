@@ -21,7 +21,8 @@ var inGame_music_track5 = new MusicContainerRandomLayers([inGame_music_track2_1 
 													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano high-low", 64.0),
 													inGame_music_track2_3 = new MusicTrackNonLooping("MP Piano low-high", 64.0),
 													inGame_music_track2_4 = new MusicTrackNonLooping("MP Piano low-low", 64.0)]);
-var inGame_music_track6 = new MusicTrackNonLoopingDoubleBuffer("bright_future-normalized", 250);  //By Klaim
+var inGame_music_track6 = new MusicTrackNonLoopingDoubleBuffer("bright_future-normalized", 236.744);  //By Klaim
+inGame_music_track6.setMixVolume(0.8);
 
 var inGame_music_master = new MusicContainerPlaylistRandom( [ inGame_music_track1
 															, inGame_music_track2
@@ -29,7 +30,7 @@ var inGame_music_master = new MusicContainerPlaylistRandom( [ inGame_music_track
 															, inGame_music_track4
 															, inGame_music_track5
 															, inGame_music_track6
-															], 250 , 90 );
+															], 240 , 90 );
 
 musicVolumeManager.setVolume(0.7);
 
