@@ -519,7 +519,7 @@ function HotbarPane() {
             }
 
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.hotbar.slots[i]);
-            colorText(keyText, itemX + 17, itemY + 22, 'white'); // 17 and 22 are just values to put keybind text in corner            
+            colorText(keyText, itemX, itemY - 30, 'white'); // 17 and 22 are just values to put keybind text in corner            
         }
 
         // draw tooltip for each item in hotbar
