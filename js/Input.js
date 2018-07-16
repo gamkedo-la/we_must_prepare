@@ -110,6 +110,10 @@ function inputUpdate() {
     var inputHandled = false;
     if (mouseClickedThisFrame) {
         inputHandled = interface.mainMenu.leftMouseClick(mouseX, mouseY);
+        // Still at the menu/title screen
+        if (!inputHandled) {
+            inputHandled = interface.loadGameMenu.leftMouseClick(mouseX, mouseY);
+        }
         // Central Menu //
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
@@ -240,6 +244,14 @@ function keyPress(evt) {
             break;
         case "Escape":
         case "Esc":
+
+            // skip the intro if it is playing
+            if (window.intro && intro.currentlyPlaying) {
+                console.log("Skipping intro: ESC pressed.");
+                intro.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+
             // console.log("Escape pressed");
             if (isBuildModeEnabled) {
                 isBuildModeEnabled = !isBuildModeEnabled;
