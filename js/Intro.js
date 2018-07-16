@@ -45,7 +45,7 @@ function Introduction() { // a class constructor
     var textLineHeight = 32;
     var timeStarted = -9999; // a timestamp in ms
     var timePerSlide = 4000; // in ms
-    var introSlideRemainingTime = timePerSlide;
+    var slideRemainingTime = timePerSlide;
     var timeStampPrev = timeStarted;
     var timeStamp = timeStarted;
     var elapsedTime = 0;
@@ -54,6 +54,7 @@ function Introduction() { // a class constructor
     this.draw = function () {
 
         if (!this.currentlyPlaying) return;
+
         if (isPaused) {
             timeStamp = performance.now(); // so pause time doesn't advance tons when unpaused
             return;
@@ -67,10 +68,10 @@ function Introduction() { // a class constructor
         timeStampPrev = timeStamp;
         timeStamp = performance.now();
 
-        introSlideRemainingTime -= (timeStamp - timeStampPrev);
-        if (introSlideRemainingTime <= 0) {
+        slideRemainingTime -= (timeStamp - timeStampPrev);
+        if (slideRemainingTime <= 0) {
             slideNum++;
-            introSlideRemainingTime = timePerSlide;
+            slideRemainingTime = timePerSlide;
             console.log("Starting intro slide " + slideNum);
         }
 
@@ -86,18 +87,22 @@ function Introduction() { // a class constructor
         }
 
         // skip if player presses a button
+        /*
         if (mouseClickedThisFrame) { // FIXME: this is never true, and clicks interfere with inventory clicks underneath
             console.log("Intro window clicked at " + mouseY + ": going to next slide.");
-            timeStarted = timeStamp - (slideNum * timePerSlide);
+            //timeStarted = timeStamp - (slideNum * timePerSlide);
+            slideNum++;
+            introSlideRemainingTime = timePerSlide;
         }
+        */
 
         // otherwise: draw it
-        var textX = Math.round(canvas.width / 2);
+        var textX = Math.round(canvas.width / 2) + 32; // slightly offset from true center to account for the robot icon
         //var textY = Math.round(canvas.height / 2);
         var textY = canvas.height - textLineHeight * 4;
 
         //var slidePercentDone = (elapsedTime - (slideNum * timePerSlide)) / timePerSlide;
-        var slidePercentDone = introSlideRemainingTime / timePerSlide;
+        var slidePercentDone = slideRemainingTime / timePerSlide;
         var textAlpha = Math.min(slidePercentDone * 2, 1.0); // fade in for the first half
         //console.log('slidePercentDone ' + slidePercentDone.toFixed(1));
 
