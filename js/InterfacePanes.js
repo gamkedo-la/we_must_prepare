@@ -138,6 +138,8 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 
         // Don't enable auto-save until you exit the menu
         activateAutoSave();
+
+        interface.allowPlayerToSave();
     };
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {

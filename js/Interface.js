@@ -60,6 +60,8 @@ function Interface() {
 
         // Don't enable auto-save until you exit the menu
         activateAutoSave();
+
+        interface.allowPlayerToSave();
     };
 
     if (this.loadGame) {
@@ -70,6 +72,28 @@ function Interface() {
     }
 
     this.loadGameMenu = new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false);
+
+    // Get the save button to appear
+    this.allowPlayerToSave = function() {
+        buttonNum = 1;
+
+        this.saveGame = new Button(this.mainMenu, "Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        this.saveGame.action = function() {
+            // TODO: bring up save menu
+        };
+        
+        if (!hasAnySaveState()) {
+            this.credits.y += buttonSkip;
+        }
+
+        // Hide the load button so that it doesn't intercept clicks
+        if (this.loadGame) {
+            this.loadGame.isVisible = false;
+        }
+
+        // Hide the new game button if you haven't already
+        this.newGame.isVisible = false;
+    }
 
     // this.credits.action = function () {
     //
