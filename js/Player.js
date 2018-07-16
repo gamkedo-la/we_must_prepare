@@ -253,6 +253,10 @@ function Player() {
 
         var drewAnimationAlready = false; // did we draw a walking frame?
 
+        if (this.playerLastFacingDirection == DIRECTION_WEST) { // draw item BEHIND player
+            this.drawEquippedItem(); // draw first, otherwise we draw it below
+        }
+
         // colorCircle(this.homeX, this.homeY, 25, 'yellow');
         if (this.keyHeld_North) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
@@ -328,7 +332,9 @@ function Player() {
         } // if idle
 
         // draw the currently held tool from inventory in our hands
-        this.drawEquippedItem();
+        if (this.playerLastFacingDirection != DIRECTION_WEST) { // draw item IN FRONT OF player
+            this.drawEquippedItem();
+        }
     };
 
     this.distFrom = function (otherX, otherY) {
@@ -471,9 +477,10 @@ function Player() {
                     dx += 22;
                     break;
                 case DIRECTION_SOUTH:
-                    dx -= 12;
+                    dx -= 8;
                     dy -= 4;
                 case DIRECTION_WEST:
+                    dx -= 4;
                 case DIRECTION_NORTHWEST:
                 case DIRECTION_SOUTHWEST:
                     dx -= 22;
