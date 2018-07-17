@@ -435,10 +435,6 @@ function Player() {
             var flippedX = false;
             var flippedY = false;
 
-            if (equippedItemType == 0) { // nothing in current slot to hold (stops robokedo from holding a grey square)
-                return;
-            }
-
             switch (equippedItemType) {
                 case items.hoe.type:
                     sx = 6 * sw;
@@ -471,6 +467,8 @@ function Player() {
                     sx = 5 * sw;
                     sy = 1 * sh;
                     break;
+                default:
+                    return;  // nothing equippable in current slot to hold (stops robokedo from holding a grey square)
             }
 
             switch (this.playerLastFacingDirection) {
