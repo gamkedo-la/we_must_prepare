@@ -205,13 +205,23 @@ function Player() {
             canvasContext.fillText(str, textLineX, textLineY);
             textLineY += textLineSkip;
             i++;
-        }
+        }   
 
-        // TODO: incorporate this into the GUI
+        const ENERGY_BAR_W = canvas.width * 0.18;
+        const ENERGY_BAR_H = 6;
+
+        var playerEnergyLeftLevel = (this.playerEnergyLevel / PLAYER_MAX_ENERGY) * ENERGY_BAR_W;
+        var playerEnergyCapacityLevel = (ENERGY_BAR_W * PLAYER_MAX_ENERGY) / PLAYER_MAX_ENERGY;
+
+        var barRectX = (canvas.width - ENERGY_BAR_W) * 0.5 + ENERGY_BAR_W * 0.5;
+        var barRectY = canvas.height - 20;
+        var barRectColor = "yellow";
+        
+        colorRect(barRectX - playerEnergyLeftLevel, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
+        colorRect(barRectX, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
+
         canvasContext.fillStyle = 'yellow';
-        var textLineY = 37, textLineX = Math.round(canvas.width / 3) - 32;
-        canvasContext.fillText(this.playerEnergyLevel, textLineX, textLineY)
-
+        canvasContext.fillText(this.playerEnergyLevel, canvas.width * 0.5, canvas.height - 5);
         canvasContext.fillStyle = 'white'; // reset
 
         //canvasContext.font = oldFont;
