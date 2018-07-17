@@ -222,9 +222,11 @@ function InventorySlotInterfaceHelper() {
 
         // draw stackable item count
         if (slot.count > 1) {
-            colorCircle(itemX + 13, itemY + 12, 10, 'black');
-            outlineCircle(itemX + 13, itemY + 12, 10, 'white');
-            colorText("x" + slot.count, itemX + 8, itemY + 16, 'white');
+            let circleRadius = slot.count > 99 ? 14 : (slot.count > 9 ? 12 : 10);
+            let textOffset = slot.count > 99 ? 1 : (slot.count > 9 ? 5 : 7);
+            colorCircle(itemX + 13, itemY + 12, circleRadius, 'brown');
+            outlineCircle(itemX + 13, itemY + 12, circleRadius, 'beige');
+            colorText("x" + slot.count, itemX + textOffset, itemY + 16, 'beige');
         }
     };
 
