@@ -223,7 +223,8 @@ function Player() {
         colorRect(barRectX - playerEnergyLeftLevel - energyLabelW, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
         colorRect(barRectX + energyLabelW, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);        
 
-        var energyText = this.playerEnergyLevel >= 100 ? this.playerEnergyLevel : this.playerEnergyLevel >= 10 ? ' ' + this.playerEnergyLevel : "  " + this.playerEnergyLevel;
+        var playerEnergyLevelRounded = Math.floor(this.playerEnergyLevel);
+        var energyText = this.playerEnergyLevel >= 100 ? playerEnergyLevelRounded : this.playerEnergyLevel >= 10 ? ' ' + playerEnergyLevelRounded : "  " + playerEnergyLevelRounded;
         colorText(energyText, canvas.width * 0.5 - 8, canvas.height - 12, "yellow");
 
         //canvasContext.font = oldFont;
