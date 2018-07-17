@@ -275,7 +275,9 @@ function keyPress(evt) {
             break;
         case KEY_INVENTORY:
             //Switch central menu to inventory tab                  
-            interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
+            if (player.itemsHeldAtMouse.count == 0) {
+                interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
+            }
             
             if (interface.tabMenu.isVisible) {
                 uiSelect.play();
