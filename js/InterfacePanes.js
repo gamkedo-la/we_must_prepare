@@ -656,7 +656,7 @@ function HotbarPane() {
     };
 
     this.rightMouseClick = function (x = mouseX, y = mouseY) {
-        if (player.hotbar.selectedSlotIndex >= 0) {
+        if (player.hotbar.selectedSlotIndex >= 0 && interface.inventoryPane.isVisible && interface.tabMenu.isVisible) {
             player.hotbar.altGrabSlot();
             return true;
         }
