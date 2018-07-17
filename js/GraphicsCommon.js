@@ -10,11 +10,12 @@ function colorCircle(centerX, centerY, radius, fillColor) {
     canvasContext.fill();
 }
 
-function outlineCircle(centerX, centerY, radius, strokeColor) {
+function outlineCircle(centerX, centerY, radius, strokeColor, lineWidth = 1) {
     canvasContext.strokeStyle = strokeColor;
     canvasContext.beginPath();
     canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
     canvasContext.setLineDash([]);
+    canvasContext.lineWidth = lineWidth;
     canvasContext.stroke();
 }
 
@@ -26,9 +27,10 @@ function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY, withAngle =
     canvasContext.restore(); // undo the translation movement and rotation since save()
 }
 
-function coloredOutlineRectCornerToCorner(corner1X, corner1Y, corner2X, corner2Y, lineColor) {
-    canvasContext.strokeStyle = lineColor;
+function coloredOutlineRectCornerToCorner(corner1X, corner1Y, corner2X, corner2Y, lineColor, lineWidth = 1) {
     canvasContext.beginPath();
+    canvasContext.strokeStyle = lineColor;
+    canvasContext.lineWidth = lineWidth;
     canvasContext.rect(corner1X, corner1Y, corner2X - corner1X, corner2Y - corner1Y);
     canvasContext.stroke();
 }
