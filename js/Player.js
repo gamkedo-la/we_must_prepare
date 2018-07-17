@@ -215,7 +215,7 @@ function Player() {
 
         var barRectX = (canvas.width - ENERGY_BAR_W) * 0.5 + ENERGY_BAR_W * 0.5;
         var barRectY = canvas.height - 18;
-        var barRectColor = "yellow";
+        var barRectColor = this.playerEnergyLevel >= 70 ? "yellow" : this.playerEnergyLevel >= 40 ? "orange" : "red";
 
         var energyLabelW = 14;
         var energyLabelH = 10;
