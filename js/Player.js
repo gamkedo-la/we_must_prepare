@@ -214,15 +214,17 @@ function Player() {
         var playerEnergyCapacityLevel = (ENERGY_BAR_W * PLAYER_MAX_ENERGY) / PLAYER_MAX_ENERGY;
 
         var barRectX = (canvas.width - ENERGY_BAR_W) * 0.5 + ENERGY_BAR_W * 0.5;
-        var barRectY = canvas.height - 20;
+        var barRectY = canvas.height - 18;
         var barRectColor = "yellow";
-        
-        colorRect(barRectX - playerEnergyLeftLevel, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
-        colorRect(barRectX, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
 
-        canvasContext.fillStyle = 'yellow';
-        canvasContext.fillText(this.playerEnergyLevel, canvas.width * 0.5, canvas.height - 5);
-        canvasContext.fillStyle = 'white'; // reset
+        var energyLabelW = 14;
+        var energyLabelH = 10;
+
+        colorRect(barRectX - playerEnergyLeftLevel - energyLabelW, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
+        colorRect(barRectX + energyLabelW, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);        
+
+        var energyText = this.playerEnergyLevel >= 100 ? this.playerEnergyLevel : this.playerEnergyLevel >= 10 ? ' ' + this.playerEnergyLevel : "  " + this.playerEnergyLevel;
+        colorText(energyText, canvas.width * 0.5 - 8, canvas.height - 12, "yellow");
 
         //canvasContext.font = oldFont;
     };
