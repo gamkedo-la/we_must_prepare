@@ -23,7 +23,7 @@ function WeatherSystem() {
     this.howFoggy = 0;
     this.howWindy = {
         magnitude: 0,
-        direction: { x: -1, y: 0 }        
+        direction: { x: -1, y: 1 }        
     };    
     this.howRainy = 0;
 
@@ -156,13 +156,11 @@ function WeatherSystem() {
         // oscillate in and out from -1 to 1 at different rates
         this.howCloudy = Math.sin(timer.secondsInDay / cloudLength / 60);
         this.howFoggy = Math.sin(timer.secondsInDay / fogLength / 60);
-        this.howWindy.magnitude = Math.sin(timer.secondsInDay / windLength / 60);
-        if (timer.secondsInDay % 200 == 0) {
-            if (Math.random() > 0.1) {
-                let x = Math.floor(Math.random() * 2 - 1);
-                let y = Math.floor(Math.random() * 2 - 1);
-                this.howWindy.direction.x = x == 0 ? (Math.random() > 0.5 ? -1 : 1) * 1 : x;
-                this.howWindy.direction.y = y == 0 ? (Math.random() > 0.5 ? -1 : 1) * 1 : y;
+        this.howWindy.magnitude = Math.sin(timer.secondsInDay / windLength / 60);        
+        if (timer.secondsInDay % 1000 == 0) {
+            if (Math.random() > 0.5) {
+                this.howWindy.direction.x = -this.howWindy.direction.x;
+                this.howWindy.direction.y = -this.howWindy.direction.y;
                 console.log("Wind direction updated: { x: " + this.howWindy.direction.x + ', y: ' + this.howWindy.direction.y + ' }');
             }
         }
