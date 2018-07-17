@@ -671,24 +671,28 @@ function HotbarPane() {
         for (var i = 0; i < player.hotbar.numberOfSlots; i++) {
             itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
             itemY = this.hotbarItemY;
-            var keyText = i + 1; // i + 1 to show the correct keybind
+            var hotkeyText = i + 1; // i + 1 to show the correct keybind
             inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(player.hotbar, itemX, itemY, i);
 
             // Draw equipped slot differently
             if (i === player.hotbar.equippedSlotIndex) {
-                if (i === player.hotbar.selectedSlotIndex) {
-                    inventorySlotInterfaceHelper.drawInventorySlotBackground(player.hotbar, itemX, itemY, i);
-                    colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
-                } else {
-                    colorRect(itemX - 25, itemY - 25, 50, 50, 'green');
+                inventorySlotInterfaceHelper.drawInventorySlotBackground(player.hotbar, itemX, itemY, i);
+
+                if (i === player.hotbar.selectedSlotIndex) {                    
+                    coloredOutlineRectCornerToCorner(itemX - 25, itemY - 25, itemX - 25 + 50, itemY - 25 + 50, 'orange', 4);                    
+                } else {                                        
+                    coloredOutlineRectCornerToCorner(itemX - 25, itemY - 25, itemX - 25 + 50, itemY - 25 + 50, 'orange', 4);
                     canvasContext.fillStyle = 'white';
                 }
+                
             } else { // Draw all other slots
                 inventorySlotInterfaceHelper.drawInventorySlotBackground(player.hotbar, itemX, itemY, i);
             }
 
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.hotbar.slots[i]);
-            colorText(keyText, itemX, itemY - 30, 'white'); // 17 and 22 are just values to put keybind text in corner            
+
+            let hotkeyColor = hotkeyText == player.hotbar.equippedSlotIndex + 1 ? 'orange' : 'white';            
+            colorText(hotkeyText, itemX, itemY - 30, hotkeyColor); // 17 and 22 are just values to put keybind text in corner            
         }
 
         // draw tooltip for each item in hotbar
