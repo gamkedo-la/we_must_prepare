@@ -21,7 +21,10 @@ function WeatherSystem() {
     var howSunny = 1;
     var howCloudy = 0;
     var howFoggy = 0;
-    var howWindy = 0;
+    var howWindy = {
+        magnitude: 0,
+        direction: { x: 0, y: 0 }
+    };    
     var howRainy = 0;
 
     const PROBABILITY_OF_PRECIPITATION = 0.15; // each morning, we roll the dice to see if it will rain today
@@ -132,7 +135,7 @@ function WeatherSystem() {
 
         //console.log("weather.draw()");
 
-        updateWeatherVolumes(howSunny, howCloudy, howFoggy, howWindy, howRainy);
+        updateWeatherVolumes(howSunny, howCloudy, howFoggy, howWindy.magnitude, howRainy);
 
         if (cameraOffsetX == undefined) cameraOffsetX = 0;
         if (cameraOffsetY == undefined) cameraOffsetY = 0;
@@ -151,10 +154,20 @@ function WeatherSystem() {
         var dayPercent = timer.secondsInDay / SECONDS_PER_DAY;
         howSunny = Math.sin(dayPercent * 5);
 
+        if (timer.secondsInDay % 500 == 0) {
+            if (Math.random() > 0.5) {
+                howWindy.direction.x = Math.random() * 2 - 1;
+                howWindy.direction.y = Math.random() * 2 - 1;
+                console.log("Wind direction changed: " + howWindy.direction);
+            }
+        }
         // oscillate in and out from -1 to 1 at different rates
         howCloudy = Math.sin(timer.secondsInDay / cloudLength / 60);
         howFoggy = Math.sin(timer.secondsInDay / fogLength / 60);
-        howWindy = Math.sin(timer.secondsInDay / windLength / 60);
+        howWindy.magnitude = Math.sin(timer.secondsInDay / windLength / 60);
+
+        
+
         howRainy = Math.cos(timer.secondsInDay / rainLength / 60);
 
         if (!canRainToday) {
@@ -213,8 +226,8 @@ function WeatherSystem() {
                 spdy = Math.cos(performance.now() * 0.0001) * 0.25 - (loop * 0.15);
 
                 // add some extra cloud speed when it is windy!
-                spdx += howWindy * WIND_CLOUD_SPEED_INFLUENCE;
-                spdy += howWindy * WIND_CLOUD_SPEED_INFLUENCE;
+                spdx += howWindy.magnitude * WIND_CLOUD_SPEED_INFLUENCE;
+                spdy += howWindy.magnitude * WIND_CLOUD_SPEED_INFLUENCE;
 
                 if (!clouds[loop]) { //lazy init once only
                     // start somewhere onscreen:
@@ -274,7 +287,7 @@ function WeatherSystem() {
                 'howSunny:' + howSunny.toFixed(1) +
                 ' howCloudy:' + howCloudy.toFixed(1) +
                 ' howFoggy:' + howFoggy.toFixed(1) +
-                ' howWindy:' + howWindy.toFixed(1) +
+                ' howWindy:' + howWindy.magnitude.toFixed(1) +
                 ' howRainy:' + howRainy.toFixed(1)
             );
             */
@@ -289,7 +302,7 @@ function WeatherSystem() {
             //colorRect(barX, barY, Math.max(barW * howSunny, 0), barH, "yellow");
             //colorRect(barX, barY + 8, Math.max(barW * howCloudy, 1), barH, "#777799");
             //colorRect(barX, barY + 16, Math.max(barW * howFoggy, 1), barH, "#333333");
-            //colorRect(barX, barY + 24, Math.max(barW * howWindy, 1), barH, "#ccbbaa");
+            //colorRect(barX, barY + 24, Math.max(barW * howWindy.magnitude, 1), barH, "#ccbbaa");
             //colorRect(barX, barY + 32, Math.max(barW * howRainy, 1), barH, "blue");
 
             var barW = 44;
@@ -304,7 +317,7 @@ function WeatherSystem() {
             colorRect(barX + 42, barY, Math.max(barW * howCloudy, 1), barH, "rgba(180,180,255,1.0)");
 
             colorRect(barX - 86, barY + 25, barW, barH, "rgba(80,180,255,0.25)");
-            colorRect(barX - 86, barY + 25, Math.max(barW * howWindy, 1), barH, "rgba(80,180,255,1.0)");
+            colorRect(barX - 86, barY + 25, Math.max(barW * howWindy.magnitude, 1), barH, "rgba(80,180,255,1.0)");
 
             colorRect(barX + 42, barY + 25, barW, barH, "rgba(0,0,255,0.25)");
             colorRect(barX + 42, barY + 25, Math.max(barW * howRainy, 1), barH, "rgba(0,0,255,1.0)");
