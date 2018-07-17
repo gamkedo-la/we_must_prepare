@@ -9,7 +9,7 @@ const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
 
 var mouseClickedThisFrame = false;
-var mouseDblClickedThisFrame = false;
+
 var rightMouseClickedThisFrame = false;
 var toolKeyPressedThisFrame = false;
 var mouseHeld = false;
@@ -36,8 +36,7 @@ function calculateMousePos(evt) {
 
 function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
-    canvas.addEventListener('mousedown', mousedownHandler);
-    canvas.addEventListener('dblclick', mousedblclickHandler);
+    canvas.addEventListener('mousedown', mousedownHandler);    
     canvas.addEventListener('wheel', mousewheelHandler);
     // note for init reason canvas.addEventListener('mouseup', mouseupHandler); is in the onload handler for the main window
 
@@ -63,14 +62,6 @@ function mousedownHandler(evt) {
             rightMouseClickedThisFrame = true;
         }
         selectedIndex = NO_SELECTION;
-    }
-}
-
-function mousedblclickHandler(evt) {
-    calculateMousePos(evt);
-    if (evt.which === MOUSE_LEFT_CLICK) {
-        mouseHeld = true;
-        mouseDblClickedThisFrame = true;
     }
 }
 
@@ -121,9 +112,6 @@ function inputUpdate() {
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
         }
-    }
-    if (mouseDblClickedThisFrame) {
-        inputHandled = interface.hotbarPane.leftMouseDblClick(mouseX, mouseY);
     }
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
@@ -216,27 +204,19 @@ function keyPress(evt) {
     keySet(evt, player, true);
 
     // console.log("evt keycode " + evt.keyCode);
-    // Menu Context Controls - if the menu is open, menu keys take priorty
-    var centralMenuOpen = interface.tabMenu.isVisible;
+    
     const SCROLL_TO_THE_LEFT = true;
-
-    if (centralMenuOpen) {
-        switch (evt.code) {
-            case "Tab":
-                interface.tabMenu.switchTab(shiftKeyHeld);
-                break;
-            default:
-                keyUsedByGame = false;
-                break;
-        }
-    }
-    // Common Controls (These are always checked)
+    
+    // If the menu is open, menu keys take priorty
     switch (evt.code) {
         case "ShiftLeft":
         case "ShiftRight":
             shiftKeyHeld = true;
             break;
         case "Tab":
+            if (interface.tabMenu.isVisible) {
+                interface.tabMenu.switchTab(shiftKeyHeld);
+            }
             if (!interface.tabMenu.isVisible) {
                 player.hotbar.scrollThrough(shiftKeyHeld);
             }
@@ -294,13 +274,9 @@ function keyPress(evt) {
             player.doActionOnTile(); // gather resources, till tiles, etc
             break;
         case KEY_INVENTORY:
-            //Switch central menu to inventory tab
-            if (interface.tabMenu.activePane.name != "Inventory") {
-                interface.tabMenu.switchTabName("Inventory");
-                interface.tabMenu.isVisible = true;
-            } else {
-                interface.tabMenu.isVisible = !interface.tabMenu.isVisible;
-            }
+            //Switch central menu to inventory tab                  
+            interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
+            
             if (interface.tabMenu.isVisible) {
                 uiSelect.play();
             } else {

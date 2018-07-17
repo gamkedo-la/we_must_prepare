@@ -383,6 +383,16 @@ function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
         pane.isVisible = isVisible;
     };
 
+    this.setVisible = function (isVisible = false, defaultPane = 'Inventory') {
+        this.isVisible = isVisible;
+        for (let i = 0; i < this.panes.length; i++) {
+            if (this.panes[i].isVisible != null) {
+                this.panes[i].isVisible = isVisible;
+                this.switchTabIndex(1);
+            }
+        }
+    };
+
     this.switchTabIndex = function (index) {
         var i;
         var pane = null;
@@ -392,7 +402,7 @@ function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
                 this.activePane = pane;
                 this.activeIndex = index;
                 pane.isVisible = true;
-            } else {
+            } else {                                
                 pane.isVisible = false;
             }
         }
@@ -437,7 +447,7 @@ function ControlsInfoPane(name, controlsInfoText, topLeftX, topLeftY, bottomRigh
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
     this.name = name;
-    this.isVisible = true;
+    this.isVisible = false;
 
     this.buttons = [];
 
@@ -489,7 +499,7 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
     this.name = name;
-    this.isVisible = true;
+    this.isVisible = false;
 
     //formatting variables
 
@@ -592,7 +602,7 @@ function AudioPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.width = bottomRightX - topLeftX;
     this.height = bottomRightY - topLeftY;
     this.name = name;
-    this.isVisible = true;
+    this.isVisible = false;
 
     this.pieces = [mSlider = new AudioSliderInterface('Music Volume', this.x + 20, this.y + 20, this.x + this.width - 20, this.y + 40, musicVolumeManager),
     eSlider = new AudioSliderInterface('Environment Volume', this.x + 20, this.y + 50, this.x + this.width - 20, this.y + 70, enviSFXVolumeManager),
@@ -633,15 +643,13 @@ function HotbarPane() {
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.hotbar.selectedSlotIndex >= 0) {
-            player.hotbar.grabSlot(shiftKeyHeld);
-            return true;
-        }
-        return false;
-    };
-
-    this.leftMouseDblClick = function (x = mouseX, y = mouseY) {
-        if (player.hotbar.selectedSlotIndex >= 0 && player.hotbar.slots[player.hotbar.selectedSlotIndex].count > 0) {
-            player.hotbar.equippedSlotIndex = player.hotbar.selectedSlotIndex;
+            if (interface.inventoryPane.isVisible && interface.tabMenu.isVisible) {
+                player.hotbar.grabSlot(shiftKeyHeld);
+            }
+            else if (player.hotbar.slots[player.hotbar.selectedSlotIndex].count > 0) {
+                player.hotbar.equippedSlotIndex = player.hotbar.selectedSlotIndex;
+            }
+            
             return true;
         }
         return false;

@@ -49,7 +49,6 @@ function resetGame(loadSave) {
 }
 
 function startGameLoop() {
-
     uiSelect.play();
     isPaused = false;
     startAudioEngine();
@@ -58,7 +57,6 @@ function startGameLoop() {
 
     // start the game engine's main render loop
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
-
 }
 
 function gameLoop() {
@@ -67,8 +65,7 @@ function gameLoop() {
     drawEverything();
 
     audioEventManager.updateEvents();
-    mouseClickedThisFrame = false;
-    mouseDblClickedThisFrame = false;
+    mouseClickedThisFrame = false;    
     toolKeyPressedThisFrame = false;
 
     //TODO add update for menus which need it (e.g. buttonMenus like mainMenu)
