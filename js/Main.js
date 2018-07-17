@@ -11,6 +11,9 @@ var player = new Player();
 var timer = new Timer();
 var intro;
 
+var weather = new WeatherSystem(); // init weather system
+console.log("Weather system init complete.");
+
 var items;
 var interface;
 
@@ -176,7 +179,7 @@ function drawEverything() {
     endCameraPan();
     drawSkyGradient();
     birds.draw(camPanX, camPanY);
-    butterflies.draw(camPanX, camPanY);
+    butterflies.draw(camPanX, camPanY);    
     weather.draw(camPanX, camPanY);    
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();

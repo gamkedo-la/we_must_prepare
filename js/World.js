@@ -454,9 +454,11 @@ function drawGroundTiles() {
                 var plantAtX = tileLeftEdgeX + TILE_W / 2;
                 var plantAtY = tileTopEdgeY + TILE_H / 2;
 
-                var windDirection = -1;
-                var windMagnitude = 12;
-                var toRotate = windMagnitude * (Math.sin(performance.now() * 0.001) + windDirection) ;
+                var windDirection = weather.howWindy.direction.x;
+                var windStrength = weather.howWindy.magnitude * 15;
+                windStrength = windStrength > 0 ? windStrength : 5;                                               
+
+                var toRotate = windStrength * Math.sin(performance.now() * 0.003) + windDirection * windStrength;
                 var rotateDegrees = 0;
 
                 canvasContext.save();                
@@ -465,8 +467,8 @@ function drawGroundTiles() {
                 var plantOffsetY = 6;
                 for (let i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        if (plantTrackingArray[i].currentPlantStage > 0) {
-                            rotateDegrees += toRotate;
+                        if (plantTrackingArray[i].currentPlantStage > 0) {                                                        
+                            rotateDegrees = toRotate * Math.PI / 180;
                             plantAtY = tileTopEdgeY + TILE_H * 0.5 + plantOffsetY;
                             moveRootToPosY = -plantOffsetY * 4;
                             break;
@@ -475,7 +477,7 @@ function drawGroundTiles() {
                 }
 
                 canvasContext.translate(plantAtX, plantAtY);
-                canvasContext.rotate(rotateDegrees * Math.PI / 180);
+                canvasContext.rotate(rotateDegrees);
                 canvasContext.translate(0, moveRootToPosY);
 
                 canvasContext.drawImage(plantSpritesheet,
