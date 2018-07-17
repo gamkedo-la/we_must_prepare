@@ -210,24 +210,22 @@ function Player() {
         const ENERGY_BAR_W = canvas.width * 0.18;
         const ENERGY_BAR_H = 6;
 
-        var playerEnergyLeftLevel = (this.playerEnergyLevel / PLAYER_MAX_ENERGY) * ENERGY_BAR_W;
-        var playerEnergyCapacityLevel = (ENERGY_BAR_W * PLAYER_MAX_ENERGY) / PLAYER_MAX_ENERGY;
+        let playerEnergyLeftLevel = (this.playerEnergyLevel / PLAYER_MAX_ENERGY) * ENERGY_BAR_W;        
 
-        var barRectX = (canvas.width - ENERGY_BAR_W) * 0.5 + ENERGY_BAR_W * 0.5;
-        var barRectY = canvas.height - 18;
-        var barRectColor = this.playerEnergyLevel >= 70 ? "yellow" : this.playerEnergyLevel >= 40 ? "orange" : "red";
+        let barRectX = (canvas.width - ENERGY_BAR_W) * 0.5 + ENERGY_BAR_W * 0.5;
+        let barRectY = canvas.height - 18;
+        let barRectColor = this.playerEnergyLevel >= 70 ? "yellow" : this.playerEnergyLevel >= 40 ? "orange" : "red";
 
-        var energyLabelW = 14;
-        var energyLabelH = 10;
+        const ENERGY_LABEL_W = 14;        
 
-        colorRect(barRectX - playerEnergyLeftLevel - energyLabelW, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
-        colorRect(barRectX + energyLabelW, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);        
+        colorRect(barRectX - playerEnergyLeftLevel - ENERGY_LABEL_W, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
+        colorRect(barRectX + ENERGY_LABEL_W, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);        
 
-        var playerEnergyLevelRounded = Math.floor(this.playerEnergyLevel);
-        var energyText = this.playerEnergyLevel >= 100 ? playerEnergyLevelRounded : this.playerEnergyLevel >= 10 ? ' ' + playerEnergyLevelRounded : "  " + playerEnergyLevelRounded;
-        colorText(energyText, canvas.width * 0.5 - 8, canvas.height - 12, "yellow");
-
-        //canvasContext.font = oldFont;
+        const PLAYER_ENERGY_LEVEL_ROUNDED = Math.floor(this.playerEnergyLevel);
+        let energyText = this.playerEnergyLevel >= 100 ? PLAYER_ENERGY_LEVEL_ROUNDED :
+                            this.playerEnergyLevel >= 10 ? ' ' + PLAYER_ENERGY_LEVEL_ROUNDED :
+                                "  " + PLAYER_ENERGY_LEVEL_ROUNDED;
+        colorText(energyText, canvas.width * 0.5 - 8, canvas.height - 12, "yellow");        
     };
 
     this.draw = function () {
