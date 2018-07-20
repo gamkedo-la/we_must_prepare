@@ -52,7 +52,7 @@ function Player() {
 
     this.setupInventory = function () {
         this.inventory = new Inventory(30);
-        this.secondInventory = new Inventory(30);
+        // this.secondInventory = new Inventory(30);
         this.hotbar = new Inventory(5);
         this.hotbar.equippedSlotIndex = 0;
     };

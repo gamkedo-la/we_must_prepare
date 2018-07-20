@@ -33,7 +33,8 @@ function getSaveState() {
     plantTrackingArray: getPlantsSaveState(),
     weather: weather.getSaveState(),
     player: player.getSaveState(),
-    timer: timer.getSaveState()
+    timer: timer.getSaveState(),
+    building: buildingGetSaveState()
   };
   return saveState;
 }
@@ -102,4 +103,5 @@ function loadSaveState(saveState) {
   weather.loadSaveState(saveState.weather);
   player.loadSaveState(saveState.player);
   timer.loadSaveState(saveState.timer);
+  buildingLoadSaveState(saveState.building);
 }

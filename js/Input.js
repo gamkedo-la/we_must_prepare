@@ -150,6 +150,12 @@ function inputUpdate() {
                 if (selectedIndex != PLAYER_SELECTED) {
                     console.log('Clicked on a building!');
                     selectedIndex = indexUnderMouse;
+
+                    if(!interface.tabMenu.isVisible && roomGrid[indexUnderMouse] == TILE_SILO) {
+                        buildingStorage.active = true;
+                        interface.tabMenu.setVisible(true);
+                        uiSelect.play();
+                    }
                 }
             }
         }
@@ -279,6 +285,7 @@ function keyPress(evt) {
                 interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
             }
             
+            buildingStorage.active = false;
             if (interface.tabMenu.isVisible) {
                 uiSelect.play();
             } else {

@@ -2,6 +2,11 @@ const PERCENTAGE_REFUND = 0.5;
 
 var toBuild; //this is currently generated in Input.js
 
+// IMPORTANT!
+// Building inventory is currently implemented as global
+// When building construction and placement is implemented, then this should be moved to per building inventory instead
+var buildingStorage;
+
 function lumberToConsole() {
     console.log("farm clicked");
 }
@@ -62,3 +67,17 @@ function resourcesAvailableToBuild(defIndex) {
             buildingDefs[defIndex].Wood <= player.storageList[Resources.Wood].carried &&
             buildingDefs[defIndex].Stone <= player.storageList[Resources.Stone].carried);
 }
+
+// See buildingStorage definition regarding global inventory
+function buildingGetSaveState() {
+    var result = {};
+
+    result.storage = buildingStorage.getSaveState();
+
+    return result;
+}
+
+// See buildingStorage definition regarding global inventory
+function buildingLoadSaveState(saveState) {
+    buildingStorage.loadSaveState(saveState.storage);
+};

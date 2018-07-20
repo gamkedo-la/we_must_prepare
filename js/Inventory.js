@@ -25,6 +25,7 @@ function Inventory(size){
 
     this.getSaveState = function() {
         return {
+            active: this.active,
             selectedSlotIndex: this.selectedSlotIndex,
             equippedSlotIndex: this.equippedSlotIndex,
             numberOfSlots: this.numberOfSlots,
@@ -33,6 +34,7 @@ function Inventory(size){
     };
 
     this.loadSaveState = function(saveState) {
+        this.active = saveState.active;
         this.selectedSlotIndex = saveState.selectedSlotIndex;
         this.equippedSlotIndex = saveState.equippedSlotIndex;
         this.numberOfSlots = saveState.numberOfSlots;
@@ -122,17 +124,17 @@ function Inventory(size){
                     if (temp) {
                         player.hotbar = temp;
                     }
-                    else {
-                        player.hotbar = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.secondInventory, itemTypeInThisSlot);
-                    }
+                    // else {
+                    //     player.hotbar = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.secondInventory, itemTypeInThisSlot);
+                    // }
                 }
-                else if (this == player.inventory || this == player.secondInventory) {
-                    if (this == player.inventory) {
+                else if (this == player.inventory/* || this == player.secondInventory*/) {
+                    // if (this == player.inventory) {
                         player.inventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
-                    }
-                    else if (this == player.secondInventory) {
-                        player.secondInventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
-                    }
+                    // }
+                    // else if (this == player.secondInventory) {
+                    //     player.secondInventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
+                    // }
                 }
             }
 

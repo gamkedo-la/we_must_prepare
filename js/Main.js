@@ -126,6 +126,8 @@ function setupInventory() {
     player.inventory.add(items.seedEggplant.type, items.seedEggplant.count);
     player.inventory.add(items.seedTomato.type, items.seedTomato.count);
     player.inventory.add(items.seedPotato.type, items.seedPotato.count);
+
+    buildingStorage = new Inventory(30);
 }
 
 function moveEverything() {

@@ -521,8 +521,8 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         if (player.inventory.selectedSlotIndex >= 0) {
             player.inventory.grabSlot(shiftKeyHeld);
             return true;
-        } else if (player.secondInventory.active && player.secondInventory.selectedSlotIndex >= 0) {
-            player.secondInventory.grabSlot(shiftKeyHeld);
+        } else if (buildingStorage.active && buildingStorage.selectedSlotIndex >= 0) {
+            buildingStorage.grabSlot(shiftKeyHeld);
             return true;
         }
         return false;
@@ -532,8 +532,8 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         if (player.inventory.selectedSlotIndex >= 0) {
             player.inventory.altGrabSlot();
             return true;
-        } else if (player.secondInventory.active && player.secondInventory.selectedSlotIndex >= 0) {
-            player.secondInventory.altGrabSlot();
+        } else if (buildingStorage.active && buildingStorage.selectedSlotIndex >= 0) {
+            buildingStorage.altGrabSlot();
             return true;
         }
         return false;
@@ -543,14 +543,14 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         drawInterfacePaneBackground(this);
 
         var itemX, itemY;
-        if (player.secondInventory.active) {
+        if (buildingStorage.active) {
             var inventoryX = this.firstInventoryX;
             var inventoryY = this.firstInventoryY;
         } else {
             var inventoryX = this.inventoryX;
             var inventoryY = this.inventoryY;
         }
-        player.secondInventory.selectedSlotIndex = -1;
+        buildingStorage.selectedSlotIndex = -1;
         player.inventory.selectedSlotIndex = -1;
 
         //draw regular slots
@@ -563,15 +563,15 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.inventory.slots[i]);
         }        
 
-        if (player.secondInventory.active) {
-            for (var i = 0; i < player.secondInventory.numberOfSlots; i++) {
+        if (buildingStorage.active) {
+            for (var i = 0; i < buildingStorage.numberOfSlots; i++) {
                 //draw as regular slot
                 itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
                 itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
 
-                inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(player.secondInventory, itemX, itemY, i);
-                inventorySlotInterfaceHelper.drawInventorySlotBackground(player.secondInventory, itemX, itemY, i);
-                inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.secondInventory.slots[i]);                
+                inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(buildingStorage, itemX, itemY, i);
+                inventorySlotInterfaceHelper.drawInventorySlotBackground(buildingStorage, itemX, itemY, i);
+                inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, buildingStorage.slots[i]);                
             }
         }
 
@@ -584,12 +584,12 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         }
 
         // draw tooltip for each selected slot in second inventory
-        if (player.secondInventory.active) {
-            for (var i = 0; i < player.secondInventory.numberOfSlots; i++) {
+        if (buildingStorage.active) {
+            for (var i = 0; i < buildingStorage.numberOfSlots; i++) {
                 //draw as regular slot
                 itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
                 itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
-                inventorySlotInterfaceHelper.drawToolTips(player.secondInventory, itemX, itemY, i);
+                inventorySlotInterfaceHelper.drawToolTips(buildingStorage, itemX, itemY, i);
             }
         }
     };
