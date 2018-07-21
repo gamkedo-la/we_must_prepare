@@ -28,9 +28,9 @@ let ItemCode = Object.freeze({
 function Items() {
     this.nothing = new Item("Nothing", ItemCode.NOTHING);
 
-    this.metal = new Item("Metal", ItemCode.METAL);
-    this.stone = new Item("Stone", ItemCode.STONE);
-    this.wood = new Item("Wood", ItemCode.WOOD);
+    this.metal = new Item("Metal", ItemCode.METAL, 1, 36);
+    this.stone = new Item("Stone", ItemCode.STONE, 1, 36);
+    this.wood = new Item("Wood", ItemCode.WOOD, 1, 36);
 
     this.axe = new Axe("Axe", 5);
     this.watercan = new Watercan("Watercan", 5);
