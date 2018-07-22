@@ -478,6 +478,10 @@ function Player() {
                     sx = 5 * sw;
                     sy = 1 * sh;
                     break;
+                case items.seedChili.type:
+                    sx = 7 * sw;
+                    sy = 1 * sh;
+                    break;
                 default:
                     return;  // nothing equippable in current slot to hold (stops robokedo from holding a grey square)
             }
@@ -565,6 +569,7 @@ function Player() {
                 case items.seedTomato.type:
                 case items.seedEggplant.type:
                 case items.seedPotato.type:
+                case items.seedChili.type:
                     if (currentTile == TILE_TILLED || currentTile == TILE_TILLED_WATERED) {
                         if (equippedItemType == items.seedCorn.type) {
                             equippedItem = isAction ? items.seedCorn : equippedItem;
@@ -578,6 +583,9 @@ function Player() {
                         else if (equippedItemType == items.seedPotato.type) {
                             equippedItem = isAction ? items.seedPotato : equippedItem;
                         }
+                        else if (equippedItemType == items.seedChili.type) {
+                            equippedItem = isAction ? items.seedChili : equippedItem;
+                        }
                         // tilled tile ALWAYS shows outline with a suitable equipment equipped
                         this.outlineTargetTile = true;
                     }
@@ -590,6 +598,7 @@ function Player() {
                 case TILE_TOMATO_RIPE:
                 case TILE_EGGPLANT_RIPE:
                 case TILE_POTATO_RIPE:
+                case TILE_CHILI_RIPE:
                     if (isAction) {
                         for (var i = 0; i < plantTrackingArray.length; i++) {
                             if (plantTrackingArray[i].mapIndex == tileIndex) {

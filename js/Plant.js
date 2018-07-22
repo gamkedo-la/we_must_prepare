@@ -40,6 +40,15 @@ var Plants = [
         regrows: true,
         regrowStages: 6
     },
+    {
+        tileTypeSeed: TILE_CHILI_SEED,
+        tileTypeStages: [TILE_CHILI_SEEDLING, TILE_CHILI_MEDIUM, TILE_CHILI_FULLY_GROWN, TILE_CHILI_RIPE, TILE_CHILI_HARVESTED],
+        daysPerStage: 2,
+        daysCanLiveWithoutWater: 3,
+        ripeStage: 4,
+        regrows: true,
+        regrowStages: 6
+    },
 ];
 
 function getPlantsSaveState() {
@@ -171,6 +180,13 @@ function Plant(mapIndex, plantTypeSeed) {
                 var seeds = Math.floor(Math.random() * 3);
                 if (seeds > 0) {
                     player.inventory.add(items.seedPotato.type, seeds);
+                }
+                break;
+            case TILE_CHILI_SEED:
+                player.inventory.add(items.cropChili.type, 5);
+                var seeds = Math.floor(Math.random() * 3);
+                if (seeds > 0) {
+                    player.inventory.add(items.seedChili.type, seeds);
                 }
                 break;
         }
