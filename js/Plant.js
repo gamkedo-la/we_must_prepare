@@ -132,48 +132,64 @@ function Plant(mapIndex, plantTypeSeed) {
     this.cachePlantFacts();
 
     this.waterPlant = function () {
-        console.log("Plant has been watered!");
+        // console.log("Plant has been watered!");
         this.isWatered = true;
         this.daysWithoutWater = 0;
     };
 
     this.harvestPlant = function () {
         if (this.currentPlantStage != this.plantFacts.ripeStage || this.isHarvested == true) {
-            console.log("can't harvest this plant, plant stage is " + this.currentPlantStage);
+            // console.log("can't harvest this plant, plant stage is " + this.currentPlantStage);
             return;
         }
-        console.log("harvesting plant");
+        // console.log("harvesting plant");
         // give fruit / seeds here
         switch (this.plantTypeSeed) {
             case TILE_CORN_SEED:
                 player.inventory.add(items.cropCorn.type, 5);
+                var seeds = Math.floor(Math.random() * 3);
+                if (seeds > 0) {
+                    player.inventory.add(items.seedCorn.type, seeds);
+                }
                 break;
             case TILE_TOMATO_SEED:
                 player.inventory.add(items.cropTomato.type, 5);
+                var seeds = Math.floor(Math.random() * 3);
+                if (seeds > 0) {
+                    player.inventory.add(items.seedTomato.type, seeds);
+                }
                 break;
             case TILE_EGGPLANT_SEED:
                 player.inventory.add(items.cropEggplant.type, 4);
+                var seeds = Math.floor(Math.random() * 3);
+                if (seeds > 0) {
+                    player.inventory.add(items.seedEggplant.type, seeds);
+                }
                 break;
             case TILE_POTATO_SEED:
                 player.inventory.add(items.cropPotato.type, 4);
+                var seeds = Math.floor(Math.random() * 3);
+                if (seeds > 0) {
+                    player.inventory.add(items.seedPotato.type, seeds);
+                }
                 break;
         }
 
         if (this.plantFacts.regrows == false) {
             this.plantRemoved();
         } else {
-            console.log("hiiiii plant stage is " + this.currentPlantStage);
+
             this.isHarvested = true;
             roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
         }
     };
 
     this.dayChanged = function () {
-        console.log("Day is changing!");
-        console.log("length is " + this.plantFacts.tileTypeStages.length);
+        // console.log("Day is changing!");
+        // console.log("length is " + this.plantFacts.tileTypeStages.length);
         if ((this.currentPlantStage >= this.plantFacts.tileTypeStages.length && this.isHarvested) ||
             (this.currentPlantStage == this.plantFacts.ripeStage && this.isHarvested == false)) {
-            console.log("Plant needs no more water at " + this.mapIndex);
+            // console.log("Plant needs no more water at " + this.mapIndex);
             if (this.isWatered == true) {
                 this.isWatered = false;
             }
@@ -189,7 +205,7 @@ function Plant(mapIndex, plantTypeSeed) {
         if (this.daysWithoutWater == 0) {
             this.daysGrownPerStage++;
             if (this.daysGrownPerStage >= this.plantFacts.daysPerStage || this.daysGrownPerStage >= this.plantFacts.regrowStages) {
-                console.log("Plant is a big kid now at " + this.mapIndex);
+                // console.log("Plant is a big kid now at " + this.mapIndex);
                 roomGrid[this.mapIndex] = this.plantFacts.tileTypeStages[this.currentPlantStage];
                 if (this.isHarvested == false) {
                     this.currentPlantStage++; // incrementing after assignment because seed is not in the array
