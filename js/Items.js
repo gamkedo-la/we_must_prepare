@@ -49,7 +49,7 @@ function Items() {
     this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO, 3, 44);
     this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3, 52);
     this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4, 38); 
-    this.cropChili = new Item("Chili", ItemCode.CROP_CHILI, 5, 35);
+    this.cropChili = new Item("Chili", ItemCode.CROP_CHILI, 6, 35);
 }
 
 // ----------------
