@@ -406,17 +406,15 @@ function isTileTypeBuilding(tileType) {
     return false;
 }
 
-function drawGroundTiles() {
+function drawGroundTiles() {   
     var tileIndex = 0;
     var tileLeftEdgeX = 0;
     var tileTopEdgeY = 0;
 
-    for (var eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
-
+    for (let eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
         tileLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
 
         for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
-
             var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
 
             if (isTileTypeTransparent(tileTypeHere)) {
@@ -452,6 +450,36 @@ function drawGroundTiles() {
                     }
                 }
             }
+            if ((tileTypeHere != TILE_WOOD_SRC && isTileTypeBuilding(tileTypeHere) == false) || debug3DTiles) {
+                canvasContext.drawImage(tileSheet,
+                    tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
+                    TILE_W, TILE_H, // get full tile size from source
+                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
+                    TILE_W, TILE_H); // draw full full tile size for destination
+                if (tileIndex == selectedIndex) {
+                    canvasContext.drawImage(buildingSelection, tileLeftEdgeX, tileTopEdgeY);
+                }
+            }
+             
+            tileIndex++;
+            tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
+        } // end of for eachCol
+
+        tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
+    } // end of for eachRow    
+
+    // Reset variables for the next for-loop
+    tileIndex = 0;
+    tileLeftEdgeX = 0;
+    tileTopEdgeY = 0;
+
+    // Separate for-loop so that plants are not overlapped by other tiles
+    for (let eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
+        tileLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
+
+        for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
+            var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index            
+
             if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
                 var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
                 var sheetStage = sheetIndex % 6;
@@ -462,18 +490,18 @@ function drawGroundTiles() {
 
                 var windDirection = weather.howWindy.direction.x;
                 var windStrength = weather.howWindy.magnitude * 15;
-                windStrength = windStrength > 0 ? windStrength : 5;                                               
+                windStrength = windStrength > 0 ? windStrength : 5;
 
                 var toRotate = windStrength * Math.sin(performance.now() * 0.003) + windDirection * windStrength;
                 var rotateDegrees = 0;
 
-                canvasContext.save();                
+                canvasContext.save();
 
                 var moveRootToPosY = 0;
                 var plantOffsetY = 6;
                 for (let i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        if (plantTrackingArray[i].currentPlantStage > 0) {                                                        
+                        if (plantTrackingArray[i].currentPlantStage > 0) {
                             rotateDegrees = toRotate * Math.PI / 180;
                             plantAtY = tileTopEdgeY + TILE_H * 0.5 + plantOffsetY;
                             moveRootToPosY = -plantOffsetY * 4;
@@ -493,25 +521,15 @@ function drawGroundTiles() {
                     TILE_W, TILE_H); // draw full full tile size for destination                    
 
                 canvasContext.restore();
-
-            } else if ((tileTypeHere != TILE_WOOD_SRC && isTileTypeBuilding(tileTypeHere) == false) || debug3DTiles) {
-                canvasContext.drawImage(tileSheet,
-                    tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
-                    TILE_W, TILE_H, // get full tile size from source
-                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
-                    TILE_W, TILE_H); // draw full full tile size for destination
-                if (tileIndex == selectedIndex) {
-                    canvasContext.drawImage(buildingSelection, tileLeftEdgeX, tileTopEdgeY);
-                }
             }
-            tileIndex++; // increment which index we're going to next check for in the room
-            tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
 
+            tileIndex++;
+            tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
         } // end of for eachCol
 
         tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
+    }
 
-    } // end of for eachRow    
 } // end of drawGroundTiles()
 
 function draw3DTiles() {
