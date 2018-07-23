@@ -383,12 +383,12 @@ function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
         pane.isVisible = isVisible;
     };
 
-    this.setVisible = function (isVisible = false, defaultPane = 'Inventory') {
+    this.setVisible = function (isVisible = false, defaultPane = 2) {
         this.isVisible = isVisible;
         for (let i = 0; i < this.panes.length; i++) {
             if (this.panes[i].isVisible != null) {
                 this.panes[i].isVisible = isVisible;
-                this.switchTabIndex(1);
+                this.switchTabIndex(defaultPane);
             }
         }
     };
