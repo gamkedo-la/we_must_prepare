@@ -177,7 +177,8 @@ function InventorySlotInterfaceHelper() {
     this.isAudioInterfaceInventorySelectPlaying = false;
     this.mouseHoveredXInventorySlot = mouseX;
     this.mouseHoveredYInventorySlot = mouseY;
-    this.itemSpriteSheet = new SpriteSheet(itemSheet, 50, 50);// TODO maybe put the image size somewhere else    
+    this.itemSpriteSheet = new SpriteSheet(itemSheet, 50, 50);// TODO maybe put the image size somewhere else
+    this.selectedSlotSprite = new Sprite(targetTilePic, 64, 64);
 
     this.drawInventorySlot = function (itemX, itemY, slot, spritesPerRow) {
         if (typeof spritesPerRow === "undefined") {
@@ -230,8 +231,13 @@ function InventorySlotInterfaceHelper() {
         }
     };
 
-    this.drawInventorySlotBackground = function (inventory, itemX, itemY, i) {        
-        this.itemSpriteSheet.draw(itemX, itemY, 0, 0);            
+    this.drawInventorySlotBackground = function (inventory, itemX, itemY, i) {
+        if (inventory.selectedSlotIndex === i) {
+            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+            this.selectedSlotSprite.draw(itemX, itemY);
+        } else {
+            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+        }
     };
 
     this.drawToolTips = function (inventory, itemX, itemY, i) {
