@@ -10,7 +10,7 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
     this.buttons = [];
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
+        // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
 
         if (this.isVisible && isInPane(this, x, y)) {
             //checks for *first* button in array that mouse can click
@@ -20,7 +20,7 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
                     console.log("button name is : " + button.name);
                 }
             }
-            console.log("main menu is visible and mouse is in this pane");
+            // console.log("main menu is visible and mouse is in this pane");
             return true;
         }
         return false;
@@ -143,7 +143,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     };
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
+        // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
 
         if (this.isVisible && isInPane(this, x, y)) {
             //checks for *first* button in array that mouse can click
@@ -230,7 +230,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     this.generateButtons();
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
+        // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
 
         if (this.isVisible && isInPane(this, x, y)) {
             //checks for *first* button in array that mouse can click

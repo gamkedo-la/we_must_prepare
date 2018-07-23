@@ -590,6 +590,11 @@ function draw3DTiles() {
     });
     for (var j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
         allObjectsToDrawDepthSorted[j].draw();
+        if (allObjectsToDrawDepthSorted[j].useImg === siloImage) {
+            var storedPercentage = buildingStorage.preparednessLevel();
+            colorRect(allObjectsToDrawDepthSorted[j].x - 51, allObjectsToDrawDepthSorted[j].y - 28, 2, -153, 'red');
+            colorRect(allObjectsToDrawDepthSorted[j].x - 51, allObjectsToDrawDepthSorted[j].y - 28, 2, -153 * storedPercentage, 'lime');
+        }
     }
 
     canvasContext.globalAlpha = 0.2; // make the following mostly transparent:

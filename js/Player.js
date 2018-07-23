@@ -194,18 +194,18 @@ function Player() {
         canvasContext.font = '8px Arial';
 
         // display the player inventory carried / max totals
-        var textLineY = 35, textLineSkip = 11, textLineX = Math.round(canvas.width / 2) + 24;
-        var i = 1;
-        var str = "";
-        for (var key in this.bucketList) {
-            str = (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0); //+ '/' + this.storageList[key].max
-            canvasContext.fillStyle = 'black'; // shadow
-            canvasContext.fillText(str, textLineX, textLineY + 1);
-            canvasContext.fillStyle = 'brown';
-            canvasContext.fillText(str, textLineX, textLineY);
-            textLineY += textLineSkip;
-            i++;
-        }   
+        // var textLineY = 35, textLineSkip = 11, textLineX = Math.round(canvas.width / 2) + 24;
+        // var i = 1;
+        // var str = "";
+        // for (var key in this.bucketList) {
+        //     str = (typeof this.storageList[key] !== "undefined" ? this.storageList[key].carried : 0); //+ '/' + this.storageList[key].max
+        //     canvasContext.fillStyle = 'black'; // shadow
+        //     canvasContext.fillText(str, textLineX, textLineY + 1);
+        //     canvasContext.fillStyle = 'brown';
+        //     canvasContext.fillText(str, textLineX, textLineY);
+        //     textLineY += textLineSkip;
+        //     i++;
+        // }
 
         const ENERGY_BAR_W = canvas.width * 0.18;
         const ENERGY_BAR_H = 6;
