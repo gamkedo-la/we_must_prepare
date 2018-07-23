@@ -111,13 +111,17 @@ function Interface() {
     this.controlsInfoPane = new ControlsInfoPane('Controls', CONTROLS_INFO_TEXT, canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.controlsInfoPane);
 
+    // Audio Settings pane instance as a tab in the in-game Menu pane instance
+    this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.tabMenu.push(this.audioPane);
+
     // Inventory pane instance as a tab in the in-game Menu pane instance
     this.inventoryPane = new InventoryPane('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     this.tabMenu.push(this.inventoryPane);
 
-    // Audio Settings pane instance as a tab in the in-game Menu pane instance
-    this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    this.tabMenu.push(this.audioPane);
+    // Winning Info pane instance as a tab in the in-game Menu pane instance
+    this.winningInfoPane = new WinningPane('Objective', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.tabMenu.push(this.winningInfoPane);
 
     // Tab-switching code for the in-game Menu pane instance
     this.tabMenu.switchTabIndex(0);

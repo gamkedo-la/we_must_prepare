@@ -707,22 +707,68 @@ function HotbarPane() {
     };
 }
 
-// function CreditPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
-//    this.x = topLeftX;
-//    this.y = topLeftY;
-//    this.width = bottomRightX - topLeftX;
-//    this.height = bottomRightY - topLeftY;
-//    this.name = name;
-//    this.isVisible = visible;
-//
-//    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-//        return false;
-//    };
-//
-//    this.draw = function () {
-//        drawInterfacePaneBackground(this);
-//    };
-// }
+function WinningPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = bottomRightX - topLeftX;
+    this.height = bottomRightY - topLeftY;
+    this.name = name;
+    this.isVisible = false;
+
+    this.buttons = [];
+
+    this.padding = 20;
+    this.columnPadding = 40;
+    this.lineHeight = 15;
+    this.textColor = 'black';
+
+    this.textLine =[
+    'The people will need the following items in the silo before they emerge:',
+    '3 Chili Crops',
+    '3 Corn Crops',
+    '3 Eggplant Crops',
+    '3 Potato Crops',
+    '3 Tomato Crops',
+    '3 Metal Resources',
+    '3 Wood Resources',
+    '3 Stone Resources',
+    ];
+
+
+    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        return false;
+    };
+
+    this.draw = function () {
+        drawInterfacePaneBackground(this);
+
+        var lines = this.textLine.length;
+        var columnWidth = 0;
+        var textX = this.x + this.padding;
+        var startTextY = this.y + this.padding;
+        var textY = startTextY;
+        var i;
+        for (i = 0; i < lines; i++) {
+            // check if at bottom of pane; If so start new column
+            if (textY > this.y + this.height - this.padding) {
+                textX += columnWidth + this.columnPadding;
+                columnWidth = 0;
+                textY = startTextY;
+            }
+            var line = this.textLine[i];
+            colorText(line, textX, textY, this.textColor);
+            var textWidth = canvasContext.measureText(line).width;
+            if (textWidth > columnWidth) {
+                columnWidth = textWidth;
+            }
+            textY += this.lineHeight;
+        }
+    };
+
+    this.push = function (button) {
+        this.buttons.push(button);
+    };
+}
 
 // Pane Example??
 //function Pane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
