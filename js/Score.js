@@ -7,7 +7,7 @@ var itemScores = [
     {itemIndex: ItemCode.CROP_TOMATO, requiredAmount: 3.0},
     {itemIndex: ItemCode.METAL, requiredAmount: 3.0},
     {itemIndex: ItemCode.WOOD, requiredAmount: 3.0},
-    {itemIndex: ItemCode.STONE, requiredAmount: 3.0},
+    {itemIndex: ItemCode.STONE, requiredAmount: 10.0},
     ];
 
 
@@ -33,4 +33,13 @@ var createFinalResources = function () {
     for (var i = 0; i < itemScores.length; i++) {
         player.inventory.add(items.itemCodeToObj[itemScores[i].itemIndex].type, itemScores[i].requiredAmount);
     }
+};
+
+
+var getWinConditions = function () {
+    var conditions = ['The people will need the following items in the silo before they emerge:'];
+    for (var i = 0; i < itemScores.length; i++) {
+        conditions.push("" + Math.floor(itemScores[i].requiredAmount) + " " + items.itemCodeToObj[itemScores[i].itemIndex].name);
+    }
+    return conditions;
 };

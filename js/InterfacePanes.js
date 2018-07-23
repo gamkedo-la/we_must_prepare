@@ -722,17 +722,7 @@ function WinningPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.lineHeight = 15;
     this.textColor = 'black';
 
-    this.textLine =[
-    'The people will need the following items in the silo before they emerge:',
-    '3 Chili Crops',
-    '3 Corn Crops',
-    '3 Eggplant Crops',
-    '3 Potato Crops',
-    '3 Tomato Crops',
-    '3 Metal Resources',
-    '3 Wood Resources',
-    '3 Stone Resources',
-    ];
+    this.textLine = getWinConditions();
 
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
