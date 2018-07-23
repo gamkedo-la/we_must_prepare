@@ -205,7 +205,7 @@ function InventorySlotInterfaceHelper() {
                     break;
             }
 
-            this.itemSpriteSheet.draw(itemX, offsetY, col, row);
+            this.itemSpriteSheet.draw(itemX, offsetY, col, row);            
 
             switch (slot.item) {
                 case items.watercan.type:
@@ -232,11 +232,11 @@ function InventorySlotInterfaceHelper() {
     };
 
     this.drawInventorySlotBackground = function (inventory, itemX, itemY, i) {
-        if (inventory.selectedSlotIndex === i) {
-            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+        if (inventory.selectedSlotIndex === i) {            
+            colorRect(itemX - 25, itemY - 25, 50, 50, 'grey', 4);
             this.selectedSlotSprite.draw(itemX, itemY);
         } else {
-            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+            colorRect(itemX - 25, itemY - 25, 50, 50, 'grey', 4);
         }
     };
 
