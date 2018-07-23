@@ -355,14 +355,14 @@ function isTileTypeWalkable(tileType) {
     return false;
 }
 
-function isTileTypeFood(checkTileType) {
+function isTileTypeCrop(checkTileType) {
     if (checkTileType >= START_TILE_WALKABLE_GROWTH_RANGE) {
         return true;
     }
     return false;
 }
 
-function isTileTypePlant(checkTileType) {
+function isTileTypeFoliage(checkTileType) {
     switch (checkTileType) {
         case TILE_FLOWER_01:
         case TILE_FLOWER_02:
@@ -415,41 +415,29 @@ function drawGroundTiles() {
         tileLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
 
         for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
-            var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index
+            let tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index           
+            
+            let tileToDraw = TILE_GROUND;
 
             if (isTileTypeTransparent(tileTypeHere)) {
-                canvasContext.drawImage(tileSheet,
-                    TILE_GROUND * TILE_W, 0, // top-left corner of tile art, multiple of tile width
-                    TILE_W, TILE_H, // get full tile size from source
-                    tileLeftEdgeX, tileTopEdgeY, // x,y top-left corner for image destination
-                    TILE_W, TILE_H); // draw full tile size for destination
+                tileToDraw = TILE_GROUND;
             }
-            if (isTileTypePlant(tileTypeHere)) {
-                canvasContext.drawImage(tileSheet,
-                    TILE_GRASS * TILE_W, 0,
-                    TILE_W, TILE_H,
-                    tileLeftEdgeX, tileTopEdgeY,
-                    TILE_W, TILE_H);
+            if (isTileTypeFoliage(tileTypeHere)) {
+                tileToDraw = TILE_GRASS;
             }
-            if (isTileTypeFood(tileTypeHere)) {
+            if (isTileTypeCrop(tileTypeHere)) {
                 for (var i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        if (plantTrackingArray[i].isWatered == true) {
-                            canvasContext.drawImage(tileSheet,
-                                TILE_TILLED_WATERED * TILE_W, 0,
-                                TILE_W, TILE_H,
-                                tileLeftEdgeX, tileTopEdgeY,
-                                TILE_W, TILE_H);
-                        } else {
-                            canvasContext.drawImage(tileSheet,
-                                TILE_TILLED * TILE_W, 0,
-                                TILE_W, TILE_H,
-                                tileLeftEdgeX, tileTopEdgeY,
-                                TILE_W, TILE_H);
-                        }
+                    if (plantTrackingArray[i].mapIndex == tileIndex) {                        
+                        tileToDraw = plantTrackingArray[i].isWatered ? TILE_TILLED_WATERED : TILE_TILLED;                        
                     }
                 }
             }
+            canvasContext.drawImage(tileSheet,
+                tileToDraw * TILE_W, 0,
+                TILE_W, TILE_H,
+                tileLeftEdgeX, tileTopEdgeY,
+                TILE_W, TILE_H);
+
             if ((tileTypeHere != TILE_WOOD_SRC && isTileTypeBuilding(tileTypeHere) == false) || debug3DTiles) {
                 canvasContext.drawImage(tileSheet,
                     tileTypeHere * TILE_W, 0, // top-left corner of tile art, multiple of tile width
@@ -474,63 +462,67 @@ function drawGroundTiles() {
     tileTopEdgeY = 0;
 
     // Separate for-loop so that plants are not overlapped by other tiles
-    for (let eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // deal with one row at a time
-        tileLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
+    for (let eachRow = 0; eachRow < ROOM_ROWS; eachRow++) { // Deal with one row at a time
+        tileLeftEdgeX = 0; // Resetting horizontal draw position for tiles to left edge
 
-        for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
-            var tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index            
+        for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // Left to right in each row
+            var tileTypeHere = roomGrid[tileIndex]; // Getting the tile code for this index            
 
             if (tileTypeHere >= START_TILE_WALKABLE_GROWTH_RANGE) {
                 var sheetIndex = tileTypeHere - START_TILE_WALKABLE_GROWTH_RANGE;
                 var sheetStage = sheetIndex % 6;
                 var sheetType = Math.floor(sheetIndex / 6);
 
-                var plantAtX = tileLeftEdgeX + TILE_W / 2;
-                var plantAtY = tileTopEdgeY + TILE_H / 2;
+                var cropAtX = tileLeftEdgeX + TILE_W * 0.5;  // Center of tile width
+                var cropAtY = tileTopEdgeY + TILE_H * 0.5;   // Center of tile height
+                var cropOffsetY = -6;                        // Offset upwards from center of tile 
 
+                const NO_WIND_ROTATE_FACTOR = 0.1    // So that plant does not sit still even if there is no wind (would look unlively)
+                const WIND_ROTATE_LIMIT_FACTOR = 0.2 // Only rotate 0.2 of wind magnitude to avoid crop rotating in almost full circle
                 var windDirection = weather.howWindy.direction.x;
-                var windStrength = weather.howWindy.magnitude * 15;
-                windStrength = windStrength > 0 ? windStrength : 5;
+                var windStrength = weather.howWindy.magnitude;
+                windStrength = (windStrength > 0 ? windStrength : NO_WIND_ROTATE_FACTOR) * WIND_ROTATE_LIMIT_FACTOR;
 
-                var toRotate = windStrength * Math.sin(performance.now() * 0.003) + windDirection * windStrength;
-                var rotateDegrees = 0;
+                // Rotation in radians
+                var rotateTarget = windStrength * Math.sin(performance.now() * 0.004) + windDirection * windStrength; 
+                var rotateTo = 0;
 
                 canvasContext.save();
 
-                var moveRootToPosY = 0;
-                var plantOffsetY = 6;
+                // Rotate and offset only if crop grew past the seed stage
+                var pivotPosY = 0;                
                 for (let i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
-                        if (plantTrackingArray[i].currentPlantStage > 0) {
-                            rotateDegrees = toRotate * Math.PI / 180;
-                            plantAtY = tileTopEdgeY + TILE_H * 0.5 + plantOffsetY;
-                            moveRootToPosY = -plantOffsetY * 4;
+                        if (plantTrackingArray[i].currentPlantStage > 0) {   // If past seed stage
+                            rotateTo = rotateTarget;                                // Rotation in radians
+                            cropAtY = tileTopEdgeY + TILE_H * 0.5 - cropOffsetY;    // Adjust offset of crop sprite
+                            pivotPosY = cropOffsetY * 4;                            // Set rotation pivot
                             break;
                         }
                     }
                 }
-
-                canvasContext.translate(plantAtX, plantAtY);
-                canvasContext.rotate(rotateDegrees);
-                canvasContext.translate(0, moveRootToPosY);
+                
+                canvasContext.translate(cropAtX, cropAtY);
+                canvasContext.rotate(rotateTo); // Rotation in radians
+                canvasContext.translate(0, pivotPosY);
 
                 canvasContext.drawImage(plantSpritesheet,
-                    sheetStage * TILE_W, sheetType * TILE_H, // top-left corner of tile art, multiple of tile width
-                    TILE_W, TILE_H, // get full tile size from source
-                    -TILE_W / 2, -TILE_H / 2, // x,y top-left corner for image destination
-                    TILE_W, TILE_H); // draw full full tile size for destination                    
+                    sheetStage * TILE_W, sheetType * TILE_H,    // Top-left corner of tile art, multiple of tile width
+                    TILE_W, TILE_H,                             // Get full tile size from source
+                    -TILE_W / 2, -TILE_H / 2,                   // Top-left corner for image destination
+                    TILE_W, TILE_H);                            // Draw full tile size for destination                    
 
                 canvasContext.restore();
             }
 
             tileIndex++;
-            tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
-        } // end of for eachCol
+            tileLeftEdgeX += TILE_W; // Jump horizontal draw position to next tile over by tile width
+        } // End of for eachCol
 
-        tileTopEdgeY += TILE_H; // jump horizontal draw position down by one full tile height
+        tileTopEdgeY += TILE_H; // Jump horizontal draw position down by one full tile height
     }
 
-} // end of drawGroundTiles()
+} // End of drawGroundTiles()
 
 function draw3DTiles() {
     var tileIndex = 0;
@@ -614,4 +606,4 @@ function draw3DTiles() {
     canvasContext.globalAlpha = 1;
 
 
-} // end of draw3DTiles()
+} // End of draw3DTiles()
