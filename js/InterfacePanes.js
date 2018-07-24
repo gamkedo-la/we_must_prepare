@@ -66,7 +66,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         this.buttons.push(button);
     };
 
-    this.generateButtons = function() {
+    this.generateButtons = function () {
         var topY = (canvas.height * 0.5) - 70;
         var gapY = 10;
         var buttonHeight = 40;
@@ -74,7 +74,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         var buttonNum = 0;
 
         var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        backButton.action = function() {
+        backButton.action = function () {
             interface.loadGameMenu.isVisible = false;
             interface.mainMenu.isVisible = true;
         };
@@ -82,11 +82,11 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 
         if (hasAutoSaveState()) {
             var autoLoadButton = new Button(this, "Load Auto-Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-            autoLoadButton.action = function() {
-            
+            autoLoadButton.action = function () {
+
                 // This is different for each slot
                 autoLoad();
-                    
+
                 this.parentInterface.startTheGame();
             };
         }
@@ -94,10 +94,10 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 
         if (hasManualSaveState(1)) {
             var loadButton = new Button(this, "Load Slot 1", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-            loadButton.action = function() {
+            loadButton.action = function () {
                 // This is different for each slot
                 load(1);
-                    
+
                 this.parentInterface.startTheGame();
             };
         }
@@ -105,10 +105,10 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 
         if (hasManualSaveState(2)) {
             var loadButton = new Button(this, "Load Slot 2", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-            loadButton.action = function() {
+            loadButton.action = function () {
                 // This is different for each slot
                 load(2);
-                    
+
                 this.parentInterface.startTheGame();
             };
         }
@@ -116,7 +116,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 
         if (hasManualSaveState(3)) {
             var loadButton = new Button(this, "Load Slot 3", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-            loadButton.action = function() {
+            loadButton.action = function () {
                 // This is different for each slot
                 load(3);
 
@@ -127,11 +127,11 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     };
     this.generateButtons();
 
-    this.startTheGame = function() {
+    this.startTheGame = function () {
         interface.loadGameMenu.isVisible = false;
         // HACK: Not sure why the main menu is shown here
         interface.mainMenu.isVisible = false;
-                
+
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
         inGame_music_master.play();
         musicPastMainMenu = true;
@@ -159,7 +159,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         return false;
     };
 
-    this.draw = function() {
+    this.draw = function () {
         if (this.isVisible) {
             drawInterfacePaneBackground(this);
 
@@ -192,7 +192,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         this.buttons.push(button);
     };
 
-    this.generateButtons = function() {
+    this.generateButtons = function () {
         var topY = (canvas.height * 0.5) - 70;
         var gapY = 10;
         var buttonHeight = 40;
@@ -200,28 +200,28 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         var buttonNum = 0;
 
         var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        backButton.action = function() {
+        backButton.action = function () {
             interface.saveGameMenu.isVisible = false;
             interface.mainMenu.isVisible = true;
         };
         buttonNum++;
 
         var saveButton1 = new Button(this, "Save Slot 1", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        saveButton1.action = function() {
+        saveButton1.action = function () {
             // This is different for each slot
             save(1);
         };
         buttonNum++;
 
         var saveButton2 = new Button(this, "Save Slot 2", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        saveButton2.action = function() {
+        saveButton2.action = function () {
             // This is different for each slot
             save(2);
         };
         buttonNum++;
 
         var saveButton3 = new Button(this, "Save Slot 3", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        saveButton3.action = function() {
+        saveButton3.action = function () {
             // This is different for each slot
             save(3);
         };
@@ -246,7 +246,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
         return false;
     };
 
-    this.draw = function() {
+    this.draw = function () {
         if (this.isVisible) {
             drawInterfacePaneBackground(this);
 
@@ -402,7 +402,7 @@ function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
                 this.activePane = pane;
                 this.activeIndex = index;
                 pane.isVisible = true;
-            } else {                                
+            } else {
                 pane.isVisible = false;
             }
         }
@@ -503,19 +503,28 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
     //formatting variables
 
+    // old hardcoded values now default to overlap tab menu window
     this.inventoryX = 150;
     this.itemXSpacing = 55;
     this.inventoryY = 275;
     this.itemYSpacing = 55;
     this.itemsPerRow = 10;
-
     this.firstInventoryX = 150;
     this.firstInventoryY = 362;
-
     this.secondInventoryX = 150;
     this.secondItemXSpacing = 55;
     this.secondInventoryY = 187;
     this.secondItemYSpacing = 55;
+
+    if (LIQUID_LAYOUT_FULLSCREEN) {
+        this.inventoryX = canvas.width / 2 - 300;
+        //this.inventoryY = 275;
+        this.firstInventoryX = this.inventoryX;
+        //this.firstInventoryY = 362;
+        this.secondInventoryX = this.inventoryX;
+        //this.secondInventoryY = 187;
+    }
+
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.inventory.selectedSlotIndex >= 0) {
@@ -561,7 +570,7 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
             inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(player.inventory, itemX, itemY, i);
             inventorySlotInterfaceHelper.drawInventorySlotBackground(player.inventory, itemX, itemY, i);
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.inventory.slots[i]);
-        }        
+        }
 
         if (buildingStorage.active) {
             for (var i = 0; i < buildingStorage.numberOfSlots; i++) {
@@ -571,7 +580,7 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
                 inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(buildingStorage, itemX, itemY, i);
                 inventorySlotInterfaceHelper.drawInventorySlotBackground(buildingStorage, itemX, itemY, i);
-                inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, buildingStorage.slots[i]);                
+                inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, buildingStorage.slots[i]);
             }
         }
 
@@ -649,7 +658,7 @@ function HotbarPane() {
             else if (player.hotbar.slots[player.hotbar.selectedSlotIndex].count > 0) {
                 player.hotbar.equippedSlotIndex = player.hotbar.selectedSlotIndex;
             }
-            
+
             return true;
         }
         return false;
@@ -678,31 +687,31 @@ function HotbarPane() {
             if (i === player.hotbar.equippedSlotIndex) {
                 inventorySlotInterfaceHelper.drawInventorySlotBackground(player.hotbar, itemX, itemY, i);
 
-                if (i === player.hotbar.selectedSlotIndex) {                    
-                    coloredOutlineRectCornerToCorner(itemX - 25, itemY - 25, itemX - 25 + 50, itemY - 25 + 50, 'orange', 4);                    
-                } else {                                        
+                if (i === player.hotbar.selectedSlotIndex) {
+                    coloredOutlineRectCornerToCorner(itemX - 25, itemY - 25, itemX - 25 + 50, itemY - 25 + 50, 'orange', 4);
+                } else {
                     coloredOutlineRectCornerToCorner(itemX - 25, itemY - 25, itemX - 25 + 50, itemY - 25 + 50, 'orange', 4);
                     canvasContext.fillStyle = 'white';
                 }
-                
+
             } else { // Draw all other slots
                 inventorySlotInterfaceHelper.drawInventorySlotBackground(player.hotbar, itemX, itemY, i);
             }
 
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.hotbar.slots[i]);
 
-            let hotkeyColor = hotkeyText == player.hotbar.equippedSlotIndex + 1 ? 'orange' : 'white';            
+            let hotkeyColor = hotkeyText == player.hotbar.equippedSlotIndex + 1 ? 'orange' : 'white';
             colorText(hotkeyText, itemX, itemY - 30, hotkeyColor); // 17 and 22 are just values to put keybind text in corner            
         }
 
         // draw tooltip for each item in hotbar
         for (var i = 0; i < player.hotbar.numberOfSlots; i++) {
             itemX = this.hotbarItemX + this.hotbarItemXSpacing * i;
-            itemY = this.hotbarItemY;            
-            
+            itemY = this.hotbarItemY;
+
             if (i === player.hotbar.selectedSlotIndex) {
-                inventorySlotInterfaceHelper.drawToolTips(player.hotbar, itemX, itemY, i);                
-            }            
+                inventorySlotInterfaceHelper.drawToolTips(player.hotbar, itemX, itemY, i);
+            }
         }
     };
 }
