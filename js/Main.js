@@ -1,6 +1,8 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
 const FRAMES_PER_SECOND = 30;
 const CAM_PAN_SPEED = 5;
+const LIQUID_LAYOUT_FULLSCREEN = true; // fill any sized browser onresize?
+
 var camPanX = 0;
 var camPanY = 0;
 
@@ -68,7 +70,7 @@ function gameLoop() {
     drawEverything();
 
     audioEventManager.updateEvents();
-    mouseClickedThisFrame = false;    
+    mouseClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
 
     //TODO add update for menus which need it (e.g. buttonMenus like mainMenu)
@@ -111,9 +113,26 @@ window.onload = function () {
     canvasContext = canvas.getContext('2d');
     // these next few lines set up our game logic and render to happen 30 times per second
     canvas.addEventListener('mouseup', mouseupHandler);
+    window.onresize();
     loadImages();
 
 }  // end onload
+
+window.onresize = function () {
+    if (LIQUID_LAYOUT_FULLSCREEN) {
+        // ensure canvas covers entire screen
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        // adapt positions to new dimentsions
+        if (window.interface) { // defined yet?
+            interface.tabMenu.x = canvas.width * .25;
+            interface.tabMenu.y = canvas.height * .25 - 30;
+            interface.hotbarPane.hotbarItemX = canvas.width * 0.5 - 115;
+            interface.hotbarPane.hotbarItemY = canvas.height - 50;
+        }
+        console.log("game resized to " + canvas.width + "x" + canvas.height);
+    }
+}
 
 function setupInventory() {
     // player.inventory.clear();    
@@ -182,8 +201,8 @@ function drawEverything() {
     endCameraPan();
     drawSkyGradient();
     birds.draw(camPanX, camPanY);
-    butterflies.draw(camPanX, camPanY);    
-    weather.draw(camPanX, camPanY);    
+    butterflies.draw(camPanX, camPanY);
+    weather.draw(camPanX, camPanY);
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
     timer.drawTimer();
