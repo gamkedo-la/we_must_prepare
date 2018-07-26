@@ -210,25 +210,32 @@ function Player() {
         const ENERGY_BAR_W = canvas.width * 0.18;
         const ENERGY_BAR_H = 6;
 
-        let playerEnergyLeftLevel = (this.playerEnergyLevel / PLAYER_MAX_ENERGY) * ENERGY_BAR_W;        
+        let playerEnergyLeftLevel = (this.playerEnergyLevel / PLAYER_MAX_ENERGY) * ENERGY_BAR_W;
 
         let barRectX = (canvas.width - ENERGY_BAR_W) * 0.5 + ENERGY_BAR_W * 0.5;
         let barRectY = canvas.height - 18;
         let barRectColor = this.playerEnergyLevel >= 70 ? "yellow" : this.playerEnergyLevel >= 40 ? "orange" : "red";
 
-        const ENERGY_LABEL_W = 14;        
+        const ENERGY_LABEL_W = 14;
 
         colorRect(barRectX - playerEnergyLeftLevel - ENERGY_LABEL_W, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
-        colorRect(barRectX + ENERGY_LABEL_W, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);        
+        colorRect(barRectX + ENERGY_LABEL_W, barRectY, playerEnergyLeftLevel, ENERGY_BAR_H, barRectColor);
 
         const PLAYER_ENERGY_LEVEL_ROUNDED = Math.floor(this.playerEnergyLevel);
         let energyText = this.playerEnergyLevel >= 100 ? PLAYER_ENERGY_LEVEL_ROUNDED :
-                            this.playerEnergyLevel >= 10 ? ' ' + PLAYER_ENERGY_LEVEL_ROUNDED :
-                                "  " + PLAYER_ENERGY_LEVEL_ROUNDED;
-        colorText(energyText, canvas.width * 0.5 - 8, canvas.height - 12, "yellow");        
+            this.playerEnergyLevel >= 10 ? ' ' + PLAYER_ENERGY_LEVEL_ROUNDED :
+                "  " + PLAYER_ENERGY_LEVEL_ROUNDED;
+        colorText(energyText, canvas.width * 0.5 - 8, canvas.height - 12, "yellow");
     };
 
     this.draw = function () {
+
+        // maybe draw some particles
+        var moved = ((this.prev_x != this.x) || (this.prev_y != this.y));
+        if (moved) walkFX(this.x, this.y - 16); // dust / footsteps
+        this.prev_x = this.x;
+        this.prev_y = this.y
+
         if (this.getMouseActionDirection() == DIRECTION_NONE) {
             this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
         } else {
@@ -346,6 +353,7 @@ function Player() {
         if (this.playerLastFacingDirection != DIRECTION_WEST) { // draw item IN FRONT OF player
             this.drawEquippedItem();
         }
+
     };
 
     this.distFrom = function (otherX, otherY) {

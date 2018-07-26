@@ -67,6 +67,7 @@ function startGameLoop() {
 function gameLoop() {
 
     moveEverything();
+
     drawEverything();
 
     audioEventManager.updateEvents();
@@ -223,6 +224,7 @@ function drawEverything() {
     masterFrameDelayTick++;
     // clear the game view by filling it with black
     // colorRect(0, 0, canvas.width, canvas.height, 'black');
+
     startCameraPan();
     drawGroundTiles();
     //player.draw(); // now drawn in world.js under draw3DTiles();
@@ -230,8 +232,11 @@ function drawEverything() {
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }
+    updateAllEmitters(); // see ParticleSystem.js
+    ParticleRenderer.renderAll(canvasContext); // particle FX
     drawRadiation();
     endCameraPan();
+
     drawSkyGradient();
     birds.draw(camPanX, camPanY);
     butterflies.draw(camPanX, camPanY);
