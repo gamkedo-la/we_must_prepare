@@ -325,7 +325,11 @@ ParticleRenderer = {
 
     renderAll: function (context) {
 
-        console.log("ParticleRenderer.renderAll() emitter count: " + emitters.length);
+        //console.log("ParticleRenderer.renderAll() emitter count: " + emitters.length);
+
+        // ensure other functions haven't left the state dirty:
+        canvasContext.globalAlpha = 1;
+
         var particlesRendered = 0;
 
         // Iterate over every alive particle of every active emitter, and draw

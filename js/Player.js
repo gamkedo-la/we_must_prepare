@@ -230,12 +230,6 @@ function Player() {
 
     this.draw = function () {
 
-        // maybe draw some particles
-        var moved = ((this.prev_x != this.x) || (this.prev_y != this.y));
-        if (moved) walkFX(this.x, this.y - 16); // dust / footsteps
-        this.prev_x = this.x;
-        this.prev_y = this.y
-
         if (this.getMouseActionDirection() == DIRECTION_NONE) {
             this.currentlyFocusedTileIndex = getTileIndexFromAdjacentTileCoord(this.x, this.y, this.playerLastFacingDirection);
         } else {
@@ -365,6 +359,12 @@ function Player() {
     this.move = function () {
         var movementX = 0;
         var movementY = 0;
+
+        // maybe spawn some particles
+        var moved = ((this.prev_x != this.x) || (this.prev_y != this.y));
+        if (moved) walkFX(this.x, this.y - 20); // dust / footsteps
+        this.prev_x = this.x;
+        this.prev_y = this.y
 
         if (this.keyHeld_North) {
             movementY -= PLAYER_PIXELS_MOVE_RATE;

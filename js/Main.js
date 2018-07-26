@@ -232,8 +232,10 @@ function drawEverything() {
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }
+
     updateAllEmitters(); // see ParticleSystem.js
     ParticleRenderer.renderAll(canvasContext); // particle FX
+
     drawRadiation();
     endCameraPan();
 
