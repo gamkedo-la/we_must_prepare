@@ -1,6 +1,8 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
 const FRAMES_PER_SECOND = 30;
 const CAM_PAN_SPEED = 5;
+const LIQUID_LAYOUT_FULLSCREEN = true; // fill any sized browser onresize?
+
 var camPanX = 0;
 var camPanY = 0;
 
@@ -65,10 +67,11 @@ function startGameLoop() {
 function gameLoop() {
 
     moveEverything();
+
     drawEverything();
 
     audioEventManager.updateEvents();
-    mouseClickedThisFrame = false;    
+    mouseClickedThisFrame = false;
     toolKeyPressedThisFrame = false;
 
     //TODO add update for menus which need it (e.g. buttonMenus like mainMenu)
@@ -111,9 +114,59 @@ window.onload = function () {
     canvasContext = canvas.getContext('2d');
     // these next few lines set up our game logic and render to happen 30 times per second
     canvas.addEventListener('mouseup', mouseupHandler);
+    window.onresize();
     loadImages();
 
 }  // end onload
+
+window.onresize = function () {
+    if (LIQUID_LAYOUT_FULLSCREEN) {
+
+        // ensure canvas covers entire screen
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // adapt positions to new dimentsions
+        if (window.interface) { // defined yet?
+
+            // seems to work nicely
+            interface.hotbarPane.hotbarItemX = canvas.width * 0.5 - 115;
+            interface.hotbarPane.hotbarItemY = canvas.height - 50;
+
+            // the tab menu does not have hierarchical x,y coords for child objects
+            // so we would have to adjust positions of every GUI element
+
+            /*
+            // this only moves the background
+            interface.tabMenu.x = canvas.width * .25;
+            interface.tabMenu.y = canvas.height * .25 - 30;
+            
+            // almost works..
+            interface.audioPane.x = canvas.width * .25;
+            interface.audioPane.y = canvas.height * .25
+            interface.audioPane.width = canvas.width * .75;
+            interface.audioPane.height = canvas.height * .75;
+            
+            // exceptthen we have to iterate through all of 
+            // interface.audioPane.pieces and reajust as well! 
+            // FORGET IT
+        
+            // same for Inventory pane
+            this.inventoryPane.x = canvas.width * .14;
+            this.inventoryPane.y = canvas.height * .25;
+            this.inventoryPane.width = canvas.width * .855;
+            this.inventoryPane.height = canvas.height * .85;
+        
+            // etc etc etc 
+            // this.winningInfoPane.y ...
+                    
+            // what a pane
+            */
+
+        }
+        console.log("game resized to " + canvas.width + "x" + canvas.height);
+    }
+}
 
 function setupInventory() {
     // player.inventory.clear();    
@@ -171,6 +224,7 @@ function drawEverything() {
     masterFrameDelayTick++;
     // clear the game view by filling it with black
     // colorRect(0, 0, canvas.width, canvas.height, 'black');
+
     startCameraPan();
     drawGroundTiles();
     //player.draw(); // now drawn in world.js under draw3DTiles();
@@ -178,12 +232,17 @@ function drawEverything() {
     if (isBuildModeEnabled) {
         drawBuildingTileIndicator();
     }
+
+    updateAllEmitters(); // see ParticleSystem.js
+    ParticleRenderer.renderAll(canvasContext); // particle FX
+
     drawRadiation();
     endCameraPan();
+
     drawSkyGradient();
     birds.draw(camPanX, camPanY);
-    butterflies.draw(camPanX, camPanY);    
-    weather.draw(camPanX, camPanY);    
+    butterflies.draw(camPanX, camPanY);
+    weather.draw(camPanX, camPanY);
     // drawBuildingChoiceMenu();
     // drawInterfaceForSelected();
     timer.drawTimer();
@@ -206,5 +265,5 @@ function drawSkyGradient() {
         // new way: uses timer current value for % of day elapsed
         skyX, 0, 1, 100, // source x,y,w,d (scroll source x over time)
 
-        0, 0, 800, 600); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
+        0, 0, canvas.width, canvas.height); // dest x,y,w,d (scale one pixel worth of the gradient to fill entire screen)
 }

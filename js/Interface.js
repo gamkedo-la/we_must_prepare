@@ -111,13 +111,17 @@ function Interface() {
     this.controlsInfoPane = new ControlsInfoPane('Controls', CONTROLS_INFO_TEXT, canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
     this.tabMenu.push(this.controlsInfoPane);
 
+    // Audio Settings pane instance as a tab in the in-game Menu pane instance
+    this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.tabMenu.push(this.audioPane);
+
     // Inventory pane instance as a tab in the in-game Menu pane instance
     this.inventoryPane = new InventoryPane('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
     this.tabMenu.push(this.inventoryPane);
 
-    // Audio Settings pane instance as a tab in the in-game Menu pane instance
-    this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
-    this.tabMenu.push(this.audioPane);
+    // Winning Info pane instance as a tab in the in-game Menu pane instance
+    this.winningInfoPane = new WinningPane('Objective', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.tabMenu.push(this.winningInfoPane);
 
     // Tab-switching code for the in-game Menu pane instance
     this.tabMenu.switchTabIndex(0);
@@ -205,7 +209,7 @@ function InventorySlotInterfaceHelper() {
                     break;
             }
 
-            this.itemSpriteSheet.draw(itemX, offsetY, col, row);
+            this.itemSpriteSheet.draw(itemX, offsetY, col, row);            
 
             switch (slot.item) {
                 case items.watercan.type:
@@ -232,11 +236,11 @@ function InventorySlotInterfaceHelper() {
     };
 
     this.drawInventorySlotBackground = function (inventory, itemX, itemY, i) {
-        if (inventory.selectedSlotIndex === i) {
-            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+        if (inventory.selectedSlotIndex === i) {            
+            colorRect(itemX - 25, itemY - 25, 50, 50, 'grey', 4);
             this.selectedSlotSprite.draw(itemX, itemY);
         } else {
-            this.itemSpriteSheet.draw(itemX, itemY, 0, 0);
+            colorRect(itemX - 25, itemY - 25, 50, 50, 'grey', 4);
         }
     };
 

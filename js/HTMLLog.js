@@ -1,6 +1,8 @@
 function HTMLLog(message) {
+  var debugDiv = document.getElementById("debugText");
+  if (!debugDiv) return;
   var newDiv = document.createElement("p");
-  var newTextNode = document.createTextNode(message); 
+  var newTextNode = document.createTextNode(message);
   newDiv.appendChild(newTextNode);
-  document.getElementById("debugText").appendChild(newDiv);
+  debugDiv.appendChild(newDiv);
 }

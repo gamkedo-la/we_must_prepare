@@ -288,5 +288,20 @@ function Inventory(size){
         else if (this.equippedSlotIndex > this.numberOfSlots) {
             this.equipSlot(0);
         }
+    };
+
+    this.preparednessLevel = function () {
+        var score = 0;
+
+        for (var i = 0; i < this.slots.length; i++) {
+            if (this.slots[i].item != ItemCode.NOTHING) {
+                score += checkScoreCount(this.slots[i]);
+            }
+        }
+
+        if (score > 1.0) {
+            score = 1.0;
+        }
+        return score;
     }
 }

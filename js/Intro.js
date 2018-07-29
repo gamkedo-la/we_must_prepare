@@ -109,7 +109,7 @@ function Introduction() { // a class constructor
         // bg - solid blue
         //colorRect(0, canvas.height - textLineHeight * 5, canvas.width, textLineHeight * 5, "rgba(80,180,255,1.0)");
 
-        canvasContext.drawImage(introBackground, 0, canvas.height - introBackground.height);
+        canvasContext.drawImage(introBackground, (canvas.width - introBackground.width) * 0.5, canvas.height - introBackground.height);
 
         // the text
         var textLines = introText[slideNum].split("\n");

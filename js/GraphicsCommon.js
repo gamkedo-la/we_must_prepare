@@ -177,3 +177,21 @@ function Animation(sheetIn, colWidth, rowHeight, sheetInFrames, animationInRowIn
         animationIndex = numberOfFrames - 1;
     };
 }
+
+// Accepted formats for fillColorAlpha: standard named color string (alpha = 1) or [r,g,b,a]
+//Used in conjunction with the ParticleRenderer
+function colorCircleAlpha(centerX, centerY, radius, fillColorAlpha) {
+
+    // Support for the default named colors like "purple"
+    if (Array.isArray(fillColorAlpha) === false) {
+        canvasContext.fillStyle = fillColorAlpha;
+    } else {
+        canvasContext.fillStyle = "rgba(" + fillColorAlpha[0] + "," + fillColorAlpha[1] + "," + fillColorAlpha[2] + "," + fillColorAlpha[3] + ")";
+    } //generate the color from the rgba array
+
+    canvasContext.beginPath();
+    canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true); //Début, fin, horaire ou anti horaire
+    canvasContext.fill();
+
+}
+

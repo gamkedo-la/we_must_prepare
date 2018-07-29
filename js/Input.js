@@ -310,6 +310,9 @@ function keyPress(evt) {
             toggleRadiation();
             uiChange.play();
             break;
+        case "KeyU":
+            createFinalResources();
+            break;
         case KEY_FAST_FORWARD:
             timer.fastForward = !timer.fastForward; // flip on/off
             console.log("Fast Forward: " + timer.fastForward);
