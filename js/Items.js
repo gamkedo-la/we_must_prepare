@@ -55,7 +55,7 @@ function Items() {
     this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3, 52);
     this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4, 38); 
     this.cropChili = new Item("Chili", ItemCode.CROP_CHILI, 6, 35);
-    this.cropWheat = new Item("Wheat", ItemCode.CROP_WHEAT, 5, 50);
+    this.cropWheat = new Item("Wheat", ItemCode.CROP_WHEAT, 5, 35);
 
     this.itemCodeToObj = [
         this.nothing,
@@ -280,7 +280,7 @@ Pickaxe.prototype.constructor = Pickaxe;
 // Seed
 // ----------------
 function Seed(name, energyCost, whichSeed, count) {    
-    Tool.call(this, name, whichSeed, energyCost, count, name.length * 11.0 * 0.58); // Seed inheriting Tool class
+    Tool.call(this, name, whichSeed, energyCost, count, name.length * 11.5 * 0.58); // Seed inheriting Tool class
     
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Seed and pass argument(s)
