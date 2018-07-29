@@ -55,7 +55,7 @@ function Items() {
     this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3, 52);
     this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4, 38); 
     this.cropChili = new Item("Chili", ItemCode.CROP_CHILI, 6, 35);
-    this.cropWheat = new Item("Wheat", ItemCode.CROP_WHEAT, 6, 35);
+    this.cropWheat = new Item("Wheat", ItemCode.CROP_WHEAT, 5, 50);
 
     this.itemCodeToObj = [
         this.nothing,
