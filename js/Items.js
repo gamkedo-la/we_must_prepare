@@ -24,6 +24,8 @@ let ItemCode = Object.freeze({
     SEED_POTATO: 15,
     CROP_CHILI: 16,
     SEED_CHILI: 17,
+    CROP_WHEAT: 18,
+    SEED_WHEAT: 19,
 });
 
 
@@ -46,12 +48,14 @@ function Items() {
     this.seedEggplant = new Seed("Eggplant Seeds", 0, ItemCode.SEED_EGGPLANT, 5);
     this.seedPotato = new Seed("Potato Seeds", 0, ItemCode.SEED_POTATO, 5);
     this.seedChili = new Seed("Chili Seeds", 0, ItemCode.SEED_CHILI, 5);
+    this.seedWheat = new Seed("Wheat Seeds", 0, ItemCode.SEED_WHEAT, 5);
 
     this.cropCorn = new Item("Corn", ItemCode.CROP_CORN, 3, 30);
     this.cropTomato = new Item("Tomato", ItemCode.CROP_TOMATO, 3, 44);
     this.cropEggplant = new Item("Eggplant", ItemCode.CROP_EGGPLANT, 3, 52);
     this.cropPotato = new Item("Potato", ItemCode.CROP_POTATO, 4, 38); 
     this.cropChili = new Item("Chili", ItemCode.CROP_CHILI, 6, 35);
+    this.cropWheat = new Item("Wheat", ItemCode.CROP_WHEAT, 6, 35);
 
     this.itemCodeToObj = [
         this.nothing,
@@ -71,7 +75,9 @@ function Items() {
         this.cropPotato,
         this.seedPotato,
         this.cropChili,
-        this.seedChili
+        this.seedChili,
+        this.cropWheat,
+        this.seedWheat,
     ]
 }
 
@@ -295,6 +301,9 @@ function Seed(name, energyCost, whichSeed, count) {
                     break;
                 case items.seedChili.type:
                     seedTypeTile = TILE_CHILI_SEED;
+                    break;
+                case items.seedWheat.type:
+                    seedTypeTile = TILE_WHEAT_SEED;
                     break;
             }
             new Plant(activeTileIndex, seedTypeTile);

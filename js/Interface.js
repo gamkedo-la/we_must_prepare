@@ -205,6 +205,7 @@ function InventorySlotInterfaceHelper() {
                 case items.seedEggplant.type:
                 case items.seedPotato.type:
                 case items.seedChili.type:
+                case items.seedWheat.type:
                     offsetY = itemY - 10;
                     break;
             }

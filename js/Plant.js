@@ -49,6 +49,15 @@ var Plants = [
         regrows: true,
         regrowStages: 6
     },
+    {
+        tileTypeSeed: TILE_WHEAT_SEED,
+        tileTypeStages: [TILE_WHEAT_SEEDLING, TILE_WHEAT_MEDIUM, TILE_WHEAT_FULLY_GROWN, TILE_WHEAT_RIPE],
+        daysPerStage: 2,
+        daysCanLiveWithoutWater: 4,
+        ripeStage: 4,
+        regrows: false,
+        regrowStages: 1
+    },
 ];
 
 function getPlantsSaveState() {
@@ -187,6 +196,13 @@ function Plant(mapIndex, plantTypeSeed) {
                 var seeds = Math.floor(Math.random() * 3);
                 if (seeds > 0) {
                     player.inventory.add(items.seedChili.type, seeds);
+                }
+                break;
+            case TILE_WHEAT_SEED:
+                player.inventory.add(items.cropWheat.type, 10);
+                var seeds = Math.floor(Math.random() * 5);
+                if (seeds > 0) {
+                    player.inventory.add(items.seedWheat.type, seeds);
                 }
                 break;
         }

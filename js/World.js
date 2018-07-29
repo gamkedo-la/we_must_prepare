@@ -126,6 +126,12 @@ const TILE_CHILI_MEDIUM = 76;
 const TILE_CHILI_FULLY_GROWN = 77;
 const TILE_CHILI_RIPE = 78;
 const TILE_CHILI_HARVESTED = 79;
+const TILE_WHEAT_SEED = 80;
+const TILE_WHEAT_SEEDLING = 81;
+const TILE_WHEAT_MEDIUM = 82;
+const TILE_WHEAT_FULLY_GROWN = 83;
+const TILE_WHEAT_RIPE = 84;
+const TILE_WHEAT_HARVESTED = 85;
 const START_TILE_WALKABLE_GROWTH_RANGE = TILE_CORN_SEED;  // make sure to keeps plants at the end of this list or there will be weird issues with walking through items
 const LAST_TILE_ENUM = TILE_TOMATO_HARVESTED;
 
