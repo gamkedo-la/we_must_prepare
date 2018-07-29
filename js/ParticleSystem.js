@@ -19,7 +19,7 @@
 // GAME SPECIFIC FX:
 
 function walkFX(x, y) {
-    console.log("walkFX " + x + "," + y);
+    // console.log("walkFX " + x + "," + y);
     var DUST_FX = {
         angle: 0,
         angleVar: 0,
@@ -289,7 +289,7 @@ var lastTime = 0; // prev timestamp
 var dt = 0; // delta time as measured below
 function updateAllEmitters() {
 
-    console.log('emit');
+    // console.log('emit');
 
     now = (new Date()).getTime();
     dt = now - lastTime; //note: dt is a GLOBAL variable accessed freely in many update functions

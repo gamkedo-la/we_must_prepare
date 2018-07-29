@@ -1,12 +1,33 @@
-// We Must Prepare Intro
+// We Must Prepare Story class
 
-function Introduction() { // a class constructor
+function StoryTeller() { // a class constructor
 
     // public
     this.currentlyPlaying = true; // false when game is ready to play
 
     // private
     var introText = [
+        "The unthinkable happened;  World War Three. Nuclear weapons.\n" +
+        "Total destruction.  The end of life as we know it on our planet, Earth.",
+
+        "The remaining people of the planet put together\n" +
+        "a desperate plan to save the human race.",
+
+        "Knowing that the planet wouldn’t be survivable for a few\n" +
+        "hundred years, they put themselves in cryogenic hibernation and",
+
+        "created a group of special robots that would be activated\n" +
+        "in a few hundred years to help make the resources they need.",
+
+        "This is where we come in. You are one of those robots\n" +
+        "who will help save the human race.",
+
+        "They will need food and housing. They will need resources\n" +
+        "to rebuild civilization.  We must prepare, for they are coming."
+    ];
+
+    var goodEndingText = [
+        "...",  // when playing for ending, zero element doesn't show up.
         "The unthinkable happened;  World War Three. Nuclear weapons.\n" +
         "Total destruction.  The end of life as we know it on our planet, Earth.",
 
@@ -33,6 +54,8 @@ function Introduction() { // a class constructor
         "Store your harvest in the silo to prepare for the humans!"
     ];
 
+    var storyText = [];
+
     //var introFont = '24px Arial';
     var introFont = '20px Kelly Slab';
     // other nice "title" fonts
@@ -50,6 +73,14 @@ function Introduction() { // a class constructor
     var timeStamp = timeStarted;
     var elapsedTime = 0;
     var slideNum = 0;
+
+    this.tellIntro = function () {
+        storyText = introText;
+    };
+
+    this.tellGoodEnding = function () {
+        storyText = goodEndingText;
+    };
 
     this.draw = function () {
 
@@ -80,7 +111,7 @@ function Introduction() { // a class constructor
         //console.log("intro slide " + slideNum + " after " + (elapsedTime / 1000).toFixed(1) + " sec");
 
         // are we done?
-        if (slideNum >= introText.length) {
+        if (slideNum >= storyText.length) {
             console.log("Intro completed after " + (elapsedTime / 1000).toFixed(1) + " seconds total");
             this.currentlyPlaying = false;
             return;
@@ -112,7 +143,7 @@ function Introduction() { // a class constructor
         canvasContext.drawImage(introBackground, (canvas.width - introBackground.width) * 0.5, canvas.height - introBackground.height);
 
         // the text
-        var textLines = introText[slideNum].split("\n");
+        var textLines = storyText[slideNum].split("\n");
         for (var num = 0; num < textLines.length; num++) {
             textY += textLineHeight;
             // draw a shadow for readability on top of any shade of sky

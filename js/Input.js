@@ -313,6 +313,9 @@ function keyPress(evt) {
         case "KeyU":
             createFinalResources();
             break;
+        case "KeyY":
+            timer.dayNumber = 364;
+            break;
         case KEY_FAST_FORWARD:
             timer.fastForward = !timer.fastForward; // flip on/off
             console.log("Fast Forward: " + timer.fastForward);

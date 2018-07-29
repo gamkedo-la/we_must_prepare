@@ -34,7 +34,7 @@ function Timer() {
                 this.secondsInDay += DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD;
             }
         }
-    }
+    };
 
     this.setupTimer = function () {
         var t = this;
@@ -117,10 +117,11 @@ function Timer() {
 
         // check for "game over" cutscene 
         // FIXME do we have a bounds "+/-1" bug here? one too many or one too few days?
-        if (this.dayNumber > DAY_OF_ARRIVAL) {
+        if (this.dayNumber == DAY_OF_ARRIVAL) {
             console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
-            alert("GAME OVER! The humans have arrived.");
-            // FIXME TODO implement endgame
+
+            goodEnding = new StoryTeller();
+            goodEnding.tellGoodEnding();
         }
 
         weather.newDay(); // tell weather to decide if it will rain today

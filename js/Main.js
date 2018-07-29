@@ -12,6 +12,8 @@ var canvas, canvasContext;
 var player = new Player();
 var timer = new Timer();
 var intro;
+var goodEnding;
+var badEnding;
 
 var weather = new WeatherSystem(); // init weather system
 console.log("Weather system init complete.");
@@ -87,6 +89,11 @@ function gameLoop() {
 
     if (intro && intro.currentlyPlaying) {
         intro.draw();
+    }
+
+    if (goodEnding && goodEnding.currentlyPlaying) {
+        console.log("drawing good ending!");
+        goodEnding.draw();
     }
 
 }

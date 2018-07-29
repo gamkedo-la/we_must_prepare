@@ -56,7 +56,8 @@ function Interface() {
         musicPastMainMenu = true;
 
         // queue up an intro
-        intro = new Introduction();
+        intro = new StoryTeller();
+        intro.tellIntro();
 
         // Don't enable auto-save until you exit the menu
         activateAutoSave();

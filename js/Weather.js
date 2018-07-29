@@ -257,19 +257,21 @@ function WeatherSystem() {
                 }
 
                 // cloud speed changes en masses in realtime, not according to spawn values
-                this.clouds[loop].x += -Math.abs(spdx) - camDeltaX; //clouds[loop].sx; // only in one direction: left
-                this.clouds[loop].y += spdy - camDeltaY; //clouds[loop].sy;
+                // this.clouds[loop].x += -Math.abs(spdx) - camDeltaX; //clouds[loop].sx; // only in one direction: left
+                this.clouds[loop].x += -Math.abs(spdx); //clouds[loop].sx; // only in one direction: left
+                this.clouds[loop].y += spdy; //clouds[loop].sy;
+                // this.clouds[loop].y += spdy - camDeltaY; //clouds[loop].sy;
 
                 //if (loop == 1) console.log("cloud " + loop + " pos " + clouds[loop].x + "," + clouds[loop].y);
 
-                canvasContext.globalAlpha = this.howCloudy;
+                canvasContext.globalAlpha = this.howCloudy * 4;
                 canvasContext.drawImage(cloudSpritesheet, // see imgLoading.js
                     CLOUD_SPRITE_SIZE * (loop % 4), // sx
                     0, // sy
                     CLOUD_SPRITE_SIZE, // sw
                     CLOUD_SPRITE_SIZE, // sh
-                    this.clouds[loop].x, // dx
-                    this.clouds[loop].y, // dy
+                    this.clouds[loop].x - camPanX, // dx
+                    this.clouds[loop].y - camPanY, // dy
                     CLOUD_SPRITE_SIZE * 3, // dw // make em huge
                     CLOUD_SPRITE_SIZE * 3); // dh        
                 canvasContext.globalAlpha = 1;
