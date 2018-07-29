@@ -506,14 +506,14 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     // old hardcoded values now default to overlap tab menu window
     this.inventoryX = 150;
     this.itemXSpacing = 55;
-    this.inventoryY = 275;
+    this.inventoryY = 387;
     this.itemYSpacing = 55;
     this.itemsPerRow = 10;
     this.firstInventoryX = 150;
-    this.firstInventoryY = 362;
+    this.firstInventoryY = 562;
     this.secondInventoryX = 150;
     this.secondItemXSpacing = 55;
-    this.secondInventoryY = 187;
+    this.secondInventoryY = 387;
     this.secondItemYSpacing = 55;
 
     if (LIQUID_LAYOUT_FULLSCREEN) {
