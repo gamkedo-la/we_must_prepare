@@ -42,8 +42,8 @@ function loadResourceLookupTableSaveState(saveState) {
 }
 
 const Resources = {
-	Wood:"Wood",
-	Metal:"Metal",
+    Wood:"Wood",
+    Metal:"Metal",
     Stone:"Stone",
     Food:"Food" 
 };
@@ -106,11 +106,11 @@ function setupBuckets() {
         switch (roomGrid[i]) {
             case TILE_METAL_SRC:
                 resourceType = Resources.Metal;
-                resourceQuantity = 40;
+                resourceQuantity = 5;
                 break;
             case TILE_STONE_SRC:
                 resourceType = Resources.Stone;
-                resourceQuantity = 20;
+                resourceQuantity = 10;
                 break;
             case TILE_WOOD_SRC:
                 resourceType = Resources.Wood;

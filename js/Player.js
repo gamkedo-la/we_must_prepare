@@ -64,7 +64,7 @@ function Player() {
                 var tileCol = i % ROOM_COLS;
                 this.homeX = tileCol * TILE_W + 0.5 * TILE_W;
                 this.homeY = tileRow * TILE_H + 0.5 * TILE_H;
-                console.log("homeX: " + this.homeX + " and homeY: " + this.homeY);
+                // console.log("homeX: " + this.homeX + " and homeY: " + this.homeY);
                 roomGrid[i] = TILE_GROUND;
                 break; // found it, so no need to keep searching 
             } // end of if
@@ -364,7 +364,7 @@ function Player() {
         var moved = ((this.prev_x != this.x) || (this.prev_y != this.y));
         if (moved) walkFX(this.x, this.y - 20); // dust / footsteps
         this.prev_x = this.x;
-        this.prev_y = this.y
+        this.prev_y = this.y;
 
         if (this.keyHeld_North) {
             movementY -= PLAYER_PIXELS_MOVE_RATE;
@@ -431,7 +431,6 @@ function Player() {
             let toolToUseOnTile = this.getTileTypeAction(tileIndex);
             if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
                 toolToUseOnTile.use(this, tileIndex);
-                console.log('I pushed a button to do the thing!');
                 toolAnimList.push(new toolAnimatorAtAngle(player.x, player.y, toolToUseOnTile.type, 10));
             }
         }
