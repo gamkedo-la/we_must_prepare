@@ -98,7 +98,7 @@ function mousewheelHandler(evt) {
 }
 
 function isMouseOverInterface() {
-    return mouseY > INTERFACE_Y;
+    return mouseY > HOTBAR_Y();
 }
 
 function inputUpdate() {

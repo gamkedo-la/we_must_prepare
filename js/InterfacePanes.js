@@ -646,9 +646,9 @@ function AudioPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
 // In-game Hotbar Pane for Quick Equipping and Using Items from the Player Inventory
 function HotbarPane() {
-    this.hotbarItemX = canvas.width * 0.5 - 115;
+    this.hotbarItemX = HOTBAR_X();
+    this.hotbarItemY = HOTBAR_Y();
     this.hotbarItemXSpacing = 55;
-    this.hotbarItemY = canvas.height - 50;
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.hotbar.selectedSlotIndex >= 0) {

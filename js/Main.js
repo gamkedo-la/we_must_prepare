@@ -137,8 +137,8 @@ window.onresize = function () {
         if (window.interface) { // defined yet?
 
             // seems to work nicely
-            interface.hotbarPane.hotbarItemX = canvas.width * 0.5 - 115;
-            interface.hotbarPane.hotbarItemY = canvas.height - 50;
+            interface.hotbarPane.hotbarItemX = HOTBAR_X();
+            interface.hotbarPane.hotbarItemY = HOTBAR_Y();
 
             // the tab menu does not have hierarchical x,y coords for child objects
             // so we would have to adjust positions of every GUI element

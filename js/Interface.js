@@ -303,7 +303,7 @@ function drawInterfacePaneBackground(pane, backgroundColor = backgroundInterface
 }
 
 function drawInterfacePaneBorder(pane, borderWidth, color) {
-    //draw border lines - 
+    //draw border lines -
     colorRect(pane.x, pane.y - borderWidth, pane.width, borderWidth, color);
     colorRect(pane.x + pane.width, pane.y, borderWidth, pane.height, color);
     colorRect(pane.x, pane.y + pane.height, pane.width, borderWidth, color);
@@ -331,13 +331,15 @@ function drawInterfacePaneBorder(pane, borderWidth, color) {
     canvasContext.fill();
 }
 
-const INTERFACE_Y = 500; // hacky please change
+function HOTBAR_X() { return canvas.width * 0.5 - 115 }
+function HOTBAR_Y() { return canvas.height - 50; }
+
 var mouseOverBuildingInterfaceIndex = -1;
 var mouseOverButtonPerBuildingInterfaceIndex = -1;
 
 function placeBuildingAtPixelCoord(building_type) {
     if (DEBUG_MOUSE) { console.log('placeBuildingAtPixelCoord mouseX=' + mouseX + ' mouseY=' + mouseY); }
-    var indexToPlaceBuildingAt = getTileIndexAtPixelCoord(mouseX, mouseY);
+    var indexToPlaceBuildingAt = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
     var indexForPlayer = getTileIndexAtPixelCoord(player.x, player.y);
     if (indexToPlaceBuildingAt == indexForPlayer) {
         console.log("Can't build on player!")
@@ -349,7 +351,7 @@ function placeBuildingAtPixelCoord(building_type) {
 }
 
 function drawBuildingTileIndicator() {
-    var mouseOverIndex = getTileIndexAtPixelCoord(mouseX, mouseY);
+    var mouseOverIndex = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
     var mouseOverRow = Math.floor(mouseOverIndex / ROOM_COLS);
     var mouseOverCol = mouseOverIndex % ROOM_COLS;
     var topLeftX = mouseOverCol * TILE_W;
