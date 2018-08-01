@@ -66,7 +66,7 @@ function Interface() {
     };
 
     if (this.loadGame) {
-        this.loadGame.action = function() {
+        this.loadGame.action = function () {
             this.parentInterface.isVisible = false;
             interface.loadGameMenu.isVisible = true;
         }
@@ -76,15 +76,15 @@ function Interface() {
     this.saveGameMenu = new SaveGamePane(this, 0, 0, canvas.width, canvas.height, false);
 
     // Get the save button to appear
-    this.allowPlayerToSave = function() {
+    this.allowPlayerToSave = function () {
         buttonNum = 1;
 
         this.saveGame = new Button(this.mainMenu, "Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        this.saveGame.action = function() {
+        this.saveGame.action = function () {
             interface.saveGameMenu.isVisible = true;
             interface.mainMenu.isVisible = false;
         };
-        
+
         if (!hasAnySaveState()) {
             this.credits.y += buttonSkip;
         }
@@ -198,7 +198,7 @@ function InventorySlotInterfaceHelper() {
 
         // draw item graphic
         if (slot.count > 0) {
-            let offsetY = itemY;            
+            let offsetY = itemY;
 
             switch (slot.item) {
                 case items.seedCorn.type:
@@ -211,7 +211,7 @@ function InventorySlotInterfaceHelper() {
                     break;
             }
 
-            this.itemSpriteSheet.draw(itemX, offsetY, col, row);            
+            this.itemSpriteSheet.draw(itemX, offsetY, col, row);
 
             switch (slot.item) {
                 case items.watercan.type:
@@ -224,7 +224,7 @@ function InventorySlotInterfaceHelper() {
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterCapacityIndicator, WATERCAN_BAR_H, "rgba(0,0,127,0.25)");
                     colorRect(itemX - WATERCAN_BAR_W * 0.5, itemY - 20, waterLeftIndicator, WATERCAN_BAR_H, "rgba(0,0,255,1.0)");
                     break;
-            }            
+            }
         }
 
         // draw stackable item count
@@ -238,7 +238,7 @@ function InventorySlotInterfaceHelper() {
     };
 
     this.drawInventorySlotBackground = function (inventory, itemX, itemY, i) {
-        if (inventory.selectedSlotIndex === i) {            
+        if (inventory.selectedSlotIndex === i) {
             colorRect(itemX - 25, itemY - 25, 50, 50, 'grey', 4);
             this.selectedSlotSprite.draw(itemX, itemY);
         } else {
@@ -250,7 +250,7 @@ function InventorySlotInterfaceHelper() {
         if (inventory.selectedSlotIndex === i) {
             let toolTipX = itemX - 22;
             let toolTipY = itemY + 40;
-            
+
             let itemTypeAtThisIndex = inventory.slots[i].item;
 
             for (let j = 0; j < itemTrackingArray.length; j++) {
@@ -336,6 +336,7 @@ var mouseOverBuildingInterfaceIndex = -1;
 var mouseOverButtonPerBuildingInterfaceIndex = -1;
 
 function placeBuildingAtPixelCoord(building_type) {
+    if (DEBUG_MOUSE) { console.log('placeBuildingAtPixelCoord mouseX=' + mouseX + ' mouseY=' + mouseY); }
     var indexToPlaceBuildingAt = getTileIndexAtPixelCoord(mouseX, mouseY);
     var indexForPlayer = getTileIndexAtPixelCoord(player.x, player.y);
     if (indexToPlaceBuildingAt == indexForPlayer) {

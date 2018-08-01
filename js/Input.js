@@ -3,8 +3,11 @@ const KEY_USE_TOOL = "KeyC";
 const KEY_INVENTORY = "KeyE";
 const KEY_DO_ACTION = "KeyX";
 const KEY_FAST_FORWARD = "F1"; // press F1 to toggle timer.fastForward
+
+const DEBUG_MOUSE = true; // set to false for normal play
 const MOUSE_LEFT_CLICK = 1;
 const MOUSE_RIGHT_CLICK = 3;
+
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
 
@@ -24,7 +27,8 @@ var badBuildingPlacement = false;
 var selectedIndex = NO_SELECTION;
 
 
-function calculateMousePos(evt) {
+function calculateMousePos(evt) { // called during mousemove event
+
     var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
     // account for the margins, canvas position on page, scroll amount, etc.
@@ -32,11 +36,15 @@ function calculateMousePos(evt) {
     mouseY = evt.clientY - rect.top;
     mouseWorldX = mouseX + camPanX;
     mouseWorldY = mouseY + camPanY;
+
+    // testing: appears correct at all screen resolutions
+    // if (DEBUG_MOUSE) { console.log('calculateMousePos: mouseX=' + mouseX + ' mouseY=' + mouseY + ' mouseWorldX=' + mouseWorldX + '  mouseWorldY=' + mouseWorldY); }
+
 }
 
 function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
-    canvas.addEventListener('mousedown', mousedownHandler);    
+    canvas.addEventListener('mousedown', mousedownHandler);
     canvas.addEventListener('wheel', mousewheelHandler);
     // note for init reason canvas.addEventListener('mouseup', mouseupHandler); is in the onload handler for the main window
 
@@ -151,7 +159,7 @@ function inputUpdate() {
                     console.log('Clicked on a building!');
                     selectedIndex = indexUnderMouse;
 
-                    if(!interface.tabMenu.isVisible && roomGrid[indexUnderMouse] == TILE_SILO) {
+                    if (!interface.tabMenu.isVisible && roomGrid[indexUnderMouse] == TILE_SILO) {
                         buildingStorage.active = true;
                         interface.tabMenu.setVisible(true);
                         uiSelect.play();
@@ -210,9 +218,9 @@ function keyPress(evt) {
     keySet(evt, player, true);
 
     // console.log("evt keycode " + evt.keyCode);
-    
+
     const SCROLL_TO_THE_LEFT = true;
-    
+
     // If the menu is open, menu keys take priorty
     switch (evt.code) {
         case "ShiftLeft":
@@ -284,7 +292,7 @@ function keyPress(evt) {
             if (player.itemsHeldAtMouse.count == 0) {
                 interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
             }
-            
+
             buildingStorage.active = false;
             if (interface.tabMenu.isVisible) {
                 uiSelect.play();
