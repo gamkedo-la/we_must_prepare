@@ -1,7 +1,7 @@
 // save the canvas for dimensions, and its 2d context for drawing to it
 const FRAMES_PER_SECOND = 30;
 const CAM_PAN_SPEED = 5;
-const LIQUID_LAYOUT_FULLSCREEN = true; // fill any sized browser onresize?
+const LIQUID_LAYOUT_FULLSCREEN = false; // fill any sized browser onresize?
 
 var camPanX = 0;
 var camPanY = 0;
