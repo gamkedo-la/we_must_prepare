@@ -28,25 +28,45 @@ const CONTROLS_INFO_TEXT = ['------Keyboard Controls------',
     'End Day - P',
     'Pause Time - O'];
 
+
 // Only one Interface (instanced in Main.js) in the game, with many Panes on it.
 function Interface() {
     // Main Menu pane instance
-    this.mainMenu = new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true);
+    this.mainMenu = Flow( new MainMenuPane("Main Menu", 0, 0, canvas.width, canvas.height, true), RectangleUpdater( obj=>0, obj=>0, obj=>canvas.width, obj=>canvas.height) );
 
     // put a test button on the Main Menu pane instance
-    var topY = (canvas.height * 0.5) - 20;
     var gapY = 10;
     var buttonHeight = 40;
     var buttonSkip = gapY + buttonHeight;
     var buttonNum = 0;
 
-    this.newGame = new Button(this.mainMenu, "New Game", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+    //////////////
+    // To be short: interface position and width determination is decided by this set of functions.
+    // Technique used here: we make the determination of all the positions and sizes
+    // relative to several other variables, so we store the way we are calculating these
+    // in functions, then we make the buttons update on demand. - Klaim
+    MENU_TOP_X = function(){ return (canvas.height * 0.5) - 20; };
+    MENU_BUTTON_LEFT = function(){ return (canvas.width * 0.5) - 50; };
+    MENU_BUTTON_TOP = function(buttonNum){ return MENU_TOP_X() + buttonSkip * buttonNum; };
+    MENU_BUTTON_WIDTH = function(){ return 100; };
+    MENU_BUTTON_HEIGHT = function(buttonNum){ return buttonHeight; };
+
+    MENU_BUTTON_POSITION_UPDATER = function(buttonNum){ // Generate position/size updater for menu buttons.
+        return RectangleUpdater( obj => MENU_BUTTON_LEFT()         // how x is determined
+                               , obj => MENU_BUTTON_TOP(buttonNum) // how y is determined
+                               , obj => MENU_BUTTON_WIDTH()        // how width is determined
+                               , obj => MENU_BUTTON_HEIGHT()       // how height is determined
+                               );
+    };
+    //////////////
+
+    this.newGame = Flow( new Button(this.mainMenu, "New Game"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
     buttonNum++;
     if (hasAnySaveState()) {
-        this.loadGame = new Button(this.mainMenu, "Continue", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        this.loadGame = Flow( new Button(this.mainMenu, "Continue"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
         buttonNum++;
     }
-    this.credits = new Button(this.mainMenu, "Credits", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+    this.credits = Flow( new Button(this.mainMenu, "Credits"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
 
     this.newGame.action = function () {
         this.isVisible = false; // make this test button invisible
@@ -72,14 +92,16 @@ function Interface() {
         }
     }
 
-    this.loadGameMenu = new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false);
-    this.saveGameMenu = new SaveGamePane(this, 0, 0, canvas.width, canvas.height, false);
+    CANVAS_SIZE_POSITION_UPDATER = function(){ return new RectangleUpdater(pane=>0, pane=>0, pane=>canvas.width, pane=>canvas.height); };
+
+    this.loadGameMenu = Flow( new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false), CANVAS_SIZE_POSITION_UPDATER() );
+    this.saveGameMenu = Flow( new SaveGamePane(this, 0, 0, canvas.width, canvas.height, false), CANVAS_SIZE_POSITION_UPDATER() );
 
     // Get the save button to appear
     this.allowPlayerToSave = function () {
         buttonNum = 1;
 
-        this.saveGame = new Button(this.mainMenu, "Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        this.saveGame = Flow( new Button(this.mainMenu, "Save"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
         this.saveGame.action = function () {
             interface.saveGameMenu.isVisible = true;
             interface.mainMenu.isVisible = false;
@@ -102,26 +124,38 @@ function Interface() {
     //
     // };
 
+    PANE_X = function(pane){ return canvas.width * .25; };
+    PANE_Y = function(pane){ return canvas.height * .25; };
+    PANE_WIDTH = function(pane){ return (canvas.width * .75) - PANE_X(pane); };
+    PANE_HEIGHT = function(pane){ return (canvas.height * .75) - PANE_Y(pane); };
+    DEFAULT_PANE_POSITION_UPDATER = function() { return new RectangleUpdater( PANE_X, PANE_Y, PANE_WIDTH, PANE_HEIGHT ); };
+
     // Credits menu
     // this.creditsMenu = new CreditPane("Credits Menu", 0, 0, canvas.width, canvas.height, false);
 
     // In-game Menu pane instance
-    this.tabMenu = new TabMenuPane(this.inventoryPane, canvas.width * .25, canvas.height * .25 - 30);
+    this.tabMenu = Flow( new TabMenuPane(this.inventoryPane, 30), RectangleUpdater(pane=> PANE_X(), pane=>PANE_Y() - 30) );
 
     // Controls Info pane instance as a tab in the in-game Menu pane instance
-    this.controlsInfoPane = new ControlsInfoPane('Controls', CONTROLS_INFO_TEXT, canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.controlsInfoPane = Flow( new ControlsInfoPane('Controls', CONTROLS_INFO_TEXT), DEFAULT_PANE_POSITION_UPDATER() );
     this.tabMenu.push(this.controlsInfoPane);
 
     // Audio Settings pane instance as a tab in the in-game Menu pane instance
-    this.audioPane = new AudioPane('Audio', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.audioPane = Flow( new AudioPane('Audio'), DEFAULT_PANE_POSITION_UPDATER() );
     this.tabMenu.push(this.audioPane);
 
     // Inventory pane instance as a tab in the in-game Menu pane instance
-    this.inventoryPane = new InventoryPane('Inventory', canvas.width * .14, canvas.height * .25, canvas.width * .855, canvas.height * .85);
+    INVENTORY_X = function(pane) { return canvas.width * .14; };
+    INVENTORY_Y = function(pane) { return canvas.height * .25; };
+    INVENTORY_WIDTH = function(pane) { return (canvas.width * .855) - INVENTORY_X(pane); };
+    INVENTORY_HEIGHT = function(pane) { return (canvas.height * .85) - INVENTORY_Y(pane); };
+    INVENTORY_POSITION_UPDATER = function(){ return new RectangleUpdater(INVENTORY_X, INVENTORY_Y, INVENTORY_WIDTH, INVENTORY_HEIGHT); };
+
+    this.inventoryPane = Flow( new InventoryPane('Inventory'), INVENTORY_POSITION_UPDATER() );
     this.tabMenu.push(this.inventoryPane);
 
     // Winning Info pane instance as a tab in the in-game Menu pane instance
-    this.winningInfoPane = new WinningPane('Objective', canvas.width * .25, canvas.height * .25, canvas.width * .75, canvas.height * .75);
+    this.winningInfoPane = Flow( new WinningPane('Objective'), DEFAULT_PANE_POSITION_UPDATER() );
     this.tabMenu.push(this.winningInfoPane);
 
     // Tab-switching code for the in-game Menu pane instance
@@ -131,24 +165,24 @@ function Interface() {
     this.tabMenu.switchTab(SCROLL_TO_THE_LEFT);
 
     // In-game Hotbar pane instance
-    this.hotbarPane = new HotbarPane();
+    this.hotbarPane = Flow( new HotbarPane(), RectangleUpdater() );
 
     // In-game instance of item picked up from the Inventory or Hotbar pane, attached to the mouse cursor.
-    this.itemsHeldAtMouse = new ItemsHeldAtMouse();
-
+    this.itemsHeldAtMouse = Flow( new ItemsHeldAtMouse(), RectangleUpdater() );
     // Draw everything on the Interface (called from drawEverything() in Main.js)
     this.draw = function () {
         player.drawPlayerHUD();
-        this.hotbarPane.draw();
-        this.tabMenu.draw();
-        this.mainMenu.draw();
-        this.loadGameMenu.draw();
-        this.saveGameMenu.draw();
-        this.itemsHeldAtMouse.draw();
-        // this.creditsMenu.draw();
+        draw(this.hotbarPane);
+        draw(this.tabMenu);
+        draw(this.mainMenu);
+        draw(this.loadGameMenu);
+        draw(this.saveGameMenu);
+        draw(this.itemsHeldAtMouse);
+        // draw(this.creditsMenu);
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
         colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
     };
+
 }
 
 // Tool animation function

@@ -88,12 +88,12 @@ function gameLoop() {
     }
 
     if (intro && intro.currentlyPlaying) {
-        intro.draw();
+        draw(intro);
     }
 
     if (goodEnding && goodEnding.currentlyPlaying) {
         console.log("drawing good ending!");
-        goodEnding.draw();
+        draw(goodEnding);
     }
 
 }
@@ -147,26 +147,26 @@ window.onresize = function () {
             // this only moves the background
             interface.tabMenu.x = canvas.width * .25;
             interface.tabMenu.y = canvas.height * .25 - 30;
-            
+
             // almost works..
             interface.audioPane.x = canvas.width * .25;
             interface.audioPane.y = canvas.height * .25
             interface.audioPane.width = canvas.width * .75;
             interface.audioPane.height = canvas.height * .75;
-            
-            // exceptthen we have to iterate through all of 
-            // interface.audioPane.pieces and reajust as well! 
+
+            // exceptthen we have to iterate through all of
+            // interface.audioPane.pieces and reajust as well!
             // FORGET IT
-        
+
             // same for Inventory pane
             this.inventoryPane.x = canvas.width * .14;
             this.inventoryPane.y = canvas.height * .25;
             this.inventoryPane.width = canvas.width * .855;
             this.inventoryPane.height = canvas.height * .85;
-        
-            // etc etc etc 
+
+            // etc etc etc
             // this.winningInfoPane.y ...
-                    
+
             // what a pane
             */
 
@@ -176,7 +176,7 @@ window.onresize = function () {
 }
 
 function setupInventory() {
-    // player.inventory.clear();    
+    // player.inventory.clear();
 
     player.inventory.add(items.hoe.type, items.hoe.count);
     player.inventory.add(items.pickaxe.type, items.pickaxe.count);
@@ -255,7 +255,7 @@ function drawEverything() {
     // drawInterfaceForSelected();
     timer.drawTimer();
     // draw all the user interfaces
-    interface.draw();
+    draw(interface);
 }
 
 function drawSkyGradient() {
