@@ -143,7 +143,6 @@ function Axe(name, energyCost) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Axe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList)) {
                 playSFXForCollectingResource(TILE_WOOD_SRC);
-                //chopFX(toolUser.x, toolUser.y); // particles
                 chopFX(toolUser.x, toolUser.y); // particles
                 return toolUser.inventory.add(items.wood.type, items.wood.count);
             }
@@ -257,6 +256,7 @@ function Pickaxe(name, energyCost) {
     this.use = function (toolUser, activeTileIndex) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Pickaxe and pass argument(s)
             if (getResourceFromIndex(activeTileIndex, true, toolUser.bucketList) == true) {
+                mineFX(toolUser.x, toolUser.y); // particles
                 switch (roomGrid[activeTileIndex]) {
                     case TILE_METAL_SRC:
                         playSFXForCollectingResource(TILE_METAL_SRC);

@@ -97,7 +97,7 @@ function walkFX(x, y) {
 }
 
 function chopFX(x, y) {
-    console.log("chopFX " + x + "," + y);
+    //console.log("chopFX " + x + "," + y);
     var fx = new ParticleEmitter(
         x + playerActionXOffset(),
         y + playerActionYOffset(),
@@ -128,6 +128,37 @@ function chopFX(x, y) {
     );
 }
 
+function mineFX(x, y) {
+    //console.log("mineFX " + x + "," + y);
+    var fx = new ParticleEmitter(
+        x + playerActionXOffset(),
+        y + playerActionYOffset(),
+        {
+            angle: 0,
+            angleVar: 90,
+            color: [100, 100, 100, 1],
+            startColorVar: [15, 15, 15, 0],
+            endColor: [60, 60, 60, 1],
+            endColorVar: [30, 30, 30, 0],
+            duration: 0.1,
+            particleLife: 0.75,
+            emissionRate: 160,
+            fadeAlpha: false,
+            fadeSize: true,
+            fadeSpeed: true,
+            gravity: 16,
+            particleLifeVar: 0,
+            size: 4.0,
+            sizeVar: 2.0,
+            speed: 75,
+            speedVar: 10,
+            tint: false,
+            useTexture: false,
+            xVar: 8,
+            yVar: 4
+        }
+    );
+}
 
 
 
