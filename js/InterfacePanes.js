@@ -493,36 +493,41 @@ function ControlsInfoPane(name, controlsInfoText, topLeftX, topLeftY, bottomRigh
 }
 
 // In-game Menu Pane: Inventory Tab
-function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function InventoryPane(name, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = false;
 
+    this.currentX = function(){
+        return this.x;
+    };
     //formatting variables
 
     // old hardcoded values now default to overlap tab menu window
-    this.inventoryX = 150;
-    this.itemXSpacing = 55;
-    this.inventoryY = 387;
-    this.itemYSpacing = 55;
-    this.itemsPerRow = 10;
-    this.firstInventoryX = 150;
-    this.firstInventoryY = 562;
-    this.secondInventoryX = 150;
-    this.secondItemXSpacing = 55;
-    this.secondInventoryY = 387;
-    this.secondItemYSpacing = 55;
+    this.inventoryX = () => 150;
+    this.itemXSpacing = () => 55;
+    this.inventoryY = () => 387;
+    this.itemYSpacing = () => 55;
+    this.itemsPerRow = () => 10;
+    this.firstInventoryX = () => 150;
+    this.firstInventoryY = () => 562;
+    this.secondInventoryX = () => 150;
+    this.secondItemXSpacing = () => 55;
+    this.secondInventoryY = () => 387;
+    this.secondItemYSpacing = () => 55;
 
     if (LIQUID_LAYOUT_FULLSCREEN) {
-        this.inventoryX = canvas.width / 2 - 300;
-        //this.inventoryY = 275;
+        this.inventoryX = () => this.x + this.itemXSpacing();
+        this.inventoryY = () => this.y + this.itemYSpacing();
         this.firstInventoryX = this.inventoryX;
-        //this.firstInventoryY = 362;
+        this.firstInventoryY = () => this.inventoryY() + (this.height / 2);
         this.secondInventoryX = this.inventoryX;
-        //this.secondInventoryY = 187;
+        this.secondInventoryY = () => this.inventoryY();
+
+        this.itemsPerRow = function(){ return Math.ceil(this.width / 70); };
     }
 
 
@@ -564,8 +569,8 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
         //draw regular slots
         for (var i = 0; i < player.inventory.numberOfSlots; i++) {
-            itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
-            itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
+            itemX = inventoryX() + this.itemXSpacing() * (i % this.itemsPerRow());
+            itemY = inventoryY() + this.itemYSpacing() * Math.floor(i / this.itemsPerRow());
 
             inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(player.inventory, itemX, itemY, i);
             inventorySlotInterfaceHelper.drawInventorySlotBackground(player.inventory, itemX, itemY, i);
@@ -575,8 +580,8 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         if (buildingStorage.active) {
             for (var i = 0; i < buildingStorage.numberOfSlots; i++) {
                 //draw as regular slot
-                itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
-                itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
+                itemX = this.secondInventoryX() + this.secondItemXSpacing() * (i % this.itemsPerRow());
+                itemY = this.secondInventoryY() + this.secondItemYSpacing() * Math.floor(i / this.itemsPerRow());
 
                 inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(buildingStorage, itemX, itemY, i);
                 inventorySlotInterfaceHelper.drawInventorySlotBackground(buildingStorage, itemX, itemY, i);
@@ -586,8 +591,8 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 
         // draw tooltip for each selected slot in first inventory
         for (var i = 0; i < player.inventory.numberOfSlots; i++) {
-            itemX = inventoryX + this.itemXSpacing * (i % this.itemsPerRow);
-            itemY = inventoryY + this.itemYSpacing * Math.floor(i / this.itemsPerRow);
+            itemX = inventoryX + this.itemXSpacing() * (i % this.itemsPerRow());
+            itemY = inventoryY + this.itemYSpacing() * Math.floor(i / this.itemsPerRow());
 
             inventorySlotInterfaceHelper.drawToolTips(player.inventory, itemX, itemY, i);
         }
@@ -596,8 +601,8 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
         if (buildingStorage.active) {
             for (var i = 0; i < buildingStorage.numberOfSlots; i++) {
                 //draw as regular slot
-                itemX = this.secondInventoryX + this.secondItemXSpacing * (i % this.itemsPerRow);
-                itemY = this.secondInventoryY + this.secondItemYSpacing * Math.floor(i / this.itemsPerRow);
+                itemX = this.secondInventoryX() + this.secondItemXSpacing()* (i % this.itemsPerRow());
+                itemY = this.secondInventoryY() + this.secondItemYSpacing() * Math.floor(i / this.itemsPerRow());
                 inventorySlotInterfaceHelper.drawToolTips(buildingStorage, itemX, itemY, i);
             }
         }
@@ -605,21 +610,31 @@ function InventoryPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
 }
 
 // In-game Menu Pane: Audio Settings Tab
-function AudioPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioPane(name, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = false;
 
-    this.pieces = [mSlider = new AudioSliderInterface('Music Volume', this.x + 20, this.y + 20, this.x + this.width - 20, this.y + 40, musicVolumeManager),
-    eSlider = new AudioSliderInterface('Environment Volume', this.x + 20, this.y + 50, this.x + this.width - 20, this.y + 70, enviSFXVolumeManager),
-    sfxSlider = new AudioSliderInterface('Sound Effects Volume', this.x + 20, this.y + 80, this.x + this.width - 20, this.y + 100, sFXVolumeManager),
-    uiSlider = new AudioSliderInterface('UI Volume', this.x + 20, this.y + 110, this.x + this.width - 20, this.y + 130, interfaceSFXVolumeManager),
-    muteToggle = new AudioMuteToggleInterface('Mute Audio', this.x + 20, this.y + 140, this.x + 40, this.y + 160),
-    skipButton = new AudioButtonInterface('Skip Track', this.x + this.width / 4, this.y + 140, this.x + this.width / 4 + 60, this.y + 160),
-    currentSong = new AudioCurrentTrackInterface('Now playing:', this.x + 20, this.y + 190, this.x + this.width - 20, this.y + 210)];
+    this.PIECES_X = (piece) => this.x + 20;
+    this.PIECES_Y = (piece, idx) => this.y + 20 + (idx * this.PIECES_HEIGHT(piece));
+    this.PIECES_WIDTH = (piece) => this.width - 30;
+    this.PIECES_HEIGHT = (piece) => 40;
+    this.PIECES_POSITION_UPDATER = (pieceIdx) => new RectangleUpdater( this.PIECES_X
+                                                                  , (piece) => this.PIECES_Y(piece, pieceIdx)
+                                                                  , this.PIECES_WIDTH
+                                                                  , this.PIECES_HEIGHT
+                                                                  );
+
+    this.pieces = [mSlider = Flow( new AudioSliderInterface('Music Volume', musicVolumeManager), this.PIECES_POSITION_UPDATER(0)),
+    eSlider = Flow( new AudioSliderInterface('Environment Volume', enviSFXVolumeManager), this.PIECES_POSITION_UPDATER(1)),
+    sfxSlider = Flow( new AudioSliderInterface('Sound Effects Volume', sFXVolumeManager), this.PIECES_POSITION_UPDATER(2)),
+    uiSlider = Flow( new AudioSliderInterface('UI Volume', interfaceSFXVolumeManager), this.PIECES_POSITION_UPDATER(3)),
+    muteToggle = Flow( new AudioMuteToggleInterface('Mute Audio'), this.PIECES_POSITION_UPDATER(4)),
+    skipButton = Flow( new AudioButtonInterface('Skip Track'), this.PIECES_POSITION_UPDATER(5)),
+    currentSong = Flow( new AudioCurrentTrackInterface('Now playing:'), this.PIECES_POSITION_UPDATER(6))];
     skipButton.action = function () {
         inGame_music_master.jump();
     };
@@ -716,11 +731,11 @@ function HotbarPane() {
     };
 }
 
-function WinningPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function WinningPane(name, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = false;
 
