@@ -18,6 +18,53 @@
 
 // GAME SPECIFIC FX:
 
+// tweak the position of particles,
+// eg come from the tree, not the player
+function playerActionXOffset() {
+    var offset = 0;
+    switch (player.playerLastFacingDirection) {
+        case DIRECTION_NORTH:
+        case DIRECTION_SOUTH:
+            offset = 0;
+            break;
+        case DIRECTION_EAST:
+        case DIRECTION_NORTHEAST:
+        case DIRECTION_SOUTHEAST:
+            offset = 50;
+            break;
+        case DIRECTION_WEST:
+        case DIRECTION_NORTHWEST:
+        case DIRECTION_SOUTHWEST:
+            offset = -50;
+            break;
+    }
+    return offset;
+}
+function playerActionYOffset() {
+    var offset = 0;
+    switch (player.playerLastFacingDirection) {
+        case DIRECTION_EAST:
+        case DIRECTION_WEST:
+            offset = 16; // hip height, not foot height
+            break;
+        case DIRECTION_NORTH:
+            offset = -50;
+            break;
+        case DIRECTION_NORTHEAST:
+        case DIRECTION_NORTHWEST:
+            offset = -25;
+            break;
+        case DIRECTION_SOUTH:
+            offset = 50;
+            break;
+        case DIRECTION_SOUTHEAST:
+        case DIRECTION_SOUTHWEST:
+            offset = 25;
+            break;
+    }
+    return offset; // everything comes from hip height not foot
+}
+
 function walkFX(x, y) {
     // console.log("walkFX " + x + "," + y);
     var DUST_FX = {
@@ -27,7 +74,7 @@ function walkFX(x, y) {
         startColorVar: [0, 0, 0, 0],
         endColor: [224, 68, 6, 0],
         endColorVar: [0, 0, 0, 0],
-        duration: 0.1,
+        duration: 0.5,
         particleLife: 1.0,
         emissionRate: 1,
         fadeAlpha: false,
@@ -48,6 +95,59 @@ function walkFX(x, y) {
     const FOOT_OFFSET_Y = 30;
     var fx = new ParticleEmitter(x + FOOT_OFFSET_X, y + FOOT_OFFSET_Y, DUST_FX);
 }
+
+function chopFX(x, y) {
+    console.log("chopFX " + x + "," + y);
+    var fx = new ParticleEmitter(
+        x + playerActionXOffset(),
+        y + playerActionYOffset(),
+        {
+            angle: 0,
+            angleVar: 90,
+            color: [65, 54, 50, 1], // dark brown
+            startColorVar: [20, 20, 20, 0],
+            endColor: [104, 69, 42, 1], // light brown faded out
+            endColorVar: [0, 0, 0, 0],
+            duration: 0.1,
+            particleLife: 0.5,
+            emissionRate: 160,
+            fadeAlpha: false,
+            fadeSize: true,
+            fadeSpeed: true,
+            gravity: 8,
+            particleLifeVar: 0,
+            size: 4.0,
+            sizeVar: 2.0,
+            speed: 75,
+            speedVar: 10,
+            tint: false,
+            useTexture: false,
+            xVar: 8,
+            yVar: 4
+        }
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var emitters = [];
 function ParticleEmitter(x, y, config) {
@@ -163,6 +263,10 @@ function ParticleEmitter(x, y, config) {
 
             particle.x += particle.velocity.x * dt;
             particle.y += particle.velocity.y * dt;
+
+            if (particle.gravity) {
+                particle.y += particle.gravity * dt;
+            }
 
 
             particle.color[0] += particle.deltaColor[0] * dt;
