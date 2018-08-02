@@ -18,7 +18,29 @@
 
 // GAME SPECIFIC FX:
 
-// tweak the position of particles,
+// spray in the right direction
+function playerSprayDir() {
+    switch (player.playerLastFacingDirection) {
+        case DIRECTION_NORTH:
+            return 90;
+        case DIRECTION_SOUTH:
+            return 90;
+        case DIRECTION_EAST:
+            return 0;
+        case DIRECTION_NORTHEAST:
+            return 0;
+        case DIRECTION_SOUTHEAST:
+            return 0;
+        case DIRECTION_WEST:
+            return 180;
+        case DIRECTION_NORTHWEST:
+            return 180;
+        case DIRECTION_SOUTHWEST:
+            return 180;
+    }
+    return 0;
+}
+
 // eg come from the tree, not the player
 function playerActionXOffset() {
     var offset = 0;
@@ -223,8 +245,37 @@ function tillFX(x, y) {
     */
 }
 
-
-
+function waterFX(x, y) {
+    //console.log("waterFX " + x + "," + y);
+    var fx = new ParticleEmitter(
+        x + playerActionXOffset() / 3,
+        y - 16,
+        {
+            angle: playerSprayDir(),
+            angleVar: 15,
+            color: [20, 180, 255, 1],
+            startColorVar: [20, 20, 20, 0],
+            endColor: [0, 0, 180, 1],
+            endColorVar: [0, 0, 0, 0],
+            duration: 0.5,
+            particleLife: 0.5,
+            emissionRate: 320,
+            fadeAlpha: false,
+            fadeSize: true,
+            fadeSpeed: true,
+            gravity: 32,
+            particleLifeVar: 0,
+            size: 1.0,
+            sizeVar: 0,
+            speed: 100,
+            speedVar: 32,
+            tint: false,
+            useTexture: false,
+            xVar: 2,
+            yVar: 2
+        }
+    );
+}
 
 
 

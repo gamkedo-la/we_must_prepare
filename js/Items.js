@@ -172,6 +172,7 @@ function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapa
                 this.waterLeft -= waterDepletionRate;
 
                 robotWateringSFX.play();
+                waterFX(toolUser.x, toolUser.y); // particles
 
                 if (roomGrid[activeTileIndex] < START_TILE_WALKABLE_GROWTH_RANGE) {
                     roomGrid[activeTileIndex] = TILE_TILLED_WATERED;
