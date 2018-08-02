@@ -435,11 +435,11 @@ function updateWeatherVolumes(sun, cloud, fog, wind, rain) {
     }
 }
 
-function AudioSliderInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY, volumeManager) {
+function AudioSliderInterface(name, volumeManager, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = true;
 
@@ -486,11 +486,11 @@ function AudioSliderInterface(name, topLeftX, topLeftY, bottomRightX, bottomRigh
     }
 }
 
-function AudioMuteToggleInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioMuteToggleInterface(name, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = true;
 
@@ -526,11 +526,11 @@ function AudioMuteToggleInterface(name, topLeftX, topLeftY, bottomRightX, bottom
     }
 }
 
-function AudioCurrentTrackInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioCurrentTrackInterface(name, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = true;
 
@@ -553,16 +553,16 @@ function AudioCurrentTrackInterface(name, topLeftX, topLeftY, bottomRightX, bott
     }
 }
 
-function AudioButtonInterface(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
+function AudioButtonInterface(name, topLeftX, topLeftY, width, height) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = true;
 
     this.isPressed = false;
-    
+
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         if(isInPane(this, x, y)) {
             this.isPressed = true;
@@ -574,7 +574,7 @@ function AudioButtonInterface(name, topLeftX, topLeftY, bottomRightX, bottomRigh
     this.action = function() {
         // assign custom function to do something
     };
-    
+
     this.draw = function() {
         if(this.isVisible) {
             var drawColor;
