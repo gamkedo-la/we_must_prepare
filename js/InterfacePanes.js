@@ -1,9 +1,9 @@
 ﻿// Main Menu Pane
-function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
+function MainMenuPane(name, topLeftX, topLeftY, width, height, visible) {
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.name = name;
     this.isVisible = visible;
 
@@ -33,14 +33,14 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
             //draw buttons
             for (var i = 0; i < this.buttons.length; i++) {
                 var button = this.buttons[i];
-                button.draw();
+                draw(button);
             }
 
-            this.loadGamePane && this.loadGamePane.draw();
+            this.loadGamePane && draw(this.loadGamePane);
         }
     };
 
-    // this menu needs to be updated every frame 
+    // this menu needs to be updated every frame
     this.update = function (x = mouseX, y = mouseY) {
         for (var i = 0; i < this.buttons.length; i++) {
             var button = this.buttons[i];
@@ -53,12 +53,12 @@ function MainMenuPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY, visi
     };
 }
 
-function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
+function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
     this.parentPane = parentPane;
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.isVisible = visible;
 
     this.buttons = [];
@@ -166,7 +166,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
             // draw buttons
             for (var i = 0; i < this.buttons.length; i++) {
                 var button = this.buttons[i];
-                button.draw();
+                draw(button);
             }
         }
     };
@@ -179,12 +179,12 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
     };
 }
 
-function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY, visible) {
+function SaveGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
     this.parentPane = parentPane;
     this.x = topLeftX;
     this.y = topLeftY;
-    this.width = bottomRightX - topLeftX;
-    this.height = bottomRightY - topLeftY;
+    this.width = width;
+    this.height = height;
     this.isVisible = visible;
 
     this.buttons = [];
@@ -253,7 +253,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
             // draw buttons
             for (var i = 0; i < this.buttons.length; i++) {
                 var button = this.buttons[i];
-                button.draw();
+                draw(button);
             }
         }
     };
@@ -267,7 +267,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, bottomRightX, bottomRightY
 }
 
 // In-game Menu Pane
-function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
+function TabMenuPane(inventoryPane, tabHeight = 30, X = 0, Y = 0 ) {
     this.x = X;
     this.y = Y;
     this.tabHeight = tabHeight;
@@ -362,13 +362,13 @@ function TabMenuPane(inventoryPane, X = 0, Y = 0, tabHeight = 30) {
                 tabX += tabWidth;
                 //draw only panes set as visible
                 if (pane.isVisible) {
-                    pane.draw();
+                    draw(pane);
                 }
             }
             // draw active pane
             var pane = this.activePane;
             if (pane.isVisible) {
-                pane.draw();
+                draw(pane);
             }
             //draw active tab on top
             canvasContext.fillStyle = backgroundInterfaceColor;
@@ -638,7 +638,7 @@ function AudioPane(name, topLeftX, topLeftY, bottomRightX, bottomRightY) {
     this.draw = function () {
         drawInterfacePaneBackground(this);
         for (var i = 0; i < this.pieces.length; i++) {
-            this.pieces[i].draw();
+            draw(this.pieces[i]);
         }
 
     }
@@ -701,7 +701,7 @@ function HotbarPane() {
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.hotbar.slots[i]);
 
             let hotkeyColor = hotkeyText == player.hotbar.equippedSlotIndex + 1 ? 'orange' : 'white';
-            colorText(hotkeyText, itemX, itemY - 30, hotkeyColor); // 17 and 22 are just values to put keybind text in corner            
+            colorText(hotkeyText, itemX, itemY - 30, hotkeyColor); // 17 and 22 are just values to put keybind text in corner
         }
 
         // draw tooltip for each item in hotbar
