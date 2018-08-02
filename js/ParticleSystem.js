@@ -155,11 +155,73 @@ function mineFX(x, y) {
             tint: false,
             useTexture: false,
             xVar: 8,
-            yVar: 4
+            yVar: 8
         }
     );
 }
 
+function tillFX(x, y) {
+    //console.log("tillFX " + x + "," + y);
+    var fx = new ParticleEmitter(
+        x + playerActionXOffset(),
+        y + playerActionYOffset(),
+        {
+            angle: 0,
+            angleVar: 90,
+            color: [104, 69, 42, 1],
+            startColorVar: [30, 30, 30, 0],
+            endColor: [104, 69, 42, 1],
+            endColorVar: [0, 0, 0, 0],
+            duration: 0.2,
+            particleLife: 0.75,
+            emissionRate: 180,
+            fadeAlpha: false,
+            fadeSize: true,
+            fadeSpeed: true,
+            gravity: 4,
+            particleLifeVar: 0.25,
+            size: 1.5,
+            sizeVar: 1,
+            speed: 55,
+            speedVar: 10,
+            tint: false,
+            useTexture: false,
+            xVar: 32,
+            yVar: 32
+        }
+    );
+    // plus a poof near the player? looks strange
+    /*
+    var fx2 = new ParticleEmitter(
+        x,
+        y - 15,
+        {
+            angle: 0,
+            angleVar: 90,
+            color: [255, 200, 180, 0.25],
+            startColorVar: [0, 0, 0, 0],
+            endColor: [0, 0, 0, 0],
+            endColorVar: [0, 0, 0, 0],
+            duration: 0.5,
+            particleLife: 0.25,
+            emissionRate: 1,
+            fadeAlpha: false,
+            fadeSize: true,
+            fadeSpeed: true,
+            gravity: 0,
+            particleLifeVar: 0,
+            size: 50,
+            sizeVar: 0,
+            speed: 0,
+            speedVar: 0,
+            tint: false,
+            useTexture: false,
+            xVar: 0,
+            yVar: 0
+        }
+    );
+    */
+}
 
 
 

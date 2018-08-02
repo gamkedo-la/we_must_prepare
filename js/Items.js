@@ -221,17 +221,20 @@ function Hoe(name, energyCost) {
             switch (roomGrid[activeTileIndex]) {
                 case TILE_GROUND:
                     robotTillingLandSFX.play();
+                    tillFX(toolUser.x, toolUser.y); // particles
                     roomGrid[activeTileIndex] = TILE_TILLED;
                     break;
 
                 case TILE_TILLED:
                 case TILE_TILLED_WATERED:
                     robotTillingLandSFX.play();
+                    tillFX(toolUser.x, toolUser.y); // particles
                     break;
 
                 default:
                     if (roomGrid[activeTileIndex] >= START_TILE_WALKABLE_GROWTH_RANGE) {
                         robotTillingLandSFX.play();
+                        tillFX(toolUser.x, toolUser.y); // particles
 
                         for (var i = 0; i < plantTrackingArray.length; i++) {
                             if (plantTrackingArray[i].mapIndex == activeTileIndex) {
