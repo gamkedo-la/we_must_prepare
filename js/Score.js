@@ -25,7 +25,7 @@ var reportScoreCount = function (item) { // return a text description like "25 o
                 percentToReturn = 1.0;
             }
 
-            str += item.count + " of " + itemScores[i].requiredAmount + " " + percentToReturn / item.name + " (" + (Math.ceil(percentToReturn * 100) + " complete)\n");
+            str += item.count + " of " + itemScores[i].requiredAmount + " " + items.itemCodeToObj[itemScores[i].itemIndex].name + " (" + (Math.ceil(percentToReturn * 100) + "% complete)\n");
 
         }
     }
@@ -67,7 +67,10 @@ var getWinConditions = function () {
     if (window.buildingStorage) {
         conditions.push('');
         var report = buildingStorage.preparednessReport();
-        if (report == "") report = "Your silo is currently empty.";
+        if (report == "")
+            report = "Your silo is currently empty.";
+        else
+            report = "Your silo contains " + report;
         conditions.push(report);
         conditions.push('');
         conditions.push("You are currently " + Math.ceil(buildingStorage.preparednessLevel() * 100) + "% prepared. Don't give up!");
