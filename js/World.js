@@ -412,7 +412,7 @@ function isTileTypeBuilding(tileType) {
     return false;
 }
 
-function drawGroundTiles() {   
+function drawGroundTiles() {
     var tileIndex = 0;
     var tileLeftEdgeX = 0;
     var tileTopEdgeY = 0;
@@ -422,7 +422,7 @@ function drawGroundTiles() {
 
         for (var eachCol = 0; eachCol < ROOM_COLS; eachCol++) { // left to right in each row
             let tileTypeHere = roomGrid[tileIndex]; // getting the tile code for this index           
-            
+
             let tileToDraw = TILE_GROUND;
 
             if (isTileTypeTransparent(tileTypeHere)) {
@@ -433,8 +433,8 @@ function drawGroundTiles() {
             }
             if (isTileTypeCrop(tileTypeHere)) {
                 for (var i = 0; i < plantTrackingArray.length; i++) {
-                    if (plantTrackingArray[i].mapIndex == tileIndex) {                        
-                        tileToDraw = plantTrackingArray[i].isWatered ? TILE_TILLED_WATERED : TILE_TILLED;                        
+                    if (plantTrackingArray[i].mapIndex == tileIndex) {
+                        tileToDraw = plantTrackingArray[i].isWatered ? TILE_TILLED_WATERED : TILE_TILLED;
                     }
                 }
             }
@@ -454,7 +454,7 @@ function drawGroundTiles() {
                     canvasContext.drawImage(buildingSelection, tileLeftEdgeX, tileTopEdgeY);
                 }
             }
-             
+
             tileIndex++;
             tileLeftEdgeX += TILE_W; // jump horizontal draw position to next tile over by tile width
         } // end of for eachCol
@@ -490,13 +490,13 @@ function drawGroundTiles() {
                 windStrength = (windStrength > 0 ? windStrength : NO_WIND_ROTATE_FACTOR) * WIND_ROTATE_LIMIT_FACTOR;
 
                 // Rotation in radians
-                var rotateTarget = windStrength * Math.sin(performance.now() * 0.004) + windDirection * windStrength; 
+                var rotateTarget = windStrength * Math.sin(performance.now() * 0.004) + windDirection * windStrength;
                 var rotateTo = 0;
 
                 canvasContext.save();
 
                 // Rotate and offset only if crop grew past the seed stage
-                var pivotPosY = 0;                
+                var pivotPosY = 0;
                 for (let i = 0; i < plantTrackingArray.length; i++) {
                     if (plantTrackingArray[i].mapIndex == tileIndex) {
                         if (plantTrackingArray[i].currentPlantStage > 0) {   // If past seed stage
@@ -507,7 +507,7 @@ function drawGroundTiles() {
                         }
                     }
                 }
-                
+
                 canvasContext.translate(cropAtX, cropAtY);
                 canvasContext.rotate(rotateTo); // Rotation in radians
                 canvasContext.translate(0, pivotPosY);
@@ -529,6 +529,16 @@ function drawGroundTiles() {
     }
 
 } // End of drawGroundTiles()
+
+function drawSiloDisplays(x, y) { //render the bars on the silo sprite that tell you how close to winning you are
+
+    //console.log('drawSiloDisplays ' + x + ',' + y);
+    if (window.buildingStorage) {
+        // percent complete
+        var storedPercentage = buildingStorage.preparednessLevel();
+        buildingStorage.drawWinBars(x, y);
+    }
+}
 
 function draw3DTiles() {
     var tileIndex = 0;
@@ -587,11 +597,11 @@ function draw3DTiles() {
         return a.y - b.y;
     });
     for (var j = 0; j < allObjectsToDrawDepthSorted.length; j++) {
+
         allObjectsToDrawDepthSorted[j].draw();
+
         if (allObjectsToDrawDepthSorted[j].useImg === siloImage) {
-            var storedPercentage = buildingStorage.preparednessLevel();
-            colorRect(allObjectsToDrawDepthSorted[j].x - 51, allObjectsToDrawDepthSorted[j].y - 28, 2, -153, 'red');
-            colorRect(allObjectsToDrawDepthSorted[j].x - 51, allObjectsToDrawDepthSorted[j].y - 28, 2, -153 * storedPercentage, 'lime');
+            drawSiloDisplays(allObjectsToDrawDepthSorted[j].x, allObjectsToDrawDepthSorted[j].y);
         }
     }
 

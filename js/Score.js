@@ -33,6 +33,19 @@ var reportScoreCount = function (item) { // return a text description like "25 o
     return str;
 };
 
+var winQuantity = function (item) { // used by buildingstorage drawWinBars via drawSiloDisplays
+    var percentToReturn = 0.0;
+    for (var i = 0; i < itemScores.length; i++) {
+        if (itemScores[i].itemIndex == item.item) {
+            percentToReturn = item.count / itemScores[i].requiredAmount;
+            if (percentToReturn > 1.0) {
+                percentToReturn = 1.0;
+            }
+        }
+    }
+    return percentToReturn;
+};
+
 var checkScoreCount = function (item) {
     var percentToReturn = 0.0;
     for (var i = 0; i < itemScores.length; i++) {

@@ -290,6 +290,34 @@ function Inventory(size) {
         }
     };
 
+    // returns 0..1 as percentage of item win fulfilment (if any)
+    this.drawWinBars = function (x, y) {
+
+        console.log('drawWinBars');
+
+
+        // this bar shows how close to winning we are in total
+        var storedPercentage = this.preparednessLevel();
+        colorRect(x - 50, y - 26, 4, -160, 'red');
+        colorRect(x - 50, y - 26, 4, -160 * storedPercentage, 'lime');
+
+        // individual resource bars
+        var val = 0;
+        var found = 0;
+        for (var i = 0; i < this.slots.length; i++) {
+            if (this.slots[i].item != ItemCode.NOTHING) {
+                val = winQuantity(this.slots[i]);
+                if (val) { // this item DID satisfy a requirement!
+                    colorRect(x - 50 + (found * 8), y - 24, 4, -154, 'red');
+                    colorRect(x - 50 + (found * 8), y - 24, 4, -154 * storedPercentage, 'lime');
+                    found++;
+                }
+            }
+        }
+
+        console.log('drawWinBars found ' + found + ' items that were involved in win conditions.');
+    }
+
     // iterate through silo inventory and see if we have quest items
     this.preparednessReport = function () {
 
