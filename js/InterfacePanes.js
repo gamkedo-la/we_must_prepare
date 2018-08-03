@@ -575,6 +575,11 @@ function InventoryPane(name, topLeftX, topLeftY, width, height) {
             inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(player.inventory, itemX, itemY, i);
             inventorySlotInterfaceHelper.drawInventorySlotBackground(player.inventory, itemX, itemY, i);
             inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, player.inventory.slots[i]);
+
+            if (i == 0 && buildingStorage.active) { // label only when it may be confusing
+                colorText("Player Inventory: (click to move items to the silo above)", itemX - 25, itemY - 30, 'black');
+            }
+
         }
 
         if (buildingStorage.active) {
@@ -586,6 +591,10 @@ function InventoryPane(name, topLeftX, topLeftY, width, height) {
                 inventorySlotInterfaceHelper.mouseHoverInventorySlotToSelect(buildingStorage, itemX, itemY, i);
                 inventorySlotInterfaceHelper.drawInventorySlotBackground(buildingStorage, itemX, itemY, i);
                 inventorySlotInterfaceHelper.drawInventorySlot(itemX, itemY, buildingStorage.slots[i]);
+
+                if (i == 0) { // label
+                    colorText("Silo Storage: (the objective tab lists what needs to go here)", itemX - 25, itemY - 30, 'black');
+                }
             }
         }
 
