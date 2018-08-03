@@ -241,6 +241,7 @@ function keyPress(evt) {
             break;
         case "Escape":
         case "Esc":
+        case KEY_INVENTORY:
 
             // skip the intro if it is playing
             if (window.intro && intro.currentlyPlaying) {
@@ -249,46 +250,7 @@ function keyPress(evt) {
                 break; // avoid also opening the menu if we did
             }
 
-            // console.log("Escape pressed");
-            if (isBuildModeEnabled) {
-                isBuildModeEnabled = !isBuildModeEnabled;
-            } else {
-                if (interface.loadGameMenu.isVisible) {
-                    interface.loadGameMenu.isVisible = false;
-                    interface.mainMenu.isVisible = true;
-                    return;
-                }
-                else if (interface.saveGameMenu.isVisible) {
-                    interface.saveGameMenu.isVisible = false;
-                    interface.mainMenu.isVisible = true;
-                    return;
-                }
-                //toggle main menu
-                interface.mainMenu.isVisible = !interface.mainMenu.isVisible;
-                if (interface.mainMenu.isVisible) {
-                    uiSelect.play();
-                } else {
-                    uiCancel.play();
-                }
-
-                //TODO remove old mapping
-                //toggle tab menu
-                //interface.tabMenu.switchTabName("Audio");
-                //interface.tabMenu.isVisible = !interface.tabMenu.isVisible;
-                //if(interface.tabMenu.isVisible) {
-                //    uiSelect.play();
-                //} else {
-                //    uiCancel.play();
-                //}
-            }
-            break;
-        case KEY_USE_TOOL:
-            toolKeyPressedThisFrame = true;
-            toolKeyHeld = true;
-            player.doActionOnTile(); // gather resources, till tiles, etc
-            break;
-        case KEY_INVENTORY:
-            //Switch central menu to inventory tab                  
+            //Switch central menu to inventory tab
             if (player.itemsHeldAtMouse.count == 0) {
                 interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
             }
@@ -299,7 +261,58 @@ function keyPress(evt) {
             } else {
                 uiCancel.play();
             }
+
+            // console.log("Escape pressed");
+            // if (isBuildModeEnabled) {
+            //     isBuildModeEnabled = !isBuildModeEnabled;
+            // } else {
+            //     if (interface.loadGameMenu.isVisible) {
+            //         interface.loadGameMenu.isVisible = false;
+            //         interface.mainMenu.isVisible = true;
+            //         return;
+            //     }
+            //     else if (interface.saveGameMenu.isVisible) {
+            //         interface.saveGameMenu.isVisible = false;
+            //         interface.mainMenu.isVisible = true;
+            //         return;
+            //     }
+            //     //toggle main menu
+            //     interface.mainMenu.isVisible = !interface.mainMenu.isVisible;
+            //     if (interface.mainMenu.isVisible) {
+            //         uiSelect.play();
+            //     } else {
+            //         uiCancel.play();
+            //     }
+
+                //TODO remove old mapping
+                //toggle tab menu
+                //interface.tabMenu.switchTabName("Audio");
+                //interface.tabMenu.isVisible = !interface.tabMenu.isVisible;
+                //if(interface.tabMenu.isVisible) {
+                //    uiSelect.play();
+                //} else {
+                //    uiCancel.play();
+                //}
+            // }
             break;
+        case KEY_USE_TOOL:
+            toolKeyPressedThisFrame = true;
+            toolKeyHeld = true;
+            player.doActionOnTile(); // gather resources, till tiles, etc
+            break;
+        // case KEY_INVENTORY:
+        //     //Switch central menu to inventory tab
+        //     if (player.itemsHeldAtMouse.count == 0) {
+        //         interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
+        //     }
+        //
+        //     buildingStorage.active = false;
+        //     if (interface.tabMenu.isVisible) {
+        //         uiSelect.play();
+        //     } else {
+        //         uiCancel.play();
+        //     }
+        //     break;
         case KEY_DO_ACTION:
             player.doActionOnTile();
             break;
