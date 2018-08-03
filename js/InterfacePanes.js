@@ -267,7 +267,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
 }
 
 // In-game Menu Pane
-function TabMenuPane(inventoryPane, tabHeight = 30, X = 0, Y = 0 ) {
+function TabMenuPane(inventoryPane, tabHeight = 30, X = 0, Y = 0) {
     this.x = X;
     this.y = Y;
     this.tabHeight = tabHeight;
@@ -501,7 +501,7 @@ function InventoryPane(name, topLeftX, topLeftY, width, height) {
     this.name = name;
     this.isVisible = false;
 
-    this.currentX = function(){
+    this.currentX = function () {
         return this.x;
     };
     //formatting variables
@@ -527,7 +527,7 @@ function InventoryPane(name, topLeftX, topLeftY, width, height) {
         this.secondInventoryX = this.inventoryX;
         this.secondInventoryY = () => this.inventoryY();
 
-        this.itemsPerRow = function(){ return Math.ceil(this.width / 70); };
+        this.itemsPerRow = function () { return Math.ceil(this.width / 70); };
     }
 
 
@@ -601,7 +601,7 @@ function InventoryPane(name, topLeftX, topLeftY, width, height) {
         if (buildingStorage.active) {
             for (var i = 0; i < buildingStorage.numberOfSlots; i++) {
                 //draw as regular slot
-                itemX = this.secondInventoryX() + this.secondItemXSpacing()* (i % this.itemsPerRow());
+                itemX = this.secondInventoryX() + this.secondItemXSpacing() * (i % this.itemsPerRow());
                 itemY = this.secondInventoryY() + this.secondItemYSpacing() * Math.floor(i / this.itemsPerRow());
                 inventorySlotInterfaceHelper.drawToolTips(buildingStorage, itemX, itemY, i);
             }
@@ -622,19 +622,19 @@ function AudioPane(name, topLeftX, topLeftY, width, height) {
     this.PIECES_Y = (piece, idx) => this.y + 20 + (idx * this.PIECES_HEIGHT(piece));
     this.PIECES_WIDTH = (piece) => this.width - 30;
     this.PIECES_HEIGHT = (piece) => 40;
-    this.PIECES_POSITION_UPDATER = (pieceIdx) => new RectangleUpdater( this.PIECES_X
-                                                                  , (piece) => this.PIECES_Y(piece, pieceIdx)
-                                                                  , this.PIECES_WIDTH
-                                                                  , this.PIECES_HEIGHT
-                                                                  );
+    this.PIECES_POSITION_UPDATER = (pieceIdx) => new RectangleUpdater(this.PIECES_X
+        , (piece) => this.PIECES_Y(piece, pieceIdx)
+        , this.PIECES_WIDTH
+        , this.PIECES_HEIGHT
+    );
 
-    this.pieces = [mSlider = Flow( new AudioSliderInterface('Music Volume', musicVolumeManager), this.PIECES_POSITION_UPDATER(0)),
-    eSlider = Flow( new AudioSliderInterface('Environment Volume', enviSFXVolumeManager), this.PIECES_POSITION_UPDATER(1)),
-    sfxSlider = Flow( new AudioSliderInterface('Sound Effects Volume', sFXVolumeManager), this.PIECES_POSITION_UPDATER(2)),
-    uiSlider = Flow( new AudioSliderInterface('UI Volume', interfaceSFXVolumeManager), this.PIECES_POSITION_UPDATER(3)),
-    muteToggle = Flow( new AudioMuteToggleInterface('Mute Audio'), this.PIECES_POSITION_UPDATER(4)),
-    skipButton = Flow( new AudioButtonInterface('Skip Track'), this.PIECES_POSITION_UPDATER(5)),
-    currentSong = Flow( new AudioCurrentTrackInterface('Now playing:'), this.PIECES_POSITION_UPDATER(6))];
+    this.pieces = [mSlider = Flow(new AudioSliderInterface('Music Volume', musicVolumeManager), this.PIECES_POSITION_UPDATER(0)),
+    eSlider = Flow(new AudioSliderInterface('Environment Volume', enviSFXVolumeManager), this.PIECES_POSITION_UPDATER(1)),
+    sfxSlider = Flow(new AudioSliderInterface('Sound Effects Volume', sFXVolumeManager), this.PIECES_POSITION_UPDATER(2)),
+    uiSlider = Flow(new AudioSliderInterface('UI Volume', interfaceSFXVolumeManager), this.PIECES_POSITION_UPDATER(3)),
+    muteToggle = Flow(new AudioMuteToggleInterface('Mute Audio'), this.PIECES_POSITION_UPDATER(4)),
+    skipButton = Flow(new AudioButtonInterface('Skip Track'), this.PIECES_POSITION_UPDATER(5)),
+    currentSong = Flow(new AudioCurrentTrackInterface('Now playing:'), this.PIECES_POSITION_UPDATER(6))];
     skipButton.action = function () {
         inGame_music_master.jump();
     };
@@ -746,7 +746,7 @@ function WinningPane(name, topLeftX, topLeftY, width, height) {
     this.lineHeight = 15;
     this.textColor = 'black';
 
-    this.textLine = getWinConditions();
+    this.textLine = getWinConditions(); // this now can change during gameplay
 
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
@@ -755,6 +755,8 @@ function WinningPane(name, topLeftX, topLeftY, width, height) {
 
     this.draw = function () {
         drawInterfacePaneBackground(this);
+
+        this.textLine = getWinConditions();
 
         var lines = this.textLine.length;
         var columnWidth = 0;

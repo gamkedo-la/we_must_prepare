@@ -10,7 +10,7 @@ function EmptyInventorySlot() {
     this.count = 0;
 }
 
-function Inventory(size){
+function Inventory(size) {
     this.active = true;
     this.selectedSlotIndex = -1; //Index of slot the cursor is hovering over
     this.equippedSlotIndex = -1;
@@ -19,11 +19,11 @@ function Inventory(size){
     this.slots = [];
 
     //Working backwards decreases array allocation time
-    for(var i = this.numberOfSlots - 1; i >= 0; i--){
+    for (var i = this.numberOfSlots - 1; i >= 0; i--) {
         this.slots[i] = new EmptyInventorySlot();
     }
 
-    this.getSaveState = function() {
+    this.getSaveState = function () {
         return {
             active: this.active,
             selectedSlotIndex: this.selectedSlotIndex,
@@ -33,7 +33,7 @@ function Inventory(size){
         };
     };
 
-    this.loadSaveState = function(saveState) {
+    this.loadSaveState = function (saveState) {
         this.active = saveState.active;
         this.selectedSlotIndex = saveState.selectedSlotIndex;
         this.equippedSlotIndex = saveState.equippedSlotIndex;
@@ -43,16 +43,16 @@ function Inventory(size){
 
     //Add count no. of item to inventory, filling stacks first, then empty slots
     //Returns leftover item count
-    this.add = function(item, count){
-        if(count <= 0) return;
+    this.add = function (item, count) {
+        if (count <= 0) return;
 
         //Check for slots with the same item and fill those first
-        for(var i = 0; i < this.numberOfSlots; i++){
-            if(this.slots[i].item === item){
-                if(this.slots[i].count + count > this.slots[i].item.maxStackSize){
+        for (var i = 0; i < this.numberOfSlots; i++) {
+            if (this.slots[i].item === item) {
+                if (this.slots[i].count + count > this.slots[i].item.maxStackSize) {
                     count -= (this.slots[i].item.maxStackSize - this.slots[i].count);
                     this.slots[i].count = this.slots[i].item.maxStackSize;
-                }else{
+                } else {
                     this.slots[i].count += count;
                     count = 0;
                     break;
@@ -61,15 +61,15 @@ function Inventory(size){
         }
 
         //Then fill empty slots after all stacks are at max size
-        for(var i = 0; i < this.numberOfSlots; i++){
-            if(count <= 0) break;
-            if(this.slots[i].item === items.nothing.type){
+        for (var i = 0; i < this.numberOfSlots; i++) {
+            if (count <= 0) break;
+            if (this.slots[i].item === items.nothing.type) {
                 this.slots[i].item = item;
 
-                if(count > this.slots[i].item.maxStackSize){
+                if (count > this.slots[i].item.maxStackSize) {
                     count -= this.slots[i].item.maxStackSize;
                     this.slots[i].count = this.slots[i].item.maxStackSize;
-                }else{
+                } else {
                     this.slots[i].count = count;
                     count = 0;
                 }
@@ -79,7 +79,7 @@ function Inventory(size){
         return count; //Tells calling function how many items are left
     };
 
-    this.moveSlotToAnotherInventory= function (fromInventory, fromIndex, toInventory, itemCode = ItemCode.NOTHING) {
+    this.moveSlotToAnotherInventory = function (fromInventory, fromIndex, toInventory, itemCode = ItemCode.NOTHING) {
         let hasItemBeenMoved = false;
 
         // If stackable items of the same type are present, add to them.
@@ -112,7 +112,7 @@ function Inventory(size){
         return fromInventory;
     };
 
-    this.grabSlot = function (isSwappingInventorySlot = false) {         
+    this.grabSlot = function (isSwappingInventorySlot = false) {
         if (player.itemsHeldAtMouse.item != this.slots[this.selectedSlotIndex].item) { // if item types don't match
             // swap item at mouse with selected item in the hotbar
             let tempSlot = player.itemsHeldAtMouse;
@@ -130,7 +130,7 @@ function Inventory(size){
                 }
                 else if (this == player.inventory/* || this == player.secondInventory*/) {
                     // if (this == player.inventory) {
-                        player.inventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
+                    player.inventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
                     // }
                     // else if (this == player.secondInventory) {
                     //     player.secondInventory = this.moveSlotToAnotherInventory(this, this.selectedSlotIndex, player.hotbar, itemTypeInThisSlot);
@@ -154,7 +154,7 @@ function Inventory(size){
         }
     };
 
-    this.altGrabSlot = function() {
+    this.altGrabSlot = function () {
         if (player.itemsHeldAtMouse.count <= 0) {
             player.itemsHeldAtMouse.item = this.slots[this.selectedSlotIndex].item;
             player.itemsHeldAtMouse.count = Math.ceil(this.slots[this.selectedSlotIndex].count / 2);
@@ -193,25 +193,25 @@ function Inventory(size){
     };
 
     // Automatically remove count number of items from inventory if they exist
-    this.remove = function(item, count, allowPartialRemoval){
+    this.remove = function (item, count, allowPartialRemoval) {
         var itemsToRemove = [];
         var canRemoveItems = false; // Do we have enough items to fill the request?
         // TODO name this better so I don't need a comment
 
-        for (var i = this.numberOfSlots - 1; i >= 0; i--){
+        for (var i = this.numberOfSlots - 1; i >= 0; i--) {
             let isItemInSlot = this.slots[i].item == item;
-            let isItemEquipped = i == this.equippedSlotIndex;            
+            let isItemEquipped = i == this.equippedSlotIndex;
 
             if (isItemInSlot && isItemEquipped) {
-                if(count == this.slots[i].count){
+                if (count == this.slots[i].count) {
                     this.slots[i] = new EmptyInventorySlot();
                     this.equippedSlotIndex = -1;
                     canRemoveItems = true;
-                }else if(count < this.slots[i].count){
+                } else if (count < this.slots[i].count) {
                     this.slots[i].count -= count;
 
                     canRemoveItems = true;
-                }else{ // Tally item slots smaller than count but do not remove yet
+                } else { // Tally item slots smaller than count but do not remove yet
                     itemsToRemove[i] = this.slots[i].count;
                     count -= this.slots[i].count;
                 }
@@ -219,9 +219,9 @@ function Inventory(size){
         }
 
         // Remove tallied items only if we have enough to fulfill the request
-        if(canRemoveItems && itemsToRemove.length > 0){
-            for(var i = 0; i < itemsToRemove.length; i++){
-                if(itemsToRemove[i] > 0){
+        if (canRemoveItems && itemsToRemove.length > 0) {
+            for (var i = 0; i < itemsToRemove.length; i++) {
+                if (itemsToRemove[i] > 0) {
                     this.slots[i] = new EmptyInventorySlot();
                 }
             }
@@ -230,13 +230,13 @@ function Inventory(size){
         return canRemoveItems;
     };
 
-    this.removeAll = function(item){
-        if(!item) return console.error("ERROR: no item provided. This function removes all of a single item, to clear inventory please use the clear() function");
+    this.removeAll = function (item) {
+        if (!item) return console.error("ERROR: no item provided. This function removes all of a single item, to clear inventory please use the clear() function");
 
         var count = 0;
 
-        for(var i = 0; i < numberOfSlots; i++){
-            if(this.slots[i].item === item){
+        for (var i = 0; i < numberOfSlots; i++) {
+            if (this.slots[i].item === item) {
                 count += this.slots[i].count;
                 this.slots[i] = new EmptyInventorySlot();
             }
@@ -245,17 +245,17 @@ function Inventory(size){
         return count;
     };
 
-    this.clear = function(){
-        for(var i = this.numberOfSlots - 1; i >= 0; i--){
+    this.clear = function () {
+        for (var i = this.numberOfSlots - 1; i >= 0; i--) {
             this.slots[i] = new EmptyInventorySlot();
         }
     };
 
-    this.countItems = function(item){
+    this.countItems = function (item) {
         var count = 0;
 
-        for(var i = 0; i < this.numberOfSlots; i++){
-            if(this.slots[i].item == item){
+        for (var i = 0; i < this.numberOfSlots; i++) {
+            if (this.slots[i].item == item) {
                 count += this.slots[i].count;
             }
         }
@@ -289,6 +289,18 @@ function Inventory(size){
             this.equipSlot(0);
         }
     };
+
+    // iterate through silo inventory and see if we have quest items
+    this.preparednessReport = function () {
+
+        var str = "";
+        for (var i = 0; i < this.slots.length; i++) {
+            if (this.slots[i].item != ItemCode.NOTHING) {
+                str += reportScoreCount(this.slots[i]);
+            }
+        }
+        return str;
+    }
 
     this.preparednessLevel = function () {
         var score = 0;
