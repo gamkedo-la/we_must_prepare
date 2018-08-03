@@ -1,6 +1,6 @@
 
 // these are the material requirements to win the game
-var itemScores = [
+var winConditionRequirements = [
     { itemIndex: ItemCode.CROP_CHILI, requiredAmount: 16.0 },
     { itemIndex: ItemCode.CROP_CORN, requiredAmount: 80.0 },
     { itemIndex: ItemCode.CROP_EGGPLANT, requiredAmount: 24.0 },
@@ -15,17 +15,17 @@ var itemScores = [
 var reportScoreCount = function (item) { // return a text description like "25 of 100 wood (25% complete)"
     var str = "";
     var percentToReturn = 0.0;
-    for (var i = 0; i < itemScores.length; i++) {
+    for (var i = 0; i < winConditionRequirements.length; i++) {
 
-        if (itemScores[i].itemIndex == item.item) {
+        if (winConditionRequirements[i].itemIndex == item.item) {
 
-            percentToReturn = item.count / itemScores[i].requiredAmount;
+            percentToReturn = item.count / winConditionRequirements[i].requiredAmount;
 
             if (percentToReturn > 1.0) {
                 percentToReturn = 1.0;
             }
 
-            str += item.count + " of " + itemScores[i].requiredAmount + " " + items.itemCodeToObj[itemScores[i].itemIndex].name + " (" + (Math.ceil(percentToReturn * 100) + "% complete)\n");
+            str += item.count + " of " + winConditionRequirements[i].requiredAmount + " " + items.itemCodeToObj[winConditionRequirements[i].itemIndex].name + " (" + (Math.ceil(percentToReturn * 100) + "% complete)\n");
 
         }
     }
@@ -35,9 +35,9 @@ var reportScoreCount = function (item) { // return a text description like "25 o
 
 var winQuantity = function (item) { // used by buildingstorage drawWinBars via drawSiloDisplays
     var percentToReturn = 0.0;
-    for (var i = 0; i < itemScores.length; i++) {
-        if (itemScores[i].itemIndex == item.item) {
-            percentToReturn = item.count / itemScores[i].requiredAmount;
+    for (var i = 0; i < winConditionRequirements.length; i++) {
+        if (winConditionRequirements[i].itemIndex == item.item) {
+            percentToReturn = item.count / winConditionRequirements[i].requiredAmount;
             if (percentToReturn > 1.0) {
                 percentToReturn = 1.0;
             }
@@ -48,11 +48,11 @@ var winQuantity = function (item) { // used by buildingstorage drawWinBars via d
 
 var checkScoreCount = function (item) {
     var percentToReturn = 0.0;
-    for (var i = 0; i < itemScores.length; i++) {
+    for (var i = 0; i < winConditionRequirements.length; i++) {
 
-        if (itemScores[i].itemIndex == item.item) {
+        if (winConditionRequirements[i].itemIndex == item.item) {
 
-            percentToReturn = item.count / itemScores[i].requiredAmount;
+            percentToReturn = item.count / winConditionRequirements[i].requiredAmount;
 
             if (percentToReturn > 1.0) {
                 percentToReturn = 1.0;
@@ -60,13 +60,13 @@ var checkScoreCount = function (item) {
         }
     }
 
-    return percentToReturn / itemScores.length;
+    return percentToReturn / winConditionRequirements.length;
 };
 
 
 var createFinalResources = function () {
-    for (var i = 0; i < itemScores.length; i++) {
-        player.inventory.add(items.itemCodeToObj[itemScores[i].itemIndex].type, itemScores[i].requiredAmount);
+    for (var i = 0; i < winConditionRequirements.length; i++) {
+        player.inventory.add(items.itemCodeToObj[winConditionRequirements[i].itemIndex].type, winConditionRequirements[i].requiredAmount);
     }
 };
 
@@ -75,8 +75,8 @@ var getWinConditions = function () {
     var conditions = ['We must prepare for the arrival of the human population.',
         'You have ' + (DAY_OF_ARRIVAL - timer.dayNumber) + ' days left to complete this task.',
         'Fill the silo with the following items before they emerge:', ''];
-    for (var i = 0; i < itemScores.length; i++) {
-        conditions.push("- " + Math.floor(itemScores[i].requiredAmount) + " " + items.itemCodeToObj[itemScores[i].itemIndex].name);
+    for (var i = 0; i < winConditionRequirements.length; i++) {
+        conditions.push("- " + Math.floor(winConditionRequirements[i].requiredAmount) + " " + items.itemCodeToObj[winConditionRequirements[i].itemIndex].name);
     }
 
     if (window.buildingStorage) {

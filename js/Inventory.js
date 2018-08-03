@@ -293,29 +293,39 @@ function Inventory(size) {
     // returns 0..1 as percentage of item win fulfilment (if any)
     this.drawWinBars = function (x, y) {
 
-        console.log('drawWinBars');
-
-
+        const totalbarW = 3;
+        const totalbarH = -153;
+        const totalbarX = x - 51;
+        const totalbarY = y - 28;
         // this bar shows how close to winning we are in total
         var storedPercentage = this.preparednessLevel();
-        colorRect(x - 50, y - 26, 4, -160, 'red');
-        colorRect(x - 50, y - 26, 4, -160 * storedPercentage, 'lime');
+        colorRect(totalbarX, totalbarY, totalbarW, totalbarH, 'rgba(255,0,0,0.25)');
+        colorRect(totalbarX, totalbarY, totalbarW, totalbarH * storedPercentage, 'rgba(0,255,0,0.5)');
 
         // individual resource bars
+        const barW = 1;
+        const barH = -146;
+        const barX = x - 41;
+        const barY = y - 27;
+        const barSpacing = 4;
+        // backgrounds, even if missing items
+        for (var i = 0; i < winConditionRequirements.length; i++) {
+            colorRect(barX + (i * barSpacing), barY, barW, barH, 'rgba(255,0,0,0.15)');
+        }
+        // foregrounds, if found
         var val = 0;
         var found = 0;
         for (var i = 0; i < this.slots.length; i++) {
             if (this.slots[i].item != ItemCode.NOTHING) {
                 val = winQuantity(this.slots[i]);
                 if (val) { // this item DID satisfy a requirement!
-                    colorRect(x - 50 + (found * 8), y - 24, 4, -154, 'red');
-                    colorRect(x - 50 + (found * 8), y - 24, 4, -154 * storedPercentage, 'lime');
+                    colorRect(barX + (found * barSpacing), barY, barW, barH * val, 'rgba(0,255,0,0.5)');
                     found++;
                 }
             }
         }
 
-        console.log('drawWinBars found ' + found + ' items that were involved in win conditions.');
+        //console.log('drawWinBars found ' + found + ' items that were involved in win conditions.');
     }
 
     // iterate through silo inventory and see if we have quest items
