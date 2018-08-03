@@ -59,7 +59,9 @@ var createFinalResources = function () {
 
 
 var getWinConditions = function () {
-    var conditions = ['Fill the silo with the following items needed by the people when they emerge:', ''];
+    var conditions = ['We must prepare for the arrival of the human population.',
+        'You have ' + (DAY_OF_ARRIVAL - timer.dayNumber) + ' days left to complete this task.',
+        'Fill the silo with the following items before they emerge:', ''];
     for (var i = 0; i < itemScores.length; i++) {
         conditions.push("- " + Math.floor(itemScores[i].requiredAmount) + " " + items.itemCodeToObj[itemScores[i].itemIndex].name);
     }
