@@ -28,23 +28,14 @@ function StoryTeller() { // a class constructor
 
     var goodEndingText = [
         "...",  // when playing for ending, zero element doesn't show up.
-        "The unthinkable happened;  World War Three. Nuclear weapons.\n" +
-        "Total destruction.  The end of life as we know it on our planet, Earth.",
+        "The day has come.  They are coming.  Did we prepare enough?\n" +
+        "Let's hope we are ready.  The instructions were clear.  But is it really enough?",
 
-        "The remaining people of the planet put together\n" +
-        "a desperate plan to save the human race.",
+        "Those who are coming.  These people.  These humans.  They are so fragile.\n" +
+        "Yet they brought the world to the brink of destruction.  Was that strength?",
 
-        "Knowing that the planet wouldn’t be survivable for a few\n" +
-        "hundred years, they put themselves in cryogenic hibernation and",
-
-        "created a group of special robots that would be activated\n" +
-        "in a few hundred years to help make the resources they need.",
-
-        "This is where we come in. You are one of those robots\n" +
-        "who will help save the human race.",
-
-        "They will need food and housing. They will need resources\n" +
-        "to rebuild civilization.  We must prepare, for they are coming."
+        "Yes!  Reports are back in.  There is enough food and resources\n" +
+        "to ensure their survival.  We did it.  We were prepared."
     ];
 
     var introHints = [
