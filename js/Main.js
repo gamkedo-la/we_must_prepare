@@ -92,8 +92,11 @@ function gameLoop() {
     }
 
     if (goodEnding && goodEnding.currentlyPlaying) {
-        console.log("drawing good ending!");
         draw(goodEnding);
+    }
+
+    if (badEnding && badEnding.currentlyPlaying) {
+        draw(badEnding);
     }
 
 }

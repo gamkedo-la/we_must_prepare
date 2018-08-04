@@ -119,9 +119,14 @@ function Timer() {
         // FIXME do we have a bounds "+/-1" bug here? one too many or one too few days?
         if (this.dayNumber == DAY_OF_ARRIVAL) {
             console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
-
-            goodEnding = new StoryTeller();
-            goodEnding.tellGoodEnding();
+            console.log("how prepared were we? " + buildingStorage.preparednessLevel());
+            if (buildingStorage.preparednessLevel() == 1.0) {
+                goodEnding = new StoryTeller();
+                goodEnding.tellGoodEnding();
+            } else {
+                badEnding = new StoryTeller();
+                badEnding.tellBadEnding();
+            }
         }
 
         weather.newDay(); // tell weather to decide if it will rain today
