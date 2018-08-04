@@ -170,6 +170,7 @@ function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapa
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Watercan and pass argument(s)
             if (this.waterLeft > 0) {
                 this.waterLeft -= waterDepletionRate;
+                this.energyCost = 5;
 
                 robotWateringSFX.play();
                 waterFX(toolUser.x, toolUser.y); // particles
@@ -183,6 +184,9 @@ function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapa
                         plantTrackingArray[i].waterPlant();
                     }
                 }
+            } 
+            else {
+                this.energyCost = 0;
             }
             console.log("Watercan water left: " + this.waterLeft);
         }
