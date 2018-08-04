@@ -400,9 +400,11 @@ function Player() {
             }
 
             if (walkIntoTileType == TILE_RECHARGE_STATION) {
-                console.log("Going for recharge!");
-                for (var i = 0; i < plantTrackingArray.length; i++) {
-                    plantTrackingArray[i].dayChanged();
+                if (player.playerEnergyLevel = PLAYER_MAX_ENERGY) {
+                    console.log("Going for recharge!");
+                    for (var i = 0; i < plantTrackingArray.length; i++) {
+                        plantTrackingArray[i].dayChanged();
+                    }
                 }
 
                 timer.endOfDay();
