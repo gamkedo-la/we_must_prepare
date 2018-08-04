@@ -32,10 +32,22 @@ function StoryTeller() { // a class constructor
         "Let's hope we are ready.  The instructions were clear.  But is it really enough?",
 
         "Those who are coming.  These people.  These humans.  They are so fragile.\n" +
-        "Yet they brought the world to the brink of destruction.  Was that strength?",
+        "Yet they brought the world to the brink of destruction.  Was that their strength?",
 
-        "Yes!  Reports are back in.  There is enough food and resources\n" +
-        "to ensure their survival.  We did it.  We were prepared."
+        "No.  Those who tried to destroy each other were left behind.  These here are resilient\n" +
+        "and built us to ensure their survival.  We did it.  We were prepared."
+    ];
+
+    var badEndingText = [
+        "...",  // when playing for ending, zero element doesn't show up.
+        "The day has come.  They are coming.  Did we prepare enough?\n" +
+        "Let's hope we are ready.  The instructions were clear.  But is it really enough?",
+
+        "Those who are coming.  These people.  These humans.  They are so fragile.\n" +
+        "Yet they brought the world to the brink of destruction.  Was that their strength?",
+
+        "It looks like it was.  Those who sought to destroy were successful.  They weren't\n" +
+        "able to build machines good enough to ensure their survival.  We failed.  We were not prepared."
     ];
 
     var introHints = [
@@ -71,6 +83,10 @@ function StoryTeller() { // a class constructor
 
     this.tellGoodEnding = function () {
         storyText = goodEndingText;
+    };
+
+    this.tellBadEnding = function () {
+        storyText = badEndingText;
     };
 
     this.draw = function () {
