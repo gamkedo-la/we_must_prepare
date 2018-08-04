@@ -18,6 +18,7 @@ var siloImage = document.createElement("img");
 var barnImage = document.createElement("img");
 var farmhouseImage = document.createElement("img");
 var wildlifeSpritesheet = document.createElement("img");
+var mainLogo = document.createElement("img");
 
 var pickaxeAnimationSpriteSheetNorth = document.createElement("img");
 var pickaxeAnimationSpriteSheetEast = document.createElement("img");
@@ -96,7 +97,8 @@ function loadImages() {
     { varName: pickaxeAnimationSpriteSheetSouth, theFile: "pickaxe-animation-south.png" },
     { varName: pickaxeAnimationSpriteSheetWest, theFile: "pickaxe-animation-west.png" },
     { varName: targetTilePic, theFile: "targetTile.png" },
-    { varName: introBackground, theFile: "introBackground.png" }
+    { varName: introBackground, theFile: "introBackground.png" },
+    { varName: mainLogo, theFile: "title_logo.png" }
 
   ];
 

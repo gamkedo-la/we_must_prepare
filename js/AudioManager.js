@@ -443,11 +443,13 @@ function AudioSliderInterface(name, volumeManager, topLeftX, topLeftY, width, he
     this.name = name;
     this.isVisible = true;
 
+    this.width = 50;
+    this.height = 20;
+
     if(this.height < 15){this.height = 15;}
 
     this.lineHeight = 10;
     this.textLine = name;
-
     this.sliderHeight = this.height - this.lineHeight;
     this.lengthScale = this.width - this.sliderHeight;
     this.sliderValue = volumeManager.getVolume();
@@ -459,7 +461,7 @@ function AudioSliderInterface(name, volumeManager, topLeftX, topLeftY, width, he
             uiSelect.play();
             return true;
         }
-    }
+    };
 
     this.draw = function() {
         if(mouseY >= this.y && mouseY <= this.y + this.height + this.lineHeight &&
@@ -507,7 +509,7 @@ function AudioMuteToggleInterface(name, topLeftX, topLeftY, width, height) {
             toggleMute();
             return true;
         }
-    }
+    };
 
     this.draw = function() {
         this.toggleValue = getMute();

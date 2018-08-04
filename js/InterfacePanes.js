@@ -29,7 +29,7 @@ function MainMenuPane(name, topLeftX, topLeftY, width, height, visible) {
     this.draw = function () {
         if (this.isVisible) {
             drawInterfacePaneBackground(this);
-
+            canvasContext.drawImage(mainLogo, canvas.width / 2 - mainLogo.width / 2, canvas.height / 2 - mainLogo.height);
             //draw buttons
             for (var i = 0; i < this.buttons.length; i++) {
                 var button = this.buttons[i];
