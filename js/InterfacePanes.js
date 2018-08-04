@@ -29,7 +29,7 @@ function MainMenuPane(name, topLeftX, topLeftY, width, height, visible) {
     this.draw = function () {
         if (this.isVisible) {
             drawInterfacePaneBackground(this);
-            canvasContext.drawImage(mainLogo, canvas.width / 2 - mainLogo.width / 2, canvas.height / 2 - mainLogo.height);
+
             //draw buttons
             for (var i = 0; i < this.buttons.length; i++) {
                 var button = this.buttons[i];
@@ -600,8 +600,8 @@ function InventoryPane(name, topLeftX, topLeftY, width, height) {
 
         // draw tooltip for each selected slot in first inventory
         for (var i = 0; i < player.inventory.numberOfSlots; i++) {
-            itemX = inventoryX + this.itemXSpacing() * (i % this.itemsPerRow());
-            itemY = inventoryY + this.itemYSpacing() * Math.floor(i / this.itemsPerRow());
+            itemX = this.inventoryX() + this.itemXSpacing() * (i % this.itemsPerRow());
+            itemY = this.inventoryY() + this.itemYSpacing() * Math.floor(i / this.itemsPerRow());
 
             inventorySlotInterfaceHelper.drawToolTips(player.inventory, itemX, itemY, i);
         }
