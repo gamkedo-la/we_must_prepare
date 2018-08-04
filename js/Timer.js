@@ -118,14 +118,17 @@ function Timer() {
         // check for "game over" cutscene 
         // FIXME do we have a bounds "+/-1" bug here? one too many or one too few days?
         if (this.dayNumber == DAY_OF_ARRIVAL) {
-            console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
-            console.log("how prepared were we? " + buildingStorage.preparednessLevel());
+            // console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
+            // console.log("how prepared were we? " + buildingStorage.preparednessLevel());
+            audioEventManager.addFadeEvent(inGame_music_master, 0.3, 0);
             if (buildingStorage.preparednessLevel() == 1.0) {
                 goodEnding = new StoryTeller();
                 goodEnding.tellGoodEnding();
+                win_music_track.play();
             } else {
                 badEnding = new StoryTeller();
                 badEnding.tellBadEnding();
+                lose_music_track.play();
             }
         }
 

@@ -801,6 +801,8 @@ function MusicTrackNonLooping(filename, playLength) {
 	var trackVolume = 1;
 	var mixVolume = 1;
 
+	this.audioFile = musicFile;
+
 	musicFile.pause();
 	musicFile.loop = false;
 	musicVolumeManager.addToList(this);
@@ -882,8 +884,8 @@ function MusicTrackNonLooping(filename, playLength) {
 
 function MusicTrackNonLoopingDoubleBuffer(filename, playLength) {
 	var musicFile = new Array(new Audio(audioPath+filename+audioFormat()), new Audio(audioPath+filename+audioFormat()));
-	musicFile[0].onerror = function(){musicFile[0] = new Audio(audioPath+filename+audioFormat(true))}
-	musicFile[1].onerror = function(){musicFile[1] = new Audio(audioPath+filename+audioFormat(true))}
+	musicFile[0].onerror = function(){musicFile[0] = new Audio(audioPath+filename+audioFormat(true))};
+	musicFile[1].onerror = function(){musicFile[1] = new Audio(audioPath+filename+audioFormat(true))};
 	var currentTrack = 0;
 	var duration = playLength;
 	var trackName = filename;

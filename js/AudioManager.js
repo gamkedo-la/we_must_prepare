@@ -4,8 +4,12 @@ setAudioPath("./audio/");
 //set music tracks here
 var menu_music_track = new musicContainerWStinger([menu_music_track_1 = new MusicTrackNonLoopingDoubleBuffer("menu", 102.33), //By Stebs
                                                     menu_music_track_2 = new MusicTrackNonLooping("menustinger", 2.0)]);
-var win_music_track = new MusicTrackLoopingWTail("ending_open", 30.6);  // by Klaim
-var loose_music_track = new MusicTrackLoopingWTail("ending_bad", 63.5);  // by Klaim
+var win_music_track = new MusicTrackNonLooping("ending_open", 30.6);  // by Klaim
+win_music_track.setMixVolume(0.8);
+win_music_track.audioFile.onended = function () {inGame_music_master.play()};
+var lose_music_track = new MusicTrackNonLooping("ending_bad", 63.5);  // by Klaim
+lose_music_track.setMixVolume(0.8);
+lose_music_track.audioFile.onended = function () {inGame_music_master.play()};
 var inGame_music_track1 = new MusicTrackNonLoopingDoubleBuffer("Peace", 90.5);  //By Vignesh
 var inGame_music_track2 = new MusicContainerRandom([inGame_music_track2_1 = new MusicTrackNonLooping("lazyGuitarVar1", 52.8), //By Misha
                                                     inGame_music_track2_2 = new MusicTrackNonLooping("lazyGuitarVar2", 52.8),
