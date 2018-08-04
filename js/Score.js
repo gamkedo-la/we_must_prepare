@@ -1,13 +1,14 @@
 
 // these are the material requirements to win the game
 var winConditionRequirements = [
-    { itemIndex: ItemCode.CROP_CHILI, requiredAmount: 16.0 },
-    { itemIndex: ItemCode.CROP_CORN, requiredAmount: 80.0 },
-    { itemIndex: ItemCode.CROP_EGGPLANT, requiredAmount: 24.0 },
     { itemIndex: ItemCode.CROP_POTATO, requiredAmount: 120.0 },
+    { itemIndex: ItemCode.CROP_WHEAT, requiredAmount: 100.0 },
+    { itemIndex: ItemCode.CROP_CORN, requiredAmount: 80.0 },
     { itemIndex: ItemCode.CROP_TOMATO, requiredAmount: 64.0 },
-    { itemIndex: ItemCode.METAL, requiredAmount: 15.0 },
+    { itemIndex: ItemCode.CROP_EGGPLANT, requiredAmount: 24.0 },
+    { itemIndex: ItemCode.CROP_CHILI, requiredAmount: 16.0 },
     { itemIndex: ItemCode.WOOD, requiredAmount: 75.0 },
+    { itemIndex: ItemCode.METAL, requiredAmount: 15.0 },
     { itemIndex: ItemCode.STONE, requiredAmount: 35.0 },
 ];
 
