@@ -185,8 +185,8 @@ function Plant(mapIndex, plantTypeSeed) {
                 }
                 break;
             case TILE_POTATO_SEED:
-                player.inventory.add(items.cropPotato.type, 4);
-                var seeds = Math.floor(Math.random() * 3);
+                player.inventory.add(items.cropPotato.type, 6);
+                var seeds = Math.floor(Math.random() * 5);
                 if (seeds > 0) {
                     player.inventory.add(items.seedPotato.type, seeds);
                 }
