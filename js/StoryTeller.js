@@ -28,26 +28,31 @@ function StoryTeller() { // a class constructor
 
     var goodEndingText = [
         "...",  // when playing for ending, zero element doesn't show up.
-        "The day has come.  They are coming.  Did we prepare enough?\n" +
-        "Let's hope we are ready.  The instructions were clear.  But is it really enough?",
+        "The day has come. They are coming. Did we prepare enough?\n" +
+        "Let's hope we are ready. The instructions were clear.\n" +
+        "But is it really enough?",
 
-        "Those who are coming.  These people.  These humans.  They are so fragile.\n" +
-        "Yet they brought the world to the brink of destruction.  Was that their strength?",
+        "Those who are coming. These people. These humans. They are so fragile.\n" +
+        "Yet they brought the world to the brink of destruction.\n" +
+        "Was that their strength?",
 
-        "No.  Those who tried to destroy each other were left behind.  These here are resilient\n" +
-        "and built us to ensure their survival.  We did it.  We were prepared."
+        "No. Those who tried to destroy each other were left behind.\n" +
+        "These here are resilient and built us to ensure their survival.\n" +
+        "We did it. We were prepared."
     ];
 
     var badEndingText = [
         "...",  // when playing for ending, zero element doesn't show up.
-        "The day has come.  They are coming.  Did we prepare enough?\n" +
-        "Let's hope we are ready.  The instructions were clear.  But is it really enough?",
+        "The day has come. They are coming. Did we prepare enough?\n" +
+        "Let's hope we are ready. The instructions were clear.\n" +
+        "But is it really enough?",
 
-        "Those who are coming.  These people.  These humans.  They are so fragile.\n" +
-        "Yet they brought the world to the brink of destruction.  Was that their strength?",
+        "Those who are coming. These people. These humans. They are so fragile.\n" +
+        "Yet they brought the world to the brink of destruction.\n" +
+        "Was that their strength?",
 
-        "It looks like it was.  Those who sought to destroy were successful.  They weren't\n" +
-        "able to build machines good enough to ensure their survival.  We failed.  We were not prepared."
+        "It looks like it was. Those who sought to destroy were successful.\n" +
+        "We failed. We were not prepared."
     ];
 
     var introHints = [
@@ -70,7 +75,7 @@ function StoryTeller() { // a class constructor
 
     var textLineHeight = 32;
     var timeStarted = -9999; // a timestamp in ms
-    var timePerSlide = 4000; // in ms
+    var timePerSlide = 9000; // in ms
     var slideRemainingTime = timePerSlide;
     var timeStampPrev = timeStarted;
     var timeStamp = timeStarted;
