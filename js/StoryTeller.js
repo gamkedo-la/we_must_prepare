@@ -7,6 +7,7 @@ function StoryTeller() { // a class constructor
 
     // private
     var introText = [
+        "...",
         "The unthinkable happened;  World War Three. Nuclear weapons.\n" +
         "Total destruction.  The end of life as we know it on our planet, Earth.",
 

@@ -400,17 +400,17 @@ function Player() {
             }
 
             if (walkIntoTileType == TILE_RECHARGE_STATION) {
-                if (player.playerEnergyLevel = PLAYER_MAX_ENERGY) {
+                if (player.playerEnergyLevel < PLAYER_MAX_ENERGY || Math.floor(timer.secondsInDay / 60) > 20) {
                     console.log("Going for recharge!");
                     for (var i = 0; i < plantTrackingArray.length; i++) {
                         plantTrackingArray[i].dayChanged();
                     }
+
+                    timer.endOfDay();
+                    player.playerEnergyLevel = PLAYER_MAX_ENERGY;
+
+                    this.y = this.y + TILE_H;
                 }
-
-                timer.endOfDay();
-                player.playerEnergyLevel = PLAYER_MAX_ENERGY;
-
-                this.y = this.y + TILE_H;
             }
             if (isTileTypeWalkable(walkIntoTileType)) {
                 this.x = nextX;
