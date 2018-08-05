@@ -156,13 +156,34 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
     };
 
     this.generateButtons = function () {
+
         var topY = (canvas.height * 0.5) - 70;
         var gapY = 10;
         var buttonHeight = 40;
         var buttonSkip = gapY + buttonHeight;
         var buttonNum = 0;
 
-        var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        //////////////
+        // To be short: interface position and width determination is decided by this set of functions.
+        // Technique used here: we calculate the positions and sizes
+        // relative to several other variables, so we store the way we are calculating these
+        // in functions instead of values, then call them to update the positions and sizes. - Klaim
+        LOAD_MENU_TOP_X = function(){ return (canvas.width * 0.5) - 50; };
+        LOAD_MENU_BUTTON_LEFT = function(){ return (canvas.width * 0.5) - 50; };
+        LOAD_MENU_BUTTON_TOP = function(buttonNum){ return topY + buttonSkip * buttonNum; };
+        LOAD_MENU_BUTTON_WIDTH = function(){ return 100; };
+        LOAD_MENU_BUTTON_HEIGHT = function(buttonNum){ return buttonHeight; };
+
+        LOAD_MENU_BUTTON_POSITION_UPDATER = function(buttonNum){ // Generate position/size updater for menu buttons.
+            return RectangleUpdater( obj => LOAD_MENU_BUTTON_LEFT()         // how x is determined
+                                , obj => LOAD_MENU_BUTTON_TOP(buttonNum) // how y is determined
+                                , obj => LOAD_MENU_BUTTON_WIDTH()        // how width is determined
+                                , obj => LOAD_MENU_BUTTON_HEIGHT()       // how height is determined
+                                );
+        };
+        //////////////
+
+        var backButton = Flow( new Button(this, "Back"), LOAD_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         backButton.action = function () {
             interface.loadGameMenu.isVisible = false;
             interface.mainMenu.isVisible = true;
@@ -170,7 +191,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         buttonNum++;
 
         if (hasAutoSaveState()) {
-            var autoLoadButton = new Button(this, "Load Auto-Save", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            var autoLoadButton = Flow( new Button(this, "Load Auto-Save"), LOAD_MENU_BUTTON_POSITION_UPDATER(buttonNum));
             autoLoadButton.action = function () {
 
                 // This is different for each slot
@@ -182,7 +203,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         buttonNum++;
 
         if (hasManualSaveState(1)) {
-            var loadButton = new Button(this, "Load Slot 1", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            var loadButton = Flow( new Button(this, "Load Slot 1"), LOAD_MENU_BUTTON_POSITION_UPDATER(buttonNum));
             loadButton.action = function () {
                 // This is different for each slot
                 load(1);
@@ -193,7 +214,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         buttonNum++;
 
         if (hasManualSaveState(2)) {
-            var loadButton = new Button(this, "Load Slot 2", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            var loadButton = Flow( new Button(this, "Load Slot 2"), LOAD_MENU_BUTTON_POSITION_UPDATER(buttonNum));
             loadButton.action = function () {
                 // This is different for each slot
                 load(2);
@@ -204,7 +225,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         buttonNum++;
 
         if (hasManualSaveState(3)) {
-            var loadButton = new Button(this, "Load Slot 3", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+            var loadButton = Flow( new Button(this, "Load Slot 3"), LOAD_MENU_BUTTON_POSITION_UPDATER(buttonNum));
             loadButton.action = function () {
                 // This is different for each slot
                 load(3);
@@ -214,7 +235,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         }
         buttonNum++;
     };
-    // this.generateButtons();
+    this.generateButtons();
 
     this.startTheGame = function () {
         interface.loadGameMenu.isVisible = false;
@@ -767,7 +788,7 @@ function HotbarPane() {
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.hotbar.selectedSlotIndex >= 0) {
             mouseClickToMoveRelease();
-            
+
             if (interface.inventoryPane.isVisible && interface.tabMenu.isVisible) {
                 player.hotbar.grabSlot(shiftKeyHeld);
             }

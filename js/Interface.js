@@ -41,12 +41,12 @@ function Interface() {
 
     //////////////
     // To be short: interface position and width determination is decided by this set of functions.
-    // Technique used here: we make the determination of all the positions and sizes
+    // Technique used here: we calculate the positions and sizes
     // relative to several other variables, so we store the way we are calculating these
-    // in functions, then we make the buttons update on demand. - Klaim
-    MENU_TOP_X = function(){ return (canvas.height * 0.5) - 20; };
+    // in functions instead of values, then call them to update the positions and sizes. - Klaim
+    MENU_TOP_Y = function(){ return (canvas.height * 0.5) - 20; };
     MENU_BUTTON_LEFT = function(){ return (canvas.width * 0.5) - 50; };
-    MENU_BUTTON_TOP = function(buttonNum){ return MENU_TOP_X() + buttonSkip * buttonNum; };
+    MENU_BUTTON_TOP = function(buttonNum){ return MENU_TOP_Y() + buttonSkip * buttonNum; };
     MENU_BUTTON_WIDTH = function(){ return 100; };
     MENU_BUTTON_HEIGHT = function(buttonNum){ return buttonHeight; };
 
