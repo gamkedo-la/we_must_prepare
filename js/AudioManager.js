@@ -558,7 +558,7 @@ function AudioCurrentTrackInterface(name, topLeftX, topLeftY, width, height) {
     this.name = name;
     this.isVisible = true;
 
-    this.lineHeight = 10;
+    this.lineHeight = 14;
     this.textLine1 = name;
     this.textLine2 = getCurrentTrackInfo();
 
