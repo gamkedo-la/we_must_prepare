@@ -10,7 +10,7 @@ function interfacePaneMouseClickHandler(pane){
                 return true;
             }
         }
-        return false;
+        return true; // If a panel was visible, then we assume it absorbs the handling of the click.
     }
 }
 

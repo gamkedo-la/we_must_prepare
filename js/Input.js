@@ -139,9 +139,10 @@ function inputUpdate() {
         // Central Menu //
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
-        }        
+        }
+        console.log("Mouse click handled by GUI: " + inputHandled);
     }
-    
+
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
         if (mouseClickedThisFrame) {
@@ -199,7 +200,10 @@ function inputUpdate() {
         }
         
         if (!inputHandled) {
-            mouseToMovePlayer = true;
+            if(mouseClickedThisFrame){
+                console.log("Moving to mouse position...");
+                mouseToMovePlayer = true;
+            }
             if (interface.tabMenu.isVisible) {
                 mouseClickToMoveRelease();
             }
