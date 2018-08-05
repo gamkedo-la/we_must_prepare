@@ -140,7 +140,9 @@ function Plant(mapIndex, plantTypeSeed) {
             }
         }
         if (this.plantFacts == null) {
-            console.log("Plant facts missing for " + this.plantTypeSeed + "  at " + this.mapIndex);
+            if (!RELEASE_VERSION) {
+                console.log("Plant facts missing for " + this.plantTypeSeed + "  at " + this.mapIndex);
+            }
         } else {
             this.currentPlantStage = PLANT_STAGE_SEED;
             roomGrid[this.mapIndex] = this.plantTypeSeed;
@@ -255,13 +257,13 @@ function Plant(mapIndex, plantTypeSeed) {
     }; // end dayChanged
 
     this.plantDied = function () {
-        console.log("Plant died at index " + this.mapIndex + "! So... err... booooo?");
+        // console.log("Plant died at index " + this.mapIndex + "! So... err... booooo?");
         roomGrid[this.mapIndex] = TILE_GROUND;
         plantTrackingArray.splice(plantTrackingArray.indexOf(this), 1);
     };
 
     this.plantRemoved = function () {
-        console.log("Plant removed at index " + this.mapIndex + "!");
+        // console.log("Plant removed at index " + this.mapIndex + "!");
         roomGrid[this.mapIndex] = TILE_TILLED;
         if (this.isWatered) {
             roomGrid[this.mapIndex] = TILE_TILLED_WATERED;

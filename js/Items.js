@@ -38,10 +38,10 @@ function Items() {
     this.stone = new Item("Stone", ItemCode.STONE, 1, 36);
     this.wood = new Item("Wood", ItemCode.WOOD, 1, 36);
 
-    this.axe = new Axe("Axe", 5);
-    this.watercan = new Watercan("Watercan", 5);
-    this.hoe = new Hoe("Hoe", 5);
-    this.pickaxe = new Pickaxe("Pickaxe", 5);
+    this.axe = new Axe("Axe", 1);
+    this.watercan = new Watercan("Watercan", 1);
+    this.hoe = new Hoe("Hoe", 1);
+    this.pickaxe = new Pickaxe("Pickaxe", 1);
 
     this.seedCorn = new Seed("Corn Seeds", 0, ItemCode.SEED_CORN, 5);
     this.seedTomato = new Seed("Tomato Seeds", 0, ItemCode.SEED_TOMATO, 5);
@@ -123,7 +123,7 @@ Tool.prototype.constructor = Tool;
 
 // Explicitly define function on parent class' prototype so that it can be called by children classes
 Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyCost = this.energyCost) {
-    console.log("Player energy is " + toolUser.playerEnergyLevel + " and checking " + energyCost);
+    // console.log("Player energy is " + toolUser.playerEnergyLevel + " and checking " + energyCost);
 
     toolUser.playerEnergyLevel -= energyCost;
     if (toolUser.playerEnergyLevel < 0) {
@@ -188,7 +188,7 @@ function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapa
             else {
                 this.energyCost = 0;
             }
-            console.log("Watercan water left: " + this.waterLeft);
+            // console.log("Watercan water left: " + this.waterLeft);
         }
 
         return this.waterLeft > 0;
@@ -201,7 +201,7 @@ function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapa
 
                 robotWateringSFX.play();
             }
-            console.log("Watercan water left: " + this.waterLeft);
+            // console.log("Watercan water left: " + this.waterLeft);
         }
 
         if (this.waterLeft > this.waterCapacity) {

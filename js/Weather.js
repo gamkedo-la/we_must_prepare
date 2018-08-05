@@ -74,13 +74,13 @@ function WeatherSystem() {
     }
 
     this.newDay = function () {
-        console.log("weather.newDay()");
+        // console.log("weather.newDay()");
         this.canRainToday = (Math.random() <= PROBABILITY_OF_PRECIPITATION);
-        if (this.canRainToday)
-            console.log("It is going to rain today!");
-        else
-            console.log("It is not going to rain today.");
-    }
+        // if (this.canRainToday)
+        //     console.log("It is going to rain today!");
+        // else
+        //     console.log("It is not going to rain today.");
+    };
 
     // rain occasionally waters tilled soil
     this.handleRainWater = function (howRainy) {
@@ -161,7 +161,7 @@ function WeatherSystem() {
             if (Math.random() > 0.5) {
                 this.howWindy.direction.x = -this.howWindy.direction.x;
                 this.howWindy.direction.y = -this.howWindy.direction.y;
-                console.log("Wind direction updated: { x: " + this.howWindy.direction.x + ', y: ' + this.howWindy.direction.y + ' }');
+                // console.log("Wind direction updated: { x: " + this.howWindy.direction.x + ', y: ' + this.howWindy.direction.y + ' }');
             }
         }
         this.howRainy = Math.cos(timer.secondsInDay / rainLength / 60);

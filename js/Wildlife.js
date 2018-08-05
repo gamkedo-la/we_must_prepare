@@ -82,5 +82,5 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
 // make one immediately
 window.birds = new WildlifeSystem(4, 0, 8);
 window.butterflies = new WildlifeSystem(8, 1, 1);
-console.log("Wildlife system init complete.");
+// console.log("Wildlife system init complete.");
 

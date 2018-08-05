@@ -18,7 +18,7 @@ function StoryTeller() { // a class constructor
         "hundred years, they put themselves in cryogenic hibernation and",
 
         "created a group of special robots that would be activated\n" +
-        "in a few hundred years to help make the resources they need.",
+        "in a year before they woke up to help make the resources they would need.",
 
         "This is where we come in. You are one of those robots\n" +
         "who will help save the human race.",
@@ -106,7 +106,7 @@ function StoryTeller() { // a class constructor
 
         if (timeStarted == -9999) {
             timeStarted = performance.now();
-            console.log("Starting the intro at " + (timeStarted / 1000).toFixed(1) + "sec");
+            // console.log("Starting the intro at " + (timeStarted / 1000).toFixed(1) + "sec");
         }
 
         timeStampPrev = timeStamp;
@@ -116,7 +116,7 @@ function StoryTeller() { // a class constructor
         if (slideRemainingTime <= 0) {
             slideNum++;
             slideRemainingTime = timePerSlide;
-            console.log("Starting intro slide " + slideNum);
+            // console.log("Starting intro slide " + slideNum);
         }
 
         elapsedTime = timeStamp - timeStarted; // total, including time spent in pause!
@@ -125,7 +125,7 @@ function StoryTeller() { // a class constructor
 
         // are we done?
         if (slideNum >= storyText.length) {
-            console.log("Intro completed after " + (elapsedTime / 1000).toFixed(1) + " seconds total");
+            // console.log("Intro completed after " + (elapsedTime / 1000).toFixed(1) + " seconds total");
             this.currentlyPlaying = false;
             return;
         }

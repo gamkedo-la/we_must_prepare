@@ -1565,7 +1565,7 @@ function MusicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, min
 		// 	if(Math.random() <= (playTime - playMin)/(playMax - playMin)) {
 				//console.log("Min Reached, randomizing. Weighting was " + (playTime - playMin)/(playMax - playMin));
 				while(currentTrack == lastTrack) {
-					console.log("Changing track!");
+					// console.log("Changing track!");
 					currentTrack = this.randomTrackIdx();
 				}
 				playTime = 0;

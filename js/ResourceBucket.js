@@ -21,7 +21,7 @@ function getResourceLookupTableSaveState() {
 }
 
 function loadResourceLookupTableSaveState(saveState) {
-    console.log("Loading state");
+    // console.log("Loading state");
     for (var i = 0; i < resourceLookupTable.length; i++) {
         var tileLookupTableSaveState = saveState[i];
         if (tileLookupTableSaveState) {
@@ -92,11 +92,11 @@ function depositResources(fromContainer, toContainer, quantity) {
 }
 
 function removeResourcesForBuilding(fromContainer, buildingBlueprint) {
-    console.log('fromContainer is %s before building and cost is %s', fromContainer[Resources.Wood].carried, buildingBlueprint.Wood);
+    // console.log('fromContainer is %s before building and cost is %s', fromContainer[Resources.Wood].carried, buildingBlueprint.Wood);
     fromContainer[Resources.Wood].carried -= buildingBlueprint.Wood;
     fromContainer[Resources.Metal].carried -= buildingBlueprint.Metal;
     fromContainer[Resources.Stone].carried -= buildingBlueprint.Stone;
-    console.log('fromContainer is %s after building', fromContainer[Resources.Wood].carried);
+    // console.log('fromContainer is %s after building', fromContainer[Resources.Wood].carried);
 }
 
 function setupBuckets() {
@@ -137,16 +137,16 @@ function getResourceFromIndex(index, oncePerClick, playerBucket) {
         }
     }
     if (typeof resourceLookupTable[index] === "undefined") {
-        console.log("No resource bucket exists.  Resource at index " + index);
+        // console.log("No resource bucket exists.  Resource at index " + index);
     } else {
         for (var key in resourceLookupTable[index]) {
             if (resourceLookupTable[index][key].carried > 1) {
                 depositResources(resourceLookupTable[index][key], playerBucket[key], 1);
-                console.log("Just gathered from a bucket of " + key + " with count of " + resourceLookupTable[index][key].carried + " left!");
+                // console.log("Just gathered from a bucket of " + key + " with count of " + resourceLookupTable[index][key].carried + " left!");
             } else if (resourceLookupTable[index][key].carried == 1) {
                 depositResources(resourceLookupTable[index][key], playerBucket[key], 1);
                 roomGrid[index] = TILE_GROUND;
-                console.log("Cannot grab any resources, destroying resource");
+                // console.log("Cannot grab any resources, destroying resource");
                 return true;
             }
 

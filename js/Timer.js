@@ -1,6 +1,6 @@
 const SECONDS_PER_DAY = 24 * 60 * 60; // used in Main.js and Weather.js to determine % of day elapsed
 const MS_PER_TIMETICK = 1; // how often the timer ticks in milliseconds, started at 12
-const DAY_SECONDS_PER_TIMETICK = 1; // how many seconds to simulate each tick
+const DAY_SECONDS_PER_TIMETICK = 2; // how many seconds to simulate each tick
 const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debugging (or sleep?)
 
 // GAME OVER is triggered when we hit the "arrival date"
@@ -52,7 +52,7 @@ function Timer() {
         } else {
             this.isTimeFrozen = freezeNow;
         }
-        console.log("is Time Frozen? " + this.isTimeFrozen);
+        // console.log("is Time Frozen? " + this.isTimeFrozen);
     }
 
     this.drawTimer = function () {
@@ -129,8 +129,8 @@ function Timer() {
     }
 
     this.endOfDay = function () {
-        console.log("Day number " + this.dayNumber + " has ended!");
-        console.log("The humans will arrive in " + (DAY_OF_ARRIVAL - this.dayNumber) + " days.");
+        // console.log("Day number " + this.dayNumber + " has ended!");
+        // console.log("The humans will arrive in " + (DAY_OF_ARRIVAL - this.dayNumber) + " days.");
         this.dayNumber++;
         this.secondsInDay = 0;
 
@@ -191,7 +191,7 @@ function Timer() {
                 roomGrid[i] = TILE_TILLED_SEEDS;
             }
         }
-        console.log(drycount + " patches of soil dried up.");
+        // console.log(drycount + " patches of soil dried up.");
 
         player.playerEnergyLevel = Math.floor(PLAYER_MAX_ENERGY * 0.66);
     }

@@ -32,7 +32,7 @@ function drawRadiation () {
 function centerRadiation (newX, newY){
 	radCenterX = newX;
 	radCenterY = newY;
-	console.log ('radiation fog turned on, press F to toggle');
+	// console.log ('radiation fog turned on, press F to toggle');
 }
 
 function boundPlayerInRadiation () {
@@ -64,5 +64,5 @@ function handleRadiationGrowth () {
 
 function toggleRadiation (){
 	radEnabled = !radEnabled;
-	console.log ('Radiation Enable? ' + radEnabled);
+	// console.log ('Radiation Enable? ' + radEnabled);
 }

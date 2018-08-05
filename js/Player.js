@@ -431,7 +431,7 @@ function Player() {
 
             if (walkIntoTileType == TILE_RECHARGE_STATION) {
                 if (player.playerEnergyLevel < PLAYER_MAX_ENERGY || Math.floor(timer.secondsInDay / 60) > 20) {
-                    console.log("Going for recharge!");
+                    // console.log("Going for recharge!");
                     for (var i = 0; i < plantTrackingArray.length; i++) {
                         plantTrackingArray[i].dayChanged();
                     }

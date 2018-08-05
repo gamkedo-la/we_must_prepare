@@ -8,30 +8,30 @@ var toBuild; //this is currently generated in Input.js
 var buildingStorage;
 
 function lumberToConsole() {
-    console.log("farm clicked");
+    // console.log("farm clicked");
 }
 function houseToConsole() {
-    console.log("house clicked");
+    // console.log("house clicked");
 }
 function siloToConsole() {
-    console.log("silo clicked");
+    // console.log("silo clicked");
 }
 function generaToConsole() {
-    console.log("genera clicked");
+    // console.log("genera clicked");
 }
 function farmToConsole() {
-    console.log("farm clicked");
+    // console.log("farm clicked");
 }
 function upgradeToConsole() {
-    console.log("upgrade clicked");
+    // console.log("upgrade clicked");
 }
 
 function clickUpgrade() {
-    console.log('upgrade button clicked');
+    // console.log('upgrade button clicked');
 }
 
 function clickSell() {
-    console.log('sell button clicked');
+    // console.log('sell button clicked');
     var buildingDefsAtTile = tileKindToBuildingDef(roomGrid[selectedIndex]);
     player.storageList[Resources.Metal].carried += Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND);
     player.storageList[Resources.Wood].carried += Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND);

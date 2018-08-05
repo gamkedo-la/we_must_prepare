@@ -80,7 +80,7 @@ function mousedownHandler(evt) {
 
 function mouseupHandler(evt) {
     if (hasGameStartedByClick == false) {
-        console.log('we are in hasGameStartedByClick == false in mouseupHandler: num pics to load ' + picsToLoad);
+        // console.log('we are in hasGameStartedByClick == false in mouseupHandler: num pics to load ' + picsToLoad);
         if (picsToLoad == 0) {
             loadingDoneSoStartGame();
         }
@@ -140,7 +140,7 @@ function inputUpdate() {
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
         }
-        console.log("Mouse click handled by GUI: " + inputHandled);
+        // console.log("Mouse click handled by GUI: " + inputHandled);
     }
 
     if ((!inputHandled) && isMouseOverInterface()) {
@@ -151,7 +151,7 @@ function inputUpdate() {
                 resourcesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
 
                 toBuild = buildingDefs[mouseOverBuildingInterfaceIndex];
-                console.log("I clicked " + toBuild.label);
+                // console.log("I clicked " + toBuild.label);
                 toBuild.onClick();
                 isBuildModeEnabled = true;
 
@@ -201,7 +201,7 @@ function inputUpdate() {
         
         if (!inputHandled) {
             if(mouseClickedThisFrame){
-                console.log("Moving to mouse position...");
+                // console.log("Moving to mouse position...");
                 mouseToMovePlayer = true;
             }
             if (interface.tabMenu.isVisible) {
@@ -275,20 +275,31 @@ function keyPress(evt) {
                 player.hotbar.scrollThrough(shiftKeyHeld);
             }
             break;
-        case "KeyB":
-            isBuildModeEnabled = !isBuildModeEnabled;
-            console.log("Build mode enabled is " + isBuildModeEnabled);
-            break;
         case "Escape":
         case "Esc":
-        case KEY_INVENTORY:
-
             // skip the intro if it is playing
             if (window.intro && intro.currentlyPlaying) {
-                console.log("Skipping intro: ESC pressed.");
+                if (!RELEASE_VERSION) {
+                    // console.log("Skipping intro: ESC pressed.");
+                }
                 intro.currentlyPlaying = false;
                 break; // avoid also opening the menu if we did
             }
+            interface.tabMenu.switchTabName("Game");
+            //Switch central menu to inventory tab
+            if (player.itemsHeldAtMouse.count == 0) {
+
+                interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
+            }
+
+            buildingStorage.active = false;
+            if (interface.tabMenu.isVisible) {
+                uiSelect.play();
+            } else {
+                uiCancel.play();
+            }
+            break;
+        case KEY_INVENTORY:
 
             //Switch central menu to inventory tab
             if (player.itemsHeldAtMouse.count == 0) {
@@ -340,19 +351,6 @@ function keyPress(evt) {
             toolKeyHeld = true;
             player.doActionOnTile(); // gather resources, till tiles, etc
             break;
-        // case KEY_INVENTORY:
-        //     //Switch central menu to inventory tab
-        //     if (player.itemsHeldAtMouse.count == 0) {
-        //         interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
-        //     }
-        //
-        //     buildingStorage.active = false;
-        //     if (interface.tabMenu.isVisible) {
-        //         uiSelect.play();
-        //     } else {
-        //         uiCancel.play();
-        //     }
-        //     break;
         case KEY_DO_ACTION:
             player.doActionOnTile();
             break;
@@ -360,26 +358,38 @@ function keyPress(evt) {
             keyPressForSaving();
             break;
         case "KeyP":
-            timer.endOfDay();
+            if (!RELEASE_VERSION) {
+                timer.endOfDay();
+            }
             break;
         case "KeyO":
-            console.log("Pressed the O Key");
-            timer.pauseTime();
+            if (!RELEASE_VERSION) {
+                console.log("Pressed the O Key");
+                timer.pauseTime();
+            }
             break;
         case "KeyF":
-            console.log("Pressed the F Key");
-            toggleRadiation();
-            uiChange.play();
+            if (!RELEASE_VERSION) {
+                console.log("Pressed the F Key");
+                toggleRadiation();
+                uiChange.play();
+            }
             break;
         case "KeyU":
-            createFinalResources();
+            if (!RELEASE_VERSION) {
+                createFinalResources();
+            }
             break;
         case "KeyY":
-            timer.dayNumber = 364;
+            if (!RELEASE_VERSION) {
+                timer.dayNumber = 364;
+            }
             break;
         case KEY_FAST_FORWARD:
-            timer.fastForward = !timer.fastForward; // flip on/off
-            console.log("Fast Forward: " + timer.fastForward);
+            if (!RELEASE_VERSION) {
+                timer.fastForward = !timer.fastForward; // flip on/off
+                console.log("Fast Forward: " + timer.fastForward);
+            }
             break;
         case "Digit1":
             if (!interface.tabMenu.isVisible) {
@@ -407,7 +417,9 @@ function keyPress(evt) {
             }
             break;
         case "KeyL":
-            resetGame(false);
+            if (!RELEASE_VERSION) {
+                resetGame(false);
+            }
             break;
         default:
             // console.log("keycode press is " + evt.keyCode);

@@ -16,7 +16,7 @@ var goodEnding;
 var badEnding;
 
 var weather = new WeatherSystem(); // init weather system
-console.log("Weather system init complete.");
+// console.log("Weather system init complete.");
 
 var items;
 var interface;
@@ -62,7 +62,7 @@ function startGameLoop() {
     startAudioEngine();
     timer.pauseTime(false);
     mouseClickToMoveRelease();
-    console.log("Game unpaused");
+    // console.log("Game unpaused");
 
     // start the game engine's main render loop
     gameInterval = setInterval(gameLoop, 1000 / FRAMES_PER_SECOND);
@@ -124,7 +124,7 @@ function windowOnBlur() {
         colorText('Game Paused', canvas.width / 2, canvas.height / 2, 'white');
         colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');
         canvasContext.textAlign = 'left';
-        console.log("Game is now paused");
+        // console.log("Game is now paused");
         stopAudioEngine();
         uiCancel.play();
     }
@@ -185,7 +185,7 @@ window.onresize = function () {
             */
 
         }
-        console.log("game resized to " + canvas.width + "x" + canvas.height);
+        // console.log("game resized to " + canvas.width + "x" + canvas.height);
     }
 }
 

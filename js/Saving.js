@@ -9,7 +9,7 @@ function deactivateAutoSave() {
 }
 
 function autoSave() {
-  console.log("auto-saving...");
+  // console.log("auto-saving...");
 
   var saveState = getSaveState();
   persistence.setObject('autosave', saveState);
@@ -19,7 +19,7 @@ function autoSave() {
 
 function save(slotIndex) {
   var slotName = 'save_' + slotIndex;
-  console.log('saving to ' + slotName);
+  // console.log('saving to ' + slotName);
   var saveState = getSaveState();
   persistence.setObject(slotName, saveState);
   uiSelect.play();
@@ -77,14 +77,14 @@ function hasAnySaveState() {
 
 function autoLoad() {
   var slotName = 'autosave';
-  console.log('loading from ' + slotName);
+  // console.log('loading from ' + slotName);
   var saveState = persistence.getObject(slotName, null);
   loadSaveState(saveState);
 }
 
 function load(slotIndex) {
   var slotName = 'save_' + slotIndex;
-  console.log('loading from ' + slotName);
+  // console.log('loading from ' + slotName);
   var saveState = persistence.getObject(slotName, null);
   loadSaveState(saveState);
   uiSelect.play();

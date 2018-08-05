@@ -397,7 +397,7 @@ function InventorySlotInterfaceHelper() {
 
 function isInPane(pane, x, y) {
     if (pane === null) {
-        console.log("No pane detected");
+        // console.log("No pane detected");
         return false; //no pane referenced
     }
     var topLeftX = pane.x;
@@ -451,11 +451,11 @@ var mouseOverBuildingInterfaceIndex = -1;
 var mouseOverButtonPerBuildingInterfaceIndex = -1;
 
 function placeBuildingAtPixelCoord(building_type) {
-    if (DEBUG_MOUSE) { console.log('placeBuildingAtPixelCoord mouseX=' + mouseX + ' mouseY=' + mouseY); }
+    // if (DEBUG_MOUSE) { console.log('placeBuildingAtPixelCoord mouseX=' + mouseX + ' mouseY=' + mouseY); }
     var indexToPlaceBuildingAt = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
     var indexForPlayer = getTileIndexAtPixelCoord(player.x, player.y);
     if (indexToPlaceBuildingAt == indexForPlayer) {
-        console.log("Can't build on player!")
+        // console.log("Can't build on player!");
         badBuildingPlacement = true;
         return;
     } else {
