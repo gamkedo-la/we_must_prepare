@@ -462,6 +462,8 @@ function Player() {
 
     this.doActionOnTile = function (tileIndex = this.currentlyFocusedTileIndex, oncePerClick = true) {
         if (oncePerClick) {
+            mouseClickToMoveRelease();
+
             let toolToUseOnTile = this.getTileTypeAction(tileIndex);
             if (toolToUseOnTile && toolToUseOnTile != items.nothing) {
                 toolToUseOnTile.use(this, tileIndex);
