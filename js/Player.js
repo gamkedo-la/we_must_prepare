@@ -9,7 +9,12 @@ function Player() {
     this.itemsHeldAtMouse = new EmptyInventorySlot();
 
     this.bucketList = [];
-    this.storageList = [];
+    this.storageList = [];    
+
+    this.mouseClickWest = false;
+    this.mouseClickNorth = false;
+    this.mouseClickSouth = false;
+    this.mouseClickEast = false;
 
     this.keyHeld_West = false;
     this.keyHeld_North = false;
@@ -270,25 +275,25 @@ function Player() {
         }
 
         // colorCircle(this.homeX, this.homeY, 25, 'yellow');
-        if (this.keyHeld_North) {
+        if (this.keyHeld_North || (this.mouseClickNorth && this.moveOnClick)) {
             playerWalkNorth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkNorth.update();
             playFootstep(playerWalkNorth);
             drewAnimationAlready = true;
             //return;
-        } else if (this.keyHeld_East) {
+        } else if (this.keyHeld_East || (this.mouseClickEast && this.moveOnClick)) {
             playerWalkEast.draw(this.x, this.y - playerImage.height / 2);
             playerWalkEast.update();
             playFootstep(playerWalkEast);
             drewAnimationAlready = true;
             //return;
-        } else if (this.keyHeld_South) {
+        } else if (this.keyHeld_South || (this.mouseClickSouth && this.moveOnClick)) {
             playerWalkSouth.draw(this.x, this.y - playerImage.height / 2);
             playerWalkSouth.update();
             playFootstep(playerWalkSouth);
             drewAnimationAlready = true;
             //return;
-        } else if (this.keyHeld_West) {
+        } else if (this.keyHeld_West || (this.mouseClickWest && this.moveOnClick)) {
             playerWalkWest.draw(this.x, this.y - playerImage.height / 2);
             playerWalkWest.update();
             playFootstep(playerWalkWest);
@@ -356,29 +361,54 @@ function Player() {
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     };
 
-    this.move = function () {
+    this.move = function (withMouse = false, moveToX = 0, moveToY = 0) {
+        this.moveOnClick = withMouse;
+        
         var movementX = 0;
         var movementY = 0;
+        
+        let clickMargin = 20;
+        this.mouseClickNorth = moveToY < this.y - clickMargin;
+        this.mouseClickEast = moveToX > this.x + clickMargin;
+        this.mouseClickSouth = moveToY > this.y + clickMargin;
+        this.mouseClickWest = moveToX < this.x - clickMargin;
+
 
         // maybe spawn some particles
         var moved = ((this.prev_x != this.x) || (this.prev_y != this.y));
         if (moved) walkFX(this.x, this.y - 20); // dust / footsteps
         this.prev_x = this.x;
-        this.prev_y = this.y;
-
-        if (this.keyHeld_North) {
+        this.prev_y = this.y;        
+        
+        if (this.keyHeld_North || (this.mouseClickNorth && this.moveOnClick)) {
             movementY -= PLAYER_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_East) {
-            movementX += PLAYER_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_South) {
-            movementY += PLAYER_PIXELS_MOVE_RATE;
-        }
-        if (this.keyHeld_West) {
-            movementX -= PLAYER_PIXELS_MOVE_RATE;
-        }
 
+            if (this.keyHeld_North) {
+                mouseClickToMoveRelease();
+            }
+        }
+        if (this.keyHeld_East || (this.mouseClickEast && this.moveOnClick)) {
+            movementX += PLAYER_PIXELS_MOVE_RATE;
+            
+            if (this.keyHeld_East) {
+                mouseClickToMoveRelease();
+            }
+        }
+        if (this.keyHeld_South || (this.mouseClickSouth && this.moveOnClick)) {
+            movementY += PLAYER_PIXELS_MOVE_RATE;
+            
+            if (this.keyHeld_South) {
+                mouseClickToMoveRelease();
+            }
+        }
+        if (this.keyHeld_West || (this.mouseClickWest && this.moveOnClick)) {
+            movementX -= PLAYER_PIXELS_MOVE_RATE;
+            
+            if (this.keyHeld_West) {
+                mouseClickToMoveRelease();
+            }
+        }    
+    
         this.getDirectionPlayerIsCurrentlyFacing();
 
         if ((movementX != 0) || (movementY != 0)) {
@@ -426,6 +456,8 @@ function Player() {
 
         boundPlayerInRadiation();
         soundUpdateOnPlayer();
+
+        return true;
     }; // end move
 
     this.doActionOnTile = function (tileIndex = this.currentlyFocusedTileIndex, oncePerClick = true) {
@@ -661,45 +693,45 @@ function Player() {
     };
 
     this.isPlayerIdle = function () {
-        return (!this.keyHeld_North &&
-            !this.keyHeld_South &&
-            !this.keyHeld_West &&
-            !this.keyHeld_East);
+        return (!this.keyHeld_North && !(this.mouseClickNorth && this.moveOnClick) &&
+            !this.keyHeld_South && !(this.mouseClickSouth && this.moveOnClick) &&
+            !this.keyHeld_West && !(this.mouseClickWest && this.moveOnClick) &&
+            !this.keyHeld_East && !(this.mouseClickEast && this.moveOnClick)); 
     };
 
     this.getDirectionPlayerIsCurrentlyFacing = function () {
         //next four if/else if statements set direction only for horizontal and vertical movement
-        if (this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) {
+        if ((this.keyHeld_West && !this.keyHeld_North && !this.keyHeld_South) || (this.mouseClickWest && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_WEST;
             //console.log("facing west");
         }
-        else if (this.keyHeld_East && !this.keyHeld_North && !this.keyHeld_South) {
+        else if ((this.keyHeld_East && !this.keyHeld_North && !this.keyHeld_South) || (this.mouseClickEast && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_EAST;
             //console.log("facing east");
         }
-        else if (this.keyHeld_North && !this.keyHeld_West && !this.keyHeld_East) {
+        else if ((this.keyHeld_North && !this.keyHeld_West && !this.keyHeld_East) || (this.mouseClickNorth && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_NORTH;
             //console.log("facing north");
         }
-        else if (this.keyHeld_South && !this.keyHeld_West && !this.keyHeld_East) {
+        else if ((this.keyHeld_South && !this.keyHeld_West && !this.keyHeld_East) || (this.mouseClickSouth && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_SOUTH;
             //console.log("facing south");
         }
 
         //these four else if statements set direction for diagonal movement rather than horizontal and vertical movement
-        else if (this.keyHeld_North && this.keyHeld_East) {
+        if ((this.keyHeld_North && this.keyHeld_East) || (this.mouseClickNorth && this.mouseClickEast && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_NORTHEAST;
             //console.log("facing northeast");
         }
-        else if (this.keyHeld_North && this.keyHeld_West) {
+        else if ((this.keyHeld_North && this.keyHeld_West) || (this.mouseClickNorth && this.mouseClickWest && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_NORTHWEST;
             //console.log("facing northwest");
         }
-        else if (this.keyHeld_South && this.keyHeld_East) {
+        else if ((this.keyHeld_South && this.keyHeld_East) || (this.mouseClickSouth && this.mouseClickEast && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_SOUTHEAST;
             //console.log("facing southeast");
         }
-        else if (this.keyHeld_South && this.keyHeld_West) {
+        else if ((this.keyHeld_South && this.keyHeld_West) || (this.mouseClickSouth && this.mouseClickWest && this.moveOnClick)) {
             this.playerLastFacingDirection = DIRECTION_SOUTHWEST;
             //console.log("facing southwest");
         }

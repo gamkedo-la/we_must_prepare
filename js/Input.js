@@ -20,6 +20,9 @@ var toolKeyHeld = false;
 var shiftKeyHeld = false;
 var mouseX = 0;
 var mouseY = 0;
+var mouseLastClickedToMoveX = 0;
+var mouseLastClickedToMoveY = 0;
+var mouseToMovePlayer = false;
 var mouseWorldX = 0;
 var mouseWorldY = 0;
 var isBuildModeEnabled = false;
@@ -65,6 +68,8 @@ function mousedownHandler(evt) {
     if (evt.which === MOUSE_LEFT_CLICK) {
         mouseHeld = true;
         mouseClickedThisFrame = true;
+        mouseLastClickedToMoveX = mouseWorldX;
+        mouseLastClickedToMoveY = mouseWorldY;
     } else {
         if (evt.which === MOUSE_RIGHT_CLICK) {
             rightMouseClickedThisFrame = true;
@@ -97,6 +102,12 @@ function mousewheelHandler(evt) {
     evt.preventDefault();
 }
 
+function mouseClickToMoveRelease() {
+    mouseLastClickedToMoveX = player.x;
+    mouseLastClickedToMoveY = player.y;
+    mouseToMovePlayer = false;
+}
+
 function isMouseOverInterface() {
     return mouseY > HOTBAR_Y();
 }
@@ -119,8 +130,9 @@ function inputUpdate() {
         // Central Menu //
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
-        }
+        }        
     }
+    
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
         if (mouseClickedThisFrame) {
@@ -138,7 +150,7 @@ function inputUpdate() {
                 perBuildingButtonDefs[mouseOverButtonPerBuildingInterfaceIndex].onClick();
             }
         }
-    } else if (!inputHandled && isBuildModeEnabled) {
+    } else if (!inputHandled && isBuildModeEnabled) {        
         if (mouseClickedThisFrame) {
             placeBuildingAtPixelCoord(toBuild.tile);
             if (badBuildingPlacement) {
@@ -176,15 +188,30 @@ function inputUpdate() {
                 player.doActionOnTile(); // gather resources, till tiles, etc
             }
         }
-    }
+        
+        if (!inputHandled) {
+            mouseToMovePlayer = true;
+            if (interface.tabMenu.isVisible) {
+                mouseClickToMoveRelease();
+            }
+            else if (mouseToMovePlayer) {
+                inputHandled = player.move(true, mouseLastClickedToMoveX, mouseLastClickedToMoveY);
+                if (rightMouseClickedThisFrame) {                
+                    mouseClickToMoveRelease();
+                    inputHandled = false;
+                }
+            }
+        }
+    }    
 
-    if (rightMouseClickedThisFrame) {
+    if (!inputHandled && rightMouseClickedThisFrame) {
         inputHandled = interface.tabMenu.rightMouseClick(mouseX, mouseY) || interface.hotbarPane.rightMouseClick(mouseX, mouseY);
         rightMouseClickedThisFrame = false;
-    }
-    if (!centralMenuOpen) {
+    }    
+    
+    if (!centralMenuOpen && !inputHandled) {
         player.move();
-    }
+    }    
 }
 
 
