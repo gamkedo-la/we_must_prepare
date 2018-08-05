@@ -516,11 +516,9 @@ function AudioMuteToggleInterface(name, topLeftX, topLeftY, width, height) {
     this.name = name;
     this.isVisible = true;
 
-    this.lineHeight = 10;
+    this.lineHeight = 14;
     this.textLine = name;
 
-    this.toggleHeight = this.height - this.lineHeight;
-    this.toggleValue = getMute();
 
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         if(y >= this.y + this.lineHeight && y <= this.y + this.height &&
@@ -532,9 +530,13 @@ function AudioMuteToggleInterface(name, topLeftX, topLeftY, width, height) {
     };
 
     this.draw = function() {
+
+        this.toggleHeight = this.height - this.lineHeight;
+        this.toggleValue = getMute();
+
         this.toggleValue = getMute();
         var textX = this.x;
-        var textY = this.y + this.lineHeight - 2;
+        var textY = this.y + this.lineHeight - 4;
         var toggleX = this.x;
         var toggleY = this.y + this.lineHeight;
 
