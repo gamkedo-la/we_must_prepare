@@ -335,6 +335,7 @@ function Inventory(size) {
 
         var str = "";
         siloTotals = []; // reset totals (a global in score.js)
+        var count = 0;
 
         for (var i = 0; i < this.slots.length; i++) {
             if (this.slots[i].item != ItemCode.NOTHING) {
@@ -342,10 +343,12 @@ function Inventory(size) {
             }
         }
 
-        console.log('siloTotals:', siloTotals);
+        //console.log('siloTotals:', siloTotals);
 
         for (var key in siloTotals) {
-            if (str != "") str += ', '
+            count++;
+            if (str != "") str += ', ';
+            if (count % 4 == 0) str += '\n'; // newline every 4th
             str += siloTotals[key] + ' ' + key;
         }
 
@@ -357,7 +360,10 @@ function Inventory(size) {
             }
         }
         */
-        return str + '.';
+
+        if (str != "") str += '.'; // period at end if not blank
+
+        return str;
     }
 
     this.preparednessLevel = function () {

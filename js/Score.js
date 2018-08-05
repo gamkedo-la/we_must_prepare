@@ -98,9 +98,37 @@ var getWinConditions = function () {
             report = "Your silo is currently empty.";
         else
             report = "Your silo contains " + report;
-        conditions.push(report);
+
+        // allow >1 line in the report
+        var reportlines = report.split('\n');
+        conditions = conditions.concat(reportlines);
+
+        var percentage = Math.ceil(buildingStorage.preparednessLevel() * 100);
+
         conditions.push('');
-        conditions.push("You are currently " + Math.ceil(buildingStorage.preparednessLevel() * 100) + "% prepared. Don't give up!");
+        conditions.push("You are currently " + percentage + "% prepared.");
+
+        // some encouragement
+        conditions.push('');
+        if (percentage == 100) {
+            conditions.push('Congratulations! The planet is ready for human habitation!');
+        }
+        else if (percentage > 75) {
+            conditions.push("You're over three-quarters there! You got this!");
+        }
+        else if (percentage > 50) {
+            conditions.push("You're over halfway there! Keep it up the good work!");
+        }
+        else if (percentage > 25) {
+            conditions.push("You're over a quarter of the way to being ready! Keep going!");
+        }
+        else if (percentage > 0) {
+            conditions.push("You've sucessfully begun preparing! Don't give up!");
+        }
+        else {
+            conditions.push("Harvest some resources, then click the silo to begin!");
+        }
+
     }
 
     return conditions;
