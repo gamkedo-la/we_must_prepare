@@ -677,6 +677,8 @@ function HotbarPane() {
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         if (player.hotbar.selectedSlotIndex >= 0) {
+            mouseClickToMoveRelease();
+            
             if (interface.inventoryPane.isVisible && interface.tabMenu.isVisible) {
                 player.hotbar.grabSlot(shiftKeyHeld);
             }
