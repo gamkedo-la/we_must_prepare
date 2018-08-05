@@ -23,8 +23,8 @@ function WeatherSystem() {
     this.howFoggy = 0;
     this.howWindy = {
         magnitude: 0,
-        direction: { x: -1, y: 1 }        
-    };    
+        direction: { x: -1, y: 1 }
+    };
     this.howRainy = 0;
 
     const PROBABILITY_OF_PRECIPITATION = 0.15; // each morning, we roll the dice to see if it will rain today
@@ -37,7 +37,7 @@ function WeatherSystem() {
     const windLength = 50;
     const rainLength = 101;
 
-    this.getSaveState = function() {
+    this.getSaveState = function () {
         var result = {
             // Don't save rainDrops - looks like it's auto-generated
             // Don't save clouds - looks like it's auto-generated
@@ -51,7 +51,7 @@ function WeatherSystem() {
         return result;
     }
 
-    this.loadSaveState = function(saveState) {
+    this.loadSaveState = function (saveState) {
         this.howSunny = saveState.howSunny;
         this.howCloudy = saveState.howCloudy;
         this.howFoggy = saveState.howFoggy;
@@ -60,7 +60,7 @@ function WeatherSystem() {
         this.canRainToday = saveState.canRainToday;
     }
 
-    this.debugPrint = function() {
+    this.debugPrint = function () {
         console.log("howSunny = " + this.howSunny);
         console.log("howCloudy = " + this.howCloudy);
         console.log("howFoggy = " + this.howFoggy);
@@ -144,19 +144,19 @@ function WeatherSystem() {
         var spdy = 0;
         var spawnx = 0;
         var spawny = 0;
-        const maxY = canvas.height;
-        const maxX = canvas.width;
+        var maxY = canvas.height;
+        var maxX = canvas.width;
 
         // weather and sunrise/sunset depend on game timer
         // note: this means it changes VERY SLOWLY
         // (takes an entire day (16 minutes) to go from 0..1..0
 
         var dayPercent = timer.secondsInDay / SECONDS_PER_DAY;
-        this.howSunny = Math.sin(dayPercent * 5);        
+        this.howSunny = Math.sin(dayPercent * 5);
         // oscillate in and out from -1 to 1 at different rates
         this.howCloudy = Math.sin(timer.secondsInDay / cloudLength / 60);
         this.howFoggy = Math.sin(timer.secondsInDay / fogLength / 60);
-        this.howWindy.magnitude = Math.sin(timer.secondsInDay / windLength / 60);        
+        this.howWindy.magnitude = Math.sin(timer.secondsInDay / windLength / 60);
         if (timer.secondsInDay % 1000 == 0) {
             if (Math.random() > 0.5) {
                 this.howWindy.direction.x = -this.howWindy.direction.x;
@@ -233,10 +233,10 @@ function WeatherSystem() {
                 }
 
                 // respawn when past any edge
-                if ((this.clouds[loop].y > maxY - cameraOffsetY + CLOUD_SPRITE_SIZE * 4) || // past bottom
-                    (this.clouds[loop].y < 0 - cameraOffsetY - CLOUD_SPRITE_SIZE * 4) || // past top
-                    (this.clouds[loop].x > maxX - cameraOffsetX + CLOUD_SPRITE_SIZE * 4) || // right
-                    (this.clouds[loop].x < 0 - cameraOffsetX - CLOUD_SPRITE_SIZE * 4)) {
+                if ((this.clouds[loop].y > maxY - cameraOffsetY + CLOUD_SPRITE_SIZE * 3) || // past bottom
+                    (this.clouds[loop].y < 0 - cameraOffsetY - CLOUD_SPRITE_SIZE * 3) || // past top
+                    (this.clouds[loop].x > maxX - cameraOffsetX + CLOUD_SPRITE_SIZE * 3) || // right
+                    (this.clouds[loop].x < 0 - cameraOffsetX - CLOUD_SPRITE_SIZE * 3)) {
 
                     var randy = Math.random();
 

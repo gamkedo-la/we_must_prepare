@@ -14,7 +14,7 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
     var birdy = [];
     var birdSpeedX = [];
     var birdSpeedY = [];
-    const RESPAWN_DISTANCE_OFFSCREEN = 2000; // extra so the bird isn't always on screen    
+    const RESPAWN_DISTANCE_OFFSCREEN = 1000; // extra so the bird isn't always on screen    
     var altitudeVariance = 20;
 
     this.newDay = function () { // when the day suddenly changes, don't leave wildlife where it was
@@ -42,7 +42,7 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
                 if (!birdx[me] || !birdy[me] || // first time?
                     (birdx[me] > canvas.width + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN) || // off screen?
                     (birdy[me] > canvas.height + SPRITE_SIZE + RESPAWN_DISTANCE_OFFSCREEN)) {
-                    birdx[me] = -SPRITE_SIZE + cameraOffsetX - Math.random() * 500;
+                    birdx[me] = -SPRITE_SIZE + cameraOffsetX - (Math.random() * RESPAWN_DISTANCE_OFFSCREEN);
                     birdy[me] = Math.random() * canvas.height + cameraOffsetY;
                     birdSpeedX[me] = 0.5 + (Math.random() * 0.25);
                     birdSpeedY[me] = Math.random() - 0.5;
@@ -54,11 +54,13 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
             birdx[me] += birdSpeedX[me];
             birdy[me] += birdSpeedY[me];
 
-            // fly away faster in the rain
+            /*
+            // fly away faster in the rain - removed - it looks weird
             if (currentlyGettingWet) {
-                birdx[me] += birdSpeedX[me] * 3; // 4x horizontal speed total!!
+                birdx[me] += birdSpeedX[me] * 2; // 4x horizontal speed total!!
                 //console.log("Squawk! I'm getting wet!");
             }
+            */
 
             // draw bird
             canvasContext.drawImage(wildlifeSpritesheet, // see imgLoading.js
@@ -78,7 +80,7 @@ function WildlifeSystem(populationSize = 2, spriteSheetRow = 0, animSpeedmodifie
 } // wildlife system
 
 // make one immediately
-window.birds = new WildlifeSystem(2, 0, 8);
-window.butterflies = new WildlifeSystem(4, 1, 1);
+window.birds = new WildlifeSystem(4, 0, 8);
+window.butterflies = new WildlifeSystem(8, 1, 1);
 console.log("Wildlife system init complete.");
 
