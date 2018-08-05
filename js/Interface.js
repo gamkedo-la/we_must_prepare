@@ -93,7 +93,7 @@ function Interface() {
 
     CANVAS_SIZE_POSITION_UPDATER = function(){ return new RectangleUpdater(pane=>0, pane=>0, pane=>canvas.width, pane=>canvas.height); };
 
-    this.loadGameMenu = Flow( new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false), CANVAS_SIZE_POSITION_UPDATER() );
+    this.loadGameMenu = Flow( new LoadGamePane(this, this.mainMenu, 0, 0, canvas.width, canvas.height, false), CANVAS_SIZE_POSITION_UPDATER() );
 
     buttonNum = 0;
     if (hasAutoSaveState()) {
@@ -221,9 +221,22 @@ function Interface() {
     this.tabMenu.push(this.gameStatePane);
     buttonNum = 0;
 
+    this.ingameLoadGameMenu = undefined;
+    this.ingameSaveGameMenu = undefined;
+
     this.miniLoadGame = Flow( new Button(this.gameStatePane, "Load Game"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
     buttonNum++;
+    this.miniLoadGame.action = function () {
+        interface.tabMenu.isVisible = false;
+        interface.ingameLoadGameMenu = Flow( new LoadGamePane(interface, interface.tabMenu, 0, 0, canvas.width, canvas.height, true), CANVAS_SIZE_POSITION_UPDATER() );
+    };
+
     this.miniSaveGame = Flow( new Button(this.gameStatePane, "Save Game"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+    buttonNum++;
+    this.miniSaveGame.action = function () {
+        interface.tabMenu.isVisible = false;
+        interface.ingameSaveGameMenu = Flow( new SaveGamePane(interface, interface.tabMenu, 0, 0, canvas.width, canvas.height, true), CANVAS_SIZE_POSITION_UPDATER() )
+    };
 
     // Tab-switching code for the in-game Menu pane instance
     this.tabMenu.switchTabIndex(0);
@@ -243,7 +256,9 @@ function Interface() {
         draw(this.tabMenu);
         draw(this.mainMenu);
         draw(this.loadGameMenu);
+        draw(this.ingameLoadGameMenu);
         draw(this.saveGameMenu);
+        draw(this.ingameSaveGameMenu);
         draw(this.itemsHeldAtMouse);
         draw(this.creditsMenu);
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');

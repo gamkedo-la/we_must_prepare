@@ -48,6 +48,8 @@ function Flow(rectangularObject, rectangleUpdater) {
 
 // Generic way to draw something, assuming it might have functions from either Flow or Button or any panel.
 function draw(interfaceElement) {
+    if(!interfaceElement)
+        return;
     if (interfaceElement.onScreenSizeChange) // HACK HACK HACK: here we are updating the position of each button all the time, please optimize this by calling it only once per screen size change instead!
         interfaceElement.onScreenSizeChange();
     interfaceElement.draw();

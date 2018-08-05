@@ -88,6 +88,12 @@ function gameLoop() {
     if (interface.saveGameMenu.isVisible) {
         interface.saveGameMenu.update(mouseX, mouseY);
     }
+    if (interface.ingameLoadGameMenu && interface.ingameLoadGameMenu.isVisible) {
+        interface.ingameLoadGameMenu.update(mouseX, mouseY);
+    }
+    if (interface.ingameSaveGameMenu && interface.ingameSaveGameMenu.isVisible) {
+        interface.ingameSaveGameMenu.update(mouseX, mouseY);
+    }
     if (interface.creditsMenu.isVisible) {
         interface.creditsMenu.update(mouseX, mouseY);
     }

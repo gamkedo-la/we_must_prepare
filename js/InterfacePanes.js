@@ -1,4 +1,20 @@
-﻿// Main Menu Pane
+﻿
+function interfacePaneMouseClickHandler(pane){
+    return function(x=mouseX, y=mouseY){
+        if(!pane.isVisible)
+            return false;
+
+        for (var i = 0; i < pane.buttons.length; i++) {
+            var button = pane.buttons[i];
+            if (button.leftMouseClick(x, y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+// Main Menu Pane
 function MainMenuPane(name, topLeftX, topLeftY, width, height, visible) {
     this.x = topLeftX;
     this.y = topLeftY;
@@ -9,22 +25,7 @@ function MainMenuPane(name, topLeftX, topLeftY, width, height, visible) {
 
     this.buttons = [];
 
-    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
-
-        if (this.isVisible && isInPane(this, x, y)) {
-            //checks for *first* button in array that mouse can click
-            for (var i = 0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                if (button.leftMouseClick(x, y)) {
-                    console.log("button name is : " + button.name);
-                }
-            }
-            // console.log("main menu is visible and mouse is in this pane");
-            return true;
-        }
-        return false;
-    };
+    this.leftMouseClick = interfacePaneMouseClickHandler(this);
 
     this.draw = function () {
         if (this.isVisible) {
@@ -100,14 +101,6 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
         'Kyle Thomas: Barn art', 'Kise: Morning song, main menu logo, grass ground tile art',
         'Stebs: Farmhouse art and menu song'];
 
-
-    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        for (var i = 0; i < this.buttons.length; i++) {
-            var button = this.buttons[i];
-            button.leftMouseClick(x, y);
-        }
-    };
-
     this.draw = function () {
         if (this.isVisible) {
             drawInterfacePaneBackground(this);
@@ -172,18 +165,21 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
         }
     };
 
+    this.leftMouseClick = interfacePaneMouseClickHandler(this);
+
     this.push = function (button) {
         this.buttons.push(button);
     };
 }
 
-function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
+function LoadGamePane(parentPane, previousPane, topLeftX, topLeftY, width, height, visible) {
     this.parentPane = parentPane;
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = width;
     this.height = height;
     this.isVisible = visible;
+    this.previousPane = previousPane;
 
     this.buttons = [];
     this.push = function (button) {
@@ -197,31 +193,34 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         var buttonHeight = 40;
         var buttonSkip = gapY + buttonHeight;
         var buttonNum = 0;
+        var loadGamePane = this;
+        var previousPane = this.previousPane;
 
         //////////////
         // To be short: interface position and width determination is decided by this set of functions.
         // Technique used here: we calculate the positions and sizes
         // relative to several other variables, so we store the way we are calculating these
         // in functions instead of values, then call them to update the positions and sizes. - Klaim
-        LOAD_MENU_TOP_X = function(){ return (canvas.width * 0.5) - 50; };
+        LOAD_MENU_TOP_Y = () => topY;
         LOAD_MENU_BUTTON_LEFT = function(){ return (canvas.width * 0.5) - 50; };
-        LOAD_MENU_BUTTON_TOP = function(buttonNum){ return topY + buttonSkip * buttonNum; };
+        LOAD_MENU_BUTTON_TOP = function(buttonNum){ return LOAD_MENU_TOP_Y() + buttonSkip * buttonNum; };
         LOAD_MENU_BUTTON_WIDTH = function(){ return 100; };
         LOAD_MENU_BUTTON_HEIGHT = function(buttonNum){ return buttonHeight; };
 
         LOAD_MENU_BUTTON_POSITION_UPDATER = function(buttonNum){ // Generate position/size updater for menu buttons.
             return RectangleUpdater( obj => LOAD_MENU_BUTTON_LEFT()         // how x is determined
-                                , obj => LOAD_MENU_BUTTON_TOP(buttonNum) // how y is determined
-                                , obj => LOAD_MENU_BUTTON_WIDTH()        // how width is determined
-                                , obj => LOAD_MENU_BUTTON_HEIGHT()       // how height is determined
-                                );
+                                   , obj => LOAD_MENU_BUTTON_TOP(buttonNum) // how y is determined
+                                   , obj => LOAD_MENU_BUTTON_WIDTH()        // how width is determined
+                                   , obj => LOAD_MENU_BUTTON_HEIGHT()       // how height is determined
+                                   );
         };
         //////////////
 
         var backButton = Flow( new Button(this, "Back"), LOAD_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         backButton.action = function () {
-            interface.loadGameMenu.isVisible = false;
-            interface.mainMenu.isVisible = true;
+            loadGamePane.isVisible = false;
+            if(previousPane)
+                previousPane.isVisible = true;
         };
         buttonNum++;
 
@@ -273,9 +272,9 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
     this.generateButtons();
 
     this.startTheGame = function () {
-        interface.loadGameMenu.isVisible = false;
+        this.isVisible = false;
         // HACK: Not sure why the main menu is shown here
-        interface.mainMenu.isVisible = false;
+        this.previousPane.isVisible = false;
 
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
         inGame_music_master.play();
@@ -287,22 +286,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         // interface.allowPlayerToSave();
     };
 
-    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
-
-        if (this.isVisible && isInPane(this, x, y)) {
-            //checks for *first* button in array that mouse can click
-            for (var i = 0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                if (button.leftMouseClick(x, y)) {
-                    console.log("button name is : " + button.name);
-                }
-            }
-            console.log("load game menu is visible and mouse is in this pane");
-            return true;
-        }
-        return false;
-    };
+    this.leftMouseClick = interfacePaneMouseClickHandler(this);
 
     this.draw = function () {
         if (this.isVisible) {
@@ -324,13 +308,14 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
     };
 }
 
-function SaveGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
+function SaveGamePane(parentPane, previousPane, topLeftX, topLeftY, width, height, visible) {
     this.parentPane = parentPane;
     this.x = topLeftX;
     this.y = topLeftY;
     this.width = width;
     this.height = height;
     this.isVisible = visible;
+    this.previousPane = previousPane;
 
     this.buttons = [];
     this.push = function (button) {
@@ -343,53 +328,68 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         var buttonHeight = 40;
         var buttonSkip = gapY + buttonHeight;
         var buttonNum = 0;
+        var saveGameMenu = this;
+        var previousPane = this.previousPane;
 
-        var backButton = new Button(this, "Back", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
-        backButton.action = function () {
-            interface.saveGameMenu.isVisible = false;
-            interface.mainMenu.isVisible = true;
+        //////////////
+        // To be short: interface position and width determination is decided by this set of functions.
+        // Technique used here: we calculate the positions and sizes
+        // relative to several other variables, so we store the way we are calculating these
+        // in functions instead of values, then call them to update the positions and sizes. - Klaim
+        SAVE_MENU_TOP_Y = () => topY;
+        SAVE_MENU_BUTTON_LEFT = function(){ return (canvas.width * 0.5) - 50; };
+        SAVE_MENU_BUTTON_TOP = function(buttonNum){ return SAVE_MENU_TOP_Y() + buttonSkip * buttonNum; };
+        SAVE_MENU_BUTTON_WIDTH = function(){ return 100; };
+        SAVE_MENU_BUTTON_HEIGHT = function(buttonNum){ return buttonHeight; };
+
+        SAVE_MENU_BUTTON_POSITION_UPDATER = function(buttonNum){ // Generate position/size updater for menu buttons.
+            return RectangleUpdater( obj => SAVE_MENU_BUTTON_LEFT()         // how x is determined
+                                   , obj => SAVE_MENU_BUTTON_TOP(buttonNum) // how y is determined
+                                   , obj => SAVE_MENU_BUTTON_WIDTH()        // how width is determined
+                                   , obj => SAVE_MENU_BUTTON_HEIGHT()       // how height is determined
+                                   );
         };
+        //////////////
+        var closeAndBack = function () {
+            saveGameMenu.isVisible = false;
+            if(previousPane)
+                previousPane.isVisible = true;
+        };
+
+        var backButton = Flow( new Button(this, "Back"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
+        backButton.action = closeAndBack;
         buttonNum++;
 
-        var saveButton1 = new Button(this, "Save Slot 1", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        var saveButton1 = Flow( new Button(this, "Save Slot 1"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         saveButton1.action = function () {
             // This is different for each slot
+            console.log("aaaaa");
             save(1);
+            closeAndBack();
         };
         buttonNum++;
 
-        var saveButton2 = new Button(this, "Save Slot 2", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        var saveButton2 = Flow( new Button(this, "Save Slot 2"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         saveButton2.action = function () {
             // This is different for each slot
+            console.log("aaaaa");
             save(2);
+            closeAndBack();
         };
         buttonNum++;
 
-        var saveButton3 = new Button(this, "Save Slot 3", (canvas.width * 0.5) - 50, topY + buttonSkip * buttonNum, (canvas.width * 0.5) + 50, topY + buttonSkip * buttonNum + buttonHeight);
+        var saveButton3 = Flow( new Button(this, "Save Slot 3"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         saveButton3.action = function () {
             // This is different for each slot
+            console.log("aaaaa");
             save(3);
+            closeAndBack();
         };
         buttonNum++;
     };
-    // this.generateButtons();
+    this.generateButtons();
 
-    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
-
-        if (this.isVisible && isInPane(this, x, y)) {
-            //checks for *first* button in array that mouse can click
-            for (var i = 0; i < this.buttons.length; i++) {
-                var button = this.buttons[i];
-                if (button.leftMouseClick(x, y)) {
-                    console.log("button name is : " + button.name);
-                }
-            }
-            console.log("save game menu is visible and mouse is in this pane");
-            return true;
-        }
-        return false;
-    };
+    this.leftMouseClick = interfacePaneMouseClickHandler(this);
 
     this.draw = function () {
         if (this.isVisible) {
@@ -954,17 +954,24 @@ function GameManagementPane(name, topLeftX, topLeftY, width, height) {
 
     this.buttons = [];
 
-    this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        return false;
-    };
+    this.leftMouseClick = interfacePaneMouseClickHandler(this);
 
     this.draw = function () {
+        this.update();
         drawInterfacePaneBackground(this);
 
         // draw buttons
         for (var i = 0; i < this.buttons.length; i++) {
             var button = this.buttons[i];
             draw(button);
+        }
+    };
+
+
+    this.update = function (x = mouseX, y = mouseY) {
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            button.mouseOver(x, y);
         }
     };
 

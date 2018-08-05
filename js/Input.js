@@ -127,6 +127,12 @@ function inputUpdate() {
         if (!inputHandled) {
             inputHandled = interface.saveGameMenu.leftMouseClick(mouseX, mouseY);
         }
+        if (!inputHandled && interface.ingameLoadGameMenu) {
+            inputHandled = interface.ingameLoadGameMenu.leftMouseClick(mouseX, mouseY);
+        }
+        if (!inputHandled && interface.ingameSaveGameMenu) {
+            inputHandled = interface.ingameSaveGameMenu.leftMouseClick(mouseX, mouseY);
+        }
         if (!inputHandled) {
             inputHandled = interface.creditsMenu.leftMouseClick(mouseX, mouseY);
         }
