@@ -14,6 +14,8 @@ var timer = new Timer();
 var intro;
 var goodEnding;
 var badEnding;
+var outOfEngery;
+var upTooLate;
 
 var weather = new WeatherSystem(); // init weather system
 // console.log("Weather system init complete.");
@@ -108,6 +110,14 @@ function gameLoop() {
 
     if (badEnding && badEnding.currentlyPlaying) {
         draw(badEnding);
+    }
+
+    if (outOfEngery && outOfEngery.currentlyPlaying) {
+        draw(outOfEngery);
+    }
+
+    if (upTooLate && upTooLate.currentlyPlaying) {
+        draw(upTooLate);
     }
 
 }

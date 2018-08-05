@@ -63,6 +63,8 @@ function Timer() {
         hoursInDay %= 24;
         if (hoursInDay == 2) {
             this.endOfDay();
+            outOfEngery = new StoryTeller();
+            outOfEngery.tellLateNightHint();
         }
         if (hoursInDay < 10) {
             hoursInDay = '0' + hoursInDay;

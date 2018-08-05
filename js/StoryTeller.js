@@ -56,6 +56,19 @@ function StoryTeller() { // a class constructor
         "We failed. We were not prepared."
     ];
 
+    var outOfEnergyText = [
+        "...",  // when playing, zero element doesn't show up.
+        "Oh no!  I used up all of my energy and went into emergency recharge mode.\n" +
+        "I need to use the recharge station before that happens\n" +
+        "or I won't charge as much."
+    ];
+
+    var lateNightHint = [
+        "...",  // when playing, zero element doesn't show up.
+        "Oh no!  My charge is only partial if I stay up too late.\n" +
+        "I need to use the recharge station at night before that happens."
+    ];
+
     var introHints = [
         "You need to till the soil before you can plant.",
         "Remember to plant seeds and water them!",
@@ -93,6 +106,14 @@ function StoryTeller() { // a class constructor
 
     this.tellBadEnding = function () {
         storyText = badEndingText;
+    };
+
+    this.tellEnergyHint = function () {
+        storyText = outOfEnergyText;
+    };
+
+    this.tellLateNightHint = function () {
+        storyText = lateNightHint;
     };
 
     this.draw = function () {

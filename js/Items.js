@@ -128,6 +128,8 @@ Tool.prototype.checkIfEnoughEnergy = function (toolUser = this.toolUser, energyC
     toolUser.playerEnergyLevel -= energyCost;
     if (toolUser.playerEnergyLevel < 0) {
         timer.endOfDay();
+        upTooLate = new StoryTeller();
+        upTooLate.tellEnergyHint();
     }
 
     return toolUser.playerEnergyLevel >= energyCost;

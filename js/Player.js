@@ -116,10 +116,10 @@ function Player() {
             return player.inventory.oldRemoveAll(item) + player.hotbar.removeAll(item);
         };
 
-        pickaxeAnimationNorth.setFinished();
-        pickaxeAnimationEast.setFinished();
-        pickaxeAnimationSouth.setFinished();
-        pickaxeAnimationWest.setFinished();
+        // pickaxeAnimationNorth.setFinished();
+        // pickaxeAnimationEast.setFinished();
+        // pickaxeAnimationSouth.setFinished();
+        // pickaxeAnimationWest.setFinished();
 
     };  // end reset
 
@@ -303,27 +303,27 @@ function Player() {
 
         if (!drewAnimationAlready) // only draw these if idle:
         {
-            if (pickaxeAnimationEast.isFinishedPlaying() == false) {
-                pickaxeAnimationEast.draw(this.x, this.y - playerImage.height / 2);
-                pickaxeAnimationEast.update();
-            } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
-                pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
-                pickaxeAnimationWest.update();
-            } else if (pickaxeAnimationNorth.isFinishedPlaying() == false) {
-                pickaxeAnimationNorth.draw(this.x, this.y - playerImage.height / 1);
-                pickaxeAnimationNorth.update();
-            } else if (pickaxeAnimationSouth.isFinishedPlaying() == false) {
-                pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
-                pickaxeAnimationSouth.update();
-            }
+            // if (pickaxeAnimationEast.isFinishedPlaying() == false) {
+            //     pickaxeAnimationEast.draw(this.x, this.y - playerImage.height / 2);
+            //     pickaxeAnimationEast.update();
+            // } else if (pickaxeAnimationWest.isFinishedPlaying() == false) {
+            //     pickaxeAnimationWest.draw(this.x, this.y - playerImage.height / 2);
+            //     pickaxeAnimationWest.update();
+            // } else if (pickaxeAnimationNorth.isFinishedPlaying() == false) {
+            //     pickaxeAnimationNorth.draw(this.x, this.y - playerImage.height / 1);
+            //     pickaxeAnimationNorth.update();
+            // } else if (pickaxeAnimationSouth.isFinishedPlaying() == false) {
+            //     pickaxeAnimationSouth.draw(this.x, this.y - playerImage.height / 5);
+            //     pickaxeAnimationSouth.update();
+            // }
 
-            for (var i = toolAnimList.length - 1; i >= 0; i--) {
-                if (toolAnimList[i].framesLeft > 0) {
-                    toolAnimList[i].draw();
-                } else {
-                    toolAnimList.splice(i);
-                }
-            }
+            // for (var i = toolAnimList.length - 1; i >= 0; i--) {
+            //     if (toolAnimList[i].framesLeft > 0) {
+            //         toolAnimList[i].draw();
+            //     } else {
+            //         toolAnimList.splice(i);
+            //     }
+            // }
 
             switch (this.playerLastFacingDirection) {
                 case DIRECTION_NORTH:
