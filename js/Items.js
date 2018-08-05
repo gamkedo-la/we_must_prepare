@@ -167,12 +167,13 @@ function Watercan(name, energyCost, waterLeft = WATERCAN_START_VOLUME, waterCapa
     this.waterCapcity = waterCapacity;
     this.waterDepletionRate = waterDepletionRate;
     this.waterFillRate = waterFillRate;
+    this.energyUsed = energyCost;
 
     this.use = function (toolUser, activeTileIndex, waterDepletionRate = this.waterDepletionRate) {
         if (Tool.prototype.checkIfEnoughEnergy.call(this, toolUser)) { // call parent class function in the context of Watercan and pass argument(s)
             if (this.waterLeft > 0) {
                 this.waterLeft -= waterDepletionRate;
-                this.energyCost = 5;
+                this.energyCost = this.energyUsed;
 
                 robotWateringSFX.play();
                 waterFX(toolUser.x, toolUser.y); // particles

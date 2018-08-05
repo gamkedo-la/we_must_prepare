@@ -22,11 +22,7 @@ const CONTROLS_INFO_TEXT = ['------Keyboard Controls------',
     'Stop Character Movement - Mouse Right-Click',
     'Move Inventory Item - Mouse Left-Click Drag',
     'Cycle Hotbar - Mouse Scroll',
-    '',
-    '------Temporary Controls------',
-    'End Day - P',
-    'Pause Time - O'];
-
+    ''];
 
 // Only one Interface (instanced in Main.js) in the game, with many Panes on it.
 function Interface() {
