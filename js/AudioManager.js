@@ -35,7 +35,7 @@ var inGame_music_master = new MusicContainerPlaylistRandom( [ inGame_music_track
                                                             , inGame_music_track5
                                                             , inGame_music_track6
                                                             ], 240 , 90 );
-                                                            
+
 win_music_track.audioFile.onended = function () {inGame_music_master.play()};
 lose_music_track.audioFile.onended = function () {inGame_music_master.play()};
 
@@ -453,14 +453,6 @@ function AudioSliderInterface(name, volumeManager, topLeftX, topLeftY, width, he
     this.width = 50;
     this.height = 20;
 
-    if(this.height < 15){this.height = 15;}
-
-    this.lineHeight = 10;
-    this.textLine = name;
-    this.sliderHeight = this.height - this.lineHeight;
-    this.lengthScale = this.width - this.sliderHeight;
-    this.sliderValue = volumeManager.getVolume();
-    this.clicked = false;
 
     this.leftMouseClick = function(x=mouseX, y=mouseY) {
         if(y >= this.y + this.lineHeight && y <= this.y + this.height) {
@@ -471,20 +463,41 @@ function AudioSliderInterface(name, volumeManager, topLeftX, topLeftY, width, he
     };
 
     this.draw = function() {
-        if(mouseY >= this.y && mouseY <= this.y + this.height + this.lineHeight &&
-           mouseX >= this.x - this.lineHeight && mouseX <= this.x + this.width + this.lineHeight && mouseHeld && this.clicked) {
-            var newVolume = (mouseX - this.x)/this.width;
-            this.sliderValue = newVolume;
-            if(this.sliderValue != volumeManager.getVolume()) {
-                uiChange.play();
+
+        const maxHeight = 12
+        if(this.height < maxHeight){this.height = maxHeight;}
+
+        this.lineHeight = maxHeight + 4;
+        this.textLine = name;
+        this.sliderHeight = this.height - this.lineHeight;
+        this.lengthScale = this.width - this.sliderHeight;
+        this.sliderValue = volumeManager.getVolume();
+
+        // console.log("AudioSliderInterface " + this.name + " : { " + this.x + ", " + this.y + ", " + this.width + ", " + this.height + " }" );
+
+        var topLeftX = this.x - this.lineHeight;
+        var topLeftY = this.y;
+        var rightBottomY = this.y + this.height + this.lineHeight;
+        var rightBottomX = this.x + this.width + this.lineHeight
+        var isMouseHeldDown = mouseHeld && this.clicked;
+
+        if(isMouseHeldDown)
+        {
+            if(mouseY >= topLeftY && mouseY <= rightBottomY
+            && mouseX >= topLeftX && mouseX <= rightBottomX) {
+                var newVolume = (mouseX - this.x)/this.width;
+                this.sliderValue = newVolume;
+                if(this.sliderValue != volumeManager.getVolume()) {
+                    uiChange.play();
+                }
+                volumeManager.setVolume(this.sliderValue);
             }
-            volumeManager.setVolume(this.sliderValue);
         } else if(!mouseHeld){
             this.clicked = false;
         }
 
         var textX = this.x;
-        var textY = this.y + this.lineHeight - 2;
+        var textY = this.y + this.lineHeight - 4;
         var sliderX = this.x;
         var sliderY = this.y + this.lineHeight;
         this.sliderValue = volumeManager.getVolume();
