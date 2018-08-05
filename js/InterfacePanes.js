@@ -70,7 +70,7 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
     this.textColor = 'black';
 
     this.textLine = ['Jeremy Kenyon: Project lead, concept, core gameplay code, initial HUD and resource pickup, ' +
-    'camera movement, tree chopping, recharge station functoinality, time of day implementation, programmatic harvest ' +
+    'camera movement, tree chopping, recharge station functionality, time of day implementation, programmatic harvest ' +
     'animation, player energy limitation, plant harvesting, silo progress bar, endings',
         'Randy Tan Shaoxian: Crops blowing in wind effect, tooltip improvements, wind mechanics that affect plants, ' +
         'gather limits, inventory hotkeys, hoe functionality, mouseover sound, context sensitive click handling, energy ' +
@@ -78,7 +78,7 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
         'Michael "Misha" Fewkes: Custom sound system code,  music integration, environmental and weather sounds, mute ' +
         'functionality, effect volume mixing, time of day and movement fixes, UI sounds, ',
         'Christer "McFunkypants" Kaitila: Weather simulation system code and related art, soil drying, bird and ' +
-        'butterly animations and AI code, GUI clock improvements, goal progress report,' +
+        'butterfly animations and AI code, GUI clock improvements, goal progress report,' +
         'interaction highlight, GUI polish, text wrap and font integration, showing selected item in player hands, ' +
         'liquid layout, particle system system and related effects art, mouse bug fixes',
         'Dan Dela Rosa: persistent data storage save and load of all gameplay data',
