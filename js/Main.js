@@ -108,7 +108,7 @@ function windowOnBlur() {
         gameInterval = false;
         timer.pauseTime(true);
         // @todo replace with a proper pause-screen
-        colorRect(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 75, 'black');
+        colorRect(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 84, 'rgba(0,0,0,0.3)');
         canvasContext.textAlign = 'center';
         colorText('Game Paused', canvas.width / 2, canvas.height / 2, 'white');
         colorText('Press any key to continue', canvas.width / 2, canvas.height / 2 + 40, 'white');

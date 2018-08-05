@@ -13,14 +13,14 @@ function Timer() {
     this.isTimeFrozen = false;
     this.fastForward = false;
 
-    this.getSaveState = function() {
+    this.getSaveState = function () {
         return {
             dayNumber: this.dayNumber,
             secondsInDay: this.secondsInDay
         };
     }
 
-    this.loadSaveState = function(saveState) {
+    this.loadSaveState = function (saveState) {
         this.dayNumber = saveState.dayNumber;
         this.secondsInDay = saveState.secondsInDay;
     }
@@ -74,11 +74,11 @@ function Timer() {
             secondsRemainder = '0' + secondsRemainder;
         }
 
-        var timerFont = '8px Arial';
-        var dayX = Math.round(canvas.width / 2) - 12;
-        var dayY = 11;
-        var clockX = Math.round(canvas.width / 2) - 17;
-        var clockY = 22;
+        var timerFont = '11px Arial'; //'8px Arial';
+        var dayX = Math.round(canvas.width / 2) - 14;
+        var dayY = 40; //11;
+        var clockX = Math.round(canvas.width / 2) - 22;
+        var clockY = 54;//22;
         // draw a shadow for readability on top of any shade of sky
         colorText('' + hoursInDay + ':' + minutesRemainder + ':' + secondsRemainder, clockX + 1, clockY + 1, 'rgba(0,0,0,1.0)', timerFont);
         // draw the time
