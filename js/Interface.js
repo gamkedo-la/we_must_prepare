@@ -282,14 +282,11 @@ function InventorySlotInterfaceHelper() {
 
     this.drawToolTips = function (inventory, itemX, itemY, i) {
         if (inventory.selectedSlotIndex === i) {
-            let toolTipX = itemX - 22;
-            let toolTipY = itemY + 40;
-
             let itemTypeAtThisIndex = inventory.slots[i].item;
 
             for (let j = 0; j < itemTrackingArray.length; j++) {
                 if (itemTypeAtThisIndex == itemTrackingArray[j].type && itemTypeAtThisIndex != items.nothing.type) {
-                    itemTrackingArray[j].drawToolTip(toolTipX, toolTipY);
+                    itemTrackingArray[j].drawToolTip(mouseX + 20, mouseY + 30);
                     break;
                 }
             }
