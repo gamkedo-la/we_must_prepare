@@ -363,7 +363,6 @@ function SaveGamePane(parentPane, previousPane, topLeftX, topLeftY, width, heigh
         var saveButton1 = Flow( new Button(this, "Save Slot 1"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         saveButton1.action = function () {
             // This is different for each slot
-            console.log("aaaaa");
             save(1);
             closeAndBack();
         };
@@ -372,7 +371,6 @@ function SaveGamePane(parentPane, previousPane, topLeftX, topLeftY, width, heigh
         var saveButton2 = Flow( new Button(this, "Save Slot 2"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         saveButton2.action = function () {
             // This is different for each slot
-            console.log("aaaaa");
             save(2);
             closeAndBack();
         };
@@ -381,7 +379,6 @@ function SaveGamePane(parentPane, previousPane, topLeftX, topLeftY, width, heigh
         var saveButton3 = Flow( new Button(this, "Save Slot 3"), SAVE_MENU_BUTTON_POSITION_UPDATER(buttonNum));
         saveButton3.action = function () {
             // This is different for each slot
-            console.log("aaaaa");
             save(3);
             closeAndBack();
         };
