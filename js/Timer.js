@@ -86,6 +86,25 @@ function Timer() {
         // day number GUI
         colorText('Day ' + timer.dayNumber, dayX, dayY, 'rgba(0,0,0,1.0)', timerFont);
 
+        // detect WIN condition and display status in the clock area 
+        // since the player can keep playing
+        if (window.buildingStorage) {
+            if (buildingStorage.preparednessLevel() >= 1.0) { // WE HAVE ENOUGH RESOURCES IN THE SILO RIGHT NOW
+                var yayX = Math.round(canvas.width / 2) - 38;
+                var yayY = 76;
+                var yayR = 30; //Math.random() * 255;
+                var yayG = 255;
+                var yayB = 30; //Math.random() * 255;
+                var yayA = (Math.sin(performance.now() / 400) * 0.5 + 0.5);
+                var yayRGBA = 'rgba(' + yayR + ',' + yayG + ',' + yayB + ',' + yayA + ')';
+                var yayShadowRGBA = 'rgba(0,0,0,' + yayA + ')';
+                var yayFont = '11px Arial';
+                var yayMSG = "Fully Prepared!";
+                colorText(yayMSG, yayX + 1, yayY + 1, yayShadowRGBA, yayFont);
+                colorText(yayMSG, yayX, yayY, yayRGBA, yayFont);
+            }
+        }
+
         // announce the day number and countdown at dawn every day
         if (this.secondsInDay < DATE_DISPLAY_LENGTH_IN_GAME_SECONDS) {
             var percent = this.secondsInDay / DATE_DISPLAY_LENGTH_IN_GAME_SECONDS;

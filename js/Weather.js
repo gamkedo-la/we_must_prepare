@@ -332,7 +332,7 @@ function WeatherSystem() {
 
             // Note: item quantities are drawn in Player.drawPlayerHUD()
 
-        }
+        } // if draw gui
 
     }; // weather.draw()
 
