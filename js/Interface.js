@@ -217,7 +217,7 @@ function Interface() {
     this.tabMenu.push(this.winningInfoPane);
 
     // Game State (load/save/main menu) pane instance as a tab in the in-game Menu pane instance
-    this.gameStatePane = Flow( new GameManagementPane('Mini-Main Menu'), DEFAULT_PANE_POSITION_UPDATER() );
+    this.gameStatePane = Flow( new GameManagementPane('Game'), DEFAULT_PANE_POSITION_UPDATER() );
     this.tabMenu.push(this.gameStatePane);
     buttonNum = 0;
 
