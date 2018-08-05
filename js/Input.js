@@ -168,7 +168,7 @@ function inputUpdate() {
         if (indexUnderMouse != undefined && isTileTypeBuilding(roomGrid[indexUnderMouse])) {
             if (mouseClickedThisFrame) {
                 if (selectedIndex != PLAYER_SELECTED) {
-                    console.log('Clicked on a building!');
+                    // console.log('Clicked on a building!');
                     selectedIndex = indexUnderMouse;
 
                     if (!interface.tabMenu.isVisible && roomGrid[indexUnderMouse] == TILE_SILO) {

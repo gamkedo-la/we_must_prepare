@@ -1,5 +1,5 @@
 const SECONDS_PER_DAY = 24 * 60 * 60; // used in Main.js and Weather.js to determine % of day elapsed
-const MS_PER_TIMETICK = 12; // how often the timer ticks in milliseconds
+const MS_PER_TIMETICK = 1; // how often the timer ticks in milliseconds, started at 12
 const DAY_SECONDS_PER_TIMETICK = 1; // how many seconds to simulate each tick
 const DAY_SECONDS_PER_TIMETICK_IN_FASTFORWARD = 60; // nice and fast for debugging (or sleep?)
 

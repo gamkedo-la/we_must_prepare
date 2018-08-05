@@ -28,7 +28,7 @@ function save(slotIndex) {
 function getSaveState() {
   var saveState = {
     resourceLookupTable: getResourceLookupTableSaveState(),
-    radiation: getRadiationSaveState(),
+    // radiation: getRadiationSaveState(),
     roomGrid: getRoomGridSaveState(),
     plantTrackingArray: getPlantsSaveState(),
     weather: weather.getSaveState(),
@@ -97,7 +97,7 @@ function loadSaveState(saveState) {
   }
 
   loadResourceLookupTableSaveState(saveState.resourceLookupTable);  
-  loadRadiationSaveState(saveState.radiation);
+  // loadRadiationSaveState(saveState.radiation);
   loadRoomGridSaveState(saveState.roomGrid);
   loadPlantsSaveState(saveState.plantTrackingArray);
   weather.loadSaveState(saveState.weather);

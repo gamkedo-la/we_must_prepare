@@ -49,6 +49,7 @@ function resetGame(loadSave) {
     roomGrid = defaultRoomGrid.slice();
     player.reset();
     extendBuildingCollision();
+    mouseClickToMoveRelease();
 
     setupBuckets();
     setupInventory();
@@ -60,6 +61,7 @@ function startGameLoop() {
     isPaused = false;
     startAudioEngine();
     timer.pauseTime(false);
+    mouseClickToMoveRelease();
     console.log("Game unpaused");
 
     // start the game engine's main render loop
