@@ -277,6 +277,7 @@ function LoadGamePane(parentPane, previousPane, topLeftX, topLeftY, width, heigh
         this.previousPane.isVisible = false;
 
         audioEventManager.addFadeEvent(menu_music_track, 0.5, 0);
+        inGame_music_master.stop();
         inGame_music_master.play();
         musicPastMainMenu = true;
 

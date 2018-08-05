@@ -1548,8 +1548,10 @@ function MusicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, min
 		musicTrack[i].pause();
 	}
 
+	this.randomTrackIdx = () => Math.floor(Math.random() * musicTrack.length);
+
 	var trackVolume = 1;
-	var currentTrack = Math.floor(Math.random() * musicTrack.length);
+	var currentTrack = this.randomTrackIdx();
 
 	this.play = function() {
 		// if (playTime + musicTrack[currentTrack].getDuration() > playMax && musicTrack.length > 1){
@@ -1559,15 +1561,16 @@ function MusicContainerPlaylistRandom(trackList, maxDurationInSeconds = 180, min
 		// 	}
 		// 	playTime = 0;
 		// }
-		if (playTime > playMin){
-			if(Math.random() <= (playTime - playMin)/(playMax - playMin)) {
+		// if (playTime > playMin){
+		// 	if(Math.random() <= (playTime - playMin)/(playMax - playMin)) {
 				//console.log("Min Reached, randomizing. Weighting was " + (playTime - playMin)/(playMax - playMin));
 				while(currentTrack == lastTrack) {
-					currentTrack = Math.floor(Math.random() * musicTrack.length);
+					console.log("Changing track!");
+					currentTrack = this.randomTrackIdx();
 				}
 				playTime = 0;
-			} //else {console.log("Min Reached, continuing. Weighting was " + (playTime - playMin)/(playMax - playMin));}
-		}
+		// 	} //else {console.log("Min Reached, continuing. Weighting was " + (playTime - playMin)/(playMax - playMin));}
+		// }
 		musicTrack[currentTrack].play();
 		//console.log("Playing " + musicTrack[currentTrack].getTrackName() + " at " + playTime + " current play time.");
 		audioEventManager.addTimerEvent(this, (this.getDuration() - this.getTime()), "cue");
