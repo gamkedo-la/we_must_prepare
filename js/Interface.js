@@ -175,8 +175,11 @@ function Interface() {
     // Credits menu
     this.creditsMenu = Flow( new CreditPane("Credits Menu", 0, 0, canvas.width, canvas.height, false), RectangleUpdater( obj=>0, obj=>0, obj=>canvas.width, obj=>canvas.height) );
 
-    this.backButton = Flow( new Button(this.creditsMenu, "Main Menu"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
-
+    this.backButton = Flow( new Button(this.creditsMenu, "Main Menu"), RectangleUpdater( obj=>(canvas.width/2) - (MENU_BUTTON_WIDTH()/2)
+                                                                                       , obj=>canvas.height - MENU_BUTTON_HEIGHT(0) - 40
+                                                                                       , obj=>MENU_BUTTON_WIDTH()
+                                                                                       , obj=>MENU_BUTTON_HEIGHT(0))
+                                                                                       );
     this.backButton.action = function () {
         this.parentInterface.isVisible = false;
         interface.mainMenu.isVisible = true;
@@ -242,7 +245,7 @@ function Interface() {
         draw(this.loadGameMenu);
         draw(this.saveGameMenu);
         draw(this.itemsHeldAtMouse);
-        // draw(this.creditsMenu);
+        draw(this.creditsMenu);
         colorText('press ESC to toggle menu', canvas.width - 200, canvas.height - 15, 'white');
         colorText('press E to toggle inventory', canvas.width - 200, canvas.height - 25, 'white');
     };

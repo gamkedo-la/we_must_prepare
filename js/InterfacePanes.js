@@ -63,9 +63,9 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
 
     this.buttons = [];
 
-    this.padding = 20;
+    this.padding = 50;
     this.columnPadding = 40;
-    this.lineHeight = 15;
+    this.lineHeight = 24;
     this.textColor = 'black';
 
     this.textLine = ['Jeremy Kenyon: Project lead, concept, core gameplay code, initial HUD and resource pickup, ' +
@@ -102,38 +102,73 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
 
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
-        return false;
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            button.leftMouseClick(x, y);
+        }
     };
 
     this.draw = function () {
-        drawInterfacePaneBackground(this);
+        if (this.isVisible) {
+            drawInterfacePaneBackground(this);
 
-        var lines = this.textLine.length;
-        var columnWidth = 0;
-        var textX = this.x + this.padding;
-        var startTextY = this.y + this.padding;
-        var textY = startTextY;
-        var i;
-        for (i = 0; i < lines; i++) {
-            // check if at bottom of pane; If so start new column
-            if (textY > this.y + this.height - this.padding) {
-                textX += columnWidth + this.columnPadding;
-                columnWidth = 0;
-                textY = startTextY;
+            var lines = this.textLine.length;
+            var columnWidth = 0;
+            var textX = this.x + this.padding;
+            var startTextY = this.y + this.padding;
+            var textY = startTextY;
+            var maxColumnHeight = this.y + this.height - this.padding - 100;
+
+            for (var i = 0; i < lines; i++) {
+                // check if at bottom of pane; If so start new column
+                if (textY > maxColumnHeight) {
+                    textX += columnWidth + this.columnPadding;
+                    columnWidth = 0;
+                    textY = startTextY;
+                }
+
+                const lettersSize = 14;
+                const minCharsPerLine = 60;
+                var maxCharsPerLine = minCharsPerLine;
+                var line = this.textLine[i];
+                var lineJumpIdx = 0;
+                while(lineJumpIdx < line.length){ // Break the line into several smaller lines to display if necessary.
+                    var lineStartIdx = lineJumpIdx;
+                    lineJumpIdx += maxCharsPerLine;
+                    if(lineJumpIdx >= line.length){
+                        lineJumpIdx = line.length;
+                    }
+                    else {
+                        // Make sure we break at spaces, not in the middle of words.
+                        while(lineJumpIdx > 0 && lineJumpIdx != line.length && line[lineJumpIdx - 1] != ' '){
+                            --lineJumpIdx;
+                        }
+                    }
+                    var linePart = line.substring(lineStartIdx, lineJumpIdx);
+
+                    colorText(linePart, textX, textY, this.textColor, lettersSize + "px Arial");
+                    var textWidth = canvasContext.measureText(linePart).width;
+                    if (textWidth > columnWidth) {
+                        columnWidth = textWidth;
+                    }
+                    textY += this.lineHeight;
+                }
+
+
             }
-            var line = this.textLine[i];
-            colorText(line, textX, textY, this.textColor);
-            var textWidth = canvasContext.measureText(line).width;
-            if (textWidth > columnWidth) {
-                columnWidth = textWidth;
+
+            // draw buttons
+            for (var i = 0; i < this.buttons.length; i++) {
+                var button = this.buttons[i];
+                draw(button);
             }
-            textY += this.lineHeight;
         }
+    };
 
-        // draw buttons
+    this.update = function (x = mouseX, y = mouseY) {
         for (var i = 0; i < this.buttons.length; i++) {
             var button = this.buttons[i];
-            draw(button);
+            button.mouseOver(x, y);
         }
     };
 

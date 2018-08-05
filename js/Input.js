@@ -127,6 +127,9 @@ function inputUpdate() {
         if (!inputHandled) {
             inputHandled = interface.saveGameMenu.leftMouseClick(mouseX, mouseY);
         }
+        if (!inputHandled) {
+            inputHandled = interface.creditsMenu.leftMouseClick(mouseX, mouseY);
+        }
         // Central Menu //
         if (!inputHandled) {
             inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
