@@ -3,6 +3,8 @@ const FRAMES_PER_SECOND = 30;
 const CAM_PAN_SPEED = 5;
 const LIQUID_LAYOUT_FULLSCREEN = true; // fill any sized browser onresize?
 
+var requireClickToStart = true; // workaround for local Chrome audio. Set false before deploying to itch
+
 var camPanX = 0;
 var camPanY = 0;
 
