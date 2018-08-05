@@ -93,7 +93,7 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
         ' code clean up', 'Simon J Hoffiz: Level layout design, farm fence code and art, radiation mechanic prototype (' +
         'unused)',
         'Rémy Lapointe: Rock art, art for several trees (large, dead, surviving)',
-        'Klaim (A. Joël Lamotte): 3 songs (Bright Future, good and bad endings)',
+        'Klaim (A. Joël Lamotte): 3 songs (Bright Future, good and bad endings), GUI polish, liquid layout, mouse bug fixes',
         'H Trayford: 3 plant sprites, movement and gathering interaction improvements',
         'Vignesh Ramesh: Peace song, player character sprite',
         'Dana Alcala: Tilled and watered soil art, dirt ground art, rock transparency fix',
