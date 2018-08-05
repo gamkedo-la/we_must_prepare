@@ -5,11 +5,11 @@ var winConditionRequirements = [
     { itemIndex: ItemCode.CROP_WHEAT, requiredAmount: 100.0 },
     { itemIndex: ItemCode.CROP_CORN, requiredAmount: 80.0 },
     { itemIndex: ItemCode.CROP_TOMATO, requiredAmount: 64.0 },
-    { itemIndex: ItemCode.CROP_EGGPLANT, requiredAmount: 24.0 },
-    { itemIndex: ItemCode.CROP_CHILI, requiredAmount: 16.0 },
-    { itemIndex: ItemCode.WOOD, requiredAmount: 75.0 },
-    { itemIndex: ItemCode.METAL, requiredAmount: 15.0 },
-    { itemIndex: ItemCode.STONE, requiredAmount: 35.0 },
+    { itemIndex: ItemCode.CROP_EGGPLANT, requiredAmount: 48.0 },
+    { itemIndex: ItemCode.CROP_CHILI, requiredAmount: 32.0 },
+    { itemIndex: ItemCode.WOOD, requiredAmount: 2000.0 },
+    { itemIndex: ItemCode.METAL, requiredAmount: 100.0 },
+    { itemIndex: ItemCode.STONE, requiredAmount: 350.0 },
 ];
 
 // the current running total toward the requirements above

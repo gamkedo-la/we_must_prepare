@@ -106,15 +106,15 @@ function setupBuckets() {
         switch (roomGrid[i]) {
             case TILE_METAL_SRC:
                 resourceType = Resources.Metal;
-                resourceQuantity = 5;
+                resourceQuantity = 10;
                 break;
             case TILE_STONE_SRC:
                 resourceType = Resources.Stone;
-                resourceQuantity = 10;
+                resourceQuantity = 15;
                 break;
             case TILE_WOOD_SRC:
                 resourceType = Resources.Wood;
-                resourceQuantity = 10;
+                resourceQuantity = 15;
                 break;
             default:
                 break;
