@@ -627,8 +627,9 @@ function AudioPane(name, topLeftX, topLeftY, width, height) {
     this.name = name;
     this.isVisible = false;
 
+    const padding = 4;
     this.PIECES_X = (piece) => this.x + 20;
-    this.PIECES_Y = (piece, idx) => this.y + 20 + (idx * this.PIECES_HEIGHT(piece));
+    this.PIECES_Y = (piece, idx) => this.y + 20 + (idx * (this.PIECES_HEIGHT(piece)+ padding));
     this.PIECES_WIDTH = (piece) => this.width - 30;
     this.PIECES_HEIGHT = (piece) => 40;
     this.PIECES_POSITION_UPDATER = (pieceIdx) => new RectangleUpdater(this.PIECES_X
