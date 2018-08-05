@@ -121,13 +121,32 @@ function Timer() {
             // console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
             // console.log("how prepared were we? " + buildingStorage.preparednessLevel());
             audioEventManager.addFadeEvent(inGame_music_master, 0.3, 0);
+
+            var envVolume = enviSFXVolumeManager.getVolume();
+            enviSFXVolumeManager.setVolume(0.4);
+
+            var sfxVolum = sFXVolumeManager.getVolume();
+            sFXVolumeManager.setVolume(0.3);
+
             if (buildingStorage.preparednessLevel() == 1.0) {
                 goodEnding = new StoryTeller();
                 goodEnding.tellGoodEnding();
+                win_music_track.audioFile.onended = function () {
+                    enviSFXVolumeManager.setVolume(envVolume);
+                    sFXVolumeManager.setVolume(sfxVolum);
+                    inGame_music_master.skip();
+                    inGame_music_master.play();
+                };
                 win_music_track.play();
             } else {
                 badEnding = new StoryTeller();
                 badEnding.tellBadEnding();
+                lose_music_track.audioFile.onended = function () {
+                    enviSFXVolumeManager.setVolume(envVolume);
+                    sFXVolumeManager.setVolume(sfxVolum);
+                    inGame_music_master.skip();
+                    inGame_music_master.play();
+                };
                 lose_music_track.play();
             }
         }

@@ -53,6 +53,95 @@ function MainMenuPane(name, topLeftX, topLeftY, width, height, visible) {
     };
 }
 
+function CreditPane(name, topLeftX, topLeftY, width, height) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = width;
+    this.height = height;
+    this.name = name;
+    this.isVisible = false;
+
+    this.buttons = [];
+
+    this.padding = 20;
+    this.columnPadding = 40;
+    this.lineHeight = 15;
+    this.textColor = 'black';
+
+    this.textLine = ['Jeremy Kenyon: Project lead, concept, core gameplay code, initial HUD and resource pickup, ' +
+    'camera movement, tree chopping, recharge station functoinality, time of day implementation, programmatic harvest ' +
+    'animation, player energy limitation, plant harvesting, silo progress bar and goal display',
+        'Randy Tan Shaoxian: Crops blowing in wind effect, tooltip improvements, wind mechanics that affect plants, ' +
+        'gather limits, inventory hotkeys, hoe functionality, mouseover sound, context sensitive click handling, energy ' +
+        'bar dynamic coloration, extensive refactoring and general code readability improvements, assorted bug fixes',
+        'Michael "Misha" Fewkes: Custom sound system code,  music integration, environmental and weather sounds, mute ' +
+        'functionality, effect volume mixing, time of day and movement fixes, UI sounds, ',
+        'Christer "McFunkypants" Kaitila: Weather simulation system code and related art, soil drying, bird and ' +
+        'butterly animations and environmental awareness AI, GUI clock improvements, ' +
+        'interaction highlight, GUI polish, text wrap and font integration, showing selected item in player hands, ' +
+        'liquid layout, particle system system and related effects art, mouse bug fixes',
+        'Dan Dela Rosa: persistent data storage save and load of all gameplay data',
+        'Harrison Leadlay: Main menu, in-game UI (pane, button, and tab code), cliff tiles, original help text',
+        'Charlene A.:  planting, art (wood, twig, multiple flowers, water tiles, lily, corn, potato, eggplant, ' +
+        'tomato, apple tree, chili, wheat, )',
+        'Terrence McDonnell: farm and related tile integration, object depth sorting, land tilling, implemented ' +
+        'plant requirements, back hoe, watered plant persistence, mineral art improvements',
+        'Nicholas Polchies:  Main inventory code, animation support, hotbar improvements, mouse code, ' +
+        'movement fixes, input refactoring',
+        'Jaime Rivas:  Walking code, audio for walking, idle, watering, resource gathering and depositing',
+        'Brandon Trumpold: Resource limits and removal when depleted, hotkeys for hotbar menu, ambient song, time reset,' +
+        ' code clean up', 'Simon J Hoffiz: Level layout design, farm fence code and art, radiation mechanic prototype (' +
+        'unused)',
+        'Rémy Lapointe: Rock art, art for several trees (large, dead, surviving)',
+        'Klaim (A. Joël Lamotte): 3 songs (Bright Future, good and bad endings)',
+        'H Trayford: 3 plant sprites, movement and gathering interaction improvements',
+        'Vignesh Ramesh: Peace song, player character sprite',
+        'Dana Alcala: Tilled and watered soil art, dirt ground art, rock transparency fix',
+        'Kyle Thomas: Barn art', 'Kise: Morning song, main menu logo, grass ground tile art',
+        'Stebs: Farmhouse art and menu song'];
+
+
+    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        return false;
+    };
+
+    this.draw = function () {
+        drawInterfacePaneBackground(this);
+
+        var lines = this.textLine.length;
+        var columnWidth = 0;
+        var textX = this.x + this.padding;
+        var startTextY = this.y + this.padding;
+        var textY = startTextY;
+        var i;
+        for (i = 0; i < lines; i++) {
+            // check if at bottom of pane; If so start new column
+            if (textY > this.y + this.height - this.padding) {
+                textX += columnWidth + this.columnPadding;
+                columnWidth = 0;
+                textY = startTextY;
+            }
+            var line = this.textLine[i];
+            colorText(line, textX, textY, this.textColor);
+            var textWidth = canvasContext.measureText(line).width;
+            if (textWidth > columnWidth) {
+                columnWidth = textWidth;
+            }
+            textY += this.lineHeight;
+        }
+
+        // draw buttons
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            draw(button);
+        }
+    };
+
+    this.push = function (button) {
+        this.buttons.push(button);
+    };
+}
+
 function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
     this.parentPane = parentPane;
     this.x = topLeftX;
@@ -125,7 +214,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         }
         buttonNum++;
     };
-    this.generateButtons();
+    // this.generateButtons();
 
     this.startTheGame = function () {
         interface.loadGameMenu.isVisible = false;
@@ -139,7 +228,7 @@ function LoadGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         // Don't enable auto-save until you exit the menu
         activateAutoSave();
 
-        interface.allowPlayerToSave();
+        // interface.allowPlayerToSave();
     };
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
@@ -227,7 +316,7 @@ function SaveGamePane(parentPane, topLeftX, topLeftY, width, height, visible) {
         };
         buttonNum++;
     };
-    this.generateButtons();
+    // this.generateButtons();
 
     this.leftMouseClick = function (x = mouseX, y = mouseY) {
         // console.log("isVisible: " + this.isVisible + " isInPane: " + isInPane(this, x, y));
@@ -790,6 +879,36 @@ function WinningPane(name, topLeftX, topLeftY, width, height) {
                 columnWidth = textWidth;
             }
             textY += this.lineHeight;
+        }
+    };
+
+    this.push = function (button) {
+        this.buttons.push(button);
+    };
+}
+
+
+function GameManagementPane(name, topLeftX, topLeftY, width, height) {
+    this.x = topLeftX;
+    this.y = topLeftY;
+    this.width = width;
+    this.height = height;
+    this.name = name;
+    this.isVisible = false;
+
+    this.buttons = [];
+
+    this.leftMouseClick = function (x = mouseX, y = mouseY) {
+        return false;
+    };
+
+    this.draw = function () {
+        drawInterfacePaneBackground(this);
+
+        // draw buttons
+        for (var i = 0; i < this.buttons.length; i++) {
+            var button = this.buttons[i];
+            draw(button);
         }
     };
 

@@ -11,16 +11,15 @@ var tabInterfaceBackgroundDark = "#eaeaae";
 const CONTROLS_INFO_TEXT = ['------Keyboard Controls------',
     'Menu - ESC',
     'Movement - WASD, Arrow Keys',
-    'Toggle Inventory - I',
-    'Use Tool - C',
-    'Plant Seeds - O',
+    'Use Selected Tool - C',
     'Open Inventory - E',
     'Cycle Hotbar Forward - TAB',
     'Cycle Hotbar Back - SHIFT+TAB',
-    'Build? - B',
     '',
     '------Mouse Controls------',
     'Select - Mouse Left-Click',
+    'Move Character - Mouse Left-Click (only when clicking in area current tool cannot work',
+    'Stop Character Movement - Mouse Right-Click',
     'Move Inventory Item - Mouse Left-Click Drag',
     'Cycle Hotbar - Mouse Scroll',
     '',
@@ -95,6 +94,54 @@ function Interface() {
     CANVAS_SIZE_POSITION_UPDATER = function(){ return new RectangleUpdater(pane=>0, pane=>0, pane=>canvas.width, pane=>canvas.height); };
 
     this.loadGameMenu = Flow( new LoadGamePane(this, 0, 0, canvas.width, canvas.height, false), CANVAS_SIZE_POSITION_UPDATER() );
+
+    buttonNum = 0;
+    if (hasAutoSaveState()) {
+
+        this.autoLoadButton = Flow( new Button(this.loadGameMenu, "Load Auto-Save"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+        this.autoLoadButton.action = function () {
+
+            // This is different for each slot
+            autoLoad();
+
+            this.parentInterface.startTheGame();
+        };
+        buttonNum++;
+    }
+
+    if (hasManualSaveState(1)) {
+        this.loadButton1 = Flow( new Button(this.loadGameMenu, "Load Slot 1"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+        this.loadButton1.action = function () {
+            // This is different for each slot
+            load(1);
+
+            this.parentInterface.startTheGame();
+        };
+        buttonNum++;
+    }
+
+    if (hasManualSaveState(2)) {
+        this.loadButton2 = Flow( new Button(this.loadGameMenu, "Load Slot 2"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+        this.loadButton2.action = function () {
+            // This is different for each slot
+            load(2);
+
+            this.parentInterface.startTheGame();
+        };
+        buttonNum++;
+    }
+
+    if (hasManualSaveState(3)) {
+        this.loadButton3 = Flow( new Button(this.loadGameMenu, "Load Slot 3"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+        this.loadButton3.action = function () {
+            // This is different for each slot
+            load(3);
+
+            this.parentInterface.startTheGame();
+        };
+    }
+    // this.miniSaveGame = Flow( new Button(this.gameStatePane, "Save Game"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+
     this.saveGameMenu = Flow( new SaveGamePane(this, 0, 0, canvas.width, canvas.height, false), CANVAS_SIZE_POSITION_UPDATER() );
 
     // Get the save button to appear
@@ -118,20 +165,28 @@ function Interface() {
 
         // Hide the new game button if you haven't already
         this.newGame.isVisible = false;
-    }
+    };
 
-    // this.credits.action = function () {
-    //
-    // };
+    this.credits.action = function () {
+        this.parentInterface.isVisible = false;
+        interface.creditsMenu.isVisible = true;
+    };
+
+    // Credits menu
+    this.creditsMenu = Flow( new CreditPane("Credits Menu", 0, 0, canvas.width, canvas.height, false), RectangleUpdater( obj=>0, obj=>0, obj=>canvas.width, obj=>canvas.height) );
+
+    this.backButton = Flow( new Button(this.creditsMenu, "Main Menu"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+
+    this.backButton.action = function () {
+        this.parentInterface.isVisible = false;
+        interface.mainMenu.isVisible = true;
+    };
 
     PANE_X = function(pane){ return canvas.width * .25; };
     PANE_Y = function(pane){ return canvas.height * .25; };
     PANE_WIDTH = function(pane){ return (canvas.width * .75) - PANE_X(pane); };
     PANE_HEIGHT = function(pane){ return (canvas.height * .75) - PANE_Y(pane); };
     DEFAULT_PANE_POSITION_UPDATER = function() { return new RectangleUpdater( PANE_X, PANE_Y, PANE_WIDTH, PANE_HEIGHT ); };
-
-    // Credits menu
-    // this.creditsMenu = new CreditPane("Credits Menu", 0, 0, canvas.width, canvas.height, false);
 
     // In-game Menu pane instance
     this.tabMenu = Flow( new TabMenuPane(this.inventoryPane, 30), RectangleUpdater(pane=> PANE_X(), pane=>PANE_Y() - 30) );
@@ -157,6 +212,15 @@ function Interface() {
     // Winning Info pane instance as a tab in the in-game Menu pane instance
     this.winningInfoPane = Flow( new WinningPane('Objective'), DEFAULT_PANE_POSITION_UPDATER() );
     this.tabMenu.push(this.winningInfoPane);
+
+    // Game State (load/save/main menu) pane instance as a tab in the in-game Menu pane instance
+    this.gameStatePane = Flow( new GameManagementPane('Mini-Main Menu'), DEFAULT_PANE_POSITION_UPDATER() );
+    this.tabMenu.push(this.gameStatePane);
+    buttonNum = 0;
+
+    this.miniLoadGame = Flow( new Button(this.gameStatePane, "Load Game"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
+    buttonNum++;
+    this.miniSaveGame = Flow( new Button(this.gameStatePane, "Save Game"), MENU_BUTTON_POSITION_UPDATER(buttonNum) );
 
     // Tab-switching code for the in-game Menu pane instance
     this.tabMenu.switchTabIndex(0);

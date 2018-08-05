@@ -38,7 +38,7 @@ function StoryTeller() { // a class constructor
         "Was that their strength?",
 
         "No. Those who tried to destroy each other were left behind.\n" +
-        "These here are resilient and built us to ensure their survival.\n" +
+        "These coming are resilient and built us to ensure their survival.\n" +
         "We did it. We were prepared."
     ];
 
@@ -76,7 +76,7 @@ function StoryTeller() { // a class constructor
 
     var textLineHeight = 32;
     var timeStarted = -9999; // a timestamp in ms
-    var timePerSlide = 9000; // in ms
+    var timePerSlide = 12000; // in ms
     var slideRemainingTime = timePerSlide;
     var timeStampPrev = timeStarted;
     var timeStamp = timeStarted;

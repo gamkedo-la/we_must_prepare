@@ -5,10 +5,10 @@ setAudioPath("./audio/");
 var menu_music_track = new musicContainerWStinger([menu_music_track_1 = new MusicTrackNonLoopingDoubleBuffer("menu", 102.33), //By Stebs
                                                     menu_music_track_2 = new MusicTrackNonLooping("menustinger", 2.0)]);
 var win_music_track = new MusicTrackNonLooping("ending_open", 30.6);  // by Klaim
-win_music_track.setMixVolume(0.8);
+win_music_track.setMixVolume(1.0);
 
 var lose_music_track = new MusicTrackNonLooping("ending_bad", 63.5);  // by Klaim
-lose_music_track.setMixVolume(0.8);
+lose_music_track.setMixVolume(1.0);
 
 var inGame_music_track1 = new MusicTrackNonLoopingDoubleBuffer("Peace", 90.5);  //By Vignesh
 var inGame_music_track2 = new MusicContainerRandom([inGame_music_track2_1 = new MusicTrackNonLooping("lazyGuitarVar1", 52.8), //By Misha
@@ -35,9 +35,6 @@ var inGame_music_master = new MusicContainerPlaylistRandom( [ inGame_music_track
                                                             , inGame_music_track5
                                                             , inGame_music_track6
                                                             ], 240 , 90 );
-
-win_music_track.audioFile.onended = function () {inGame_music_master.play()};
-lose_music_track.audioFile.onended = function () {inGame_music_master.play()};
 
 musicVolumeManager.setVolume(0.7);
 
