@@ -302,7 +302,8 @@ function Inventory(size) {
         colorRect(totalbarX, totalbarY, totalbarW, totalbarH, 'rgba(255,0,0,0.25)');
         colorRect(totalbarX, totalbarY, totalbarW, totalbarH * storedPercentage, 'rgba(0,255,0,0.5)');
 
-        // individual resource bars
+        // individual resource bars - BUGGY: does not take into account multiple slot of the same material!
+        /*
         const barW = 1;
         const barH = -146;
         const barX = x - 41;
@@ -324,6 +325,7 @@ function Inventory(size) {
                 }
             }
         }
+        */
 
         //console.log('drawWinBars found ' + found + ' items that were involved in win conditions.');
     }
@@ -332,12 +334,30 @@ function Inventory(size) {
     this.preparednessReport = function () {
 
         var str = "";
+        siloTotals = []; // reset totals (a global in score.js)
+
+        for (var i = 0; i < this.slots.length; i++) {
+            if (this.slots[i].item != ItemCode.NOTHING) {
+                addToSiloTotals(this.slots[i]);
+            }
+        }
+
+        console.log('siloTotals:', siloTotals);
+
+        for (var key in siloTotals) {
+            if (str != "") str += ', '
+            str += siloTotals[key] + ' ' + key;
+        }
+
+        /*
+        // old way does not take into account multiple slots w same material
         for (var i = 0; i < this.slots.length; i++) {
             if (this.slots[i].item != ItemCode.NOTHING) {
                 str += reportScoreCount(this.slots[i]);
             }
         }
-        return str;
+        */
+        return str + '.';
     }
 
     this.preparednessLevel = function () {

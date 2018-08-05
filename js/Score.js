@@ -12,6 +12,17 @@ var winConditionRequirements = [
     { itemIndex: ItemCode.STONE, requiredAmount: 35.0 },
 ];
 
+// the current running total toward the requirements above
+var siloTotals = [];
+var addToSiloTotals = function (item) {
+    for (var i = 0; i < winConditionRequirements.length; i++) {
+        if (winConditionRequirements[i].itemIndex == item.item) {
+            var keyname = items.itemCodeToObj[winConditionRequirements[i].itemIndex].name;
+            if (!siloTotals[keyname]) siloTotals[keyname] = 0;
+            siloTotals[keyname] += item.count;
+        }
+    }
+}
 
 var reportScoreCount = function (item) { // return a text description like "25 of 100 wood (25% complete)"
     var str = "";
