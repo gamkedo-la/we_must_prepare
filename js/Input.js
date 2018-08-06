@@ -279,10 +279,23 @@ function keyPress(evt) {
         case "Esc":
             // skip the intro if it is playing
             if (window.intro && intro.currentlyPlaying) {
-                if (!RELEASE_VERSION) {
-                    // console.log("Skipping intro: ESC pressed.");
-                }
                 intro.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.badEnding && badEnding.currentlyPlaying) {
+                badEnding.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.goodEnding && goodEnding.currentlyPlaying) {
+                goodEnding.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.upTooLate && upTooLate.currentlyPlaying) {
+                upTooLate.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.outOfEngery && outOfEngery.currentlyPlaying) {
+                outOfEngery.currentlyPlaying = false;
                 break; // avoid also opening the menu if we did
             }
             interface.tabMenu.switchTabName("Game");

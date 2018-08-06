@@ -18,6 +18,8 @@ var goodEnding;
 var badEnding;
 var outOfEngery;
 var upTooLate;
+var weArePrepared = false; // flag for ending game early (from a score checking part)
+var endingPlayed = false;
 
 var weather = new WeatherSystem(); // init weather system
 // console.log("Weather system init complete.");

@@ -18,12 +18,12 @@ function Timer() {
             dayNumber: this.dayNumber,
             secondsInDay: this.secondsInDay
         };
-    }
+    };
 
     this.loadSaveState = function (saveState) {
         this.dayNumber = saveState.dayNumber;
         this.secondsInDay = saveState.secondsInDay;
-    }
+    };
 
     this.timeTick = function () {
         if (this.isTimeFrozen == false) {
@@ -39,12 +39,12 @@ function Timer() {
     this.setupTimer = function () {
         var t = this;
         setInterval(function () { t.timeTick(); }, MS_PER_TIMETICK);
-    }
+    };
 
     this.resetDay = function () {
         //this.secondsInDay = SECONDS_PER_DAY; // BUGFIX: start at 88 thousand? 
         this.secondsInDay = 0; // days start at 0 and count up
-    }
+    };
 
     this.pauseTime = function (freezeNow) {
         if (freezeNow === undefined) {
@@ -53,7 +53,7 @@ function Timer() {
             this.isTimeFrozen = freezeNow;
         }
         // console.log("is Time Frozen? " + this.isTimeFrozen);
-    }
+    };
 
     this.drawTimer = function () {
         var minutesInDay = Math.floor(this.secondsInDay / 60);
@@ -91,7 +91,7 @@ function Timer() {
         // detect WIN condition and display status in the clock area 
         // since the player can keep playing
         if (window.buildingStorage) {
-            if (buildingStorage.preparednessLevel() >= 1.0) { // WE HAVE ENOUGH RESOURCES IN THE SILO RIGHT NOW
+            if (buildingStorage.preparednessLevel() >= 1.0 || weArePrepared) { // WE HAVE ENOUGH RESOURCES IN THE SILO RIGHT NOW
                 var yayX = Math.round(canvas.width / 2) - 38;
                 var yayY = 76;
                 var yayR = 30; //Math.random() * 255;
@@ -118,17 +118,24 @@ function Timer() {
             drawBitmapCenteredAtLocationWithRotation(sunshine, Math.round(canvas.width / 2), Math.round(canvas.height / 2) - 88, performance.now() / 3333);
             canvasContext.globalAlpha = 1;
 
-            colorText('Day ' + timer.dayNumber + ' of ' + DAY_OF_ARRIVAL,
+            if (weArePrepared == false) {
+
+                colorText('Day ' + timer.dayNumber + ' of ' + DAY_OF_ARRIVAL,
                 Math.round(canvas.width / 2) - 172,
                 Math.round(canvas.height / 2) - 64,
                 'rgba(0,0,0,' + (1 - percent) + ')',
                 '64px Arial' // huge
-            );
-
-
+                );
+            } else {
+                colorText('We Are Prepared!',
+                    Math.round(canvas.width / 2) - 172,
+                    Math.round(canvas.height / 2) - 64,
+                    'rgba(0,0,0,' + (1 - percent) + ')',
+                    '64px Arial'); // huge
+            }
         }
 
-    }
+    };
 
     this.endOfDay = function () {
         // console.log("Day number " + this.dayNumber + " has ended!");
@@ -138,38 +145,15 @@ function Timer() {
 
         // check for "game over" cutscene 
         // FIXME do we have a bounds "+/-1" bug here? one too many or one too few days?
-        if (this.dayNumber == DAY_OF_ARRIVAL) {
+        if (this.dayNumber == DAY_OF_ARRIVAL && weArePrepared == false) {
             // console.log("GAME OVER: on day " + this.dayNumber + " the humans arrived!");
             // console.log("how prepared were we? " + buildingStorage.preparednessLevel());
-            audioEventManager.addFadeEvent(inGame_music_master, 0.3, 0);
+            this.endGame();
+        }
 
-            var envVolume = enviSFXVolumeManager.getVolume();
-            enviSFXVolumeManager.setVolume(0.4);
-
-            var sfxVolum = sFXVolumeManager.getVolume();
-            sFXVolumeManager.setVolume(0.3);
-
-            if (buildingStorage.preparednessLevel() == 1.0) {
-                goodEnding = new StoryTeller();
-                goodEnding.tellGoodEnding();
-                win_music_track.audioFile.onended = function () {
-                    enviSFXVolumeManager.setVolume(envVolume);
-                    sFXVolumeManager.setVolume(sfxVolum);
-                    inGame_music_master.skip();
-                    inGame_music_master.play();
-                };
-                win_music_track.play();
-            } else {
-                badEnding = new StoryTeller();
-                badEnding.tellBadEnding();
-                lose_music_track.audioFile.onended = function () {
-                    enviSFXVolumeManager.setVolume(envVolume);
-                    sFXVolumeManager.setVolume(sfxVolum);
-                    inGame_music_master.skip();
-                    inGame_music_master.play();
-                };
-                lose_music_track.play();
-            }
+        if (buildingStorage.preparednessLevel() == 1.0 && endingPlayed == false) {
+            weArePrepared = true;
+            this.endGame();
         }
 
         weather.newDay(); // tell weather to decide if it will rain today
@@ -196,5 +180,38 @@ function Timer() {
         // console.log(drycount + " patches of soil dried up.");
 
         player.playerEnergyLevel = Math.floor(PLAYER_MAX_ENERGY * 0.66);
-    }
+    };
+
+    this.endGame = function () {
+        audioEventManager.addFadeEvent(inGame_music_master, 0.3, 0);
+
+        var envVolume = enviSFXVolumeManager.getVolume();
+        enviSFXVolumeManager.setVolume(0.4);
+
+        var sfxVolume = sFXVolumeManager.getVolume();
+        sFXVolumeManager.setVolume(0.3);
+
+        if (buildingStorage.preparednessLevel() == 1.0) {
+            goodEnding = new StoryTeller();
+            goodEnding.tellGoodEnding();
+            win_music_track.audioFile.onended = function () {
+                enviSFXVolumeManager.setVolume(envVolume);
+                sFXVolumeManager.setVolume(sfxVolume);
+                inGame_music_master.skip();
+                inGame_music_master.play();
+            };
+            win_music_track.play();
+        } else {
+            badEnding = new StoryTeller();
+            badEnding.tellBadEnding();
+            lose_music_track.audioFile.onended = function () {
+                enviSFXVolumeManager.setVolume(envVolume);
+                sFXVolumeManager.setVolume(sfxVolume);
+                inGame_music_master.skip();
+                inGame_music_master.play();
+            };
+            lose_music_track.play();
+        }
+        endingPlayed = true;
+    };
 }

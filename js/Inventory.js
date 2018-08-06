@@ -299,6 +299,9 @@ function Inventory(size) {
         const totalbarY = y - 28;
         // this bar shows how close to winning we are in total
         var storedPercentage = this.preparednessLevel();
+        if (weArePrepared) {
+            storedPercentage = 1.0;
+        }
         colorRect(totalbarX, totalbarY, totalbarW, totalbarH, 'rgba(255,0,0,0.25)');
         colorRect(totalbarX, totalbarY, totalbarW, totalbarH * storedPercentage, 'rgba(0,255,0,0.5)');
 
