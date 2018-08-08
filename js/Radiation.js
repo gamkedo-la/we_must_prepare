@@ -2,7 +2,25 @@ var radCenterX = 200;
 var radCenterY = 200;
 var radSize = 150;
 var radGrowthRate = 0.1;
-var radEnabled = true;
+var radEnabled = false;
+
+function getRadiationSaveState() {
+	return {
+		radCenterX: radCenterX,
+		radCenterY: radCenterY,
+		radSize: radSize,
+		radGrowthRate: radGrowthRate,
+		radEnabled: radEnabled
+	};
+}
+
+function loadRadiationSaveState(saveState) {
+	radCenterX = saveState.radCenterX;
+	radCenterY = saveState.radCenterY;
+	radSize = saveState.radSize;
+	radGrowthRate = saveState.radGrowthRate;
+	radEnabled = saveState.radEnabled;
+}
 
 function drawRadiation () {
 	if (radEnabled == false) {
@@ -14,7 +32,7 @@ function drawRadiation () {
 function centerRadiation (newX, newY){
 	radCenterX = newX;
 	radCenterY = newY;
-	console.log ('radiation fog turned on, press F to toggle');
+	// console.log ('radiation fog turned on, press F to toggle');
 }
 
 function boundPlayerInRadiation () {
@@ -46,5 +64,5 @@ function handleRadiationGrowth () {
 
 function toggleRadiation (){
 	radEnabled = !radEnabled;
-	console.log ('Radiation Enable? ' + radEnabled);
+	// console.log ('Radiation Enable? ' + radEnabled);
 }

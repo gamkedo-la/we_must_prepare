@@ -4,21 +4,41 @@
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Kelly+Slab);
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            /* this hides the scrollbars (hiding the debug text area below the canvas!) */
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+        }
+    </style>
 </head>
 
 <body oncontextmenu="return false;">
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-    
-    <br />
-    <input type="button" value="Save 1" onclick="save(1);" />
-    <input type="button" value="Save 2" onclick="save(2);" />
-    <input type="button" value="Save 3" onclick="save(3);" />
-    <br />
-    <input type="button" value="Load 1" onclick="load(1);" />
-    <input type="button" value="Load 2" onclick="load(2);" />
-    <input type="button" value="Load 3" onclick="load(3);" />
 
-    <p id="debugText">(recent text display or temporary debug output)</p>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <!-- debug area: FIXME: comment out in production! 
+    <p id="debugText">[F]=Radiation [F1]=Fast forward</p>
+    -->
+
+    <!-- ensure the web font loads to use on the canvas -->
+    <span style="font-family: 'Kelly Slab', cursive;">&nbsp;</span>
 
     <script src="js/HTMLLog.js"></script>
     <script src="js/Debug.js"></script>
@@ -36,15 +56,21 @@
     <!--This needs to come after World.js for tile defs -->
     <script src="js/Plant.js"></script>
     <script src="js/Player.js"></script>
-    <script src="js/Input.js"></script>
     <!-- this needs to come after Input for selectedIndex -->
+    <script src="js/Items.js"></script>
+    <script src="js/Score.js"></script>
+    <!-- needs to happen after Items.js -->
+    <script src="js/Input.js"></script>
+    <script src="js/InterfacePanes.js"></script>
+    <script src="js/InterfaceElements.js"></script>
     <script src="js/Interface.js"></script>
-    <script src="js/ButtonMenu.js"></script>
-    <script src="js/InventoryUI.js"></script>
     <!--This needs to come after Building.js for building interface defs -->
     <script src="js/Weather.js"></script>
+    <script src="js/Wildlife.js"></script>
+    <script src="js/ParticleSystem.js"></script>
     <script src="js/Persistence.js"></script>
     <script src="js/Saving.js"></script>
+    <script src="js/StoryTeller.js"></script>
     <script src="js/Main.js"></script>
 
 </body>

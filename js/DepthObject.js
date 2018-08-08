@@ -1,4 +1,4 @@
-function depthObjectClass(x, y, xDraw, yDraw, useImg) {
+function DepthObject(x, y, xDraw, yDraw, useImg) {
     this.x = x;
     this.y = y;
     this.useImg = useImg;

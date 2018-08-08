@@ -1,14 +1,18 @@
 // Player
 const KEY_USE_TOOL = "KeyC";
 const KEY_INVENTORY = "KeyE";
+const KEY_DO_ACTION = "KeyX";
 const KEY_FAST_FORWARD = "F1"; // press F1 to toggle timer.fastForward
+
+const DEBUG_MOUSE = true; // set to false for normal play
 const MOUSE_LEFT_CLICK = 1;
 const MOUSE_RIGHT_CLICK = 3;
+
 const NO_SELECTION = -1;
 const PLAYER_SELECTED = -2;
 
 var mouseClickedThisFrame = false;
-var mouseDblClickedThisFrame = false;
+
 var rightMouseClickedThisFrame = false;
 var toolKeyPressedThisFrame = false;
 var mouseHeld = false;
@@ -16,6 +20,9 @@ var toolKeyHeld = false;
 var shiftKeyHeld = false;
 var mouseX = 0;
 var mouseY = 0;
+var mouseLastClickedToMoveX = 0;
+var mouseLastClickedToMoveY = 0;
+var mouseToMovePlayer = false;
 var mouseWorldX = 0;
 var mouseWorldY = 0;
 var isBuildModeEnabled = false;
@@ -23,7 +30,8 @@ var badBuildingPlacement = false;
 var selectedIndex = NO_SELECTION;
 
 
-function calculateMousePos(evt) {
+function calculateMousePos(evt) { // called during mousemove event
+
     var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
     // account for the margins, canvas position on page, scroll amount, etc.
@@ -31,12 +39,15 @@ function calculateMousePos(evt) {
     mouseY = evt.clientY - rect.top;
     mouseWorldX = mouseX + camPanX;
     mouseWorldY = mouseY + camPanY;
+
+    // testing: appears correct at all screen resolutions
+    // if (DEBUG_MOUSE) { console.log('calculateMousePos: mouseX=' + mouseX + ' mouseY=' + mouseY + ' mouseWorldX=' + mouseWorldX + '  mouseWorldY=' + mouseWorldY); }
+
 }
 
 function setupInput() {
     canvas.addEventListener('mousemove', mousemoveHandler);
     canvas.addEventListener('mousedown', mousedownHandler);
-    canvas.addEventListener('dblclick', mousedblclickHandler);
     canvas.addEventListener('wheel', mousewheelHandler);
     // note for init reason canvas.addEventListener('mouseup', mouseupHandler); is in the onload handler for the main window
 
@@ -57,6 +68,8 @@ function mousedownHandler(evt) {
     if (evt.which === MOUSE_LEFT_CLICK) {
         mouseHeld = true;
         mouseClickedThisFrame = true;
+        mouseLastClickedToMoveX = mouseWorldX;
+        mouseLastClickedToMoveY = mouseWorldY;
     } else {
         if (evt.which === MOUSE_RIGHT_CLICK) {
             rightMouseClickedThisFrame = true;
@@ -65,17 +78,9 @@ function mousedownHandler(evt) {
     }
 }
 
-function mousedblclickHandler(evt) {
-    calculateMousePos(evt);
-    if (evt.which === MOUSE_LEFT_CLICK) {
-        mouseHeld = true;
-        mouseDblClickedThisFrame = true;
-    }
-}
-
 function mouseupHandler(evt) {
     if (hasGameStartedByClick == false) {
-        console.log('we are in hasGameStartedByClick == false in mouseupHandler: num pics to load ' + picsToLoad);
+        // console.log('we are in hasGameStartedByClick == false in mouseupHandler: num pics to load ' + picsToLoad);
         if (picsToLoad == 0) {
             loadingDoneSoStartGame();
         }
@@ -91,33 +96,53 @@ function mouseupHandler(evt) {
 } // end mouse up handler
 
 function mousewheelHandler(evt) {
-    if (!TabMenu.isVisible) {
-        player.hotbar.scrollThrough(evt.deltaY > 0);
+    if (!interface.tabMenu.isVisible) {
+        player.hotbar.scrollThrough(evt.deltaY < 0);
     }
     evt.preventDefault();
 }
 
-function isMouseOverInterface() {
-    return mouseY > INTERFACE_Y;
+function mouseClickToMoveRelease() {
+    mouseLastClickedToMoveX = player.x;
+    mouseLastClickedToMoveY = player.y;
+    mouseToMovePlayer = false;
 }
 
+function isMouseOverInterface() {
+    return mouseY > HOTBAR_Y();
+}
 
 function inputUpdate() {
     // TODO here is where we are are going to check on where mouse is etc. to make sure menus and player actions don't
     // overlap.  Things mouse does: player moves, player harvests, menu interactions
 
-    var centralMenuOpen = TabMenu.isVisible;
+    var centralMenuOpen = interface.tabMenu.isVisible;
     var inputHandled = false;
     if (mouseClickedThisFrame) {
-        inputHandled = MainMenu.leftMouseClick(mouseX, mouseY);
+        inputHandled = interface.mainMenu.leftMouseClick(mouseX, mouseY);
+        // Still at the menu/title screen
+        if (!inputHandled) {
+            inputHandled = interface.loadGameMenu.leftMouseClick(mouseX, mouseY);
+        }
+        if (!inputHandled) {
+            inputHandled = interface.saveGameMenu.leftMouseClick(mouseX, mouseY);
+        }
+        if (!inputHandled && interface.ingameLoadGameMenu) {
+            inputHandled = interface.ingameLoadGameMenu.leftMouseClick(mouseX, mouseY);
+        }
+        if (!inputHandled && interface.ingameSaveGameMenu) {
+            inputHandled = interface.ingameSaveGameMenu.leftMouseClick(mouseX, mouseY);
+        }
+        if (!inputHandled) {
+            inputHandled = interface.creditsMenu.leftMouseClick(mouseX, mouseY);
+        }
         // Central Menu //
         if (!inputHandled) {
-            inputHandled = TabMenu.leftMouseClick(mouseX, mouseY) || hotbarPane.leftMouseClick(mouseX, mouseY);
+            inputHandled = interface.tabMenu.leftMouseClick(mouseX, mouseY) || interface.hotbarPane.leftMouseClick(mouseX, mouseY);
         }
+        // console.log("Mouse click handled by GUI: " + inputHandled);
     }
-    if (mouseDblClickedThisFrame) {
-        inputHandled = hotbarPane.leftMouseDblClick(mouseX, mouseY);
-    }
+
     if ((!inputHandled) && isMouseOverInterface()) {
         // will be handled by interface code
         if (mouseClickedThisFrame) {
@@ -126,7 +151,7 @@ function inputUpdate() {
                 resourcesAvailableToBuild(mouseOverBuildingInterfaceIndex)) {
 
                 toBuild = buildingDefs[mouseOverBuildingInterfaceIndex];
-                console.log("I clicked " + toBuild.label);
+                // console.log("I clicked " + toBuild.label);
                 toBuild.onClick();
                 isBuildModeEnabled = true;
 
@@ -135,7 +160,7 @@ function inputUpdate() {
                 perBuildingButtonDefs[mouseOverButtonPerBuildingInterfaceIndex].onClick();
             }
         }
-    } else if (!inputHandled && isBuildModeEnabled) {
+    } else if (!inputHandled && isBuildModeEnabled) {        
         if (mouseClickedThisFrame) {
             placeBuildingAtPixelCoord(toBuild.tile);
             if (badBuildingPlacement) {
@@ -150,25 +175,56 @@ function inputUpdate() {
     } else if (!inputHandled) { // this means we aren't in build mode
         var indexUnderMouse = getTileIndexAtPixelCoord(mouseWorldX, mouseWorldY);
 
-        if (indexUnderMouse != undefined && isTileKindBuilding(roomGrid[indexUnderMouse])) {
+        if (indexUnderMouse != undefined && isTileTypeBuilding(roomGrid[indexUnderMouse])) {
             if (mouseClickedThisFrame) {
                 if (selectedIndex != PLAYER_SELECTED) {
-                    console.log('Clicked on a building!');
+                    // console.log('Clicked on a building!');
                     selectedIndex = indexUnderMouse;
+
+                    if (!interface.tabMenu.isVisible && roomGrid[indexUnderMouse] == TILE_SILO) {
+                        buildingStorage.active = true;
+                        interface.tabMenu.setVisible(true);
+                        uiSelect.play();
+                    }
                 }
             }
         }
-        if (toolKeyPressedThisFrame) {
-            player.collectResourcesIfAble();
+
+        if (indexUnderMouse != undefined) {
+            if (mouseClickedThisFrame && player.currentlyFocusedTileIndex == getTileIndexFromAdjacentTileCoord(mouseWorldX, mouseWorldY)) {
+                player.playerLastFacingDirection = player.getMouseActionDirection();
+                toolKeyPressedThisFrame = true;
+                toolKeyHeld = true;
+                player.doActionOnTile(); // gather resources, till tiles, etc
+            }
         }
-    }
-    if (rightMouseClickedThisFrame) {
-        inputHandled = TabMenu.rightMouseClick(mouseX, mouseY) || hotbarPane.rightMouseClick(mouseX, mouseY);
+        
+        if (!inputHandled) {
+            if(mouseClickedThisFrame){
+                // console.log("Moving to mouse position...");
+                mouseToMovePlayer = true;
+            }
+            if (interface.tabMenu.isVisible) {
+                mouseClickToMoveRelease();
+            }
+            else if (mouseToMovePlayer) {
+                inputHandled = player.move(true, mouseLastClickedToMoveX, mouseLastClickedToMoveY);
+                if (rightMouseClickedThisFrame) {                
+                    mouseClickToMoveRelease();
+                    inputHandled = false;
+                }
+            }
+        }
+    }    
+
+    if (!inputHandled && rightMouseClickedThisFrame) {
+        inputHandled = interface.tabMenu.rightMouseClick(mouseX, mouseY) || interface.hotbarPane.rightMouseClick(mouseX, mouseY);
         rightMouseClickedThisFrame = false;
-    }
-    if (!centralMenuOpen) {
+    }    
+    
+    if (!centralMenuOpen && !inputHandled) {
         player.move();
-    }
+    }    
 }
 
 
@@ -202,99 +258,182 @@ function keyPress(evt) {
     keySet(evt, player, true);
 
     // console.log("evt keycode " + evt.keyCode);
-    // Menu Context Controls - if the menu is open, menu keys take priorty
-    var centralMenuOpen = TabMenu.isVisible;
+
     const SCROLL_TO_THE_LEFT = true;
 
-    if (centralMenuOpen) {
-        switch (evt.code) {
-            case "Tab":
-                TabMenu.switchTab(shiftKeyHeld);
-                break;
-            default:
-                keyUsedByGame = false;
-                break;
-        }
-    }
-    // Common Controls (These are always checked)
+    // If the menu is open, menu keys take priorty
     switch (evt.code) {
         case "ShiftLeft":
         case "ShiftRight":
             shiftKeyHeld = true;
             break;
         case "Tab":
-            if (!TabMenu.isVisible) {
+            if (interface.tabMenu.isVisible) {
+                interface.tabMenu.switchTab(shiftKeyHeld);
+            }
+            if (!interface.tabMenu.isVisible) {
                 player.hotbar.scrollThrough(shiftKeyHeld);
             }
             break;
-        case "KeyB":
-            isBuildModeEnabled = !isBuildModeEnabled;
-            console.log("Build mode enabled is " + isBuildModeEnabled);
-            break;
         case "Escape":
         case "Esc":
-            // console.log("Escape pressed");
-            if (isBuildModeEnabled) {
-                isBuildModeEnabled = !isBuildModeEnabled;
-            } else {
-                //toggle main menu
-                MainMenu.isVisible = !MainMenu.isVisible;
-                if (MainMenu.isVisible) {
-                    uiSelect.play();
-                } else {
-                    uiCancel.play();
-                }
-
-                //TODO remove old mapping
-                //toggle tab menu
-                //TabMenu.switchTabName("Audio");
-                //TabMenu.isVisible = !TabMenu.isVisible;
-                //if(TabMenu.isVisible) {
-                //    uiSelect.play();
-                //} else {
-                //    uiCancel.play();
-                //}
+            // skip the intro if it is playing
+            if (window.intro && intro.currentlyPlaying) {
+                intro.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
             }
-            break;
-        case KEY_USE_TOOL:
-            toolKeyPressedThisFrame = true;
-            toolKeyHeld = true;
-            player.workingLand(getTileIndexAtPixelCoord(player.x, player.y), true);
-            player.plantAtFeet();
-            break;
-        case KEY_INVENTORY:
+            if (window.badEnding && badEnding.currentlyPlaying) {
+                badEnding.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.goodEnding && goodEnding.currentlyPlaying) {
+                goodEnding.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.upTooLate && upTooLate.currentlyPlaying) {
+                upTooLate.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            if (window.outOfEngery && outOfEngery.currentlyPlaying) {
+                outOfEngery.currentlyPlaying = false;
+                break; // avoid also opening the menu if we did
+            }
+            interface.tabMenu.switchTabName("Game");
             //Switch central menu to inventory tab
-            if (TabMenu.activePane.name != "Inventory") {
-                TabMenu.switchTabName("Inventory");
-                TabMenu.isVisible = true;
-            } else {
-                TabMenu.isVisible = !TabMenu.isVisible;
+            if (player.itemsHeldAtMouse.count == 0) {
+
+                interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
             }
-            if (TabMenu.isVisible) {
+
+            buildingStorage.active = false;
+            if (interface.tabMenu.isVisible) {
                 uiSelect.play();
             } else {
                 uiCancel.play();
             }
             break;
-        case "0":
-            keyPressForSaving(evt);
+        case KEY_INVENTORY:
+
+            //Switch central menu to inventory tab
+            if (player.itemsHeldAtMouse.count == 0) {
+                interface.tabMenu.setVisible(!interface.tabMenu.isVisible);
+            }
+
+            buildingStorage.active = false;
+            if (interface.tabMenu.isVisible) {
+                uiSelect.play();
+            } else {
+                uiCancel.play();
+            }
+
+            // console.log("Escape pressed");
+            // if (isBuildModeEnabled) {
+            //     isBuildModeEnabled = !isBuildModeEnabled;
+            // } else {
+            //     if (interface.loadGameMenu.isVisible) {
+            //         interface.loadGameMenu.isVisible = false;
+            //         interface.mainMenu.isVisible = true;
+            //         return;
+            //     }
+            //     else if (interface.saveGameMenu.isVisible) {
+            //         interface.saveGameMenu.isVisible = false;
+            //         interface.mainMenu.isVisible = true;
+            //         return;
+            //     }
+            //     //toggle main menu
+            //     interface.mainMenu.isVisible = !interface.mainMenu.isVisible;
+            //     if (interface.mainMenu.isVisible) {
+            //         uiSelect.play();
+            //     } else {
+            //         uiCancel.play();
+            //     }
+
+                //TODO remove old mapping
+                //toggle tab menu
+                //interface.tabMenu.switchTabName("Audio");
+                //interface.tabMenu.isVisible = !interface.tabMenu.isVisible;
+                //if(interface.tabMenu.isVisible) {
+                //    uiSelect.play();
+                //} else {
+                //    uiCancel.play();
+                //}
+            // }
+            break;
+        case KEY_USE_TOOL:
+            toolKeyPressedThisFrame = true;
+            toolKeyHeld = true;
+            player.doActionOnTile(); // gather resources, till tiles, etc
+            break;
+        case KEY_DO_ACTION:
+            player.doActionOnTile();
+            break;
+        case "Digit0":
+            keyPressForSaving();
             break;
         case "KeyP":
-            timer.endOfDay();
+            if (!RELEASE_VERSION) {
+                timer.endOfDay();
+            }
             break;
         case "KeyO":
-            console.log("Pressed the O Key");
-            timer.pauseTime();
+            if (!RELEASE_VERSION) {
+                console.log("Pressed the O Key");
+                timer.pauseTime();
+            }
             break;
         case "KeyF":
-            console.log("Pressed the F Key");
-            toggleRadiation();
-            uiChange.play();
+            if (!RELEASE_VERSION) {
+                console.log("Pressed the F Key");
+                toggleRadiation();
+                uiChange.play();
+            }
+            break;
+        case "KeyU":
+            if (!RELEASE_VERSION) {
+                createFinalResources();
+            }
+            break;
+        case "KeyY":
+            if (!RELEASE_VERSION) {
+                timer.dayNumber = 364;
+            }
             break;
         case KEY_FAST_FORWARD:
-            timer.fastForward = !timer.fastForward; // flip on/off
-            console.log("Fast Forward: " + timer.fastForward);
-            break
+            if (!RELEASE_VERSION) {
+                timer.fastForward = !timer.fastForward; // flip on/off
+                console.log("Fast Forward: " + timer.fastForward);
+            }
+            break;
+        case "Digit1":
+            if (!interface.tabMenu.isVisible) {
+                player.hotbar.equipSlot(SLOT_1);
+            }
+            break;
+        case "Digit2":
+            if (!interface.tabMenu.isVisible) {
+                player.hotbar.equipSlot(SLOT_2);
+            }
+            break;
+        case "Digit3":
+            if (!interface.tabMenu.isVisible) {
+                player.hotbar.equipSlot(SLOT_3);
+            }
+            break;
+        case "Digit4":
+            if (!interface.tabMenu.isVisible) {
+                player.hotbar.equipSlot(SLOT_4);
+            }
+            break;
+        case "Digit5":
+            if (!interface.tabMenu.isVisible) {
+                player.hotbar.equipSlot(SLOT_5);
+            }
+            break;
+        case "KeyL":
+            if (!RELEASE_VERSION) {
+                resetGame(false);
+            }
+            break;
         default:
             // console.log("keycode press is " + evt.keyCode);
             keyUsedByGame = false;

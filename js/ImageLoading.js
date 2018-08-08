@@ -14,24 +14,53 @@ var itemSheet = document.createElement("img");
 var selectedItemSlot = document.createElement("img");
 var weatherGUI = document.createElement("img");
 var skyCircle = document.createElement("img");
+var siloImage = document.createElement("img");
+var barnImage = document.createElement("img");
+var farmhouseImage = document.createElement("img");
+var wildlifeSpritesheet = document.createElement("img");
+var mainLogo = document.createElement("img");
 
-var playerSpriteSheetWalkUp = document.createElement("img");
-var playerSpriteSheetWalkDown = document.createElement("img");
+var pickaxeAnimationSpriteSheetNorth = document.createElement("img");
+var pickaxeAnimationSpriteSheetEast = document.createElement("img");
+var pickaxeAnimationSpriteSheetSouth = document.createElement("img");
+var pickaxeAnimationSpriteSheetWest = document.createElement("img");
+
+var playerSpriteSheetWalkNorth = document.createElement("img");
+var playerSpriteSheetWalkSouth = document.createElement("img");
 var playerSpriteSheetSideWalk = document.createElement("img");
 
-//function SpriteSheetClass(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
-var playerWalkDown = new AnimationClass(playerSpriteSheetWalkDown, 48, 48, 8, 0, 3, true);
-var playerEastWalk = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
-var playerWestWalk = new AnimationClass(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
+var targetTilePic = document.createElement("img");
+var introBackground = document.createElement("img");
+
+
+//function SpriteSheet(sheetIn,frameWidth, frameHeight,sheetInFrames, animationInRowIndex, frameTickRate,looping)
+var playerIdleNorth = new Animation(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 0, false);
+var playerIdleEast = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 0, 0, false);
+var playerIdleSouth = new Animation(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 0, false);
+var playerIdleWest = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 1, 0, false);
+
+var playerWalkNorth = new Animation(playerSpriteSheetWalkNorth, 48, 48, 8, 0, 3, true);
+var playerWalkEast = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 0, 3, true);
+var playerWalkSouth = new Animation(playerSpriteSheetWalkSouth, 48, 48, 8, 0, 3, true);
+var playerWalkWest = new Animation(playerSpriteSheetSideWalk, 48, 48, 4, 1, 3, true);
+
+var pickaxeAnimationNorth = new Animation(pickaxeAnimationSpriteSheetNorth, 48, 48, 6, 0, 2, false);
+var pickaxeAnimationEast = new Animation(pickaxeAnimationSpriteSheetEast, 48, 48, 7, 0, 2, false);
+var pickaxeAnimationSouth = new Animation(pickaxeAnimationSpriteSheetSouth, 48, 48, 6, 0, 2, false);
+var pickaxeAnimationWest = new Animation(pickaxeAnimationSpriteSheetWest, 48, 48, 7, 0, 2, false);
+
 
 var picsToLoad = 0;
 
 function countLoadedImageAndLaunchIfReady() {
   picsToLoad--;
   if (picsToLoad == 0) { // last image loaded?
-    // loadingDoneSoStartGame();
-    colorRect(0, 0, canvas.width, canvas.height, 'black');
-    colorText('Click to Start', canvas.width / 2, canvas.height / 2, 'white');
+    if(requireClickToStart) {
+      colorRect(0, 0, canvas.width, canvas.height, 'black');
+      colorText('Click to Start', canvas.width / 2, canvas.height / 2, 'white');
+    } else {
+      loadingDoneSoStartGame();
+    }
   }
 }
 
@@ -44,9 +73,9 @@ function loadImages() {
 
   var imageList = [
     { varName: tileSheet, theFile: "sprite_strip.png" },
-    { varName: playerImage, theFile: "robokedo3tiny.png" },
-    { varName: playerSpriteSheetWalkUp, theFile: "robokedoWalkBack.png" },
-    { varName: playerSpriteSheetWalkDown, theFile: "robokedoWalk.png" },
+    { varName: playerImage, theFile: "robokedo3tiny2.png" },
+    { varName: playerSpriteSheetWalkNorth, theFile: "robokedoWalkBack.png" },
+    { varName: playerSpriteSheetWalkSouth, theFile: "robokedoWalk2.png" },
     { varName: playerSpriteSheetSideWalk, theFile: "robokedoSideWalk.png" },
     { varName: playerSelection, theFile: "player_selection.png" },
     { varName: timeOfDayGradient, theFile: "time_of_day_gradient3.png" },
@@ -55,13 +84,25 @@ function loadImages() {
     { varName: treeDead3D, theFile: "deadTree1.png" },
     { varName: treeSpritesheet, theFile: "treeSpritesheet.png" },
     { varName: weatherSpritesheet, theFile: "weatherSpritesheet.png" },
-    { varName: plantSpritesheet, theFile: "plants_sprite_sheet.png" },
+    { varName: plantSpritesheet, theFile: "plants_sprite_sheet_3.png" },
     { varName: cloudSpritesheet, theFile: "clouds.png" },
     { varName: sunshine, theFile: "sunshine.png" },
     { varName: itemSheet, theFile: "item_sheet.png" },
     { varName: selectedItemSlot, theFile: "selected_item_slot.png" },
     { varName: weatherGUI, theFile: "weatherGUI.png" },
     { varName: skyCircle, theFile: "skyCircle.png" },
+    { varName: siloImage, theFile: "siloBuilding.png" },
+    { varName: farmhouseImage, theFile: "farmhouse_large.png" },
+    { varName: barnImage, theFile: "barn.png" },
+    { varName: wildlifeSpritesheet, theFile: "wildlife.png" },
+    { varName: pickaxeAnimationSpriteSheetNorth, theFile: "pickaxe-animation-north.png" },
+    { varName: pickaxeAnimationSpriteSheetEast, theFile: "pickaxe-animation-east.png" },
+    { varName: pickaxeAnimationSpriteSheetSouth, theFile: "pickaxe-animation-south.png" },
+    { varName: pickaxeAnimationSpriteSheetWest, theFile: "pickaxe-animation-west.png" },
+    { varName: targetTilePic, theFile: "targetTile.png" },
+    { varName: introBackground, theFile: "introBackground.png" },
+    { varName: mainLogo, theFile: "title_logo.png" }
+
   ];
 
   picsToLoad = imageList.length;

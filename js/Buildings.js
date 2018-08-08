@@ -2,31 +2,36 @@ const PERCENTAGE_REFUND = 0.5;
 
 var toBuild; //this is currently generated in Input.js
 
+// IMPORTANT!
+// Building inventory is currently implemented as global
+// When building construction and placement is implemented, then this should be moved to per building inventory instead
+var buildingStorage;
+
 function lumberToConsole() {
-    console.log("farm clicked");
+    // console.log("farm clicked");
 }
 function houseToConsole() {
-    console.log("house clicked");
+    // console.log("house clicked");
 }
 function siloToConsole() {
-    console.log("silo clicked");
+    // console.log("silo clicked");
 }
 function generaToConsole() {
-    console.log("genera clicked");
+    // console.log("genera clicked");
 }
 function farmToConsole() {
-    console.log("farm clicked");
+    // console.log("farm clicked");
 }
 function upgradeToConsole() {
-    console.log("upgrade clicked");
+    // console.log("upgrade clicked");
 }
 
 function clickUpgrade() {
-    console.log('upgrade button clicked');
+    // console.log('upgrade button clicked');
 }
 
 function clickSell() {
-    console.log('sell button clicked');
+    // console.log('sell button clicked');
     var buildingDefsAtTile = tileKindToBuildingDef(roomGrid[selectedIndex]);
     player.storageList[Resources.Metal].carried += Math.ceil(buildingDefsAtTile.Metal * PERCENTAGE_REFUND);
     player.storageList[Resources.Wood].carried += Math.ceil(buildingDefsAtTile.Wood * PERCENTAGE_REFUND);
@@ -37,12 +42,9 @@ function clickSell() {
 }
 
 var buildingDefs = [
-    {name: 'Lumber Yard', Wood: 5, Stone: 3, Metal: 2, tile: TILE_WOOD_DEST, label: 'lumber', onClick: lumberToConsole},
-    {name: 'Blacksmith', Wood: 5, Stone: 10, Metal: 5, tile: TILE_METAL_DEST, label: 'house', onClick: houseToConsole},
-    {name: 'Stone Mason', Wood: 10, Stone: 10, Metal: 5, tile: TILE_STONE_DEST, label: 'silo', onClick: siloToConsole},
     {name: 'Silo', Wood: 10, Stone: 10, Metal: 5, tile: TILE_FOOD_DEST, label: 'genera', onClick: generaToConsole},
     {name: 'Farm', Wood: 3, Stone: 3, Metal: 0, tile: TILE_FOOD_SRC, label: 'farm', onClick: farmToConsole},
-    {name: 'Factory', Wood: 10, Stone: 10, Metal: 5, tile: TILE_BUILDING, label: 'upgrade', onClick: upgradeToConsole}
+    {name: 'Barn', Wood: 10, Stone: 10, Metal: 5, tile: TILE_BUILDING, label: 'upgrade', onClick: upgradeToConsole}
 ]
 
 var perBuildingButtonDefs = [
@@ -65,3 +67,17 @@ function resourcesAvailableToBuild(defIndex) {
             buildingDefs[defIndex].Wood <= player.storageList[Resources.Wood].carried &&
             buildingDefs[defIndex].Stone <= player.storageList[Resources.Stone].carried);
 }
+
+// See buildingStorage definition regarding global inventory
+function buildingGetSaveState() {
+    var result = {};
+
+    result.storage = buildingStorage.getSaveState();
+
+    return result;
+}
+
+// See buildingStorage definition regarding global inventory
+function buildingLoadSaveState(saveState) {
+    buildingStorage.loadSaveState(saveState.storage);
+};
