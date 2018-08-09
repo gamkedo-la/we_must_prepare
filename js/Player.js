@@ -82,9 +82,9 @@ function Player() {
         this.playerEnergyLevel = PLAYER_MAX_ENERGY;
 
         this.bucketList = [];
-        this.bucketList[Resources.Metal] = new Resource(1000, 0);
-        this.bucketList[Resources.Stone] = new Resource(1000, 0);
-        this.bucketList[Resources.Wood] = new Resource(1000, 0);
+        this.bucketList[Resources.Metal] = new Resource(18000, 0);
+        this.bucketList[Resources.Stone] = new Resource(18000, 0);
+        this.bucketList[Resources.Wood] = new Resource(18000, 0);
 
         this.storageList = [];
         this.storageList[Resources.Metal] = new Resource(2550, 0);
