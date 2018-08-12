@@ -345,7 +345,7 @@ function InventorySlotInterfaceHelper() {
             let textOffset = slot.count > 99 ? 1 : (slot.count > 9 ? 5 : 7);
             colorCircle(itemX + 13, itemY + 12, circleRadius, 'brown');
             outlineCircle(itemX + 13, itemY + 12, circleRadius, 'beige');
-            colorText("x" + slot.count, itemX + textOffset, itemY + 16, 'beige');
+            colorText("" + slot.count, itemX + textOffset, itemY + 16, 'beige');
         }
     };
 
