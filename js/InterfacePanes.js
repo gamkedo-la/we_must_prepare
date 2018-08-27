@@ -97,6 +97,7 @@ function CreditPane(name, topLeftX, topLeftY, width, height) {
         'Klaim (A. Joël Lamotte): 3 songs (Bright Future, good+bad end), GUI polish, liquid layout, mouse fixes, credits display',
         'H Trayford: 3 plant sprites, movement and gathering interaction improvements',
         'Vignesh Ramesh: Peace song, player character sprite', 'Kise: Morning song, main menu logo, grass ground tile art',
+        'Karina Pardus: ​ MP Marimba song​',
         'Stebs: Farmhouse art and menu song', 'Dana Alcala: Tilled and watered soil art, dirt ground art, rock transparency fix',
         'Kyle Thomas: Barn art',];
 
